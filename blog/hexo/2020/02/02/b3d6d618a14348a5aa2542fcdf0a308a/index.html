@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>2018 React Redux 入门教程 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="吾辈已转 mobx，放弃使用 redux 了。译文链接, 原文链接老实说学习 Redux 真的很有挫败感，虽然 Redux 的源码很小（&lt; 2kb），然而其文档却庞大无比，老实说让人害怕！即便吾辈看了阮一峰写的 Redux 入门教程，然而还是在第二篇就 GG 了。纵然了解了概念，然而却不知如何使用，便是如此了。。。这篇翻译过来的教程吾辈感觉还不错，所以也便是转发一下好啦吾辈也跟着教程写了一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2018 React Redux 入门教程">
+<meta property="og:url" content="http://example.com/2020/02/02/b3d6d618a14348a5aa2542fcdf0a308a/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="吾辈已转 mobx，放弃使用 redux 了。译文链接, 原文链接老实说学习 Redux 真的很有挫败感，虽然 Redux 的源码很小（&lt; 2kb），然而其文档却庞大无比，老实说让人害怕！即便吾辈看了阮一峰写的 Redux 入门教程，然而还是在第二篇就 GG 了。纵然了解了概念，然而却不知如何使用，便是如此了。。。这篇翻译过来的教程吾辈感觉还不错，所以也便是转发一下好啦吾辈也跟着教程写了一">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-02-02T02:15:37.000Z">
+<meta property="article:modified_time" content="2020-12-29T17:03:47.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="react">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-b3d6d618a14348a5aa2542fcdf0a308a" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/02/02/b3d6d618a14348a5aa2542fcdf0a308a/" class="article-date">
+  <time class="dt-published" datetime="2020-02-02T02:15:37.000Z" itemprop="datePublished">2020-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      2018 React Redux 入门教程
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>吾辈已转 mobx，放弃使用 redux 了。<br><a target="_blank" rel="noopener" href="http://www.superbug.me/2018/02/06/react-redux-tutorial-for-beginners-learning-redux-in-2018/">译文链接</a>, <a target="_blank" rel="noopener" href="https://www.codementor.io/valentino/react-redux-tutorial-for-beginners-learning-redux-in-2018-fek71ojgh">原文链接</a><br>老实说学习 Redux 真的很有挫败感，虽然 Redux 的源码很小（&lt; 2kb），然而其文档却庞大无比，老实说让人害怕！即便吾辈看了阮一峰写的 <a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_one_basic_usages.html">Redux 入门教程</a>，然而还是在第二篇就 GG 了。纵然了解了概念，然而却不知如何使用，便是如此了。。。这篇翻译过来的教程吾辈感觉还不错，所以也便是转发一下好啦<br>吾辈也跟着教程写了一个 <a target="_blank" rel="noopener" href="https://github.com/rxliuli/react-start/tree/dev/src/components/redux">Redux Demo</a>，仅供参考。</p>
+</blockquote>
+<p>我希望这是学习 React Redux 最简单的入门教程。</p>
+<p>我一开始学习 Redux 的时候我想找到最浅显易懂的入门教程。</p>
+<p>尽管有大量的资源，但是我对于 Redux 的一些概念依旧搞不清楚。</p>
+<p>我知道什么是 state ，但是 actions， action creators 和 reducers 又是什么鬼？我被搞晕掉了。</p>
+<p>然后我也搞不明白 React 和 Redux 是怎样结合起来的。</p>
+<p>前端时间开始着手写 React Redux 教程的过程中我理解了许多。</p>
+<p>我通过写这篇教程自学 Redux 的基本概念。我也希望这可以帮助所有正在学习 React 和 Redux 的人。</p>
+<h2 id="适用人群"><a href="#适用人群" class="headerlink" title="适用人群"></a>适用人群</h2><p>如果满足下列条件，那么本教程正是你要找的：</p>
+<ul>
+<li>良好的 Javascript, ES6, React 基础</li>
+<li>你希望以最简单的方式学习 Redux</li>
+</ul>
+<h2 id="你可以学到什么"><a href="#你可以学到什么" class="headerlink" title="你可以学到什么"></a>你可以学到什么</h2><p>通过这篇教程你可以学到：</p>
+<ul>
+<li>Redux 是什么</li>
+<li>怎样结合 React 使用 Redux</li>
+</ul>
+<h2 id="搭建-React-开发环境"><a href="#搭建-React-开发环境" class="headerlink" title="搭建 React 开发环境"></a>搭建 React 开发环境</h2><p>看这篇教程你需要有扎实的 Javascript, ES6, React 基础。</p>
+<p>开始之前，让我们来简单搭建一个 React 开发环境。</p>
+<p>你可以选择 webpack 3 或者 Parcel。</p>
+<p>如果选用 Parcel 你可以参考这个链接 Setting up React with Parcel ，或者从我的 Github 上克隆仓库：</p>
+<p>git clone <a href="mailto:&#x67;&#x69;&#116;&#64;&#x67;&#105;&#x74;&#104;&#117;&#x62;&#46;&#x63;&#x6f;&#109;">&#x67;&#x69;&#116;&#64;&#x67;&#105;&#x74;&#104;&#117;&#x62;&#46;&#x63;&#x6f;&#109;</a>:valentinogagliardi/minimal-react-parcel.git</p>
+<p>如果你想用 webpack 3 可以参考这个教程 How to set up React, Webpack 3, and Babel ，或者从我的 Github 上克隆仓库：</p>
+<p><code>git clone git@github.com:valentinogagliardi/minimal-react-webpack.git</code></p>
+<h2 id="什么是-state-？"><a href="#什么是-state-？" class="headerlink" title="什么是 state ？"></a>什么是 state ？</h2><p>理解 Redux 之前你首先需要理解什么是 state 。</p>
+<p>如果你曾经写过 React 的 state , 应该不足为奇。</p>
+<p>我猜你应该写过如下的 React 状态组件：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExampleComponent</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="title">constructor</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>();</span><br><span class="line">    <span class="built_in">this</span>.state = &#123;</span><br><span class="line">      articles: [</span><br><span class="line">        &#123; <span class="attr">title</span>: <span class="string">&quot;React Redux Tutorial for Beginners&quot;</span>, <span class="attr">id</span>: <span class="number">1</span> &#125;,</span><br><span class="line">        &#123; <span class="attr">title</span>: <span class="string">&quot;Redux e React: cos&#x27;è Redux e come usarlo con React&quot;</span>, <span class="attr">id</span>: <span class="number">2</span> &#125;,</span><br><span class="line">      ],</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="title">render</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; articles &#125; = <span class="built_in">this</span>.state;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;ul&gt;</span><br><span class="line">        &#123;articles.map(<span class="function">(<span class="params">el</span>) =&gt;</span> (</span><br><span class="line">          &lt;li key=&#123;el.id&#125;&gt;&#123;el.title&#125;&lt;/li&gt;</span><br><span class="line">        ))&#125;</span><br><span class="line">      &lt;/ul&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述组件是基于 Javascript ES6 class 的。</p>
+<p>每个 React 状态组件持有自己的 state 。在 React 中 state 持有数据。组件渲染这组数据展示给用户。</p>
+<p>React 提供了一个 setState 方法来更新组件内部的 state 。</p>
+<p>我们通常这么用：</p>
+<ol>
+<li> 从组件内部持有的 state 中获取数据渲染</li>
+<li> 通过 React 的 setState 方法更新 state</li>
+</ol>
+<h2 id="Redux-解决了什么问题-？"><a href="#Redux-解决了什么问题-？" class="headerlink" title="Redux 解决了什么问题 ？"></a>Redux 解决了什么问题 ？</h2><p>应用规模比较小的时候，在 React 组件内部维护 state 很方便。</p>
+<p>但在复杂一点的业务场景下这么做就不太合适了。组件中会填满各种管理更新 state 的方法，臃肿不堪。前端不应该知道业务逻辑。</p>
+<p>那么，有没有其它管理 state 的方式呢？Redux 就是其中的一个解决方案。</p>
+<p>Redux 解决了一开始我们可能还不太清楚的问题：它为每一个 React 组件明确提供它所需要的 state 。</p>
+<p>Redux 统一在一个地方维护 state 。</p>
+<p>通过 Redux ，获取和管理 state 的逻辑也和 React 隔离开来。</p>
+<p>这中方式的好处可能还不太明显。当你用上它后就会发现它的威力。</p>
+<p>下一节内容我们聊一下为什么以及什么时候我们需要用 Redux。</p>
+<h2 id="我要学-Redux-么-？"><a href="#我要学-Redux-么-？" class="headerlink" title="我要学 Redux 么 ？"></a>我要学 Redux 么 ？</h2><p>想学习 Redux 但是没搞定？</p>
+<p>Redux 的确吓坏了许多初学者。但是不必因此而感到担心。</p>
+<p>Redux 没有那么难。关键是：不要随波逐流地去使用它。</p>
+<p>你开始学习 Redux 应该是出于自发的动机和热情。</p>
+<p>我学习 Redux 是因为：</p>
+<p>我 100% 地渴望知道 Redux 是怎么工作的<br>我想要提升我的 React 技能<br>我想成为更牛 X 的 React 开发者<br>React/Redux 当下是黄金组合<br>Redux 是一种思想，它和框架无关。学习了它可以在任何地方（比如 Vue JS，Angular 中）使用。</p>
+<h2 id="我要用-Redux-么-？"><a href="#我要用-Redux-么-？" class="headerlink" title="我要用 Redux 么 ？"></a>我要用 Redux 么 ？</h2><p>没有 Redux 构建复杂的 React 应用也是可行的。只是有一些成本。</p>
+<p>用 Redux 也是有一定成本的：它加入了另外一个抽象层。但是我我认为是利大于弊的。</p>
+<p>另一个困惑初学者的问题是：我怎么判断什么时候我需要使用 Redux 呢？</p>
+<p>如果你没有经验判定是否需要用 Redux 来管理 state ，我有如下建议使用的场景：</p>
+<p>多个 React 组件需要访问同一个 state 但是又没有父子关系<br>需要通过 props 向下向多个组件传递 state</p>
+<p>如果还是找不到感觉，别怕，我也一样。</p>
+<p>Dan Abramov 说过『 Flux 就像眼镜：你需要的时候你自然会知道 』。</p>
+<p>事实上对于我而言也正是如此。</p>
+<p>Dan Abramov 写了篇很棒的文章来帮助我们理解： Redux 的使用场景</p>
+<p>dev.to 上也有一篇 Dan 关于这一问题的 讨论</p>
+<p>看一下 Mark Erikson 整理的 Redux 学习资源</p>
+<p>顺便说下，Mark 的博客被视为 Redux 的最佳实践</p>
+<p>Dave Ceddia 也分享过关于 Redux 干了什么？以及它的使用场景 的话题。</p>
+<p>在深入学习之前，花些时间去搞明白 Redux 解决了什么问题。然后再决定要不要学。</p>
+<p>要清楚在小型的应用中使用 Redux 没什么好处。只有在大型应用下才能发挥它的威力。但不管如此，学习 Redux 解决问题的思路总不是什么坏事。</p>
+<p>下一节，我们介绍一下内容：</p>
+<p>Redux 的基本原则<br>Redux 和 React 怎么结合</p>
+<h2 id="了解-Redux-store"><a href="#了解-Redux-store" class="headerlink" title="了解 Redux store"></a>了解 Redux store</h2><p>Actions， Reducers 我都知道。但有件事我搞不明白：这些动态的片段是怎么结合到一起的？</p>
+<p>有小黄人相助不成？</p>
+<p>是 store 把所有流动的片段协调地结合到 Redux 中。在 Redux 中 store 就像人类的大脑：这是种魔法。</p>
+<p>Redux store 是一切的基础：整个应用的 state 都在 store 中维护。</p>
+<p>如果我们把 Redux 的工作模式想象成人类的大脑。 state 就相当于存在于大脑（store）中的一段回忆。</p>
+<p>所以开始使用 Redux 的时候我们需要创建一个 store 来存放 state。</p>
+<p>切换到你的开发目录，安装 Redux：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> minimal-react-webpack/</span><br><span class="line"></span><br><span class="line">npm i redux --save-dev</span><br></pre></td></tr></table></figure>
+<p>创建一个目录来存放 store 相关逻辑：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p src/js/store</span><br></pre></td></tr></table></figure>
+<p>在 src/js/store 中创建 index.js 并初始化：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/js/store/index.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; createStore &#125; <span class="keyword">from</span> <span class="string">&quot;redux&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> rootReducer <span class="keyword">from</span> <span class="string">&quot;../reducers/index&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> store = createStore(rootReducer);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> store;</span><br></pre></td></tr></table></figure>
+<p>createStore 就是创建 Redux store 的方法。</p>
+<p>createStore 接收一个 reducer 作为第一个参数，就是代码中的 rootReducer。</p>
+<p>你也可以传递一个初始 state 进 createStore。 但是大多数时候你不必这么做。传递初始 state 在服务端渲染时比较有用。当然，state 来自 reducers。</p>
+<p>现在我们知道 reducer 做了啥了。reducer 生成了 state 。 state 并不是手动创建的。</p>
+<p>带着这些概念我们继续我们第一个 Redux reducer。</p>
+<h2 id="了解-Redux-reducers"><a href="#了解-Redux-reducers" class="headerlink" title="了解 Redux reducers"></a>了解 Redux reducers</h2><p>初始 state 在 服务端渲染 中很有用，它必须完全从 reducers 中产生。</p>
+<p>reducer 是个什么鬼？</p>
+<p>reducer 就是个 javascript 函数。它接收两个参数：当前的 state 和 action 。</p>
+<p>Redux 的第三条原则中强调：state 必须是不可变的。这也是为什么 reducer 必须是一个纯函数。纯函数就是指给有明确的输入输出的函数。</p>
+<p>在传统的 React 应用中我们通过 setState 方法来改变 state 。 在 Redux 中不可以这么做。</p>
+<p>创建一个 reducer 不难，就是个包含两个参数的 javascript 普通函数。</p>
+<p>在我们的例子中，我们将创建一个简单的 reducer， 并向他传递初始 state 作为第一个参数。第二个参数我们将提供一个 action 。到目前为止 reducer 除了返回初始状态什么都不会做。</p>
+<p>创建 reducer 根目录</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p src/js/reducers</span><br></pre></td></tr></table></figure>
+<p>然后在 src/js/reducers 创建一个名为 index.js 的新文件：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/js/reducers/index.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> initialState = &#123;</span><br><span class="line">  articles: [],</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> rootReducer = <span class="function">(<span class="params">state = initialState, action</span>) =&gt;</span> state;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> rootReducer;</span><br></pre></td></tr></table></figure>
+<p>我承诺这是篇尽可能简明的教程。所以我们仅有一个 reducer ：它除了返回初始 state 什么都不处理。</p>
+<p>注意下初始 state 是怎样作为 默认参数 传递的。</p>
+<p>下一节我们将结合一个 action 来让这个应用更加有趣。</p>
+<h2 id="了解-Redux-actions"><a href="#了解-Redux-actions" class="headerlink" title="了解 Redux actions"></a>了解 Redux actions</h2><p>reducers 无疑是 Redux 中最重要的概念。reducers 用来生产应用的 state 。</p>
+<p>但是 reducers 怎么知道什么时候去生产下一个 state 呢？</p>
+<p>Redux 的第二条原则中说：改变 state 的唯一方式就是向 store 发送一个信号 。 这个 信号 指的就是 action 。</p>
+<p>怎么改变这个不可更改的状态呢？你不能。返回的 state 是当前 state 的副本结合新数据后的一个全新的 state 。这点必须要明确。</p>
+<p>比较欣慰的是 actions 就是简单的 javascript 对象。它长这样：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">type: ‘ADD_ARTICLE’,</span><br><span class="line"></span><br><span class="line">payload: &#123; <span class="attr">name</span>: ‘React Redux Tutorial <span class="keyword">for</span> Beginners’, <span class="attr">id</span>: <span class="number">1</span> &#125;</span><br></pre></td></tr></table></figure>
+<p>每一个 action 都要有一个 type 属性来描述要对 state 做怎样的改变。</p>
+<p>你也可以指定一个叫 payload 的属性。在上面的例子中， payload 指代一篇新的文章。reducer 接下来将把这篇新文章加到 state 中去。</p>
+<p>最佳实践是将每一个 action 都通过函数包裹起来。这个函数就是 action creator。</p>
+<p>让我们来把这些都串起来创建一个简单的 action 。</p>
+<p>创建 actions 目录：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p src/js/actions</span><br></pre></td></tr></table></figure>
+<p>在 src/js/actions 目录中创建名为 index.js 的文件：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/js/actions/index.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> addArticle = <span class="function">(<span class="params">article</span>) =&gt;</span> (&#123;</span><br><span class="line">  type: <span class="string">&quot;ADD_ARTICLE&quot;</span>,</span><br><span class="line">  payload: article,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>type 属性就是个简单的字符串。reducer 将根据这个字符串决定怎么处理生成下一个 state 。</p>
+<p>由于字符串很容易重复产生冲突，所以最好在常量中统一定义 action types 。</p>
+<p>这个方法可以避免一些很难排查的错误。</p>
+<p>创建一个新目录：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p src/js/constants</span><br></pre></td></tr></table></figure>
+<p>然后在 src/js/constants 目录下创建名为 action-types.js 的文件：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/js/constants/action-types.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> ADD_ARTICLE = <span class="string">&quot;ADD_ARTICLE&quot;</span>;</span><br></pre></td></tr></table></figure>
+<p>然后打开 src/js/actions/index.js 用常量来替换字符串：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/js/actions/index.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; ADD_ARTICLE &#125; <span class="keyword">from</span> <span class="string">&quot;../constants/action-types&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> addArticle = <span class="function">(<span class="params">article</span>) =&gt;</span> (&#123;</span><br><span class="line">  type: ADD_ARTICLE,</span><br><span class="line"></span><br><span class="line">  payload: article,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>我们进一步完成了一个可运行的 Redux 应用。 接下来让我们重构下我们的 reducer 吧！</p>
+<h2 id="重构-reducer"><a href="#重构-reducer" class="headerlink" title="重构 reducer"></a>重构 reducer</h2><p>进入下一步之前，让我们总结一下 Redux 的主要概念：</p>
+<p>Redux store 就像大脑：它负责将所有流动的片段有机地整合进 Redux 中<br>应用中的 state 在 store 中以唯一且不可变对象的形式存在<br>一旦 store 接收到一个 action 他就会触发一个 reducer<br>reducer 返回下一个 state</p>
+<p>reducer 是怎样构成的？</p>
+<p>reducer 是一个 javascript 函数，它接收两个参数：state 和 action。</p>
+<p>reducer 一般会包含一个 switch 语句（傻一点的话也可以用：if /else）。</p>
+<p>reducer 根据 action type 产生下一个 state 。此外，当没有匹配到 action type 时它至少也要返回初始 state 。</p>
+<p>当 action type 匹配到一个 case 分支的时候， reducer 将计算下一个 state 并返回一个全新的对象。下面是个例子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// …</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">switch</span> (action.type) &#123;</span><br><span class="line">  <span class="keyword">case</span> ADD_ARTICLE:</span><br><span class="line">    <span class="keyword">return</span> &#123; ...state, <span class="attr">articles</span>: [...state.articles, action.payload] &#125;;</span><br><span class="line">  <span class="keyword">default</span>:</span><br><span class="line">    <span class="keyword">return</span> state;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// …</span></span><br></pre></td></tr></table></figure>
+<p>我们之前创建的 reducer 只返回了初始 state 什么都没做。让我们做点什么。</p>
+<p>打开 src/js/reducers/index.js 按如下例子更新 reducer:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; ADD_ARTICLE &#125; <span class="keyword">from</span> <span class="string">&quot;../constants/action-types&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> initialState = &#123;</span><br><span class="line">  articles: [],</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> rootReducer = <span class="function">(<span class="params">state = initialState, action</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">switch</span> (action.type) &#123;</span><br><span class="line">    <span class="keyword">case</span> ADD_ARTICLE:</span><br><span class="line">      <span class="keyword">return</span> &#123; ...state, <span class="attr">articles</span>: state.articles.push(action.payload) &#125;;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">      <span class="keyword">return</span> state;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> rootReducer;</span><br></pre></td></tr></table></figure>
+<p>发现了什么？</p>
+<p>尽管代码逻辑没有错，但这违背了 Redux 的主要原则： 不可变 。</p>
+<p><code>Array.prototype.push</code> 不是一个纯函数，它改变了原来的数组。</p>
+<p>解决的方式很简单。用 <code>Array.prototype.concat</code> 替换 <code>Array.prototype.push</code> 来保持原始数组是不可变的。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; ADD_ARTICLE &#125; <span class="keyword">from</span> <span class="string">&quot;../constants/action-types&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> initialState = &#123;</span><br><span class="line">  articles: [],</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> rootReducer = <span class="function">(<span class="params">state = initialState, action</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">switch</span> (action.type) &#123;</span><br><span class="line">    <span class="keyword">case</span> ADD_ARTICLE:</span><br><span class="line">      <span class="keyword">return</span> &#123; ...state, <span class="attr">articles</span>: state.articles.concat(action.payload) &#125;;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">      <span class="keyword">return</span> state;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> rootReducer;</span><br></pre></td></tr></table></figure>
+<p>还不够！可以用 扩展运算符 优化一下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; ADD_ARTICLE &#125; <span class="keyword">from</span> <span class="string">&quot;../constants/action-types&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> initialState = &#123;</span><br><span class="line">  articles: [],</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> rootReducer = <span class="function">(<span class="params">state = initialState, action</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">switch</span> (action.type) &#123;</span><br><span class="line">    <span class="keyword">case</span> ADD_ARTICLE:</span><br><span class="line">      <span class="keyword">return</span> &#123; ...state, <span class="attr">articles</span>: [...state.articles, action.payload] &#125;;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">      <span class="keyword">return</span> state;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> rootReducer;</span><br></pre></td></tr></table></figure>
+<p>上述例子中初始 state 完全没受干扰。</p>
+<p>最初的文章数组并没有改变。</p>
+<p>初始 state 对象也没有改变。返回的 state 是初始 state 的一个副本。</p>
+<p>在 Redux 中有两个关键点来防止类似的改变。</p>
+<p>针对数组可以用 concat (), slice (), 和 … 操作符<br>针对对象可以用 Object.assign () and … 操作符</p>
+<p>扩展运算符 在 webpack 3 中还是个实验性功能。需要安装一个 babel 插件来防止语法错误：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i —save-dev babel-plugin-transform-object-rest-spread</span><br></pre></td></tr></table></figure>
+<p>打开 .babelrc 更改配置：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;presets&quot;</span>: [<span class="string">&quot;env&quot;</span>, <span class="string">&quot;react&quot;</span>],</span><br><span class="line">  <span class="attr">&quot;plugins&quot;</span>: [<span class="string">&quot;transform-object-rest-spread&quot;</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>小贴士： reducer 随着应用的增长会变得臃肿。你可以拆分 reducer 进不同的函数，然后通过 combineReducers 将他们结合起来。</p>
+<p>下一节我们将通过 console 控制台把玩一下 Redux 。搞起！</p>
+<h2 id="Redux-store-中的方法"><a href="#Redux-store-中的方法" class="headerlink" title="Redux store 中的方法"></a>Redux store 中的方法</h2><p>这节内容将会很快过完，我保证。</p>
+<p>我想借助浏览器的控制台让你快速理解下 Redux 是怎样工作的。</p>
+<p>Redux 本身是一个很小的类库 （2KB）。它暴露了 一些简单的 API 让我们来管理 state 。其中最重要的方法就是：</p>
+<ul>
+<li>getState 用于获取应用的 state</li>
+<li>dispatch 用于触发一个 action</li>
+<li>subscribe 用于监听 state 的变化</li>
+</ul>
+<p>我们将借助浏览器的管理控制台试验上述方法。</p>
+<p>我们需要创建全局变量将我们先前创建的 store 和 action 暴露出来。</p>
+<p>打开 src/js/index.js 按如下所示更新代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> store <span class="keyword">from</span> <span class="string">&quot;../js/store/index&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; addArticle &#125; <span class="keyword">from</span> <span class="string">&quot;../js/actions/index&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">window</span>.store = store;</span><br><span class="line"></span><br><span class="line"><span class="built_in">window</span>.addArticle = addArticle;</span><br></pre></td></tr></table></figure>
+<p>然后运行一下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm start</span><br></pre></td></tr></table></figure>
+<p>在浏览器中打开 <a target="_blank" rel="noopener" href="http://localhost:8080/">http://localhost:8080/</a> 并按 F12 打开管理控制台。</p>
+<p>由于我们全局暴露了 store ， 所以我们可以进入它的方法。试一下！</p>
+<p>首先访问当前 state:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">store.getState();</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;articles: Array(0)&#125;</span><br></pre></td></tr></table></figure>
+<p>没有文章。事实上我们还没有更新初始 state 。</p>
+<p>让这变得更有趣些我们可以通过 subscribe 方法监听 state 的变化。</p>
+<p>subscribe 方法接收一个回调函数，当 action 触发的时候该回调函数就会执行。触发 action 就意味着通知 store 我们想改变 state 。</p>
+<p>通过如下操作注册回调函数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">store.subscribe(<span class="function">() =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&quot;Look ma, Redux!!&quot;</span>));</span><br></pre></td></tr></table></figure>
+<p>要想改变 state 我们需要触发一个 action 。要触发一个 action 我们就需要调用 dispatch 方法 。</p>
+<p>我们已经有了一个 action ：addArticle 用来向 state 中新增文章。</p>
+<p>让我们触发一下这个 action ：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">store.dispatch( addArticle(&#123; <span class="attr">name</span>: ‘React Redux Tutorial <span class="keyword">for</span> Beginners’, <span class="attr">id</span>: <span class="number">1</span> &#125;))</span><br></pre></td></tr></table></figure>
+<p>执行上述代码后你将看到：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Look ma, Redux!!</span><br></pre></td></tr></table></figure>
+<p>验证一下 state 有没有变：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">store.getState();</span><br></pre></td></tr></table></figure>
+<p>输出会是：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;articles: Array(1)&#125;</span><br></pre></td></tr></table></figure>
+<p>这就是个最简单的 Redux 原型。</p>
+<p>难么？</p>
+<p>稍微花点时间练习一下 Redux 的三个方法。在控制台中玩一把：</p>
+<ul>
+<li>getState 用于获取应用的 state</li>
+<li>dispatch 用于触发一个 action</li>
+<li>subscribe 用于监听 state 的变化</li>
+</ul>
+<p>这就是开始入坑所需要知道的全部内容。</p>
+<p>有信心进入下一步了么？让我们把 React 和 Redux 串起来吧。</p>
+<h2 id="把-React-和-Redux-结合起来"><a href="#把-React-和-Redux-结合起来" class="headerlink" title="把 React 和 Redux 结合起来"></a>把 React 和 Redux 结合起来</h2><p>学习了 Redux 后我发现它并没有想象中那么复杂。</p>
+<p>我知道我可以通过 getState 方法获取当前 state ；通过 dispatch 触发一个 action ； 通过 subscribe 监听 state 的变化。</p>
+<p>目前我还不知道怎么将 React 和 Redux 组合起来使用。</p>
+<p>我问自己：我需要在 React component 中调用 getState 方法么？ 在 React component 我怎么去触发 action ？ 等等一些列问题。</p>
+<p>Redux 是框架无关的。你可以在纯 Javascript 中使用它。或者结合 Angular，Redux 一起使用。 有许多第三方库可以实现把 Redux 和任何你喜欢的框架结合起来使用。</p>
+<p>对于 React 而言， react-redux 就是这么一个第三方库。</p>
+<p>首先让我们通过下面的命令安装一下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i react-redux —save-dev</span><br></pre></td></tr></table></figure>
+<p>为了演示 React 和 Redux 是如何协同工作的，我们将构建一个超级简单的应用。这个应用由如下组件组成：</p>
+<ul>
+<li>一个 App 组件</li>
+<li>一个展示文章的 List 组件</li>
+<li>一个新增文章的 Form 组件</li>
+</ul>
+<p>（这是个玩具应用，仅仅用来展示文章列表，新增文章条目。但是可以算一个学习 Redux 不错的开端。）</p>
+<h2 id="react-redux"><a href="#react-redux" class="headerlink" title="react-redux"></a>react-redux</h2><p>react-redux 是一个 React 和 Redux 绑定库。这个类库将 React 和 Redux 高效地连接起来。</p>
+<p>react-redux 的 connect 方法做了什么呢？ 毫无疑问是将 React 的组件和 Redux 的 store 连接起来了。</p>
+<p>你可以根据需要向 connect 方法传递两个或者三个参数。需要知道的最基本的东西就是：</p>
+<ul>
+<li>mapStateToProps 函数</li>
+<li>mapDispatchToProps 函数</li>
+</ul>
+<p>react-redux 中 mapStateToProps 做了什么呢？就像它的名字一样：它将部分 Redux state 和 React 组件中的 Props 连接了起来。通过这层连接，React 组件就可以从 store 中获取它所需要的 state 了。</p>
+<p>react-redux 中 mapDispatchToProps 又做了什么呢？和 mapStateToProps 类似，只不过它是连接的 actions 。它将 部分 Redux action 和 React 组件中的 Props 连接了起来。通过这层连接，React 组件就可以从触发 actions 了。</p>
+<p>都清楚了么？如果没有，停下来重读一遍。我知道许多内容需要时间消化。我要着急，早晚会搞明白的。</p>
+<p>接下来的部分我们就要大显生手了！</p>
+<h2 id="App-组件-和-Redux-store"><a href="#App-组件-和-Redux-store" class="headerlink" title="App 组件 和 Redux store"></a>App 组件 和 Redux store</h2><p>我们知道 mapStateToProps 将部分 Redux state 和 React 组件中的 Props 连接了起来。你可能想问：连接 React 和 Redux 这么做就够了吗？不，还不够。</p>
+<p>要连接 React 和 Redux 我们还要用到 Provider。</p>
+<p>Provider 是 react-redux 提供的一个高阶组件。</p>
+<p>直白地说，就是 Provider 将整个 React 应用封装起来，是它能够感知到整个 Redux store 的存在。</p>
+<p>为什么这么做？我们知道在 Redux 中 store 管理着一切。React 必须通过 store 来访问 state ， 触发 actions 。</p>
+<p>了解了以上这些，就打开 src/js/index.js ，修改如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; render &#125; <span class="keyword">from</span> <span class="string">&quot;react-dom&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Provider &#125; <span class="keyword">from</span> <span class="string">&quot;react-redux&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> store <span class="keyword">from</span> <span class="string">&quot;../js/store/index&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">&quot;../js/components/App&quot;</span>;</span><br><span class="line">render(</span><br><span class="line">  &lt;Provider store=&#123;store&#125;&gt;</span><br><span class="line">    &lt;App /&gt;</span><br><span class="line">  &lt;/Provider&gt;,</span><br><span class="line">  <span class="built_in">document</span>.getElementById(<span class="string">&quot;app&quot;</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>看到没有？Provider 将整个应用包裹起来。并将 store 作为属性传入。</p>
+<p>现在让我们创建一个 App 组件。没什么特别的：App 组件导入一个 List 组件并渲染。</p>
+<p>创建一个目录来存放组件：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p src/js/components</span><br></pre></td></tr></table></figure>
+<p>在 src/js/components 目录下创建名为 App.js 的文件。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/js/components/App.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> List <span class="keyword">from</span> <span class="string">&quot;./List&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> App = <span class="function">() =&gt;</span> Articles;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> App;</span><br></pre></td></tr></table></figure>
+<p>花时间看下组件的构成：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> List <span class="keyword">from</span> <span class="string">&quot;./List&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> App = <span class="function">() =&gt;</span> <span class="xml"><span class="tag">&lt;<span class="name">List</span> /&gt;</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> App;</span><br></pre></td></tr></table></figure>
+<p>然后继续创建 List 组件。</p>
+<p>List 组件 和 Redux state</p>
+<p>目前为止我们没做特殊的操作。</p>
+<p>但是 List 组件需要和 Redux store 产生交互。</p>
+<p>简单总结一下：连接 React 组件 和 Redux 的关键就是 connect 方法。</p>
+<p>Connect 方法接收至少一个参数。</p>
+<p>由于我们想让 List 获取文章列表，因此我们需要让 state.articles 和组件连接起来。怎么做呢？用 mapStateToProps 参数来实现。</p>
+<p>在 src/js/components 目录下创建名为 List.js 的文件。写入如下内容：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/js/components/List.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; connect &#125; <span class="keyword">from</span> <span class="string">&quot;react-redux&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> mapStateToProps = <span class="function">(<span class="params">state</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> &#123; <span class="attr">articles</span>: state.articles &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">const</span> ConnectedList = <span class="function">(<span class="params">&#123; articles &#125;</span>) =&gt;</span> (</span><br><span class="line">  &lt;ul className=<span class="string">&quot;list-group list-group-flush&quot;</span>&gt;</span><br><span class="line">    &#123;articles.map(<span class="function">(<span class="params">el</span>) =&gt;</span> (</span><br><span class="line">      &lt;li className=<span class="string">&quot;list-group-item&quot;</span> key=&#123;el.id&#125;&gt;</span><br><span class="line">        &#123;el.title&#125;</span><br><span class="line">      &lt;/li&gt;</span><br><span class="line">    ))&#125;</span><br><span class="line">  &lt;/ul&gt;</span><br><span class="line">);</span><br><span class="line"><span class="keyword">const</span> List = connect(mapStateToProps)(ConnectedList);</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> List;</span><br></pre></td></tr></table></figure>
+<p>List 组件接收一个名为 articles 的属性， 它是一个 articles 数组的副本。这个数组寄生于我们之前创建的 Redux state 内。它来自 reducer :</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> initialState = &#123;</span><br><span class="line">  articles: [],</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> rootReducer = <span class="function">(<span class="params">state = initialState, action</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">switch</span> (action.type) &#123;</span><br><span class="line">    <span class="keyword">case</span> ADD_ARTICLE:</span><br><span class="line">      <span class="keyword">return</span> &#123; ...state, <span class="attr">articles</span>: [...state.articles, action.payload] &#125;;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">      <span class="keyword">return</span> state;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>然后我们就可以用这个属性在 JSX 中生成一个文章列表了：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  articles.map(<span class="function">(<span class="params">el</span>) =&gt;</span> (</span><br><span class="line">    &lt;li className=<span class="string">&quot;list-group-item&quot;</span> key=&#123;el.id&#125;&gt;</span><br><span class="line">      &#123;el.title&#125;</span><br><span class="line">    &lt;/li&gt;</span><br><span class="line">  ));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>小提示</strong> 可以用 React PropTypes 对属性进行校验。</p>
+<p>最后组件被导出为 List。List 是无状态组件和 Redux store 连接之后的产物。</p>
+<p>无状态组件没有内部 state 。数据是通过属性传入的。</p>
+<p>依旧很困惑？我也是。理解 connect 的工作原理需要花点时间。别害怕，慢慢来。</p>
+<p>我建议你停下来花点时间看下 connect 和 mapStateToProps 。</p>
+<p>搞懂了我们就进入下一章的学习。</p>
+<h2 id="Form-组件-和-Redux-actions"><a href="#Form-组件-和-Redux-actions" class="headerlink" title="Form 组件 和 Redux actions"></a>Form 组件 和 Redux actions</h2><p>Form 组件比 List 组件稍微复杂一点。它是用于创建文章的表单。</p>
+<p>另外它是一个状态组件。</p>
+<p>状态组件是指在组件内部维护自身 state 的组件 。</p>
+<p>状态组件？我们一直说要用 Redux 来管理 state 。 为什么现在又说要让 Form 自己去维护 state ?</p>
+<p>即使在使用 Redux 的时候，使用有状态的组件也是完全可以的，两者并不冲突。</p>
+<p>并不是所有的 state 都必须在 Redux 中管理。</p>
+<p>在这个例子中我不想其他任何组件知道 Form 组件内部的 state 。</p>
+<p>这么做很好。</p>
+<p>这个组件做什么事呢？</p>
+<p>该组件包含了一些在表单提交时更新本地 state 的逻辑。</p>
+<p>另外它接收一个 Redux action 作为属性传入其中。用这种方式它可以通过触发 addArticle action 来更新全局的 state。</p>
+<p>在 src/js/components 下建一个名为 Form.js 的文件。它看起来像下面这样：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/js/components/Form.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; connect &#125; <span class="keyword">from</span> <span class="string">&quot;react-redux&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> uuidv1 <span class="keyword">from</span> <span class="string">&quot;uuid&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; addArticle &#125; <span class="keyword">from</span> <span class="string">&quot;../actions/index&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> mapDispatchToProps = <span class="function">(<span class="params">dispatch</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    addArticle: <span class="function">(<span class="params">article</span>) =&gt;</span> dispatch(addArticle(article)),</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConnectedForm</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="title">constructor</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>();</span><br><span class="line">    <span class="built_in">this</span>.state = &#123;</span><br><span class="line">      title: <span class="string">&quot;&quot;</span>,</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="built_in">this</span>.handleChange = <span class="built_in">this</span>.handleChange.bind(<span class="built_in">this</span>);</span><br><span class="line">    <span class="built_in">this</span>.handleSubmit = <span class="built_in">this</span>.handleSubmit.bind(<span class="built_in">this</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">handleChange</span>(<span class="params">event</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.setState(&#123; [event.target.id]: event.target.value &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">handleSubmit</span>(<span class="params">event</span>)</span> &#123;</span><br><span class="line">    event.preventDefault();</span><br><span class="line">    <span class="keyword">const</span> &#123; title &#125; = <span class="built_in">this</span>.state;</span><br><span class="line">    <span class="keyword">const</span> id = uuidv1();</span><br><span class="line">    <span class="built_in">this</span>.props.addArticle(&#123; title, id &#125;);</span><br><span class="line">    <span class="built_in">this</span>.setState(&#123; <span class="attr">title</span>: <span class="string">&quot;&quot;</span> &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">render</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; title &#125; = <span class="built_in">this</span>.state;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;form onSubmit=&#123;<span class="built_in">this</span>.handleSubmit&#125;&gt;</span><br><span class="line">        &lt;div className=<span class="string">&quot;form-group&quot;</span>&gt;</span><br><span class="line">          &lt;label htmlFor=<span class="string">&quot;title&quot;</span>&gt;Title&lt;/label&gt;</span><br><span class="line"></span><br><span class="line">          &lt;input</span><br><span class="line">            type=<span class="string">&quot;text&quot;</span></span><br><span class="line">            className=<span class="string">&quot;form-control&quot;</span></span><br><span class="line">            id=<span class="string">&quot;title&quot;</span></span><br><span class="line">            value=&#123;title&#125;</span><br><span class="line">            onChange=&#123;<span class="built_in">this</span>.handleChange&#125;</span><br><span class="line">          /&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">        &lt;button type=<span class="string">&quot;submit&quot;</span> className=<span class="string">&quot;btn btn-success btn-lg&quot;</span>&gt;</span><br><span class="line">          SAVE</span><br><span class="line">        &lt;/button&gt;</span><br><span class="line">      &lt;/form&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Form = connect(<span class="literal">null</span>, mapDispatchToProps)(ConnectedForm);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> Form;</span><br></pre></td></tr></table></figure>
+<p>怎么描述这个组件呢？除了 mapDispatchToProps 和 connect 它就是标准的 React 的那套东西。</p>
+<p>mapDispatchToProps 将 Redux actions 和 React 属性 连接起来。这样组件就可以向外发送 action 了。</p>
+<p>你可以看下 action 是怎样在 handleSubmit 方法中被触发的：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ...</span></span><br><span class="line">  <span class="function"><span class="title">handleSubmit</span>(<span class="params">event</span>)</span> &#123;</span><br><span class="line">    event.preventDefault();</span><br><span class="line">    <span class="keyword">const</span> &#123; title &#125; = <span class="built_in">this</span>.state;</span><br><span class="line">    <span class="keyword">const</span> id = uuidv1();</span><br><span class="line">    <span class="built_in">this</span>.props.addArticle(&#123; title, id &#125;); <span class="comment">// Relevant Redux part!!</span></span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  &#125;</span><br><span class="line"><span class="comment">// ...</span></span><br></pre></td></tr></table></figure>
+<p>最后组件被导出为 Form 。 Form 就是组件和 Redux store 连接之后的产物。</p>
+<p>注意：当 mapStateToProps 不存在的时候，connect 的第一个参数必须为 null，就像例子中的 Form 一样。 否则，你会得到 TypeError: dispatch is not a function. 的警告。</p>
+<p>我们的组件部分就都结束了。</p>
+<p>更新下 App , 把 Form 组件加进来：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> List <span class="keyword">from</span> <span class="string">&quot;./List&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> Form <span class="keyword">from</span> <span class="string">&quot;./Form&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> App = <span class="function">() =&gt;</span> (</span><br><span class="line">  &lt;div className=<span class="string">&quot;row mt-5&quot;</span>&gt;</span><br><span class="line">    &lt;div className=<span class="string">&quot;col-md-4 offset-md-1&quot;</span>&gt;</span><br><span class="line">      &lt;h2&gt;Articles&lt;/h2&gt;</span><br><span class="line">      &lt;List /&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div className=<span class="string">&quot;col-md-4 offset-md-1&quot;</span>&gt;</span><br><span class="line">      &lt;h2&gt;Add a <span class="keyword">new</span> article&lt;/h2&gt;</span><br><span class="line">      &lt;Form /&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> App;</span><br></pre></td></tr></table></figure>
+<p>运行一下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm start</span><br></pre></td></tr></table></figure>
+<p>打开 <a target="_blank" rel="noopener" href="http://localhost:8080/">http://localhost:8080</a></p>
+<p>你将看到如下界面：</p>
+<p>没什么特别的，但可以展示 React 和 Redux 是如何工作的。</p>
+<p>左边的 List 组件和 Redux store 相连。它将在你新建文章的时候刷新渲染。</p>
+<p>哈哈！</p>
+<p>你可以在 这里 查看源码。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我希望你可以从这篇教程中学到一些东西。我尽力把例子写的足够简单。我希望可以在下面的评论中倾听你的反馈。</p>
+<p>Redux 有许多模板和移动部件。别灰心。拿起来把玩，花点时间去吸收它所有的概念。</p>
+<p>我逐步从零开始慢慢地理解了 Redux 。相信你也可以做到。</p>
+<p>当然，也请花点时间想清楚为什么需要在你的项目中引用 Redux。</p>
+<p>无论怎样：学习 Redux 都是 100% 值得的。</p>
+<p>Redux 并不是状态管理的唯一方式。<a href="Mobx">Mobx</a> 是另一个有趣的可选方案。我也在关注 Apollo Client。谁将胜出？只有时间知道答案。</p>
+<h2 id="函数式编程的一些资源"><a href="#函数式编程的一些资源" class="headerlink" title="函数式编程的一些资源"></a>函数式编程的一些资源</h2><p>Redux 使大多数初学者感到害怕，是因为它是围绕函数式编程和纯函数展开的。</p>
+<p>我只能是推荐一些资源给大家，因为函数式编程超出了本指南的范围。 下面是一些函数式编程和纯函数相关的资源：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://drboolean.gitbooks.io/mostly-adequate-guide-old/content/ch1.html">Professor Frisby’s Mostly Adequate Guide to Functional Programming</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/getify/Functional-Light-JS">Functional-Light-JS</a></li>
+</ul>
+<h2 id="Redux-中的异步-actions"><a href="#Redux-中的异步-actions" class="headerlink" title="Redux 中的异步 actions"></a>Redux 中的异步 actions</h2><p>我不确定谈论异步 actions 是否合适。</p>
+<p>大多数 Redux 初学者都很难仅学习纯粹的 Redux。 在 Redux 中处理复杂的异步 action 还是比较费劲的。</p>
+<p>当你了解了 Redux 的核心概念后可以去读一下 Matt Stow 写的 <a target="_blank" rel="noopener" href="https://medium.com/@stowball/a-dummys-guide-to-redux-and-thunk-in-react-d8904a7005d3">A Dummy’s Guide to Redux and Thunk in React</a>。这是篇关于 Redux 怎样用 redux-thunk 处理 API 请求的非常不错的介绍。</p>
+<p>谢谢阅读，码得愉快～</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/02/02/b3d6d618a14348a5aa2542fcdf0a308a/" data-id="ckmcqox5o00c90kuvbzgt0hkp" data-title="2018 React Redux 入门教程" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/" rel="tag">react</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/02/02/b11f3c6f1486497f9f07a08e885be6ec/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          为什么要用现代前端
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/02/02/dd7f934b4f984d66b60d603896747363/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">程序员对 996 的反抗引来全球关注，它是如何以程序员自己的方式建立起来？</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/electron/" rel="tag">electron</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grid/" rel="tag">grid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jetbrains/" rel="tag">jetbrains</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webstorm/" rel="tag">webstorm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/" rel="tag">windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA/" rel="tag">个人</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%AC%E5%8F%B8/" rel="tag">公司</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%A8%E6%8A%A5/" rel="tag">周报</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%A3%E5%91%8A/" rel="tag">宣告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" rel="tag">工程化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90/" rel="tag">开源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%82%E6%AD%A5/" rel="tag">异步</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" rel="tag">待更新</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%8F%E9%AA%8C/" rel="tag">经验</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6/" rel="tag">读书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/css/" style="font-size: 12.14px;">css</a> <a href="/tags/electron/" style="font-size: 15.71px;">electron</a> <a href="/tags/git/" style="font-size: 12.86px;">git</a> <a href="/tags/grid/" style="font-size: 10.71px;">grid</a> <a href="/tags/java/" style="font-size: 19.29px;">java</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/jetbrains/" style="font-size: 12.14px;">jetbrains</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 10.71px;">markdown</a> <a href="/tags/react/" style="font-size: 14.29px;">react</a> <a href="/tags/sql/" style="font-size: 14.29px;">sql</a> <a href="/tags/typescript/" style="font-size: 12.14px;">typescript</a> <a href="/tags/vscode/" style="font-size: 12.86px;">vscode</a> <a href="/tags/vue/" style="font-size: 16.43px;">vue</a> <a href="/tags/webstorm/" style="font-size: 10px;">webstorm</a> <a href="/tags/windows/" style="font-size: 17.14px;">windows</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 12.86px;">个人</a> <a href="/tags/%E5%85%AC%E5%8F%B8/" style="font-size: 10px;">公司</a> <a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 10px;">周报</a> <a href="/tags/%E5%AE%A3%E5%91%8A/" style="font-size: 10px;">宣告</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.57px;">工具</a> <a href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" style="font-size: 17.86px;">工程化</a> <a href="/tags/%E5%BC%80%E6%BA%90/" style="font-size: 10px;">开源</a> <a href="/tags/%E5%BC%82%E6%AD%A5/" style="font-size: 15px;">异步</a> <a href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" style="font-size: 10.71px;">待更新</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 18.57px;">杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BB%8F%E9%AA%8C/" style="font-size: 11.43px;">经验</a> <a href="/tags/%E8%AF%BB%E4%B9%A6/" style="font-size: 12.14px;">读书</a> <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 11.43px;">转载</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/14/8fb2d58463ae4191ac064a76e15bffbd/">2021 第十周</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/12/7e7131c07c984d928ba3fefa7a9cef06/">读书-[颓废与沉默：透视犬儒文化]</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/02/db74e6e5d2444bc3b6e185a7b338bbf6/">electron 开发经验之谈系列-在渲染、主进程间共享数据</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/27/06cb464179cf45c598208534705aae3c/">2020 吾辈在公司推动的前端技术演进</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/23/cd66150d2b86448590fcc9bb2419c0b2/">实践 lerna monorepo</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

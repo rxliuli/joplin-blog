@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>React 根据状态动态化功能的一些思考 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="场景 之前吾辈也在 SF 上询问过 类似的问题。  目前在实际业务中遇到了两种情况  程序的功能在分发给不同组织使用的时候有所差异，即不同的组织都会存在一些定制化的功能。 最常见的差异例如 表单的字段存在差异 列表展示的字段与相关操作有所不同   组件内的代码在某个权限下才会执行，但是又依赖于组件内的一些状态，如何将这些代码分割到不同的地方（例如不同的文件）便于之后的维护。 一些按钮在指定权限下存">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React 根据状态动态化功能的一些思考">
+<meta property="og:url" content="http://example.com/2020/07/31/d55f430907ed4972be823c4979b67fb7/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="场景 之前吾辈也在 SF 上询问过 类似的问题。  目前在实际业务中遇到了两种情况  程序的功能在分发给不同组织使用的时候有所差异，即不同的组织都会存在一些定制化的功能。 最常见的差异例如 表单的字段存在差异 列表展示的字段与相关操作有所不同   组件内的代码在某个权限下才会执行，但是又依赖于组件内的一些状态，如何将这些代码分割到不同的地方（例如不同的文件）便于之后的维护。 一些按钮在指定权限下存">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://img.rxliuli.com/20200803203027.png">
+<meta property="article:published_time" content="2020-07-30T17:05:24.000Z">
+<meta property="article:modified_time" content="2021-02-22T03:10:55.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="工程化">
+<meta property="article:tag" content="react">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.rxliuli.com/20200803203027.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-d55f430907ed4972be823c4979b67fb7" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/07/31/d55f430907ed4972be823c4979b67fb7/" class="article-date">
+  <time class="dt-published" datetime="2020-07-30T17:05:24.000Z" itemprop="datePublished">2020-07-31</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      React 根据状态动态化功能的一些思考
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><blockquote>
+<p>之前吾辈也在 SF 上询问过 <a target="_blank" rel="noopener" href="https://segmentfault.com/q/1010000021851252">类似的问题</a>。</p>
+</blockquote>
+<p>目前在实际业务中遇到了两种情况</p>
+<ol>
+<li>程序的功能在分发给不同组织使用的时候有所差异，即不同的组织都会存在一些定制化的功能。<br> 最常见的差异例如<ul>
+<li>表单的字段存在差异</li>
+<li>列表展示的字段与相关操作有所不同</li>
+</ul>
+</li>
+<li>组件内的代码在某个权限下才会执行，但是又依赖于组件内的一些状态，如何将这些代码分割到不同的地方（例如不同的文件）便于之后的维护。<ul>
+<li>一些按钮在指定权限下存在</li>
+<li>一些数据在指定权限下展示</li>
+</ul>
+</li>
+</ol>
+<h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><ul>
+<li>使用动态配置渲染不同的页面(可序列化的配置)</li>
+<li>根据状态匹配不同的动态组件</li>
+<li>使用 hooks 封装不同的逻辑</li>
+<li>使用状态图控制状态和逻辑</li>
+</ul>
+<h2 id="实际调研结果"><a href="#实际调研结果" class="headerlink" title="实际调研结果"></a>实际调研结果</h2><h3 id="使用动态配置渲染不同的页面"><a href="#使用动态配置渲染不同的页面" class="headerlink" title="使用动态配置渲染不同的页面"></a>使用动态配置渲染不同的页面</h3><p>实际上，之前有看过吾辈写的 <a href="/p/9b07ff8ce6dd4eb08896f6b8191d7181">react 通用列表组件封装</a> 就知道，实际上列表已经被配置化了，可以使用配置的形式去渲染一个完整的列表页面，因此可以根据不同的组织使用不同的配置就好了。但是，事实上并没有这么简单，因为就算是简单的列表，也仍然包含<strong>上下文</strong>，而这，正是配置不能拿到的内容。</p>
+<p>上下文主要包括</p>
+<ul>
+<li>需要异步请求的数据，例如下拉框的选择项</li>
+<li>需要从路由上获取的数据，例如搜索条件</li>
+<li>需要对页面内的其它组件进行操作时，例如点击按钮有个新增列表项的弹窗</li>
+</ul>
+<p>可以有几种解决方案</p>
+<ul>
+<li>通过函数，而不是单纯的配置，这样，可以通过参数解决一些上下文的依赖情况</li>
+<li>通过函数且异步，可以解决 api 请求时，此时的 api 必定是可以用的，但是会依赖于 api。</li>
+</ul>
+<p>但这仍然会带来问题</p>
+<ul>
+<li>数据不再纯粹，无法序列化。</li>
+<li>不同配置依赖的数据可能不同，需要配置自己去解决，那么如果这样想的话，那么配置就需要自行获取数据，而不是外部传递数据了</li>
+<li>仍然无法使用<strong>状态</strong></li>
+<li>最重要的是，使用函数之后变得不再像是<strong>配置</strong>了</li>
+</ul>
+<h3 id="根据状态匹配不同的动态组件"><a href="#根据状态匹配不同的动态组件" class="headerlink" title="根据状态匹配不同的动态组件"></a>根据状态匹配不同的动态组件</h3><ul>
+<li>配置更为灵活，能够获取到组件的上下文</li>
+<li>接口请求也没有问题</li>
+<li>对不同配置，可以自行对数据进行处理</li>
+</ul>
+<p>问题</p>
+<ul>
+<li>无法如同纯数据配置那样，复用逻辑这么彻底，但是也可以通过 hooks 解决。</li>
+<li>UI 复用问题<br>先使用组件的方式编写一下，看具体结果如何</li>
+<li>无法序列化也意味着无法放到后端，甚至意味着很难做动态加载</li>
+</ul>
+<p>使用</p>
+<ul>
+<li>使用一个 wrapper 组件来讲 UI 和通用逻辑给包裹进去</li>
+<li>使用另外一套组件去区分不同租户的配置（因为是在组件内部写配置，所以该配置可以灵活的使用任意接口，组件上下文可能还不太行）也就是用多个组件来解决这个问题。</li>
+</ul>
+<p>可以再尝试一下有没有解决方案。</p>
+<h3 id="使用-hooks-封装不同的代码"><a href="#使用-hooks-封装不同的代码" class="headerlink" title="使用 hooks 封装不同的代码"></a>使用 hooks 封装不同的代码</h3><ul>
+<li>相比于处理 <strong>是哪一个</strong>，更适合处理 <strong>有或没有</strong> 的代码分割</li>
+<li>能够使用 react 的状态</li>
+</ul>
+<p>问题</p>
+<ul>
+<li>使用 hooks 必须放在函数组件最顶层，导致本质上无法 <code>lazy</code> 加载。参考：<a target="_blank" rel="noopener" href="https://zh-hans.reactjs.org/docs/hooks-rules.html">Hook 规则</a></li>
+<li>使用 hooks 同样难以序列化存储到后端</li>
+</ul>
+<h3 id="使用状态图控制状态和逻辑"><a href="#使用状态图控制状态和逻辑" class="headerlink" title="使用状态图控制状态和逻辑"></a>使用状态图控制状态和逻辑</h3><p>使用 hooks 封装代码最适合处理元素级的权限控制，但在面对需要根据多个维度的状态决定程序的状态或行为时，就有点力不从心了。而这，也是为什么有限状态机为什么有用的原因。</p>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>最终，我们选择了最灵活的 <strong>动态组件 + Hooks 共享逻辑</strong> 的形式，虽然使用动态组件会增加一些冗余度，但也可以通过子组件或 hooks 的形式复用逻辑，实际上在工程化减小的复杂度的收益是要高于代码冗余的。</p>
+<h2 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h2><blockquote>
+<p>登记相关内容已经使用该方式进行了重构</p>
+</blockquote>
+<ul>
+<li><code>src/pages/register</code><ul>
+<li><code>common</code>: 通用的一些组件和逻辑，例如请求后台接口应该是统一的，但返回的数据类型却应该是单独的<ul>
+<li><code>form</code>: 表单相关组件，提供给列表/详情页面使用</li>
+<li><code>detail</code>: 详情页面</li>
+<li><code>list</code>: 列表页面</li>
+</ul>
+</li>
+<li><code>organizations</code>: 不同组织的目录<ul>
+<li><code>org1</code>: 组织 1</li>
+<li><code>org2</code>: 组织 2</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>吾辈编写了一个简单的示例，代码在 <a target="_blank" rel="noopener" href="https://github.com/rxliuli/example/tree/master/dynamic_state">dynamic_state</a></p>
+<p><img src="https://img.rxliuli.com/20200803203027.png" alt="简单示例"></p>
+<h2 id="其他技术问题"><a href="#其他技术问题" class="headerlink" title="其他技术问题"></a>其他技术问题</h2><ul>
+<li>[x] 如何在运行时根据组织切换功能<ul>
+<li>可以再包一层组件而非简单的从 <code>lazy component map</code> 取出组件</li>
+</ul>
+</li>
+<li>[x] 如何在运行时添加新组织的功能<ul>
+<li>可能需要插件的实现方式，支持动态加载进来，例如 vscode 的插件体系。</li>
+</ul>
+</li>
+<li>[x] 如何使用 hooks 更好的复用逻辑<ul>
+<li>使用 hooks 封装逻辑，使用小型组件封装 UI/UX</li>
+</ul>
+</li>
+<li>[x] 如何在打包阶段干掉不相关组织的代码<ul>
+<li>需要修改 webpack 相关的内容，目前不予考虑</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/07/31/d55f430907ed4972be823c4979b67fb7/" data-id="ckmcqox4x008x0kuva1ss6s32" data-title="React 根据状态动态化功能的一些思考" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" rel="tag">工程化</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/08/02/a4ea45dd6ba445e1b307ef4e1fd3233e/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          关于前端组件通信的一些理解
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/07/16/c3b0b2b4e98e4e31959fdf1fef1af678/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">异步并发调用</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/electron/" rel="tag">electron</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grid/" rel="tag">grid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jetbrains/" rel="tag">jetbrains</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webstorm/" rel="tag">webstorm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/" rel="tag">windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA/" rel="tag">个人</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%AC%E5%8F%B8/" rel="tag">公司</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%A8%E6%8A%A5/" rel="tag">周报</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%A3%E5%91%8A/" rel="tag">宣告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" rel="tag">工程化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90/" rel="tag">开源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%82%E6%AD%A5/" rel="tag">异步</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" rel="tag">待更新</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%8F%E9%AA%8C/" rel="tag">经验</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6/" rel="tag">读书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/css/" style="font-size: 12.14px;">css</a> <a href="/tags/electron/" style="font-size: 15.71px;">electron</a> <a href="/tags/git/" style="font-size: 12.86px;">git</a> <a href="/tags/grid/" style="font-size: 10.71px;">grid</a> <a href="/tags/java/" style="font-size: 19.29px;">java</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/jetbrains/" style="font-size: 12.14px;">jetbrains</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 10.71px;">markdown</a> <a href="/tags/react/" style="font-size: 14.29px;">react</a> <a href="/tags/sql/" style="font-size: 14.29px;">sql</a> <a href="/tags/typescript/" style="font-size: 12.14px;">typescript</a> <a href="/tags/vscode/" style="font-size: 12.86px;">vscode</a> <a href="/tags/vue/" style="font-size: 16.43px;">vue</a> <a href="/tags/webstorm/" style="font-size: 10px;">webstorm</a> <a href="/tags/windows/" style="font-size: 17.14px;">windows</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 12.86px;">个人</a> <a href="/tags/%E5%85%AC%E5%8F%B8/" style="font-size: 10px;">公司</a> <a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 10px;">周报</a> <a href="/tags/%E5%AE%A3%E5%91%8A/" style="font-size: 10px;">宣告</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.57px;">工具</a> <a href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" style="font-size: 17.86px;">工程化</a> <a href="/tags/%E5%BC%80%E6%BA%90/" style="font-size: 10px;">开源</a> <a href="/tags/%E5%BC%82%E6%AD%A5/" style="font-size: 15px;">异步</a> <a href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" style="font-size: 10.71px;">待更新</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 18.57px;">杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BB%8F%E9%AA%8C/" style="font-size: 11.43px;">经验</a> <a href="/tags/%E8%AF%BB%E4%B9%A6/" style="font-size: 12.14px;">读书</a> <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 11.43px;">转载</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/14/8fb2d58463ae4191ac064a76e15bffbd/">2021 第十周</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/12/7e7131c07c984d928ba3fefa7a9cef06/">读书-[颓废与沉默：透视犬儒文化]</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/02/db74e6e5d2444bc3b6e185a7b338bbf6/">electron 开发经验之谈系列-在渲染、主进程间共享数据</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/27/06cb464179cf45c598208534705aae3c/">2020 吾辈在公司推动的前端技术演进</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/23/cd66150d2b86448590fcc9bb2419c0b2/">实践 lerna monorepo</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,2450 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/13/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-0c417ba5085d476b8a1eb521da0662e1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/02/02/0c417ba5085d476b8a1eb521da0662e1/" class="article-date">
+  <time class="dt-published" datetime="2020-02-02T02:15:38.000Z" itemprop="datePublished">2020-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/02/02/0c417ba5085d476b8a1eb521da0662e1/">VSCode VS WebStorm 横向对比</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>不能认清自己，怎能看清别人？</p>
+</blockquote>
+<p>最近很长一段时间，VSCode 似乎成为了前端口中的标准开发编辑器，前端圈到处都在推荐 VSCode，劝说其他人放弃 Sublime, WebStorm, Atom 之流，仿佛真的是<strong>信巨硬，得永生</strong>一般。而吾辈作为一个长时间使用 JetBrains 系 IDE 的全沾开发者，这里就来对比一下 WebStorm 与后起之秀 VSCode 之前的异同点吧</p>
+<h2 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h2><h3 id="插件生态"><a href="#插件生态" class="headerlink" title="插件生态"></a>插件生态</h3><p>VSCode 的生态无疑非常好，基于 Web 技术构建的编辑器同样可以使用 Web 技术开发插件，而 Web 开发人员的数量也确实非常庞大。且由于其轻量跨平台的特性，受到很多开发者的喜爱，将之作为主力文件编辑器或者将其打造成 IDE 使用。它们的插件市场首页分别如下</p>
+<p>VSCode<br><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190830232931.png" alt="VSCode 插件市场"></p>
+<p>WebStorm<br><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190830232701.png" alt="WebStorm 插件市场"></p>
+<p>WebStorm 官方给出的插件总数是 1607，而 VSCode 吾辈并未找到插件的总数量，但显而易见，VSCode 的插件数量应该远远高于这个数字。而且你可以看到 WebStorm 下载量第一的插件仅仅只下载过 <strong>5,558,762</strong> 次，而 VSCode 的热门插件的下载数量是以 M 来计算的。我们来搜索一下前端流行打包工具 <code>webpack</code>，对比一下结果。</p>
+<p>VSCode<br><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190830233610.png" alt="webpack for vscode"></p>
+<p>WebStorm<br><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190830233724.png" alt="webpack for WebStorm"></p>
+<p>是的，VSCode 搜索到了 16 个插件，而 WebStorm 的搜索结果是。。。<strong>0</strong>？不了解 WebStorm 的小伙伴可能会有疑问，难道 WebStorm 不支持 webpack 嘛？那要它何用，还是拉出去砍了吧！<br>泥萌先别急着掀桌子，个中缘由且听吾辈细细说来。之所以出现这种情况，主要是因为二者的策略不同造成的。WebStorm 的目标是让用户拥有开箱即用的生产力工具，下载安装完成后就可以立即进行项目开发了，所以它将很多功能内置了 IDE 之中，或者是由官方开发插件出来，然后直接集成到 IDE 中，给个人开发者开发插件的机会不多。<br>而 VSCode 由于官方的开发团队没那么强大，而且又是免费的开源产品，所以理所当然只能发动广大人民群众的力量了，所以有很多插件就只能交给第三方开发者进行开发和维护。而这点也造成了安装完 VSCode 之后并不能立即使用，还需要下载插件、进行配置等一系列操作。<br>以上两种模式的孰优孰劣早有人分析过，这里吾辈只说自己的使用体验。WebStorm 的开箱即用做的确实比 VSCode 更好，但问题在于如果官方不支持的话就会很难受，因为其实并没有太多人同时精通前端和 Java（是的，必须使用 Java 开发插件）。这也是吾辈目前仍然使用 VSCode 作为主力文本编辑器编辑配置文件，以及使用它写 Markdown 文章的原因，包括这篇文章亦是通过 VSCode 写出来的。<br><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190830235425.png" alt="Markdown 写作截图"></p>
+<blockquote>
+<p>附: 插件开放让第三方实现与官方自己实现并集成的优劣之分参考知乎的一篇文章: <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/35303567">Visual Studio Code 有哪些工程方面的亮点</a>。<br>通过插件来扩展功能的做法已经是司空见惯了，但如何保证插件和原生功能一样优秀呢？历史告诉我们：不能保证。大家可以参考 Eclipse，插件模型可以说是做得非常彻底了，功能层面也是无所不能，但存在几个烦人的问题：不稳定、难用、慢，所以不少用户转投 IntelliJ 的怀抱。可谓成也插件，败也插件。问题的本质在于信息不对称，它导致不同团队写出来的代码，无论是思路还是质量，都不一致。最终，用户得到了一个又乱又卡的产品。所以要让插件在稳定性、速度和体验的层面都做到和原生功能统一，只能是一个美好的愿望。<br>来看看其他 IDE 是怎么做的，Visual Studio 自己搞定所有功能，并且做到优秀，让别人无事可做，这也成就了其 “宇宙第一 IDE” 的美名；IntelliJ 与之相仿，开箱即用，插件可有可无。这么看起来，自己搞定所有的事情是个好办法，但大家是否知道，Visual Studio 背后有上千人的工程团队，显然，这不是 VS Code 这二十几号人能搞定的。他们选择了让大家来做插件，那怎么解决 Eclipse 所遇到的问题呢？<br>这里分享一个小知识 ——Eclipse 核心部分的开发者就是早期的 VS Code 团队。嗯，所以他们没有两次踏入同一条河流。与 Eclipse 不同，VS Code 选择了把插件关进盒子里。<br>这样做首先解决的问题就是稳定性，这个问题对于 VS Code 来说尤为重要。都知道 VS Code 基于 Electron，实质上是个 node.js 环境，单线程，任何代码崩了都是灾难性后果。所以 VS Code 干脆不信任任何人，把插件们放到单独的进程里，任你折腾，主程序妥妥的。<br>VS Code 团队的这一决策不是没有原因的，正如前面提到的，团队里很多人其实是 Eclipse 的旧部，自然对 Eclipse 的插件模型有深入的思考。Eclipse 的设计目标之一就是把组件化推向极致，所以很多核心功能都是用插件的形式来实现的。遗憾的是，Eclipse 的插件运行在主进程中，任何插件性能不佳或者不稳定，都直接影响到 Eclipse，最终结果是大家抱怨 Eclipse 臃肿、慢、不稳定。VS Code 基于进程做到了物理级别的隔离，成功解决了该问题。实际上进程级别的隔离也带出了另一个话题，那就是界面与业务逻辑的隔离。</p>
+</blockquote>
+<h3 id="智能提示"><a href="#智能提示" class="headerlink" title="智能提示"></a>智能提示</h3><p>作为写代码的工具，代码提示已经司空见惯了。但是，就算同样是代码提示，有的代码提示只是简单的代码片段（<code>snippets</code>），而有的却是基于代码语法树分析进行的，甚至于编辑器会学习使用者的习惯，将最常用的提示放在最前面。WebStorm 从始至终一直都是第三种，而 VSCode 最近官方才开发了基于 AI 自动学习的智能提示插件 <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=VisualStudioExptTeam.vscodeintellicode">Visual Studio IntelliCode</a>。</p>
+<p>VSCode<br><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190831030339.gif" alt="VSCode 智能提示"></p>
+<p>WebStorm<br><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190831030506.gif" alt="WebStorm 智能提示"></p>
+<h3 id="自动修复"><a href="#自动修复" class="headerlink" title="自动修复"></a>自动修复</h3><p>我们在日常开发中经常会遇到一些低级问题，而编辑器其实是有可能帮我们自动修复的。这里便对吾辈了解的一些问题进行对比，问题详细信息请参考文章 <a target="_blank" rel="noopener" href="https://blog.rxliuli.com/p/6e442bc3/">JavaScript 规范整理</a></p>
+<blockquote>
+<p>注: VSCode 没有原生的自动修复功能，必须使用插件才行。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>分类</th>
+<th>对比项</th>
+<th>VSCode</th>
+<th>WebStorm</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>命名规范</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>不要使用拼音命名</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td></td>
+<td>函数中的变量</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td></td>
+<td>内部变量</td>
+<td>不支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td></td>
+<td>不要使用无意义的前缀命名</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>ES6</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>优先使用 const/let</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td></td>
+<td>使用新的函数声明方式</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td></td>
+<td>优先使用箭头函数而非 function</td>
+<td>不支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td></td>
+<td>不要使用 if 判断再赋予默认值</td>
+<td>不支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td></td>
+<td>优先使用 Map 做键值对映射而非传统的对象</td>
+<td>不支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td></td>
+<td>优先使用模板字符串拼接多个字符串变量</td>
+<td>不支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td></td>
+<td>当独立参数超过 3 个时使用对象参数并解构</td>
+<td>不支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td></td>
+<td>不要写多余的 await</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td></td>
+<td>不要使用 == 进行比较</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td></td>
+<td>使用计算属性名替代使用方括号表示法赋值</td>
+<td>不支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>逻辑代码</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>不要判断一个 Boolean 值并以此返回 Boolean 值</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td></td>
+<td>不要使用多余的变量</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td></td>
+<td>不要使用嵌套 if</td>
+<td>不支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td></td>
+<td>不要先声明空对象然后一个个追加属性</td>
+<td>不支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td></td>
+<td>不要使用无意义的函数包裹</td>
+<td>不支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td></td>
+<td>不要使用三元运算符进行复杂的计算</td>
+<td>不支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td></td>
+<td>如果变量有所关联则使用对象而非多个单独的变量</td>
+<td>不支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td></td>
+<td>应该尽量解决编辑器警告</td>
+<td>不支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td></td>
+<td>使用类型定义参数对象</td>
+<td>不支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td></td>
+<td>尽量扁平化代码</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td></td>
+<td>自执行函数前面必须加分号</td>
+<td>不支持</td>
+<td>不支持</td>
+</tr>
+</tbody></table>
+<p>下面是一张 WebStorm 官方使用自动修复的动图<br><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190831030641.gif" alt="WebStorm 自动修复"></p>
+<h3 id="重构"><a href="#重构" class="headerlink" title="重构"></a>重构</h3><p>说起重构的话，VSCode 可以简单的说是做的太<strong>少</strong>，而 WebStorm 则是相反做的太<strong>多</strong>，下面继续以表格的形式进行对比。</p>
+<blockquote>
+<p>WebStorm 较新版本已经修复了 2018.02 重命名会自动索引字符串的问题（变成可选项了）。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>分类</th>
+<th>操作</th>
+<th>VSCode</th>
+<th>WebStorm</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>重命名</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>变量重名名</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td></td>
+<td>复杂变量重命名</td>
+<td>不支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td></td>
+<td>全局重命名</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td></td>
+<td>正则重命名</td>
+<td>存在 bug</td>
+<td>支持</td>
+</tr>
+<tr>
+<td></td>
+<td>文件重命名</td>
+<td>不支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>提取</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>提取表达式为变量</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td></td>
+<td>提取代码段为函数</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td></td>
+<td>提取函数到新文件</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+</tbody></table>
+<p>WebStorm 重命名文件<br><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190831031020.gif" alt="WebStorm 重命名文件"></p>
+<h3 id="Git-GitHub-集成"><a href="#Git-GitHub-集成" class="headerlink" title="Git/GitHub 集成"></a>Git/GitHub 集成</h3><p>VSCode 的 Git 支持一直不太行，就算加了插件 <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens">GitLens</a> 也无法比得上 WebStorm。</p>
+<table>
+<thead>
+<tr>
+<th>分类</th>
+<th>操作</th>
+<th>VSCode</th>
+<th>WebStorm</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Git</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>commit 提交</td>
+<td>难用</td>
+<td>支持</td>
+</tr>
+<tr>
+<td></td>
+<td>push 推送</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td></td>
+<td>pull 拉取</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td></td>
+<td>merge 合并</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td></td>
+<td>历史记录</td>
+<td>难用</td>
+<td>支持</td>
+</tr>
+<tr>
+<td></td>
+<td>reset 回退</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td></td>
+<td>revert 回退</td>
+<td>难用</td>
+<td>支持</td>
+</tr>
+<tr>
+<td></td>
+<td>stash 暂存</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td></td>
+<td>branch 分支操作</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>GitHub</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>分享到 GitHub</td>
+<td>不支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td></td>
+<td>从 GitHub 选择拉取</td>
+<td>不支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td></td>
+<td>分享到 Gist</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+</tbody></table>
+<p>放两张图对比一下</p>
+<p>VSCode GitLens<br><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190831022549.png" alt="GitLens"></p>
+<p>WebStorm<br><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190831022643.png" alt="WebStorm Git"></p>
+<h3 id="前端支持"><a href="#前端支持" class="headerlink" title="前端支持"></a>前端支持</h3><p>前面提过，VSCode 生态很好，基本上很多语言/框架都有支持，而且官方也有一些非常优秀的插件。但是，有一些地方很重要，VSCode 对于 HTML/CSS/JavaScript 这些 Web 基本元素的支持相比于 WebStorm 确实可以说的上是糟糕。</p>
+<p>先来测试前端三剑客: <code>HTML/CSS/JavaScript</code>。</p>
+<p>VSCode<br><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190831004550.gif" alt="VSCode"></p>
+<p>WebStorm<br><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190831003352.gif" alt="WebStorm"></p>
+<p>可以看到，对于 HTML/CSS 之间的代码提示、跳转这些基本功能，VSCode 其实并没有做好。现代前端说是不再写 HTML 了，但实际上终究还是要写（即便是 JSX 还是要符合写 HTML 的直觉的），VSCode 代码提示在这里明显不太够看。还有一点也很有趣，VSCode 在打完 <code>document.querySelector(&#39;#hello&#39;)</code> 之后彻底没了动静，而 WebStorm 在 <code>style</code> 输入完成之后，立刻就有了各种 CSS 属性提示了。</p>
+<blockquote>
+<p>附: VSCode 中通过输入 <code>h1.hello#hello</code> Tab 之后就得到代码是一种前端 HTML 代码编写方式，被称为 <a target="_blank" rel="noopener" href="https://www.qianduan.net/zen-coding-a-new-way-to-write-html-code/">Zen Coding</a>。但实际上，这种编写方式在代码提示方面存在劣势，所以使用 WebStorm 时并未演示。<br>附: VSCode 引用文件路径提示需要插件 <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=christian-kohler.path-intellisense">Path Intellisense</a></p>
+</blockquote>
+<p>对于库的开发者而言最难受的地方是 VSCode 实质上依赖于 TypeScript 才能做到代码提示，如果你也像吾辈是一位 JavaScript SDK 的开发者，那么也会遇到这件令人郁闷的事情: 如果想要使用你的 JavaScript SDK 的 VSCode 用户有正常的代码提示的话，你就必须接触 TypeScript。要么使用 TypeScript 重构整个 SDK，要么写 <em>.d.ts</em> 专门为 VSCode 维护一份注释文档，详情可以参考文章 <a target="_blank" rel="noopener" href="https://blog.rxliuli.com/p/eeb7bc5/">JavaScript =&gt; TypeScript 迁移体验</a>。</p>
+<h3 id="历史记录"><a href="#历史记录" class="headerlink" title="历史记录"></a>历史记录</h3><p>不知你是否曾遇到过，正在编辑着一个文件，突然断电，或者是因为其他什么原因，导致文件内容被清空了。或者是误删了代码之后之前的代码还没提交，又不能撤回那么多次，导致代码重写的经历呢？吾辈就曾经经历过，所以对本地历史记录这个功能相当重视，然而很遗憾，VSCode 依旧需要第三方插件 <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=xyz.local-history">Local History</a> 才能支持。</p>
+<p>VSCode Local History<br><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190831024208.png" alt="VSCode Local History"></p>
+<p>WebStorm<br><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190831024420.png" alt="WebStorm"></p>
+<p>两者相比主要有以下不同</p>
+<table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>VSCode</th>
+<th>WebStorm</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>原始文件是否为人类可读</td>
+<td>是</td>
+<td>否（XML 不列入人类可读格式中）</td>
+</tr>
+<tr>
+<td>是否可以添加标签</td>
+<td>否</td>
+<td>是</td>
+</tr>
+<tr>
+<td>是否可以对比</td>
+<td>是</td>
+<td>是</td>
+</tr>
+<tr>
+<td>是否可以合并</td>
+<td>否</td>
+<td>是</td>
+</tr>
+</tbody></table>
+<h3 id="主题配色"><a href="#主题配色" class="headerlink" title="主题配色"></a>主题配色</h3><p>两者都支持黑暗主题，而且都是默认设置，也同样支持使用插件定制界面。下面是两者的截图</p>
+<p>VSCode<br><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190830231558.png" alt="VSCode 主界面"></p>
+<p>WebStorm<br><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190830231815.png" alt="WebStorm 主界面"></p>
+<p>事实上，上面两者都使用了主题。VSCode 是 Monokai，WebStorm 是 Material。但其实 WebStorm 的 <a target="_blank" rel="noopener" href="https://plugins.jetbrains.com/plugin/8006">Material 主题</a> 还是存在一些 Bug 的，例如有些地方图标莫名的错位之类，VSCode 目前吾辈还未曾遇到过这类问题。</p>
+<h3 id="使用性能"><a href="#使用性能" class="headerlink" title="使用性能"></a>使用性能</h3><p>WebStorm 确实很吃内存，尤其是项目刚刚打开的时候，索引会疯狂地吃 CPU/内存/硬盘，如果电脑性能不行的话这个过程所需时间可能泡面都够了。但基于 Chrome 内核的 VSCode 在使用各种插件打造成前端 IDE 之后吃的内存也并不少。吾辈打开了项目 <a target="_blank" rel="noopener" href="https://github.com/rxliuli/rx-util">rx-util</a>，可以看到 VSCode 每个插件确实都放在了单独的进程里（Chrome 系的习惯 #笑），相比之下 WebStorm 只有两个进程，其中一个还是启动的 nodejs，整体对比下来其实相差不大。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190831000118.png" alt="任务管理器"></p>
+<hr>
+<p>不得不承认的是，WebStorm 吃的性能终究还是要比 VSCode 多。但是，能用钱堆硬件解决的问题，能算问题么？</p>
+<p><img src="/images/ab1b4964df014897afb3f1b2832313d0.png" alt="1613744562293"></p>
+<h3 id="工具集成"><a href="#工具集成" class="headerlink" title="工具集成"></a>工具集成</h3><p>JetBrains IDE 深度集成工具链，倾向于一切都以可视化界面点击/快捷键完成操作。而 VSCode 则有所不同，它有很多功能需要使用命令行/配置文件的形式完成。吾辈最开始使用 VSCode 时它甚至还没有配置界面，也只能使用 <code>launch.json</code> 启动 debugger（最新版似乎已经不是了），真是被吓到了。<br>在调试、运行支持的工具时，一般 VSCode 仍然需要使用命令行工具，或者在需要调试时编写 <code>launch.json</code> 配置脚本。但 WebStorm 则更加深度集成的工具链，倾向于一切都以可视化界面点击/快捷键完成操作。拿运行和调试代码为例，统一支持可视化的形式运行或调试（自动生成 ide 配置，并支持在必要的时候调整），目前支持 npm/gulp/浏览器 js/jest/nodejs/electron/typescript/git。</p>
+<p>至于有人说一个命令的事情为什么要 ide 集成？</p>
+<ul>
+<li>安装依赖的时候停止索引，避免影响性能</li>
+<li>简单启动调试（至今吾辈仍然没有彻底搞懂 vscode 的调试，为什么不能点一下就启动调试？至于是浏览器、nodejs、electron 可能存在不同的差异，让 ide 去屏蔽这一层不就好了，反正 ide 能识别出来项目使用的技术栈（至少是 ide 支持的技术栈））</li>
+<li>显示单独的命令视图</li>
+<li>快速查找/运行命令</li>
+</ul>
+<blockquote>
+<p>有可能通过插件支持，但使用 VSCode 的人似乎更倾向于使用命令行（懒得找）。</p>
+</blockquote>
+<h3 id="远程-协作编辑"><a href="#远程-协作编辑" class="headerlink" title="远程/协作编辑"></a>远程/协作编辑</h3><p>VSCode 通过 <a target="_blank" rel="noopener" href="https://github.com/MicrosoftDocs/live-share">live-share</a> 实现了远程开发，但 WebStorm 至今为止仍然 <a target="_blank" rel="noopener" href="https://blog.jetbrains.com/tag/codewithme/">未能完全支持</a>。</p>
+<table>
+<thead>
+<tr>
+<th>比较项</th>
+<th>VSCode</th>
+<th>WebStorm</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>协同编辑</td>
+<td>是</td>
+<td>EAP 阶段</td>
+</tr>
+<tr>
+<td>WSL 支持</td>
+<td>是</td>
+<td>否</td>
+</tr>
+<tr>
+<td>远程项目</td>
+<td>是</td>
+<td>否</td>
+</tr>
+<tr>
+<td>画板支持</td>
+<td>是</td>
+<td>否</td>
+</tr>
+<tr>
+<td>聊天</td>
+<td>是</td>
+<td>否</td>
+</tr>
+<tr>
+<td>语音</td>
+<td>是</td>
+<td>否</td>
+</tr>
+<tr>
+<td>免费</td>
+<td>是</td>
+<td>EAP 免费</td>
+</tr>
+</tbody></table>
+<h3 id="东家"><a href="#东家" class="headerlink" title="东家"></a>东家</h3><p>VSCode 背后站着微软，俗成 **M$**，开发了宇宙最强 IDE Visual Studio。而 WebStorm 则是基于 JetBrains 平台专门为前端进行特殊处理优化的 IDE，背后则是业界最智能的 IDE 的开发公司 JetBrains（捷克公司）。两者在 IDE/编辑的开发上都相当有经验，然而，有一点本质的不同：IDE 对于 JetBrains 而言几乎是全部，而 VSCode 对于 M$ 则只是开发的一部分 – 编辑器。</p>
+<p><code>VSCode =&gt; VSCode Remote =&gt; GitHub =&gt; GitHub Actions =&gt; Azure</code>，从 M$ 的一系列变化来看，这对开发者是真的相当上心，从本地开发、远程协作、版本控制、自动化流程控制 CI/CD 到部署到云端，完全是一站式的体验。相比于国内的云服务商，MS 显然更加开放、更加为开发者着想。<br>而 JetBrains，虽然现在也有了编程语言 <code>Kotlin</code>、项目管理工具 <code>Space</code>（包含 CI/CD 工具 <code>TeamCity</code>），但本质上在其领域内，除了 IDE，其他的东西都没能形成特别大的优势（Kotlin 只能用于开发 Android 平台，而 Web 技术甚至能开发全端；<code>TeamCity</code> 虽然很漂亮，但似乎人们更喜欢开源的 <code>Jenkins</code>）。<br>未来 VSCode 一统天下似乎是必然之势，但目前而言，其尚且年幼，唯有 WebStorm 正值壮年。</p>
+<blockquote>
+<p>附：例如某只企鹅，开发的大多数云服务都是私有服务，使用上比开源的还难用而且还强制绑定到自家云服务上，使人不得不用全家桶（问题是体验又烂，文档死难找）<br>附: 居然连 “文档和 Demo 有可能过期，但代码一定是最新的” 这种话都能说出来，与 MS 花大力气创造开源的 <code>VSCode</code> 简直是天壤之别。<br>附: 没有对比就没有伤害！</p>
+</blockquote>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>其实在 Atom/VSCode 出现之前，WebStorm 因为在这个领域没有对手而发展缓慢，它们的出现使得 WebStorm 有了压力，良性竞争，这当然是好事。即便如此，就目前而言，VSCode 作为一个 IDE 来讲仍然比不上 JetBrains 全家桶系列。<br>说了上面这么多，总的来说: 如果你需要一个文本编辑器，那么推荐你用 VSCode，因为它既漂亮又生态丰富，想写点什么很方便。但是，如果你需要真正开发项目，则 WebStorm 更加合适，完全开箱即用的体验，不需要安装/配置任何插件就能立刻开始项目，强大的编辑器可以让你写代码更舒服一点。（其实是没钱就用免费的 VSCode，有钱就上 WebStorm 啦！）</p>
+<blockquote>
+<p>ref link: <a target="_blank" rel="noopener" href="https://dev.to/mokkapps/why-i-switched-from-visual-studio-code-to-jetbrains-webstorm-939">Why I Switched From Visual Studio Code To JetBrains WebStorm</a><br>吾辈个人非常同意作者及相关评论的观点：为 WebStorm 付费能减少折腾 VSCode 的时间，VSCode 的真正优势是启动时间，使用内存和免费。</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/02/02/0c417ba5085d476b8a1eb521da0662e1/" data-id="ckmcqox5i00bk0kuv04tkfr6b" data-title="VSCode VS WebStorm 横向对比" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-9b97e55025d64d04b1487be92ebfd51d" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/02/02/9b97e55025d64d04b1487be92ebfd51d/" class="article-date">
+  <time class="dt-published" datetime="2020-02-02T02:15:38.000Z" itemprop="datePublished">2020-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/02/02/9b97e55025d64d04b1487be92ebfd51d/">读书 [黑客与画家]</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><blockquote>
+<p>黑客新想法的最佳来源，并非那些名字里有［计算机］三个字的理论领域，而是来自于其他创作领域。</p>
+</blockquote>
+<p>这是一篇读书感悟的文章，来源于最近阅读的书籍 <a target="_blank" rel="noopener" href="https://book.douban.com/subject/6021440/">黑客与画家</a>。</p>
+<blockquote>
+<p>摘抄自豆瓣<br><strong>书籍简介</strong>：<br>     本书是硅谷创业之父 Paul Graham 的文集，主要介绍黑客即优秀程序员的爱好和动机，讨论黑客成长、黑客对世界的贡献以及编程语言和黑客工作方法等所有对计算机时代感兴趣的人的一些话题。书中的内容不但有助于了解计算机编程的本质、互联网行业的规则，还会帮助读者了解我们这个时代，迫使读者独立思考。<br>     本书适合所有程序员和互联网创业者，也适合一切对计算机行业感兴趣的读者。<br><strong>作者简介</strong>:<br>     保罗・格雷厄姆，《黑客与画家》一书的作者，硅谷创业之父。1964 年，出生于匹兹堡郊区的一个中产阶级家庭。父亲是设计核反应堆的物理学家，母亲在家照看他和他的妹妹。青少年时代，格雷厄姆就开始编程。但是，他还喜欢许多与计算机无关的东西，这在编程高手之中是很少见的。<br>     保罗・格雷厄姆在康奈尔大学读完本科，然后在哈佛大学获得计算机科学博士学位。1995 年，他创办了 Viaweb，帮助个人用户在网上开店，这是世界上第一个互联网应用程序。1998 年夏天，Yahoo! 公司收购了 Viaweb，收购价约为 5000 万美元。<br>     此后，他架起了个人网站 paulgraham.com，在上面撰写了许许多多关于软件和创业的文章，以深刻的见解和清晰的表达而著称，迅速引起了轰动。2005 年，他身体力行，创建了风险投资公司 Y Combinator，将自己的理论转化为实践，目前已经资助了 80 多家创业公司。现在，他是公认的互联网创业权威。</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190713024824.png" alt="书籍照片"></p>
+<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>之前吾辈也曾经坚信电子书籍（<strong>Epub/PDF</strong>）要比纸质书籍更好，方便携带，随时都能阅读。直到遇到了一位 dalao 的指点 – <strong>只要买了书，放在那里，总有机会去看看的。</strong> 之后，吾辈便尝试买了一些实体书，晚上回来闲暇片刻便会看看。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190713024216.jpg" alt="书架图片"></p>
+<p>最近一周，吾辈便把黑客与画家看完了。当然，之前已经看过电子版的了。作者真的很厉害，既是第一个互联网程序的开发者，也是一个画家，更是一个顶级<strong>黑客</strong>（非<strong>骇客</strong>）。然后，他写完这本书之后，还变成了作者。当然，译者也同样是位知名人物 – <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/">阮一峰</a>。</p>
+<h2 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h2><p>读这本书的时候，才发现<strong>真-大佬</strong>的想法真的很厉害，尤其是关于创造财富那一章，有许多思想值得吾辈深思。<br>下面摘抄一些内容并谈谈吾辈的想法</p>
+<blockquote>
+<p>书呆子不受欢迎的真正原因，是他们脑子里都在想着别的事情，他们的注意力都放在读书或者观察世界上面，而不是穿衣打扮、开晚会上面。</p>
+</blockquote>
+<p>嗯，吾辈想这大抵是作者的亲身体会：作为一个聪明人却不受欢迎 #笑 不过就吾辈经历而言，读书好的人一般也不会太受排挤，或许这是因为国情不同的原因吧 – 国内不论如何都把成绩作为第一位，而据作者所说美国的中学生并不会特别对待学习，至少，不会拼命去学，也不会因此自杀。</p>
+<blockquote>
+<p>黑客与画家的共同之处，在于他们都是创作者。与作曲家、建筑师、作家一样，黑客和画家都是试图创作出优秀的作品。他们本质上都不是在做研究，虽然在创作过程中，他们可能会发现一些新技术（那样当然更好）。</p>
+</blockquote>
+<p>想想国内的大环境，吾辈瞬间心酸得落下了眼泪。说是创作者，但实际上，开发者被称为<strong>码农</strong>不是没有道理的 – 只是实现经理所要求的功能，而不是决定功能应该如何设计 – 这被交给了其他人！当然，拥有/参与开源项目可以减少这个问题，因为可以决定功能如何设计而非实现。但本质上还是在代码的圈子里打转，并没有创造出人们真正需要用到的东西。</p>
+<blockquote>
+<p>程序写出来是给人看的，附带能在机器上运行。</p>
+</blockquote>
+<p>这不是吾辈第一次看见这句话了，但在工作过程中，吾辈发现实际上这句话并没有多少开发者真的在意过 – 包括一些 dalao。为了性能死扣算法，没错吾辈就是在吐槽一些公司任何职位都要面试算法，简直成 <a target="_blank" rel="noopener" href="https://leetcode.com/">leetcode</a> 算法面试公司了。大部分场景实际上并不需要开发者手写算法进行优化，因为现在的计算机已经足够快了。手写算法再加上耦合业务，只会让代码变得无比丑陋，难以维护 – 仅仅是为了在某个地方稍微快一点。</p>
+<blockquote>
+<p>在某些地方，自行其道，完全不替读者着想，被看成是高水平、高智商的表现，甚至都发展成了一种风尚。</p>
+</blockquote>
+<p>是的，有些人就是为了炫技而写出来各种<em>奇葩</em>的代码，导致其他人再看代码时，纷纷惊呼：“<strong>这是什么神仙代码？！</strong>”。在他们看来，写出来的代码让别人看不懂，自己说的话让别人听不懂，是一种<em>高水准</em>的表现，甚至于说：“<strong>这降低了 SB 来烦我的概率</strong>”。甚至于刻意不写注释，然后辩解说：“<strong>类型系统就是最好的注释</strong>”<br>关于这点，作者也在后面进一步评论了。</p>
+<blockquote>
+<p>但是，我不觉得 “换位思考” 与智商之间存在任何联系。在数学和自然科学领域，你用学习怎么向别人表达自己，也能却得很好的成就。而那些领域的人普遍很聪明，所以人们很自然地就把 “聪明” 与 “不懂得换位思考” 联系了起来。但是，世界上还有许许多多很笨的人，也同样不懂得 “换位思考”。</p>
+</blockquote>
+<p>最后一句真是说出了大实话 – <strong>伪-大佬</strong>。</p>
+<blockquote>
+<p>我家附近，一辆汽车的保险杠贴着一张粘纸，上面写着 “太麻烦，不如死”（death before inconvenience）。大多数人，在大多数时候，总是选择最省事的做法。如果互联网软件能够击败桌面软件，一定是赢在更方便这一优势上。无论从用户的角度还是从开发者的角度来看都是如此。</p>
+</blockquote>
+<p>是的，现在浏览器已经击败了客户端软件，甚至在原本必须要使用客户端的地方使用 Web 技术进行了入侵（<a target="_blank" rel="noopener" href="https://electronjs.org/">Electron</a>，<a target="_blank" rel="noopener" href="https://facebook.github.io/react-native/">React Native</a>）。但这并不意味人们知道这件事就会真的对用户更友好，尤其是对于免费的开源程序而言。用户不再是首位要素，动辄要求使用者去看源码，吐槽就会被说 “<strong>爱用用不用滚，You can you do？</strong>”。你敢相信？但这就是国内开源现状。</p>
+<blockquote>
+<p>开发软件需要的程序员人数减少，不仅意味着省下更多的钱。正如《人月神话》一书中所指出的，向一个项目增加人手，往往会拖慢项目进程。随着参与人数的增加，人与人之间需要的沟通呈现指数式增长。人数越来越多，开会讨论各个部分如何协同工作所需要的时间越来越长，无法预见的互相影响越多越大，产生的 bug 也越来越多。幸运的是，这个过程的逆向也成立：人数越来越少，软件开发的效率将指数式增长。</p>
+</blockquote>
+<p>所以说这就是小公司能生存下来的原因么？#笑 想到之前项目实际上只有 3 个人全职开发就发现，其实也不是那么奇怪呢</p>
+<blockquote>
+<p>桌面软甲迫使用户变成系统管理员，互联网软件则是迫使程序员变成系统管理员：用户的压力变小了，程序员的压力变大了。</p>
+</blockquote>
+<p>唉，小公司别说系统管理员了，就连前端，后端，运维，测试都要会一点才行，必须是 <strong>多面手/万金油</strong> 才能生存下去。</p>
+<blockquote>
+<p>许多人从小就认定世界上的财富总额是固定不变的，这样想的人数多的惊人。<br>小时候我就对这一点深信不疑：如果夫人拿走了所有的钱，那么其他人就变得更穷了。许多成年人至今都是类似看法的信徒。每当有人提到 <em>x%</em> 的人口占有了 <em>y%</em> 的财富，他的言下之意往往就包含了这种错误的观点。</p>
+</blockquote>
+<p>嘛，吾辈也曾经是这样想的人之一（一个普通的不能再普通的人）。但这个观点在看完本书后刷新了，财富在净增长 – 代价是地球本身。</p>
+<blockquote>
+<p>确实有一些 CEO 的收入太高，不合理，但是有没有 CEO 的收入不足以体现他所创造的财富的呢？乔布斯就是这样的例子。他拯救了濒临崩溃的苹果公司，扭转了危机，削减了成本，成功决策了下一代产品。他的收入就低于他的工作所创造的价值。</p>
+</blockquote>
+<p>是的，这点确实很厉害，尤其是吾辈正在看的 <a target="_blank" rel="noopener" href="https://book.douban.com/subject/26792439/">浪潮之巅</a> 一书也谈及了他，确实是个 <strong>真-大佬</strong>。</p>
+<blockquote>
+<p>在垃圾邮件业中，如果发送销售类垃圾邮件受到限制，那么整个行业将不可避免地受到重创。“行业”这个词是很准确的，发送垃圾邮件的人其实都是商人，他们这么做只是因为这招很有效。虽然垃圾邮件的回应率低到不能再低了（不超过百万分之 15，相比之下，传统的邮寄商品目录的回应率是百万分之 3000），但是发送垃圾邮件的成本实际上为零，所以它还是有效的。但是对于收到垃圾邮件的人来说，成本却很高昂，假定有 100 万人分别收到一封垃圾邮件，每人花一秒钟删除，累计起来就相当于一个人 5 个星期的工作量，而发送人连一分钱也不用付出。<br>不过，虽然接近于零，发送垃圾邮件还是有成本的^。所以，只要我们把垃圾邮件的回应率降得很低（不管手段是直接过滤，还是让垃圾邮件被迫掩盖它们的销售意图），商家就会发现，发送垃圾邮件是一件经济上不值得的事情。</p>
+</blockquote>
+<p>这让吾辈想到了现在的广告过滤行业，嗯，没错是行业 – <a target="_blank" rel="noopener" href="https://adblockplus.org/">Adblock Plus</a> 把这事做成了生意。广告屏蔽插件流行了起来之后，广告受益者就会烦恼，会提示让用户关闭广告过滤以支持网站，或者，直接关闭页面拒绝使用 – 直到关闭了广告过滤为止。后来，开始出现了屏蔽那些网页上检测广告的脚本 – 反屏蔽广告脚本。这个斗争其实可以一直进行下去，终究是收益与代价的权衡罢了。</p>
+<blockquote>
+<p>好设计是简单的设计。从数学领域到绘画领域，你都可以听到这种说法。在数学中，它表示简短的证明往往是更好的证明。特别是对于数学公理来说，少即是多。在编程中，这种说法也基本适用。</p>
+</blockquote>
+<p><strong>少即是多</strong>，能满足这一点的库/框架并不多，<a target="_blank" rel="noopener" href="https://www.lodashjs.com/">Lodash</a> 是一个正例，<a target="_blank" rel="noopener" href="https://reactjs.org/">React</a> 某种程度上来说是个反例。不管是程序（<a target="_blank" rel="noopener" href="https://web.sanguosha.com/">三国杀</a>），还是库（<a target="_blank" rel="noopener" href="https://github.com/rxliuli/rx-util">rx-util</a>），开发者总是喜欢增加功能，逐渐提高复杂度，最后让人难以接受。这里吐槽一下国产程序，只会逐渐增加功能，永远学不会什么叫<strong>减法</strong>。</p>
+<blockquote>
+<p>高级语言比汇编语言更接近人类语言，而某些高级语言又比其他语言更进一步。举例来说，C 语言是一种低层次语言，很接近硬件，几乎堪称可移植的汇编语言，而 Lisp 语言的层次则是相当高。</p>
+</blockquote>
+<p><code>Lisp</code> 之前一直有听闻过，但吾辈还从未真正使用过。在编程语言领域，吾辈接触过 <code>Java</code>, <code>JavaScript</code>, <code>Scala</code>, <code>C#</code>，然而他们都不能支持 <code>Lisp</code> 中一些非常高级的功能（宏）。</p>
+<p>下面作者列出了 Lisp 的创新功能</p>
+<ol>
+<li> 条件结构（即 if-then-else 结构）。现在大家都觉得这是理所当然的，但是 FortranI 就没有这个结构，它只有基于底层机器指令的 goto 结构。</li>
+<li> 函数也是一种数据类型。在 Lisp 语言中，函数与整数或字符串一样，也属于数据类型的一种。它有自己的字面表示形式（literal representation），能够存储在变量中，也能当作参数传递。一种数据类型应该有的功能，它都有。</li>
+<li>递归。Lisp 是第一种支持递归函数的高级语言^。<br> ^「Lisp 语言的许多特性（比如，把程序写成列表形式以及实现某种形式的递归）都在 20 世纪 50 年代的 IPL-V 语言中出现过。但是，IPL-V 更像是汇编语言，它的程序中充满了操作码/地址对。参见 Alien Newell 等人编著的《IPL-V 语言操作手册》（Information Processing Language-V Manual），Prentice-Hail，1961 年出版。」</li>
+<li>变量的动态类型。在 Lisp 语言中，所有变量实际上都是指针，所指向的值有类<br> 型之分，而变量本身没有。复制变量就相当于复制指针，而不是复制它们指向的数据。</li>
+<li> 垃圾回收机制。</li>
+<li>程序由表达式组成。Lisp 程序是一些表达式树的集合，每个表达式都返回一个值。这与 Fortran 和大多数后来的语言都截然不同，它们的程序由表达式和语句组成。区分表达式和语句在 Fortran I 中是很自然的，因为它不支持语句嵌套。所以，如果你需要用数学式子计算一个值，那就只有用表达式返回这个值，没有其他语法结构可用，否则就无法处理这个值。<br> 后来，新的编程语言支持块结构，这种限制当然也就不存在了。但是为时已晚，表达式和语句的区分已经根深蒂固。它从 Fortran 扩散到 Algol 语言，接着又扩散到它们两者的后继语言。</li>
+<li>符号类型。符号实际上是一种指针，指向存储在散列表中的字符串。所以，比较<br> 两个符号是否相等，只要看它们的指针是否一样就行了，不用逐个字符地比较。</li>
+<li> 代码使用符号和常量组成的树形表示法。</li>
+<li> 无论什么时候，整个语言都是可用的。Lisp 并不真正区分读取期、编译期和运行期。你可以在读取期编译或运行代码，也可以在编译期读取或运行代码，还可以在运行期读取或者编译代码。</li>
+</ol>
+<p>Lisp 确实开创了许多功能，成功引起了吾辈的兴趣，以后有机会会去看一下作者写的 Lisp 的书籍吧</p>
+<blockquote>
+<p>大多数程序员也许无法分辨语言的好坏。但是，这不代表优秀的编程语言会被埋没，专家级黑客一眼就能认出它们，并且会拿来使用。虽然他们人数很少，但就是这样一小群人写出了人类所有优秀软件。他们有着巨大的影响力，他们使用什么语言，其他程序员往往就会跟着使用。老实说，很多时候这种影响力更像是一种命令，对于其他程序员来说，专家级黑客就像自己的老板或导师，他们说哪种语言好用，自己就会乖乖地跟进。<br>编程语言的最高境界一直在发展之中。虽然语言的核心功能就像大海的深处，很少有变化，但是函数库和开发环境之类的东西就像大海的表面，一直在汹涌澎湃。</p>
+</blockquote>
+<p>是啊，所以现在流行 react，流行 webpack，流行 typescript，甚至曾经有人吐槽 <a target="_blank" rel="noopener" href="https://blog.rxliuli.com/p/78dc231c/">2016 年里做前端是怎样一种体验</a>。各种各样的框架和库，说不定过不了一段时间就死掉了（前车之鉴），这些都是浪潮的表面。不过总有人喜欢折腾代码，而不是完成一个真正可以给其他人用的东西。疯狂造一堆<del>没人用的</del>轮子，美其名曰不做调参工程师。当然，尝试实现便于了解深层原理，然而如果不加节制什么东西都觉得自己造才好就是典型的浪费时间。</p>
+<blockquote>
+<p>先做出原型，再逐步加工做出成品，这种方式有利于鼓舞士气，因为它使得你随时都可以看到工作的成效。开发软件的时候，我有一条规则：任何时候，代码都必须能够运行。如果你正在写的代码一个小时之后就可以看到运行结果，这好比让你看到不远处就是唾手可得的奖励，你因此会受到激励和鼓舞。<br>跟你说实话吧，画家之间甚至流传着一句谚语：“画作永远没有完工的一天，你只是不再画下去而已。”这种情况对于第一线的程序员真是再熟悉不过了。</p>
+</blockquote>
+<p>是啊，能看到效果的原型很重要，看不到效果的开发是艰苦而烦躁的。而且出现错误了都无法进行调试，实在是不能更糟糕了。有些开源项目目标很大，花费的时间过长，长期做不出来一个可用版本，久而久之，就半路放弃了。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>总而言之，上面是一些看书的想法以及吐槽，这本书籍吾辈强烈推荐 – 即便不是 IT 行业。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/02/02/9b97e55025d64d04b1487be92ebfd51d/" data-id="ckmcqox5n00c50kuv6ra56352" data-title="读书 [黑客与画家]" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6/" rel="tag">读书</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-bd28a44b915d42979c145bf8dfef8e98" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/02/02/bd28a44b915d42979c145bf8dfef8e98/" class="article-date">
+  <time class="dt-published" datetime="2020-02-02T02:15:38.000Z" itemprop="datePublished">2020-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/02/02/bd28a44b915d42979c145bf8dfef8e98/">markdown 语法说明</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>已经有更好、更全面的介绍了，此页面将没有太多参考的价值。<br>参考：<a target="_blank" rel="noopener" href="https://www.markdownguide.org/">markdown guide</a>, <a target="_blank" rel="noopener" href="https://www.markdown.xyz/">中文翻译</a></p>
+</blockquote>
+<ul>
+<li><a href="#markdown-%E8%AF%AD%E6%B3%95%E8%AF%B4%E6%98%8E">markdown 语法说明</a><ul>
+<li><a href="#%E6%A6%82%E8%BF%B0">概述</a><ul>
+<li><a href="#%E5%AE%97%E6%97%A8">宗旨</a></li>
+<li><a href="#%E5%85%BC%E5%AE%B9-html">兼容 HTML</a></li>
+<li><a href="#%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6%E8%87%AA%E5%8A%A8%E8%BD%AC%E6%8D%A2">特殊字符自动转换</a></li>
+</ul>
+</li>
+<li><a href="#%E5%8C%BA%E5%9D%97%E5%85%83%E7%B4%A0">区块元素</a><ul>
+<li><a href="#%E6%AE%B5%E8%90%BD%E5%92%8C%E6%8D%A2%E8%A1%8C">段落和换行</a></li>
+<li><a href="#%E6%A0%87%E9%A2%98">标题</a></li>
+<li><a href="#%E5%8C%BA%E5%9D%97%E5%BC%95%E7%94%A8-blockquotes">区块引用 Blockquotes</a></li>
+<li><a href="#%E5%88%97%E8%A1%A8">列表</a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81%E5%8C%BA%E5%9D%97">代码区块</a></li>
+<li><a href="#%E5%88%86%E9%9A%94%E7%BA%BF">分隔线</a></li>
+</ul>
+</li>
+<li><a href="#%E5%8C%BA%E6%AE%B5%E5%85%83%E7%B4%A0">区段元素</a><ul>
+<li><a href="#%E9%93%BE%E6%8E%A5">链接</a></li>
+<li><a href="#%E5%BC%BA%E8%B0%83">强调</a></li>
+<li><a href="#%E5%88%A0%E9%99%A4">删除</a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81">代码</a></li>
+<li><a href="#%E5%9B%BE%E7%89%87">图片</a></li>
+</ul>
+</li>
+<li><a href="#%E5%85%B6%E5%AE%83">其它</a><ul>
+<li><a href="#%E8%87%AA%E5%8A%A8%E9%93%BE%E6%8E%A5">自动链接</a></li>
+<li><a href="#%E5%8F%8D%E6%96%9C%E6%9D%A0">反斜杠</a></li>
+</ul>
+</li>
+<li><a href="#%E6%89%A9%E5%B1%95%E8%AF%AD%E6%B3%95">扩展语法</a><ul>
+<li><a href="#%E4%BD%BF%E7%94%A8--%E6%8D%A2%E8%A1%8C">使用 <code>\</code> 换行</a></li>
+<li><a href="#%E8%AF%AD%E8%A8%80%E7%89%B9%E5%AE%9A%E4%BB%A3%E7%A0%81%E5%9D%97">语言特定代码块</a></li>
+<li><a href="#%E8%A1%A8%E6%A0%BC">表格</a></li>
+<li><a href="#%E6%96%87%E7%AB%A0%E7%9B%AE%E5%BD%95">文章目录</a></li>
+<li><a href="#%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8">任务列表</a></li>
+</ul>
+</li>
+<li><a href="#markdown-%E5%85%8D%E8%B4%B9%E7%BC%96%E8%BE%91%E5%99%A8">Markdown 免费编辑器</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
+<p>本文引用自 <a target="_blank" rel="noopener" href="https://www.appinn.com/markdown/">https://www.appinn.com/markdown/</a>，吾辈添加/修复了一些内容。<br>本文同步部署到为了网站 <a target="_blank" rel="noopener" href="https://md-syntax.rxliuli.com/">https://md-syntax.rxliuli.com/</a>，如有需要可以收藏（#笑）。</p>
+</blockquote>
+<h3 id="宗旨"><a href="#宗旨" class="headerlink" title="宗旨"></a>宗旨</h3><p>Markdown 的目标是实现「易读易写」。</p>
+<p>可读性，无论如何，都是最重要的。一份使用 Markdown 格式撰写的文件应该可以直接以纯文本发布，并且看起来不会像是由许多标签或是格式指令所构成。Markdown 语法受到一些既有 text-to-HTML 格式的影响，包括 <a target="_blank" rel="noopener" href="http://docutils.sourceforge.net/mirror/setext.html">Setext</a>、<a target="_blank" rel="noopener" href="http://www.aaronsw.com/2002/atx/">atx</a>、<a target="_blank" rel="noopener" href="http://textism.com/tools/textile/">Textile</a>、<a target="_blank" rel="noopener" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a>、<a target="_blank" rel="noopener" href="http://www.triptico.com/software/grutatxt.html">Grutatext</a> 和 <a target="_blank" rel="noopener" href="http://ettext.taint.org/doc/">EtText</a>，而最大灵感来源其实是纯文本电子邮件的格式。</p>
+<p>总之， Markdown 的语法全由一些符号所组成，这些符号经过精挑细选，其作用一目了然。比如：在文字两旁加上星号，看起来就像<strong>强调</strong>。Markdown 的列表看起来，嗯，就是列表。Markdown 的区块引用看起来就真的像是引用一段文字，就像你曾在电子邮件中见过的那样。</p>
+<h3 id="兼容-HTML"><a href="#兼容-HTML" class="headerlink" title="兼容 HTML"></a>兼容 HTML</h3><p>Markdown 语法的目标是：成为一种适用于网络的<em>书写</em>语言。</p>
+<p>Markdown 不是想要取代 HTML，甚至也没有要和它相近，它的语法种类很少，只对应 HTML 标记的一小部分。Markdown 的构想<em>不是</em>要使得 HTML 文档更容易书写。在我看来， HTML 已经很容易写了。Markdown 的理念是，能让文档更容易读、写和随意改。HTML 是一种<em>发布</em>的格式，Markdown 是一种<em>书写</em>的格式。就这样，Markdown 的格式语法只涵盖纯文本可以涵盖的范围。</p>
+<p>不在 Markdown 涵盖范围之内的标签，都可以直接在文档里面用 HTML 撰写。不需要额外标注这是 HTML 或是 Markdown；只要直接加标签就可以了。</p>
+<p>要制约的只有一些 HTML 区块元素――比如 <code>&lt;div&gt;</code>、<code>&lt;table&gt;</code>、<code>&lt;pre&gt;</code>、<code>&lt;p&gt;</code> 等标签，必须在前后加上空行与其它内容区隔开，还要求它们的开始标签与结尾标签不能用制表符或空格来缩进。Markdown 的生成器有足够智能，不会在 HTML 区块标签外加上不必要的 <code>&lt;p&gt;</code> 标签。</p>
+<p>例子如下，在 Markdown 文件里加上一段 HTML 表格：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">这是一个普通段落。</span><br><span class="line"></span><br><span class="line">&lt;table&gt;</span><br><span class="line">  &lt;tr&gt;</span><br><span class="line">    &lt;td&gt;Foo&lt;&#x2F;td&gt;</span><br><span class="line">  &lt;&#x2F;tr&gt;</span><br><span class="line">&lt;&#x2F;table&gt;</span><br><span class="line"></span><br><span class="line">这是另一个普通段落。</span><br></pre></td></tr></table></figure>
+<p>请注意，在 HTML 区块标签间的 Markdown 格式语法将不会被处理。比如，你在 HTML 区块内使用 Markdown 样式的<code>*强调*</code>会没有效果。</p>
+<p>HTML 的区段（行内）标签如 <code>&lt;span&gt;</code>、<code>&lt;cite&gt;</code>、<code>&lt;del&gt;</code> 可以在 Markdown 的段落、列表或是标题里随意使用。依照个人习惯，甚至可以不用 Markdown 格式，而直接采用 HTML 标签来格式化。举例说明：如果比较喜欢 HTML 的 <code>&lt;a&gt;</code> 或 <code>&lt;img&gt;</code> 标签，可以直接使用这些标签，而不用 Markdown 提供的链接或是图像标签语法。</p>
+<p>和处在 HTML 区块标签间不同，Markdown 语法在 HTML 区段标签间是有效的。</p>
+<h3 id="特殊字符自动转换"><a href="#特殊字符自动转换" class="headerlink" title="特殊字符自动转换"></a>特殊字符自动转换</h3><p>在 HTML 文件中，有两个字符需要特殊处理： <code>&lt;</code> 和 <code>&amp;</code> 。 <code>&lt;</code> 符号用于起始标签，<code>&amp;</code> 符号则用于标记 HTML 实体，如果你只是想要显示这些字符的原型，你必须要使用实体的形式，像是 <code>&amp;lt;</code> 和 <code>&amp;amp;</code>。</p>
+<p><code>&amp;</code> 字符尤其让网络文档编写者受折磨，如果你要打「<code>AT&amp;T</code>」 ，你必须要写成「<code>AT&amp;amp;T</code>」。而网址中的 <code>&amp;</code> 字符也要转换。比如你要链接到：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;images.google.com&#x2F;images?num&#x3D;30&amp;q&#x3D;larry+bird</span><br></pre></td></tr></table></figure>
+<p>你必须要把网址转换写为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;images.google.com&#x2F;images?num&#x3D;30&amp;q&#x3D;larry+bird</span><br></pre></td></tr></table></figure>
+<p>才能放到链接标签的 <code>href</code> 属性里。不用说也知道这很容易忽略，这也可能是 HTML 标准检验所检查到的错误中，数量最多的。</p>
+<p>Markdown 让你可以自然地书写字符，需要转换的由它来处理好了。如果你使用的 <code>&amp;</code> 字符是 HTML 字符实体的一部分，它会保留原状，否则它会被转换成 <code>&amp;amp</code>;。</p>
+<p>所以你如果要在文档中插入一个版权符号 <code>©</code>，你可以这样写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&amp;copy;</span><br></pre></td></tr></table></figure>
+<p>Markdown 会保留它不动。而若你写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AT&amp;T</span><br></pre></td></tr></table></figure>
+<p>Markdown 就会将它转为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AT&amp;T</span><br></pre></td></tr></table></figure>
+<p>类似的状况也会发生在 <code>&lt;</code> 符号上，因为 Markdown 允许 <a href="#html">兼容 HTML</a> ，如果你是把 <code>&lt;</code> 符号作为 HTML 标签的定界符使用，那 Markdown 也不会对它做任何转换，但是如果你写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">4 &lt; 5</span><br></pre></td></tr></table></figure>
+<p>Markdown 将会把它转换为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">4 &lt; 5</span><br></pre></td></tr></table></figure>
+<p>不过需要注意的是，code 范围内，不论是行内还是区块， <code>&lt;</code> 和 <code>&amp;</code> 两个符号都<em>一定</em>会被转换成 HTML 实体，这项特性让你可以很容易地用 Markdown 写 HTML code （和 HTML 相对而言， HTML 语法中，你要把所有的 <code>&lt;</code> 和 <code>&amp;</code> 都转换为 HTML 实体，才能在 HTML 文件里面写出 HTML code。）</p>
+<hr>
+<h2 id="区块元素"><a href="#区块元素" class="headerlink" title="区块元素"></a>区块元素</h2><h3 id="段落和换行"><a href="#段落和换行" class="headerlink" title="段落和换行"></a>段落和换行</h3><p>一个 Markdown 段落是由一个或多个连续的文本行组成，它的前后要有一个以上的空行（空行的定义是显示上看起来像是空的，便会被视为空行。比方说，若某一行只包含空格和制表符，则该行也会被视为空行）。普通段落不该用空格或制表符来缩进。</p>
+<p>「由一个或多个连续的文本行组成」这句话其实暗示了 Markdown 允许段落内的强迫换行（插入换行符），这个特性和其他大部分的 text-to-HTML 格式不一样（包括 Movable Type 的「Convert Line Breaks」选项），其它的格式会把每个换行符都转成 <code>&lt;br /&gt;</code> 标签。</p>
+<p>如果你<em>确实</em>想要依赖 Markdown 来插入 <code>&lt;br /&gt;</code> 标签的话，在插入处先按入两个以上的空格然后回车。</p>
+<p>的确，需要多费点事（多加空格）来产生 <code>&lt;br /&gt;</code> ，但是简单地「每个换行都转换为 <code>&lt;br /&gt;</code>」的方法在 Markdown 中并不适合， Markdown 中 email 式的 <a href="#blockquote">区块引用</a> 和多段落的 <a href="#list">列表</a> 在使用换行来排版的时候，不但更好用，还更方便阅读。</p>
+<h3 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h3><p>Markdown 支持两种标题的语法，类 <a target="_blank" rel="noopener" href="http://docutils.sourceforge.net/mirror/setext.html">Setext</a> 和类 <a target="_blank" rel="noopener" href="http://www.aaronsw.com/2002/atx/">atx</a> 形式。</p>
+<p>类 Setext 形式是用底线的形式，利用 <code>=</code> （最高阶标题）和 <code>-</code> （第二阶标题），例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">This is an H1</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line"></span><br><span class="line">This is an H2</span><br><span class="line">-------------</span><br></pre></td></tr></table></figure>
+<p>任何数量的 <code>=</code> 和 <code>-</code> 都可以有效果。</p>
+<p>类 Atx 形式则是在行首插入 1 到 6 个 <code>#</code> ，对应到标题 1 到 6 阶，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 这是 H1</span><br><span class="line"></span><br><span class="line">## 这是 H2</span><br><span class="line"></span><br><span class="line">###### 这是 H6</span><br></pre></td></tr></table></figure>
+<p>你可以选择性地「闭合」类 atx 样式的标题，这纯粹只是美观用的，若是觉得这样看起来比较舒适，你就可以在行尾加上 <code>#</code>，而行尾的 <code>#</code> 数量也不用和开头一样（行首的井字符数量决定标题的阶数）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 这是 H1 #</span><br><span class="line"></span><br><span class="line">## 这是 H2 ##</span><br><span class="line"></span><br><span class="line">### 这是 H3 ######</span><br></pre></td></tr></table></figure>
+<h3 id="区块引用-Blockquotes"><a href="#区块引用-Blockquotes" class="headerlink" title="区块引用 Blockquotes"></a>区块引用 Blockquotes</h3><p>Markdown 标记区块引用是使用类似 email 中用 <code>&gt;</code> 的引用方式。如果你还熟悉在 email 信件中的引言部分，你就知道怎么在 Markdown 文件中建立一个区块引用，那会看起来像是你自己先断好行，然后在每行的最前面加上 <code>&gt;</code> ：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,</span><br><span class="line">&gt; consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.</span><br><span class="line">&gt; Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.</span><br><span class="line">&gt;</span><br><span class="line">&gt; Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse</span><br><span class="line">&gt; id sem consectetuer libero luctus adipiscing.</span><br></pre></td></tr></table></figure>
+<p>Markdown 也允许你偷懒只在整个段落的第一行最前面加上 <code>&gt;</code> ：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,</span><br><span class="line">consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.</span><br><span class="line">Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.</span><br><span class="line"></span><br><span class="line">&gt; Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse</span><br><span class="line">id sem consectetuer libero luctus adipiscing.</span><br></pre></td></tr></table></figure>
+<p>区块引用可以嵌套（例如：引用内的引用），只要根据层次加上不同数量的 <code>&gt;</code> ：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; This is the first level of quoting.</span><br><span class="line">&gt;</span><br><span class="line">&gt; &gt; This is nested blockquote.</span><br><span class="line">&gt;</span><br><span class="line">&gt; Back to the first level.</span><br></pre></td></tr></table></figure>
+<p>引用的区块内也可以使用其他的 Markdown 语法，包括标题、列表、代码区块等：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt; ## 这是一个标题。</span><br><span class="line">&gt;</span><br><span class="line">&gt; 1.   这是第一行列表项。</span><br><span class="line">&gt; 2.   这是第二行列表项。</span><br><span class="line">&gt;</span><br><span class="line">&gt; 给出一些例子代码：</span><br><span class="line">&gt;</span><br><span class="line">&gt;     return shell_exec(&quot;echo $input | $markdown_script&quot;);</span><br></pre></td></tr></table></figure>
+<p>任何像样的文本编辑器都能轻松地建立 email 型的引用。例如在 BBEdit 中，你可以选取文字后然后从选单中选择<em>增加引用阶层</em>。</p>
+<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><p>Markdown 支持有序列表和无序列表。</p>
+<p>无序列表使用星号、加号或是减号作为列表标记：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">*   Red</span><br><span class="line">*   Green</span><br><span class="line">*   Blue</span><br></pre></td></tr></table></figure>
+<p>等同于：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">+   Red</span><br><span class="line">+   Green</span><br><span class="line">+   Blue</span><br></pre></td></tr></table></figure>
+<p>也等同于：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-   Red</span><br><span class="line">-   Green</span><br><span class="line">-   Blue</span><br></pre></td></tr></table></figure>
+<p>有序列表则使用数字接着一个英文句点：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.  Bird</span><br><span class="line">2.  McHale</span><br><span class="line">3.  Parish</span><br></pre></td></tr></table></figure>
+<p>很重要的一点是，你在列表标记上使用的数字并不会影响输出的 HTML 结果，上面的列表所产生的 HTML 标记为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;ol&gt;</span><br><span class="line">&lt;li&gt;Bird&lt;&#x2F;li&gt;</span><br><span class="line">&lt;li&gt;McHale&lt;&#x2F;li&gt;</span><br><span class="line">&lt;li&gt;Parish&lt;&#x2F;li&gt;</span><br><span class="line">&lt;&#x2F;ol&gt;</span><br></pre></td></tr></table></figure>
+<p>如果你的列表标记写成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.  Bird</span><br><span class="line">1.  McHale</span><br><span class="line">1.  Parish</span><br></pre></td></tr></table></figure>
+<p>或甚至是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">3. Bird</span><br><span class="line">1. McHale</span><br><span class="line">8. Parish</span><br></pre></td></tr></table></figure>
+<p>你都会得到完全相同的 HTML 输出。重点在于，你可以让 Markdown 文件的列表数字和输出的结果相同，或是你懒一点，你可以完全不用在意数字的正确性。</p>
+<p>如果你使用懒惰的写法，建议第一个项目最好还是从 1. 开始，因为 Markdown 未来可能会支持有序列表的 start 属性。</p>
+<p>列表项目标记通常是放在最左边，但是其实也可以缩进，最多 3 个空格，项目标记后面则一定要接着至少一个空格或制表符。</p>
+<p>要让列表看起来更漂亮，你可以把内容用固定的缩进整理好：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">*   Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</span><br><span class="line">    Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi,</span><br><span class="line">    viverra nec, fringilla in, laoreet vitae, risus.</span><br><span class="line">*   Donec sit amet nisl. Aliquam semper ipsum sit amet velit.</span><br><span class="line">    Suspendisse id sem consectetuer libero luctus adipiscing.</span><br></pre></td></tr></table></figure>
+<p>但是如果你懒，那也行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">*   Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</span><br><span class="line">Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi,</span><br><span class="line">viverra nec, fringilla in, laoreet vitae, risus.</span><br><span class="line">*   Donec sit amet nisl. Aliquam semper ipsum sit amet velit.</span><br><span class="line">Suspendisse id sem consectetuer libero luctus adipiscing.</span><br></pre></td></tr></table></figure>
+<p>如果列表项目间用空行分开，在输出 HTML 时 Markdown 就会将项目内容用 <code>&lt;p&gt;</code><br>标签包起来，举例来说：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">*   Bird</span><br><span class="line">*   Magic</span><br></pre></td></tr></table></figure>
+<p>会被转换为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul&gt;</span><br><span class="line">&lt;li&gt;Bird&lt;&#x2F;li&gt;</span><br><span class="line">&lt;li&gt;Magic&lt;&#x2F;li&gt;</span><br><span class="line">&lt;&#x2F;ul&gt;</span><br></pre></td></tr></table></figure>
+<p>但是这个：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">*   Bird</span><br><span class="line"></span><br><span class="line">*   Magic</span><br></pre></td></tr></table></figure>
+<p>会被转换为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul&gt;</span><br><span class="line">&lt;li&gt;&lt;p&gt;Bird&lt;&#x2F;p&gt;&lt;&#x2F;li&gt;</span><br><span class="line">&lt;li&gt;&lt;p&gt;Magic&lt;&#x2F;p&gt;&lt;&#x2F;li&gt;</span><br><span class="line">&lt;&#x2F;ul&gt;</span><br></pre></td></tr></table></figure>
+<p>列表项目可以包含多个段落，每个项目下的段落都必须缩进 4 个空格或是 1 个制表符：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1.  This is a list item with two paragraphs. Lorem ipsum dolor</span><br><span class="line">    sit amet, consectetuer adipiscing elit. Aliquam hendrerit</span><br><span class="line">    mi posuere lectus.</span><br><span class="line"></span><br><span class="line">    Vestibulum enim wisi, viverra nec, fringilla in, laoreet</span><br><span class="line">    vitae, risus. Donec sit amet nisl. Aliquam semper ipsum</span><br><span class="line">    sit amet velit.</span><br><span class="line"></span><br><span class="line">2.  Suspendisse id sem consectetuer libero luctus adipiscing.</span><br></pre></td></tr></table></figure>
+<p>如果你每行都有缩进，看起来会看好很多，当然，再次地，如果你很懒惰，Markdown 也允许：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">*   This is a list item with two paragraphs.</span><br><span class="line"></span><br><span class="line">    This is the second paragraph in the list item. You&#39;re</span><br><span class="line">only required to indent the first line. Lorem ipsum dolor</span><br><span class="line">sit amet, consectetuer adipiscing elit.</span><br><span class="line"></span><br><span class="line">*   Another item in the same list.</span><br></pre></td></tr></table></figure>
+<p>如果要在列表项目内放进引用，那 <code>&gt;</code> 就需要缩进：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">*   A list item with a blockquote:</span><br><span class="line"></span><br><span class="line">    &gt; This is a blockquote</span><br><span class="line">    &gt; inside a list item.</span><br></pre></td></tr></table></figure>
+<p>如果要放代码区块的话，该区块就需要缩进<em>两次</em>，也就是 8 个空格或是 2 个制表符：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">*   一列表项包含一个列表区块：</span><br><span class="line"></span><br><span class="line">        &lt;代码写在这&gt;</span><br></pre></td></tr></table></figure>
+<p>当然，项目列表很可能会不小心产生，像是下面这样的写法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1986. What a great season.</span><br></pre></td></tr></table></figure>
+<p>换句话说，也就是在行首出现<em>数字-句点-空白</em>，要避免这样的状况，你可以在句点前面加上反斜杠。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1986\. What a great season.</span><br></pre></td></tr></table></figure>
+<h3 id="代码区块"><a href="#代码区块" class="headerlink" title="代码区块"></a>代码区块</h3><p>和程序相关的写作或是标签语言原始码通常会有已经排版好的代码区块，通常这些区块我们并不希望它以一般段落文件的方式去排版，而是照原来的样子显示，Markdown 会用 <code>&lt;pre&gt;</code> 和 <code>&lt;code&gt;</code> 标签来把代码区块包起来。</p>
+<p>要在 Markdown 中建立代码区块很简单，只要简单地缩进 4 个空格或是 1 个制表符就可以，例如，下面的输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">这是一个普通段落：</span><br><span class="line"></span><br><span class="line">    这是一个代码区块。</span><br></pre></td></tr></table></figure>
+<p>Markdown 会转换成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;这是一个普通段落：&lt;&#x2F;p&gt;</span><br><span class="line"></span><br><span class="line">&lt;pre&gt;&lt;code&gt;这是一个代码区块。</span><br><span class="line">&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;</span><br></pre></td></tr></table></figure>
+<p>这个每行一阶的缩进（4 个空格或是 1 个制表符），都会被移除，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Here is an example of AppleScript:</span><br><span class="line"></span><br><span class="line">    tell application &quot;Foo&quot;</span><br><span class="line">        beep</span><br><span class="line">    end tell</span><br></pre></td></tr></table></figure>
+<p>会被转换为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;Here is an example of AppleScript:&lt;&#x2F;p&gt;</span><br><span class="line"></span><br><span class="line">&lt;pre&gt;&lt;code&gt;tell application &quot;Foo&quot;</span><br><span class="line">    beep</span><br><span class="line">end tell</span><br><span class="line">&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;</span><br></pre></td></tr></table></figure>
+<p>一个代码区块会一直持续到没有缩进的那一行（或是文件结尾）。</p>
+<p>在代码区块里面， <code>&amp;</code> 、 <code>&lt;</code> 和 <code>&gt;</code> 会自动转成 HTML 实体，这样的方式让你非常容易使用 Markdown 插入范例用的 HTML 原始码，只需要复制贴上，再加上缩进就可以了，剩下的 Markdown 都会帮你处理，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class&#x3D;&quot;footer&quot;&gt;</span><br><span class="line">    &amp;copy; 2004 Foo Corporation</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
+<p>会被转换为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;pre&gt;&lt;code&gt;&lt;div class&#x3D;&quot;footer&quot;&gt;</span><br><span class="line">    &amp;copy; 2004 Foo Corporation</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;</span><br></pre></td></tr></table></figure>
+<p>代码区块中，一般的 Markdown 语法不会被转换，像是星号便只是星号，这表示你可以很容易地以 Markdown 语法撰写 Markdown 语法相关的文件。</p>
+<h3 id="分隔线"><a href="#分隔线" class="headerlink" title="分隔线"></a>分隔线</h3><p>你可以在一行中用三个以上的星号、减号、底线来建立一个分隔线，行内不能有其他东西。你也可以在星号或是减号中间插入空格。下面每种写法都可以建立分隔线：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">* * *</span><br><span class="line"></span><br><span class="line">***</span><br><span class="line"></span><br><span class="line">*****</span><br><span class="line"></span><br><span class="line">- - -</span><br><span class="line"></span><br><span class="line">---------------------------------------</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="区段元素"><a href="#区段元素" class="headerlink" title="区段元素"></a>区段元素</h2><h3 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h3><p>Markdown 支持两种形式的链接语法： <em>行内式</em>和<em>参考式</em>两种形式。</p>
+<p>不管是哪一种，链接文字都是用 [方括号] 来标记。</p>
+<p>要建立一个<em>行内式</em>的链接，只要在方块括号后面紧接着圆括号并插入网址链接即可，如果你还想要加上链接的 title 文字，只要在网址后面，用双引号把 title 文字包起来即可，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">This is [an example](http:&#x2F;&#x2F;example.com&#x2F; &quot;Title&quot;) inline link.</span><br><span class="line"></span><br><span class="line">[This link](http:&#x2F;&#x2F;example.net&#x2F;) has no title attribute.</span><br></pre></td></tr></table></figure>
+<p>会产生：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;This is &lt;a href&#x3D;&quot;http:&#x2F;&#x2F;example.com&#x2F;&quot; title&#x3D;&quot;Title&quot;&gt;</span><br><span class="line">an example&lt;&#x2F;a&gt; inline link.&lt;&#x2F;p&gt;</span><br><span class="line"></span><br><span class="line">&lt;p&gt;&lt;a href&#x3D;&quot;http:&#x2F;&#x2F;example.net&#x2F;&quot;&gt;This link&lt;&#x2F;a&gt; has no</span><br><span class="line">title attribute.&lt;&#x2F;p&gt;</span><br></pre></td></tr></table></figure>
+<p>如果你是要链接到同样主机的资源，你可以使用相对路径：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">See my [About](&#x2F;about&#x2F;) page for details.</span><br></pre></td></tr></table></figure>
+<p><em>参考式</em>的链接是在链接文字的括号后面再接上另一个方括号，而在第二个方括号里面要填入用以辨识链接的标记：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">This is [an example][id] reference-style link.</span><br></pre></td></tr></table></figure>
+<p>你也可以选择性地在两个方括号中间加上一个空格：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">This is [an example] [id] reference-style link.</span><br></pre></td></tr></table></figure>
+<p>接着，在文件的任意处，你可以把这个标记的链接内容定义出来：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[id]: http:&#x2F;&#x2F;example.com&#x2F;  &quot;Optional Title Here&quot;</span><br></pre></td></tr></table></figure>
+<p>链接内容定义的形式为：</p>
+<ul>
+<li>方括号（前面可以选择性地加上至多三个空格来缩进），里面输入链接文字</li>
+<li>接着一个冒号</li>
+<li>接着一个以上的空格或制表符</li>
+<li>接着链接的网址</li>
+<li>选择性地接着 title 内容，可以用单引号、双引号或是括弧包着</li>
+</ul>
+<p>下面这三种链接的定义都是相同：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[foo]: http:&#x2F;&#x2F;example.com&#x2F;  &quot;Optional Title Here&quot;</span><br><span class="line">[foo]: http:&#x2F;&#x2F;example.com&#x2F;  &#39;Optional Title Here&#39;</span><br><span class="line">[foo]: http:&#x2F;&#x2F;example.com&#x2F;  (Optional Title Here)</span><br></pre></td></tr></table></figure>
+<p>**请注意：**有一个已知的问题是 Markdown.pl 1.0.1 会忽略单引号包起来的链接 title。</p>
+<p>链接网址也可以用尖括号包起来：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[id]: &lt;http:&#x2F;&#x2F;example.com&#x2F;&gt;  &quot;Optional Title Here&quot;</span><br></pre></td></tr></table></figure>
+<p>你也可以把 title 属性放到下一行，也可以加一些缩进，若网址太长的话，这样会比较好看：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[id]: http:&#x2F;&#x2F;example.com&#x2F;longish&#x2F;path&#x2F;to&#x2F;resource&#x2F;here</span><br><span class="line">    &quot;Optional Title Here&quot;</span><br></pre></td></tr></table></figure>
+<p>网址定义只有在产生链接的时候用到，并不会直接出现在文件之中。</p>
+<p>链接辨别标签可以有字母、数字、空白和标点符号，但是并<em>不</em>区分大小写，因此下面两个链接是一样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[link text][a]</span><br><span class="line">[link text][A]</span><br></pre></td></tr></table></figure>
+<p><em>隐式链接标记</em>功能让你可以省略指定链接标记，这种情形下，链接标记会视为等同于链接文字，要用隐式链接标记只要在链接文字后面加上一个空的方括号，如果你要让 “Google” 链接到 google.com，你可以简化成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Google][]</span><br></pre></td></tr></table></figure>
+<p>然后定义链接内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Google]: http:&#x2F;&#x2F;google.com&#x2F;</span><br></pre></td></tr></table></figure>
+<p>由于链接文字可能包含空白，所以这种简化型的标记内也许包含多个单词：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Visit [Daring Fireball][] for more information.</span><br></pre></td></tr></table></figure>
+<p>然后接着定义链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Daring Fireball]: http:&#x2F;&#x2F;daringfireball.net&#x2F;</span><br></pre></td></tr></table></figure>
+<p>链接的定义可以放在文件中的任何一个地方，我比较偏好直接放在链接出现段落的后面，你也可以把它放在文件最后面，就像是注解一样。</p>
+<p>下面是一个参考式链接的范例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">I get 10 times more traffic from [Google] [1] than from</span><br><span class="line">[Yahoo] [2] or [MSN] [3].</span><br><span class="line"></span><br><span class="line">  [1]: http:&#x2F;&#x2F;google.com&#x2F;        &quot;Google&quot;</span><br><span class="line">  [2]: http:&#x2F;&#x2F;search.yahoo.com&#x2F;  &quot;Yahoo Search&quot;</span><br><span class="line">  [3]: http:&#x2F;&#x2F;search.msn.com&#x2F;    &quot;MSN Search&quot;</span><br></pre></td></tr></table></figure>
+<p>如果改成用链接名称的方式写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">I get 10 times more traffic from [Google][] than from</span><br><span class="line">[Yahoo][] or [MSN][].</span><br><span class="line"></span><br><span class="line">  [google]: http:&#x2F;&#x2F;google.com&#x2F;        &quot;Google&quot;</span><br><span class="line">  [yahoo]:  http:&#x2F;&#x2F;search.yahoo.com&#x2F;  &quot;Yahoo Search&quot;</span><br><span class="line">  [msn]:    http:&#x2F;&#x2F;search.msn.com&#x2F;    &quot;MSN Search&quot;</span><br></pre></td></tr></table></figure>
+<p>上面两种写法都会产生下面的 HTML。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;I get 10 times more traffic from &lt;a href&#x3D;&quot;http:&#x2F;&#x2F;google.com&#x2F;&quot;</span><br><span class="line">title&#x3D;&quot;Google&quot;&gt;Google&lt;&#x2F;a&gt; than from</span><br><span class="line">&lt;a href&#x3D;&quot;http:&#x2F;&#x2F;search.yahoo.com&#x2F;&quot; title&#x3D;&quot;Yahoo Search&quot;&gt;Yahoo&lt;&#x2F;a&gt;</span><br><span class="line">or &lt;a href&#x3D;&quot;http:&#x2F;&#x2F;search.msn.com&#x2F;&quot; title&#x3D;&quot;MSN Search&quot;&gt;MSN&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;</span><br></pre></td></tr></table></figure>
+<p>下面是用行内式写的同样一段内容的 Markdown 文件，提供作为比较之用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">I get 10 times more traffic from [Google](http:&#x2F;&#x2F;google.com&#x2F; &quot;Google&quot;)</span><br><span class="line">than from [Yahoo](http:&#x2F;&#x2F;search.yahoo.com&#x2F; &quot;Yahoo Search&quot;) or</span><br><span class="line">[MSN](http:&#x2F;&#x2F;search.msn.com&#x2F; &quot;MSN Search&quot;).</span><br></pre></td></tr></table></figure>
+<p>参考式的链接其实重点不在于它比较好写，而是它比较好读，比较一下上面的范例，使用参考式的文章本身只有 81 个字符，但是用行内形式的却会增加到 176 个字元，如果是用纯 HTML 格式来写，会有 234 个字元，在 HTML 格式中，标签比文本还要多。</p>
+<p>使用 Markdown 的参考式链接，可以让文件更像是浏览器最后产生的结果，让你可以把一些标记相关的元数据移到段落文字之外，你就可以增加链接而不让文章的阅读感觉被打断。</p>
+<h3 id="强调"><a href="#强调" class="headerlink" title="强调"></a>强调</h3><p>Markdown 使用星号（<code>*</code>）和底线（<code>_</code>）作为标记强调字词的符号，被 <code>*</code> 或 <code>_</code> 包围的字词会被转成用 <code>&lt;em&gt;</code> 标签包围，用两个 <code>*</code> 或 <code>_</code> 包起来的话，则会被转成 <code>&lt;strong&gt;</code>，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">*single asterisks*</span><br><span class="line"></span><br><span class="line">_single underscores_</span><br><span class="line"></span><br><span class="line">**double asterisks**</span><br><span class="line"></span><br><span class="line">__double underscores__</span><br></pre></td></tr></table></figure>
+<p>会转成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;em&gt;single asterisks&lt;&#x2F;em&gt;</span><br><span class="line"></span><br><span class="line">&lt;em&gt;single underscores&lt;&#x2F;em&gt;</span><br><span class="line"></span><br><span class="line">&lt;strong&gt;double asterisks&lt;&#x2F;strong&gt;</span><br><span class="line"></span><br><span class="line">&lt;strong&gt;double underscores&lt;&#x2F;strong&gt;</span><br></pre></td></tr></table></figure>
+<p>你可以随便用你喜欢的样式，唯一的限制是，你用什么符号开启标签，就要用什么符号结束。</p>
+<p>强调也可以直接插在文字中间：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">un*frigging*believable</span><br></pre></td></tr></table></figure>
+<p>但是<strong>如果你的 <code>*</code> 和 <code>_</code> 两边都有空白的话，它们就只会被当成普通的符号</strong>。</p>
+<p>如果要在文字前后直接插入普通的星号或底线，你可以用反斜线：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\*this text is surrounded by literal asterisks\*</span><br></pre></td></tr></table></figure>
+<h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><p>Markdown 可以在一行中用两个 (<del>) 符号 包裹一段文字，会被转成 <code>&lt;del&gt;</code> 包裹起来的内容，显示为 ~~删除</del>。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~~删除~~</span><br></pre></td></tr></table></figure>
+<p>会转成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;del&gt;删除&lt;&#x2F;del&gt;</span><br></pre></td></tr></table></figure>
+<p>如果需要连续使用两个 ~ 符号，则可以使用反斜线：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~\~删除~\~</span><br></pre></td></tr></table></figure>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><p>如果要标记一小段行内代码，你可以用反引号把它包起来（<code>`</code>），例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Use the &#96;printf()&#96; function.</span><br></pre></td></tr></table></figure>
+<p>会产生：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;Use the &lt;code&gt;printf()&lt;&#x2F;code&gt; function.&lt;&#x2F;p&gt;</span><br></pre></td></tr></table></figure>
+<p>如果要在代码区段内插入反引号，你可以用多个反引号来开启和结束代码区段：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#96;&#96;There is a literal backtick (&#96;) here.&#96;&#96;</span><br></pre></td></tr></table></figure>
+<p>这段语法会产生：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;&lt;code&gt;There is a literal backtick (&#96;) here.&lt;&#x2F;code&gt;&lt;&#x2F;p&gt;</span><br></pre></td></tr></table></figure>
+<p>代码区段的起始和结束端都可以放入一个空白，起始端后面一个，结束端前面一个，这样你就可以在区段的一开始就插入反引号：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">A single backtick in a code span: &#96;&#96; &#96; &#96;&#96;</span><br><span class="line"></span><br><span class="line">A backtick-delimited string in a code span: &#96;&#96; &#96;foo&#96; &#96;&#96;</span><br></pre></td></tr></table></figure>
+<p>会产生：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;A single backtick in a code span: &lt;code&gt;&#96;&lt;&#x2F;code&gt;&lt;&#x2F;p&gt;</span><br><span class="line"></span><br><span class="line">&lt;p&gt;A backtick-delimited string in a code span: &lt;code&gt;&#96;foo&#96;&lt;&#x2F;code&gt;&lt;&#x2F;p&gt;</span><br></pre></td></tr></table></figure>
+<p>在代码区段内，<code>&amp;</code> 和尖括号<strong>都</strong>会被自动地转成 HTML 实体，这使得插入 HTML 原始码变得很容易，Markdown 会把下面这段：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Please don&#39;t use any &#96;&lt;blink&gt;&#96; tags.</span><br></pre></td></tr></table></figure>
+<p>转为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;Please don&#39;t use any &lt;code&gt;&lt;blink&gt;&lt;&#x2F;code&gt; tags.&lt;&#x2F;p&gt;</span><br></pre></td></tr></table></figure>
+<p>你也可以这样写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#96;&amp;#8212;&#96; is the decimal-encoded equivalent of &#96;&amp;mdash;&#96;.</span><br></pre></td></tr></table></figure>
+<p>以产生：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;&lt;code&gt;&amp;#8212;&lt;&#x2F;code&gt; is the decimal-encoded</span><br><span class="line">equivalent of &lt;code&gt;&amp;mdash;&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="图片"><a href="#图片" class="headerlink" title="图片"></a>图片</h3><p>很明显地，要在纯文字应用中设计一个「自然」的语法来插入图片是有一定难度的。</p>
+<p>Markdown 使用一种和链接很相似的语法来标记图片，同样也允许两种样式： <em>行内式</em>和<em>参考式</em>。</p>
+<p>行内式的图片语法看起来像是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">![Alt text](&#x2F;path&#x2F;to&#x2F;img.jpg)</span><br><span class="line"></span><br><span class="line">![Alt text](&#x2F;path&#x2F;to&#x2F;img.jpg &quot;Optional title&quot;)</span><br></pre></td></tr></table></figure>
+<p>详细叙述如下：</p>
+<ul>
+<li>一个惊叹号 <code>!</code></li>
+<li>接着一个方括号，里面放上图片的替代文字</li>
+<li>接着一个普通括号，里面放上图片的网址，最后还可以用引号包住并加上<br>选择性的 ‘title’ 文字。</li>
+</ul>
+<p>参考式的图片语法则长得像这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![Alt text][id]</span><br></pre></td></tr></table></figure>
+<p>「id」是图片参考的名称，图片参考的定义方式则和连结参考一样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[id]: url&#x2F;to&#x2F;image  &quot;Optional title attribute&quot;</span><br></pre></td></tr></table></figure>
+<p>到目前为止， Markdown 还没有办法指定图片的宽高，如果你需要的话，你可以使用普通的 <code>&lt;img&gt;</code> 标签。</p>
+<hr>
+<h2 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h2><h3 id="自动链接"><a href="#自动链接" class="headerlink" title="自动链接"></a>自动链接</h3><p>Markdown 支持以比较简短的自动链接形式来处理网址和电子邮件信箱，只要是用尖括号包起来， Markdown 就会自动把它转成链接。一般网址的链接文字就和链接地址一样，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;http:&#x2F;&#x2F;example.com&#x2F;&gt;</span><br></pre></td></tr></table></figure>
+<p>Markdown 会转为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href&#x3D;&quot;http:&#x2F;&#x2F;example.com&#x2F;&quot;&gt;http:&#x2F;&#x2F;example.com&#x2F;&lt;&#x2F;a&gt;</span><br></pre></td></tr></table></figure>
+<p>邮址的自动链接也很类似，只是 Markdown 会先做一个编码转换的过程，把文字字符转成 16 进位码的 HTML 实体，这样的格式可以糊弄一些不好的邮址收集机器人，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;address@example.com&gt;</span><br></pre></td></tr></table></figure>
+<p>Markdown 会转成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href&#x3D;&quot;&amp;#x6D;&amp;#x61;i&amp;#x6C;&amp;#x74;&amp;#x6F;:&amp;#x61;&amp;#x64;&amp;#x64;&amp;#x72;&amp;#x65;</span><br><span class="line">&amp;#115;&amp;#115;&amp;#64;&amp;#101;&amp;#120;&amp;#x61;&amp;#109;&amp;#x70;&amp;#x6C;e&amp;#x2E;&amp;#99;&amp;#111;</span><br><span class="line">&amp;#109;&quot;&gt;&amp;#x61;&amp;#x64;&amp;#x64;&amp;#x72;&amp;#x65;&amp;#115;&amp;#115;&amp;#64;&amp;#101;&amp;#120;&amp;#x61;</span><br><span class="line">&amp;#109;&amp;#x70;&amp;#x6C;e&amp;#x2E;&amp;#99;&amp;#111;&amp;#109;&lt;&#x2F;a&gt;</span><br></pre></td></tr></table></figure>
+<p>在浏览器里面，这段字串（其实是 <code>&lt;a href=&quot;mailto:address@example.com&quot;&gt;address@example.com&lt;/a&gt;</code>）会变成一个可以点击的「<a href="mailto:&#97;&#100;&#x64;&#114;&#101;&#115;&#x73;&#64;&#101;&#120;&#97;&#x6d;&#112;&#108;&#101;&#46;&#x63;&#x6f;&#x6d;">&#97;&#100;&#x64;&#114;&#101;&#115;&#x73;&#64;&#101;&#120;&#97;&#x6d;&#112;&#108;&#101;&#46;&#x63;&#x6f;&#x6d;</a>」链接。</p>
+<p>（这种作法虽然可以糊弄不少的机器人，但并不能全部挡下来，不过总比什么都不做好些。不管怎样，公开你的信箱终究会引来广告信件的。）</p>
+<h3 id="反斜杠"><a href="#反斜杠" class="headerlink" title="反斜杠"></a>反斜杠</h3><p>Markdown 可以利用反斜杠来插入一些在语法中有其它意义的符号，例如：如果你想要用星号加在文字旁边的方式来做出强调效果（但不用 <code>&lt;em&gt;</code> 标签），你可以在星号的前面加上反斜杠：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\*literal asterisks\*</span><br></pre></td></tr></table></figure>
+<p>Markdown 支持以下这些符号前面加上反斜杠来帮助插入普通的符号：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">\   反斜线</span><br><span class="line">&#96;   反引号</span><br><span class="line">*   星号</span><br><span class="line">_   底线</span><br><span class="line">&#123;&#125;  花括号</span><br><span class="line">[]  方括号</span><br><span class="line">()  括弧</span><br><span class="line">#   井字号</span><br><span class="line">+   加号</span><br><span class="line">-   减号</span><br><span class="line">.   英文句点</span><br><span class="line">!   惊叹号</span><br></pre></td></tr></table></figure>
+<h2 id="扩展语法"><a href="#扩展语法" class="headerlink" title="扩展语法"></a>扩展语法</h2><h3 id="使用-换行"><a href="#使用-换行" class="headerlink" title="使用 \ 换行"></a>使用 <code>\</code> 换行</h3><p>标准 markdown 使用两个空格换行，不仅容易忘记，而且也不够明显。所以 vscode 支持另外一种换行方式，使用反斜杠 <code>\</code>。</p>
+<p>例如</p>
+<figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">第一行\</span><br><span class="line">第二行  </span><br><span class="line">第三行</span><br></pre></td></tr></table></figure>
+<p>会被显示为</p>
+<p>第一行<br>第二行<br>第三行</p>
+<h3 id="语言特定代码块"><a href="#语言特定代码块" class="headerlink" title="语言特定代码块"></a>语言特定代码块</h3><p>虽然上面直接缩进 4 个空格就能得到代码块，但如果想要特定于语言的语法高亮，就不能直接缩进，而是使用 3 个以上的反引号（`） 包裹起来并告诉 markdown 解析器你需要什么语言的语法高亮。</p>
+<p>例如</p>
+<figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="code">```js</span></span><br><span class="line"><span class="code">function foo() &#123;</span></span><br><span class="line"><span class="code">  return &#123;</span></span><br><span class="line"><span class="code">    name: &quot;灵梦&quot;,</span></span><br><span class="line"><span class="code">    age: 17,</span></span><br><span class="line"><span class="code">    sex: false,</span></span><br><span class="line"><span class="code">  &#125;;</span></span><br><span class="line"><span class="code">&#125;</span></span><br><span class="line"><span class="code">```</span></span><br></pre></td></tr></table></figure>
+<p>会被显示为</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    name: <span class="string">&quot;灵梦&quot;</span>,</span><br><span class="line">    age: <span class="number">17</span>,</span><br><span class="line">    sex: <span class="literal">false</span>,</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在代码显示上会有相当的优势，还是希望尽量使用 ``` 而非缩进 4 个空格。</p>
+<h3 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h3><p>markdown 可以制作一些简单的表格</p>
+<p>例如</p>
+<figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">| name    | age | gender |</span><br><span class="line">| ------- | --- | ------ |</span><br><span class="line">| liuli   | 17  | false  |</span><br><span class="line">| chuxuan | 23  | true   |</span><br></pre></td></tr></table></figure>
+<p>会被显示为</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>age</th>
+<th>gender</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>liuli</td>
+<td>17</td>
+<td>false</td>
+</tr>
+<tr>
+<td>chuxuan</td>
+<td>23</td>
+<td>true</td>
+</tr>
+</tbody></table>
+<h3 id="文章目录"><a href="#文章目录" class="headerlink" title="文章目录"></a>文章目录</h3><p>markdown 还可以支持的文章目录（本质上是嵌套的无序列表）</p>
+<p>例如</p>
+<figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> [<span class="string">markdown 语法说明</span>](<span class="link">#markdown-语法说明</span>)</span><br><span class="line"><span class="bullet">  -</span> [<span class="string">概述</span>](<span class="link">#概述</span>)</span><br><span class="line"><span class="bullet">    -</span> [<span class="string">宗旨</span>](<span class="link">#宗旨</span>)</span><br><span class="line"><span class="bullet">    -</span> [<span class="string">兼容 HTML</span>](<span class="link">#兼容-html</span>)</span><br><span class="line"><span class="bullet">    -</span> [<span class="string">特殊字符自动转换</span>](<span class="link">#特殊字符自动转换</span>)</span><br><span class="line"><span class="bullet">  -</span> [<span class="string">区块元素</span>](<span class="link">#区块元素</span>)</span><br><span class="line"><span class="bullet">    -</span> [<span class="string">段落和换行</span>](<span class="link">#段落和换行</span>)</span><br><span class="line"><span class="bullet">    -</span> [<span class="string">标题</span>](<span class="link">#标题</span>)</span><br><span class="line"><span class="bullet">    -</span> [<span class="string">区块引用 Blockquotes</span>](<span class="link">#区块引用-blockquotes</span>)</span><br><span class="line"><span class="bullet">    -</span> [<span class="string">列表</span>](<span class="link">#列表</span>)</span><br><span class="line"><span class="bullet">    -</span> [<span class="string">代码区块</span>](<span class="link">#代码区块</span>)</span><br><span class="line"><span class="bullet">    -</span> [<span class="string">分隔线</span>](<span class="link">#分隔线</span>)</span><br><span class="line"><span class="bullet">  -</span> [<span class="string">区段元素</span>](<span class="link">#区段元素</span>)</span><br><span class="line"><span class="bullet">    -</span> [<span class="string">链接</span>](<span class="link">#链接</span>)</span><br><span class="line"><span class="bullet">    -</span> [<span class="string">强调</span>](<span class="link">#强调</span>)</span><br><span class="line"><span class="bullet">    -</span> [<span class="string">删除</span>](<span class="link">#删除</span>)</span><br><span class="line"><span class="bullet">    -</span> [<span class="string">代码</span>](<span class="link">#代码</span>)</span><br><span class="line"><span class="bullet">    -</span> [<span class="string">图片</span>](<span class="link">#图片</span>)</span><br><span class="line"><span class="bullet">  -</span> [<span class="string">其它</span>](<span class="link">#其它</span>)</span><br><span class="line"><span class="bullet">    -</span> [<span class="string">自动链接</span>](<span class="link">#自动链接</span>)</span><br><span class="line"><span class="bullet">    -</span> [<span class="string">反斜杠</span>](<span class="link">#反斜杠</span>)</span><br><span class="line"><span class="bullet">  -</span> [<span class="string">扩展语法</span>](<span class="link">#扩展语法</span>)</span><br><span class="line"><span class="bullet">    -</span> [<span class="string">使用 `\` 换行</span>](<span class="link">#使用--换行</span>)</span><br><span class="line"><span class="bullet">    -</span> [<span class="string">语言特定代码块</span>](<span class="link">#语言特定代码块</span>)</span><br><span class="line"><span class="bullet">    -</span> [<span class="string">表格</span>](<span class="link">#表格</span>)</span><br><span class="line"><span class="bullet">    -</span> [<span class="string">文章目录</span>](<span class="link">#文章目录</span>)</span><br><span class="line"><span class="bullet">    -</span> [<span class="string">任务列表</span>](<span class="link">#任务列表</span>)</span><br><span class="line"><span class="bullet">  -</span> [<span class="string">Markdown 免费编辑器</span>](<span class="link">#markdown-免费编辑器</span>)</span><br></pre></td></tr></table></figure>
+<p>会被显示为</p>
+<ul>
+<li><a href="#markdown-%E8%AF%AD%E6%B3%95%E8%AF%B4%E6%98%8E">markdown 语法说明</a><ul>
+<li><a href="#%E6%A6%82%E8%BF%B0">概述</a><ul>
+<li><a href="#%E5%AE%97%E6%97%A8">宗旨</a></li>
+<li><a href="#%E5%85%BC%E5%AE%B9-html">兼容 HTML</a></li>
+<li><a href="#%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6%E8%87%AA%E5%8A%A8%E8%BD%AC%E6%8D%A2">特殊字符自动转换</a></li>
+</ul>
+</li>
+<li><a href="#%E5%8C%BA%E5%9D%97%E5%85%83%E7%B4%A0">区块元素</a><ul>
+<li><a href="#%E6%AE%B5%E8%90%BD%E5%92%8C%E6%8D%A2%E8%A1%8C">段落和换行</a></li>
+<li><a href="#%E6%A0%87%E9%A2%98">标题</a></li>
+<li><a href="#%E5%8C%BA%E5%9D%97%E5%BC%95%E7%94%A8-blockquotes">区块引用 Blockquotes</a></li>
+<li><a href="#%E5%88%97%E8%A1%A8">列表</a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81%E5%8C%BA%E5%9D%97">代码区块</a></li>
+<li><a href="#%E5%88%86%E9%9A%94%E7%BA%BF">分隔线</a></li>
+</ul>
+</li>
+<li><a href="#%E5%8C%BA%E6%AE%B5%E5%85%83%E7%B4%A0">区段元素</a><ul>
+<li><a href="#%E9%93%BE%E6%8E%A5">链接</a></li>
+<li><a href="#%E5%BC%BA%E8%B0%83">强调</a></li>
+<li><a href="#%E5%88%A0%E9%99%A4">删除</a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81">代码</a></li>
+<li><a href="#%E5%9B%BE%E7%89%87">图片</a></li>
+</ul>
+</li>
+<li><a href="#%E5%85%B6%E5%AE%83">其它</a><ul>
+<li><a href="#%E8%87%AA%E5%8A%A8%E9%93%BE%E6%8E%A5">自动链接</a></li>
+<li><a href="#%E5%8F%8D%E6%96%9C%E6%9D%A0">反斜杠</a></li>
+</ul>
+</li>
+<li><a href="#%E6%89%A9%E5%B1%95%E8%AF%AD%E6%B3%95">扩展语法</a><ul>
+<li><a href="#%E4%BD%BF%E7%94%A8--%E6%8D%A2%E8%A1%8C">使用 <code>\</code> 换行</a></li>
+<li><a href="#%E8%AF%AD%E8%A8%80%E7%89%B9%E5%AE%9A%E4%BB%A3%E7%A0%81%E5%9D%97">语言特定代码块</a></li>
+<li><a href="#%E8%A1%A8%E6%A0%BC">表格</a></li>
+<li><a href="#%E6%96%87%E7%AB%A0%E7%9B%AE%E5%BD%95">文章目录</a></li>
+<li><a href="#%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8">任务列表</a></li>
+</ul>
+</li>
+<li><a href="#markdown-%E5%85%8D%E8%B4%B9%E7%BC%96%E8%BE%91%E5%99%A8">Markdown 免费编辑器</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="任务列表"><a href="#任务列表" class="headerlink" title="任务列表"></a>任务列表</h3><p>如果你想要写一些任务项，markdown 恰好也是支持的。只要简单的使用 <code>- [ ]</code>/<code>- [x]</code> 的方式就可以定义未完成/完成的任务项。</p>
+<p>例如</p>
+<figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> [ ] 第一项任务</span><br><span class="line"><span class="bullet">-</span> [x] 第二项任务</span><br><span class="line"><span class="bullet">-</span> [x] 第三项任务</span><br></pre></td></tr></table></figure>
+<p>会被显示为</p>
+<ul>
+<li>[ ] 第一项任务</li>
+<li>[x] 第二项任务</li>
+<li>[x] 第三项任务</li>
+</ul>
+<hr>
+<h2 id="Markdown-免费编辑器"><a href="#Markdown-免费编辑器" class="headerlink" title="Markdown 免费编辑器"></a>Markdown 免费编辑器</h2><blockquote>
+<p>如果你是一名 Developer，那吾辈首推 <a target="_blank" rel="noopener" href="https://code.visualstudio.com/">VSCode</a>，免费开源的跨平台编辑器。</p>
+</blockquote>
+<p>Windows 平台</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://markdownpad.com/">MarkdownPad</a></li>
+<li><a target="_blank" rel="noopener" href="http://code52.org/DownmarkerWPF/">MarkPad</a></li>
+</ul>
+<p>Linux 平台</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://sourceforge.net/p/retext/home/ReText/">ReText</a></li>
+</ul>
+<p>Mac 平台</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://25.io/mou/">Mou</a></li>
+</ul>
+<p>在线编辑器</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://dillinger.io/">Dillinger.io</a></li>
+</ul>
+<p>浏览器插件</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/markdown-here/elifhakcjgalahccnjkneoccemfahfoa/">Markdown Here</a></li>
+</ul>
+<p>高级应用</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://code.visualstudio.com/">VSCode</a> + <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=yzhang.markdown-all-in-one">Markdown All in One</a> / <a target="_blank" rel="noopener" href="https://blog.rxliuli.com/p/43851eb5/">教程</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.sublimetext.com/2">Sublime Text 2</a> + <a target="_blank" rel="noopener" href="http://ttscoff.github.com/MarkdownEditing/">MarkdownEditing</a> / <a target="_blank" rel="noopener" href="http://lucifr.com/2012/07/12/markdownediting-for-sublime-text-2/">教程</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/02/02/bd28a44b915d42979c145bf8dfef8e98/" data-id="ckmcqox5p00cb0kuvf4rmc76m" data-title="markdown 语法说明" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-5b565be2d93c4e03871e42aff60e2a9a" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/02/02/5b565be2d93c4e03871e42aff60e2a9a/" class="article-date">
+  <time class="dt-published" datetime="2020-02-02T02:15:38.000Z" itemprop="datePublished">2020-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/02/02/5b565be2d93c4e03871e42aff60e2a9a/">Windows 上的工具清单</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>但弄雕虫之技，尘芥草莽，于泥泞自勉……</p>
+</blockquote>
+<h2 id="开发"><a href="#开发" class="headerlink" title="开发"></a>开发</h2><h3 id="MS-VSCode：前端标准-IDE"><a href="#MS-VSCode：前端标准-IDE" class="headerlink" title="MS VSCode：前端标准 IDE"></a>MS VSCode：前端标准 IDE</h3><p>[便携版], [开源], [跨平台], [免费]</p>
+<blockquote>
+<p>具体可以参考：<a target="_blank" rel="noopener" href="https://code.visualstudio.com/">官网</a>, <a target="_blank" rel="noopener" href="https://github.com/Microsoft/vscode">GitHub</a>, <a target="_blank" rel="noopener" href="https://jeasonstudio.gitbooks.io/vscode-cn-doc/content/">GitBook 中文介绍</a></p>
+</blockquote>
+<p>MS VSCode 是微软出品的一个跨平台，基于 Web 的，免费的开源文本编辑器。目前已经使用了半年多了，对其的了解也更加深入。就目前看来，VSCode 应该是前端生态最好的 IDE 了。作为一个文本编辑器，大多数的文本文件都有语法支持的扩展真的太棒了，这点要强过专门的 IDE。</p>
+<p>主要优点：</p>
+<ul>
+<li>开箱即用：基本上下载完就能开始使用了，不需要太多自定义的配置</li>
+<li>多语言支持：这是很多文本编辑器/IDE 都没有做到的，例如下面吾辈最喜欢的 IDEA 到目前为止官方仍然只支持英文，但吾辈觉得本土化之后才能对萌新更加友好（门槛低，学习曲线平缓）</li>
+<li>插件丰富：目前吾辈使用 VSCode 主要用于前端，编辑 Markdown 文章，一些系统/程序的配置文件等，安装了插件之后使用对各种功能的支持还算不错。</li>
+</ul>
+<p>缺点：</p>
+<p>很明显，MS 的东西最后会不会变成全家桶/流氓谁也不清楚，虽然去年貌似 MS 在 GitHub 上的贡献量超过了 Google，但想想 MS 的开源黑历史。。。而且，作为一个专门的编程编辑器，有许多的细节上还是很粗糙（貌似开源项目的通病），相比于专业的 IDE（例如 WebStorm）还是相差不少。<br>下面举一些例子</p>
+<ul>
+<li>本地文件历史: 没有加入到 Git 管理中的文件丢失，血与泪的教训啊</li>
+<li>单词检查: 英文单词写错了还不知道，萌萌哒！</li>
+<li>代码跳转功能很弱: 专业 IDE 里几乎所有有关连的东西都是可以跳转的。例如在 CSS 中查看使用 class 的引用列表，在 HTML 中跳转到 CSS 的 class 定义处，HTML 中有代码提示 CSS 类。JS 中查看函数的引用列表，查看函数的定义处，查看函数的实现（老实说 VSCode 基于 ts 实现的代码提示感觉真是在下一盘大棋。。。）</li>
+<li>Git 支持: VSCode 中 Git 支持还不成熟，并没有像 IDE 中那么方便与强大</li>
+<li>HTML 标签修改的时候没有自动修改对应的标签: 纯粹是细节性问题</li>
+<li>TODO 支持: 对 <strong><code>TODO</code></strong> 标签没有支持</li>
+</ul>
+<p>常用的 Plugin</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-rename-tag">auto-rename-tag</a>: 自动重命名对应标签</li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=Shan.code-settings-sync">code-settings-sync</a>: VSCode 设置同步</li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=mikestead.dotenv">dotenv</a>: <code>env</code> 语法支持</li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=dsznajder.es7-react-js-snippets">es7-react-js-snippets</a>: react es7 的代码片段</li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens">gitlens</a>: Git 增强插件</li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=pushqrdx.inline-html">inline-html</a>: js 模板字符串中的 <code>HTML</code> 代码提示</li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=k--kato.intellij-idea-keybindings">intellij-idea-keybindings</a>: IDEA 快捷键映射</li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=sysoev.language-stylus">language-stylus</a>: <code>stylus</code> 语言支持</li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=yzhang.markdown-all-in-one">markdown-all-in-one</a>: Markdown 编辑主要插件</li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=yzane.markdown-pdf">markdown-pdf</a>: 将 Markdown 导出 PDF 文档</li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=PKief.material-icon-theme">material-icon-theme</a>: material 风格的图标</li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=christian-kohler.path-intellisense">path-intellisense</a>: 路径提示</li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode">prettier-vscode</a>: 配合 ESLint 做代码格式自动修复</li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=WallabyJs.quokka-vscode">quokka-vscode</a>: 持续监听/运行 js 文件</li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=thisismanta.stylus-supremacy">stylus-supremacy</a>: <code>stylus</code> 格式化</li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=Equinusocio.vsc-material-theme">vsc-material-theme</a>: Material 风格的 VSCode</li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint">vscode-eslint</a>: JavaScript 代码规范检查</li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=NuclleaR.vscode-extension-auto-import">vscode-extension-auto-import</a>: 自动 import 函数</li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=firsttris.vscode-jest-runner">vscode-jest-runner</a>: 快速运行/调试 jest 测试</li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint">vscode-markdownlint</a>: Markdown 语法检查</li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=ipatalas.vscode-postfix-ts">vscode-postfix-ts</a>: Markdown 语法检查</li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=wayou.vscode-todo-highlight">vscode-todo-highlight</a>: <code>TODO</code> 注释高亮</li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=WakaTime.vscode-wakatime">vscode-wakatime</a>: 记录与统计代码的时间</li>
+</ul>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://gist.github.com/rxliuli/9069f63e5bc0fc0f5cbbfc44a8b0da44">VSCode Settings</a></p>
+</blockquote>
+<h3 id="Google-Chrome：最好的浏览器"><a href="#Google-Chrome：最好的浏览器" class="headerlink" title="Google Chrome：最好的浏览器"></a>Google Chrome：最好的浏览器</h3><p>[部分开源], [跨平台], [免费]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.google.com/chrome/">官网</a>, <a target="_blank" rel="noopener" href="https://commondatastorage.googleapis.com/chromium-browser-snapshots/index.html">Google Chromium 各版本下载</a></p>
+</blockquote>
+<p>非常有名的浏览器，来源于 Google，在 PC 上不管是用于开发还是日常使用都能够满足需求。相比于国内的流氓而言非常干净简洁（至少，看起来而言），相比于 FireFox 来说更快，插件体系也已经足够庞大完整，基本上想要的都有了。</p>
+<p>常用的 Plugin：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/autopagerize/igiofjhpmpihnifddepnpngfjhkfenbp">AutoPagerize</a>：自动翻页插件，浏览很多网站时不需要手动点击下一页了，可以自动加载出来下一页的结果。</li>
+<li><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/checker-plus-for-gmail/oeopbcgkkoapgobdbedcemjljbihmemj">Checker Plus for Gmail™</a>：对于日常使用 Gmail 的吾辈而言非常有用</li>
+<li><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/crxmouse-chrome-gestures/jlgkpaicikihijadgifklkbpdajbkhjo">crxMouse Chrome™ 手势</a>：鼠标手势插件，可以使用手势更简单地完成一些事情</li>
+<li><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/dark-reader/eimadpbcbfnmbkopoojfekhnkhdbieeh">Dark Reader</a>：为所有网站加上黑色主题，大部分情况下都还不错</li>
+<li><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/anlikcnbgdeidpacdbdljnabclhahhmd">Enhanced Github</a>：显示 GitHub Repository 大小，允许单独下载每一个文件</li>
+<li><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/enhancer-for-youtube/ponfpcnoihfmfllpaingbgckeeldkhle">Enhancer for YouTube™</a>：怎么说呢，Youtube 已经很好了，但吾辈还是觉得需要这个插件来优化播放体验</li>
+<li><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/fatkun-batch-download-ima/nnjjahlikiabnchcpehcpkdeckfgnohf">Fatkun 图片批量下载</a>：批量下载网页上的图片，偶尔用一下吧</li>
+<li><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/free-download-manager/ahmpjcflkgiildlgicmcieglgoilbfdp">Free Download Manager</a>：FDM Chrome 集成插件，将 Chrome 下载链接使用 FDM 多线程下载</li>
+<li><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/github-hovercard/mmoahbbnojgkclgceahhakhnccimnplk">GitHub Hovercard</a>：GitHub 增强插件，鼠标悬浮在仓库链接上面就可以预览</li>
+<li><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/image-search-options/kljmejbpilkadikecejccebmccagifhl">Image Search Options</a>：使用右键以图搜图</li>
+<li><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/isometric-contributions/mjoedlfflcchnleknnceiplgaeoegien">Isometric Contributions</a>：GitHub 美化插件，将 GitHub 贡献以 3D 的效果显示出来</li>
+<li><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/jetbrains-ide-support/hmhgeddbohgjknpmjagkdomcpobmllji">JetBrains IDE Support</a>：使用 Chrome 实时显示 IDEA 的 HTML/CSS/JavaScript 文件，与 IDEA 的插件配合使用</li>
+<li><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/lastpass-free-password-ma/hdokiejnpimakedhajhdlcegeplioahd">LastPass: Free Password Manager</a>：跨平台的免费密码管理器，有了这个之后再也不用所有网站都使用同一个密码了</li>
+<li><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/mailto-for-gmail/dgkkmcknielgdhebimdnfahpipajcpjn">Mailto: for Gmail™</a>：对于 mailto 协议的链接以 Gmail 网页版打开</li>
+<li><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/markdown-here/elifhakcjgalahccnjkneoccemfahfoa">Markdown Here</a>：在线将 Markdown 转换为有格式的文档，例如在一个普通的富文本编辑器（不支持 Markdown）中，可以先用 Markdown 语法写内容，然后转换一下就得到了有样式的内容了。</li>
+<li><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/neat-url/jchobbjgibcahbheicfocecmhocglkco">Neat URL</a>：移除网址中的无用段，例如返利链接后面的参数</li>
+<li><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/octotree/bkhaagjahfmjljalopjnoealnfndnagc">Octotree</a>：GitHub 代码树状图插件，方便查看项目文件</li>
+<li><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/owo/ckfodameiahfhlainaclajkgfagkpodb">OwO</a>：颜文字插件，多亏了这个让吾辈能够愉快的刷推了</li>
+<li><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/proxy-switchyomega/padekgcemlokbadohgkifijomclgjgif">Proxy SwitchyOmega</a>：科学上网必需</li>
+<li><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/stylus/clngdbkpkpeebahjckkjfobafhncgmne">Stylus</a>：使用自定义网站样式的插件，比 Stylish 的名声好一些</li>
+<li><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/tabliss-a-beautiful-new-t/hipekcciheckooncpjeljhnekcoolahp">Tabliss</a>：新标签页插件</li>
+<li><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo">Tampermonkey</a>：使用自定义网站脚本的插件，可以使用各种 <code>user.js</code> 脚本，相当于小型的插件管理器了</li>
+<li><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/the-great-suspender/klbibkeccnjlkjkiokjodocebajanakg">The Great Suspender</a>：自动休眠标签页，避免 Chrome 使用的内存太过庞大</li>
+<li><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/ublock-origin/cjpalhdlnbpafiamejdnhcphjbkeiagm">uBlock Origin</a>：日常上网必须，屏蔽各种广告，比 Adblock 的名声好一些</li>
+<li><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd">Vue.js devtools</a>：在 DevTool 中添加 Vuejs 选项卡，便于对 Vuejs 进行调试</li>
+<li><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/webrtc-network-limiter/npeicpdbkakmehahjeeohfdhnlpdklia">WebRTC Network Limiter</a>：阻止浏览器通过 WebRTC 泄露 IP 地址</li>
+<li><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/web%E5%89%8D%E7%AB%AF%E5%8A%A9%E6%89%8Bfehelper/pkgccpejnmalmdinmhkkfafefagiiiad">WEB 前端助手(FeHelper)</a>：貌似是百度的前端插件，但目前还没有什么流氓行为</li>
+<li><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/%E5%BF%AB%E7%BF%BB%E8%AF%91/chpeaiibggkmaongjphijmielpkokcdg">快翻译</a>：这个翻译插件是真心不错，某种意义上讲比 Chrome 自带的翻译都要好（#大雾）</li>
+<li><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/extension-manager/gjldcdngmdknpinoemndlidpcabkggco">扩展管理器（Extension Manager）</a>：插件很少的时候还好，一多起来还是需要一个插件进行管理，快速启用和禁用一些插件，根据场景切换启用插件列表</li>
+</ul>
+<p>Chrome 虽然已经很完美了，但 Google 却并非如此，最近 Chrome 开始变得越来越封闭了。首先是 Chrome 应用被删除，现在又禁止安装非官方商店中的第三方插件（目前仍可以通过开发者模式安装），真心越来越麻烦了。</p>
+<blockquote>
+<p>附：这里提供一个快捷安装第三方插件的工具 <a target="_blank" rel="noopener" href="http://www.webappbus.com/">Chrome 插件伴侣</a>，方便解决 Chrome67 之后安装非商店插件的麻烦</p>
+</blockquote>
+<h3 id="IDEA：最好的-Java-IDE"><a href="#IDEA：最好的-Java-IDE" class="headerlink" title="IDEA：最好的 Java IDE"></a>IDEA：最好的 Java IDE</h3><p>[便携版], [部分开源], [跨平台]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.jetbrains.com/idea/">官网</a>, <a target="_blank" rel="noopener" href="https://github.com/JetBrains/intellij-community">GitHub 社区版</a><br>强烈建议升级至 <strong>2019.2.3</strong>，官方终于把智障的重构字符串查找引用默认关闭了，可喜可贺，可喜可贺</p>
+</blockquote>
+<p>虽然说起最好的 IDE 什么的肯定是各种争论，但吾辈还是想说，在 Java 语言开发方面，IDEA 是目前最好的 IDE 了。</p>
+<p>优点：</p>
+<ul>
+<li>智能提示<br>IDEA 在代码提示方面真的是无可比拟（相比于 Eclipse 来说），通常在还没有打完全部代码的时候，IDEA 就知道想要做什么了，然后给吾辈最常用的提示。并且，对于某些不太好的代码，IDEA 会提出一些建议甚至帮助进行安全的重构。一般而言吾辈认为，如果 IDEA 认为代码有问题，那么一般真的是代码有问题（确实有些情况下也不尽如此）</li>
+<li>开箱即用<br>虽然很不起眼，但这确实很重要。当下载完 IDEA 之后，几乎不需要安装什么插件，进行繁复的配置，就能开始工作了！因为 IDEA 帮我们准备好了绝大多数情况所需要的插件，很多配置也都有着良好的默认值。</li>
+<li>插件系统<br>或许 IDEA 的插件数量比不上 Eclipse，但 IDEA 的插件系统确实已经很完善了，至少，对于吾辈而言已然足够了。</li>
+<li>界面很棒<br>其实这个就是吸引吾辈入坑 IDEA 的原因之一，毕竟曾经其他人都在用着 Eclipse 的时候，吾辈看到了 IDEA 的黑色主题就被吸引了，然后到现在成了 IDEA 的死忠粉。</li>
+<li>搜索功能<br>非常强大的搜索功能，可以搜索类，文件，字段，以及全文搜索，包括正则表达式，文件后缀名等过滤功能。</li>
+<li>调试<br>或许有人说，现代的 IDE 基本上都有调试功能吧。但 IDEA 是不同的，它可以同时调试 Java 与 JavaScirpt 以及其他所集成的语言，这可真是强大无比。使用 JavaScript 发送一个请求，然后进入后台代码调试，得到 SQL 语句，去查询数据库，而这一切，都是在 IDEA 内部完成的！</li>
+<li>语言注入<br>这是 IDEA 比较高级的部分了，但这也是一个相当强大的功能。例如，有时候我们不得不手写 SQL 语句，或者在 JavaScript 中拼接 HTML 代码。难道我们必须要去对应的文件中编辑完之后复制过来么？不不不，语言注入就是可以为某一个代码片段注入为某一种语言，例如你可以为 Java 中的字符串注入 SQL 语言。在字符串中，你写 SQL 语句就有提示了！<blockquote>
+<p>当然，语言注入也是要符合基本法的，必须是 IDEA 支持的语言才行，不过 IDEA 对主流语言的支持都还不错。</p>
+</blockquote>
+</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>硬件杀手<br>IDEA 是出了名的吃内存（日常），吃磁盘（扫描项目建立索引）以及 CPU（索引）。</li>
+<li>小病不断<br>虽然 IDEA 很是强大，但各种小问题也是层出不穷。例如自定义的 Maven 到了新的项目就变成默认的了。。。</li>
+</ul>
+<p>常用的 Plugin：</p>
+<ul>
+<li>Jrebel：做 Java Web 开发时真心免不了的 Plugin，能够有效解决 Web 容器（例如 Apache Tomcat）启动速度慢的问题（因为几乎所有的资源都能够热加载，热部署）。</li>
+<li>LiveEdit：提供了 HTML/CSS/JavaScript 的实时预览和刷新功能。</li>
+<li>MybatisX：Mybatis 的一个辅助开发插件，能够比较愉快的使用 Mybatis 框架了</li>
+<li>Alibaba Java Coding Guidelines：Alibaba 出品的一个 Java 规范检查插件，能够规避一些不好的代码。</li>
+<li>Translation：目前使用感觉最好的翻译插件，能够提供比较长的内容进行翻译（某些翻译插件只能翻译很短的内容）。</li>
+<li>String Manipulation：字符串操作工具，可以方便对变量名或其他字符串修改为其他风格，例如将变量从 <strong>驼峰命名</strong>（Java 标准命名） 修改为 <strong>下划线命名</strong>（SQL 标准命名）或者 <strong>中缀线命名</strong>（HTML/CSS 标准命名）。<blockquote>
+<p>其实这么多命名规范真心坑。。。</p>
+</blockquote>
+</li>
+<li>Custom Postfix Templates：提供自定义的后缀模板</li>
+<li>GsonFormat：格式化 <code>json</code> 数据并转换为 <code>Java</code> 中的 <code>POJO</code>，其实对于吾辈而言主要是用来写爬虫时生成 <code>json</code> 数据对应的实体类</li>
+<li>Markdown Navigator：IDEA 平台的 Markdown 写作插件，比自带的 Markdown Support 要好很多，主要在需要写的 Markdown 内容中含有代码时比较方便。</li>
+<li>Maven Helper：一个 Apache Maven 的辅助操作插件</li>
+<li>CodeGlance：在编辑器右侧显示一块代码缩略图，主要为了方便使用滑块进行上下滑动</li>
+<li>Grep Console：自定义控制台的输出颜色</li>
+<li>.ignore：在使用版本控制时，快速忽略某些文件/文件夹，目前支持广泛</li>
+<li>CMD support：Cmd 支持，主要是方便在 IDEA 中直接运行 bat 脚本</li>
+<li>NodeJS：集成了 NodeJS，可以直接在 IDEA 中运行 NodeJS</li>
+<li>Vue.js：集成 Vue.js 框架</li>
+<li>Properties to YAML Converter：将 <code>Properties</code> 文件快速转换为 <code>YAML</code> 格式的配置文件</li>
+<li>WakaTime：统计使用的编程语言，不同 IDE 的记录。<a target="_blank" rel="noopener" href="https://wakatime.com/">官网</a></li>
+</ul>
+<blockquote>
+<p>入门推荐教程（简体中文）：<a target="_blank" rel="noopener" href="https://github.com/judasn/IntelliJ-IDEA-Tutorial">https://github.com/judasn/IntelliJ-IDEA-Tutorial</a></p>
+</blockquote>
+<h3 id="drawio：开源免费的画图工具"><a href="#drawio：开源免费的画图工具" class="headerlink" title="drawio：开源免费的画图工具"></a>drawio：开源免费的画图工具</h3><p>[便携版], [开源], [免费]，[跨平台]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://app.diagrams.net/">官网</a>, <a target="_blank" rel="noopener" href="https://github.com/jgraph/drawio">GitHub</a></p>
+</blockquote>
+<p>目前能找到的最好的免费开源的画图解决方案，能够制作流程图、UML 图、组织结构图、泳道图等绘图。允许导出为图片/HTML/PDF 等各种格式，全平台免费可用的解决方案。</p>
+<blockquote>
+<p>ProcessOn 是一个更加本地化的解决方案，并且添加了思维导图支持，只允许在线编辑导致了数据的最终权力不在自己手上，强制收费则让（小）团队使用成为一件可望而不可及的事情。<br>注：此处不是故意黑 ProcessOn，因为吾辈也是它的付费用户，但在团队内推广使用确实会存在一些问题。</p>
+</blockquote>
+<h3 id="Cmder：Windows-上模拟-Linux-终端"><a href="#Cmder：Windows-上模拟-Linux-终端" class="headerlink" title="Cmder：Windows 上模拟 Linux 终端"></a>Cmder：Windows 上模拟 Linux 终端</h3><p>[便携版], [开源], [免费]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://cmder.net/">官网</a>, <a target="_blank" rel="noopener" href="https://github.com/cmderdev/cmder">GitHub</a></p>
+</blockquote>
+<p>曾经有段时间吾辈也很迷信 Linux，觉得 Linux 适合开发者使用（事实上确实如此），但后来还是因为电脑的硬件原因（驱动问题，莫名其妙的卡死在登录页面）而回到了 Windows。而最让人念念不忘的就是 Linux Bash 终端了，相比于 Windows 自带的 Cmd/PowerShell 来说漂亮/强大了许多。当然，Windows 相比于 Linux 的最大优点就是稳定（不怕折腾，很难损坏系统本身）以及可视化（大部分的设计都有可视化界面进行配置）。然而有时候还是不得不使用命令行，而这时便显示出 Windows 的不足了，直到后来吾辈在偶然的机会碰到了 Cmder，发现了 Windows 上果然已经有了解决方案。</p>
+<p>Cmder 是一个在 Windows 上模拟 Linux Bash 的终端模拟器，其实对于吾辈而言，主要是因为 Cmder 比较漂亮，集成了很多组件（例如 Git, SSH, Curl, Less, vim），而且还能在上面安装 Windows 下的包管理系统 <strong>Chocolatey</strong>。安装了包管理器之后就能直接使用 <code>choco command options</code> 命令安装软件了。</p>
+<blockquote>
+<p>具体方法可以参考另外一篇文章：<a target="_blank" rel="noopener" href="https://blog.rxliuli.com/p/ad968d70/">Windows 下 Cmder 安装 Chocolatey</a></p>
+</blockquote>
+<h3 id="Git：Git-版本控制系统"><a href="#Git：Git-版本控制系统" class="headerlink" title="Git：Git 版本控制系统"></a>Git：Git 版本控制系统</h3><p>[便携版], [开源], [跨平台], [免费]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://git-scm.com/">官网</a>, <a target="_blank" rel="noopener" href="https://github.com/git/git">GitHub</a></p>
+</blockquote>
+<p>最初由 Linus 开发的一个分布式的版本控制系统，现在已经是最流行的版本控制系统之一了。说到 Git 不得不提 GitHub，GitHub 为 Git 实现了一个在线代码（或者其他）托管平台，相当好用而且托管开源项目是免费的。其实对于吾辈而言 Git 只是一个用于在本地操作 GitHub 的客户端罢了（很少有添加到 Git 而没有提交到 GitHub 的代码）。正是因为 GitHub 对 Git 的支持之好，所以吾辈才喜欢使用 Git 的。。。（#因果颠倒）</p>
+<h3 id="Termius：简单漂亮的-SSH-连接工具"><a href="#Termius：简单漂亮的-SSH-连接工具" class="headerlink" title="Termius：简单漂亮的 SSH 连接工具"></a>Termius：简单漂亮的 SSH 连接工具</h3><p>[跨平台]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.termius.com/">官网</a></p>
+</blockquote>
+<p>非常漂亮的一个远程连接工具，免费版本仅支持 SSH 连接，而 SFTP 则是收费版本的功能，吾辈作为前端感觉算是足够了。</p>
+<blockquote>
+<p>更强大的远程连接工具：<a target="_blank" rel="noopener" href="https://mobaxterm.mobatek.net/">Mobaxterm</a>，功能非常强大但界面复古（Win7 时代的风格）。</p>
+</blockquote>
+<h3 id="HeidiSQL：SQL-客户端"><a href="#HeidiSQL：SQL-客户端" class="headerlink" title="HeidiSQL：SQL 客户端"></a>HeidiSQL：SQL 客户端</h3><p>[便携版], [开源], [免费]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.heidisql.com/">官网</a>, <a target="_blank" rel="noopener" href="https://github.com/HeidiSQL/HeidiSQL">GitHub</a></p>
+</blockquote>
+<p>一个支持 MSSQL,MySQL 和 PostgreSQL 的开源数据库轻量级客户端。吾辈使用这个 SQL 客户端最重要的原因就是满足了吾辈对于数据库文件的导入/导出需求，谁让 IDEA 自带的 DataGrip 没有导出功能呢</p>
+<blockquote>
+<p>附：吾辈很清楚 MySQL 有自带的导出命令，然而并不灵活。。。至少这个能够定义创建数据表，插入数据时使用的策略</p>
+</blockquote>
+<h3 id="freeFTPd：免费的-FTP-SFTP-服务端"><a href="#freeFTPd：免费的-FTP-SFTP-服务端" class="headerlink" title="freeFTPd：免费的 FTP/SFTP 服务端"></a>freeFTPd：免费的 FTP/SFTP 服务端</h3><p>[开源], [免费]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://www.freesshd.com/">官网</a></p>
+</blockquote>
+<p>开源免费的 FTP/SFTP 服务端，非常适合在开发过程中模拟 FTP/SFTP 服务端使用。而且相比于 <a target="_blank" rel="noopener" href="https://filezilla-project.org/">FileZilla</a> 更加简单，也不会从一开始就出现错误需要解决。</p>
+<hr>
+<h2 id="日常"><a href="#日常" class="headerlink" title="日常"></a>日常</h2><h3 id="Win-R：快速启动"><a href="#Win-R：快速启动" class="headerlink" title="Win + R：快速启动"></a>Win + R：快速启动</h3><p>虽说 Windows 上也有快速启动工具，但 Windows 原生的快速启动已然足够使用了。将快捷方式命名为一个简单的名字，例如将 <strong>Google Chrome</strong> 命名为 <strong>GC</strong>，然后丢到当前用户目录下，然后使用 <strong>Win + R</strong> 弹出运行窗口，然后输入 <strong>GC</strong>，系统就会启动 <strong>Google Chrome</strong> 了。</p>
+<p>当然，更好的方法是新建一个目录保存这些快速启动的快捷方式，然后将目录添加到环境变量中即可（<code>Path</code>）。</p>
+<h3 id="SSR：正常上网必须"><a href="#SSR：正常上网必须" class="headerlink" title="SSR：正常上网必须"></a>SSR：正常上网必须</h3><p>[便携版], [开源], [跨平台], [免费]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/shadowsocksr-backup">GitHub</a></p>
+</blockquote>
+<p>为了正常浏览网络折腾与支付一些代价都是微不足道的，貌似比 <code>ShadowScoks</code> 要稳定一点，不过据传闻作者最初并未打算将其开源。</p>
+<h3 id="Proxifier：代理一切"><a href="#Proxifier：代理一切" class="headerlink" title="Proxifier：代理一切"></a>Proxifier：代理一切</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.proxifier.com/">官网</a></p>
+</blockquote>
+<p>虽然 SSR 可以连接代理服务器，同时还提供局域网内的 Socks5/HTTP 的代理，同时 Chrome 自动使用系统代理，所以我们可以方便的直接打开 Google 了。然而，并不是所有程序都像是 Chrome 浏览器那么友好，许多支持代理的程序都需要手动进行配置，更麻烦的地方是：很多程序不包含代理设置 – 尤其是开发相关的工具链。</p>
+<p>先说几个具体的使用场景吧</p>
+<ul>
+<li>进行 web 开发时，有些 npm 包（electron/SQLLite）会在 install 时从网络下载二进制文件，而因为众所周知的原因，它们的下载速度并不快，而 nodejs 也不能配置代理（事实上，即便配置了，也不是所有 npm 包都会读）</li>
+<li>希望监听某些程序到底有没有发送网络请求，但却不能尽知</li>
+</ul>
+<h3 id="MacType：字体美化"><a href="#MacType：字体美化" class="headerlink" title="MacType：字体美化"></a>MacType：字体美化</h3><p>[开源], [免费]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://www.mactype.net/">官网</a>, <a target="_blank" rel="noopener" href="https://github.com/snowie2000/mactype">GitHub</a></p>
+</blockquote>
+<p>Windows 上的字体就是会出现锯齿（所谓的点阵字体真是坑），不过 MacType 可以缓解这一现象。它可以美化 Windows 对字体的渲染（绝大部分程序都不会出现问题），让吾辈在使用 Windows 的时候看着代码更舒服一点。</p>
+<blockquote>
+<p>附: MacType 配置推荐 <strong>注册表加载 + Iof =&gt; XHei =&gt; Default</strong><br>附：字体个人推荐 <a target="_blank" rel="noopener" href="https://github.com/be5invis/Sarasa-Gothic">Sarasa-Gothic</a>，中文名是更纱黑体，包含 <strong>英/简中/繁中/日</strong> 四种语言</p>
+</blockquote>
+<h3 id="Joplin：适合开发者的笔记工具"><a href="#Joplin：适合开发者的笔记工具" class="headerlink" title="Joplin：适合开发者的笔记工具"></a>Joplin：适合开发者的笔记工具</h3><p>[便携版], [开源], [跨平台], [免费]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://joplinapp.org/">官网</a>, <a target="_blank" rel="noopener" href="https://github.com/laurent22/joplin">GitHub</a></p>
+</blockquote>
+<p>一个开源跨平台的笔记工具，使用的模式是本地程序 + 第三方服务同步的方式，编辑功能算是比较弱的，同步也不算是最好的，甚至于客户端也不算是最漂亮的。但是，它有一些非常显著的优点，甚至足以压倒以上的缺点。</p>
+<p>主要优点：</p>
+<ol>
+<li> 搜索很快，非常快</li>
+<li> 可以使用外部编辑器打开</li>
+<li> 数据都在自己手里，提供一次性导出全部的功能</li>
+<li> 使用标准的 md，可以直接复制到其他平台</li>
+<li> 可以基于它进行二次开发</li>
+</ol>
+<p>主要缺点：</p>
+<ol>
+<li> ui/ux 有点简陋</li>
+<li> 没有 vsc 插件导致使用外部编辑器也并不是非常方便</li>
+</ol>
+<blockquote>
+<p>之前吾辈使用过 OneNote 和 Notion，两者都是非常好的笔记工具，但两者存在的一些缺点导致吾辈在使用一段时间后选择了放弃。</p>
+<ul>
+<li>OneNote：主要问题是需要自己调整文本格式，不支持 markdown，以及富文本带来的分享问题。</li>
+<li>Notion：主要问题是编辑体验不好，搜索非常慢，以及非标准 markdown 导致的分享问题。可以参考 <a href="/p/b1d53b2d48c24af7904985f6c3764cdb">Notion 使用体验</a></li>
+</ul>
+</blockquote>
+<h3 id="FDM：免费的多线程下载器"><a href="#FDM：免费的多线程下载器" class="headerlink" title="FDM：免费的多线程下载器"></a>FDM：免费的多线程下载器</h3><p>[免费]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://http//www.freedownloadmanager.org">官网</a></p>
+</blockquote>
+<p>全称 Free Download Manager，没什么太多好说的，但用起来还算不错，不会弹个窗口提示下载什么的，然而下载完成也没提示真的坑。。。</p>
+<p>基本上满足吾辈日常的下载需求吧</p>
+<ul>
+<li>[x] 提供客户端界面</li>
+<li>[x] 多线程</li>
+<li>[x] 集成 chrome</li>
+<li>[x] 静默下载</li>
+<li>[x] 下载后可以打开文件/文件夹</li>
+<li>[ ] 下载完成后没有弹窗提示</li>
+<li>[ ] 便携版（配置可携带化）</li>
+</ul>
+<h3 id="Bandizip：压缩-解压缩"><a href="#Bandizip：压缩-解压缩" class="headerlink" title="Bandizip：压缩/解压缩"></a>Bandizip：压缩/解压缩</h3><p>[便携版], [免费]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.bandizip.com/">官网</a></p>
+</blockquote>
+<p>目前吾辈觉得最好的压缩/解压缩软件，具体压缩率/支持格式什么的吾辈也并非专业所以就不说了。但就使用体验上看 Bandizip 是要明显优于其他同类软件的（WinRAR, 7Zip）。</p>
+<p>吾辈看到的优点：</p>
+<ul>
+<li>预览压缩文件时左侧有文件夹树状列表，不需要再用鼠标点击进进出出的活塞运动了</li>
+<li>自动解压，这个功能相当棒，可以智能解压压缩文件到文件夹中（如果压缩包里面只有一个文件夹就直接解压出来，否则会将压缩包里面的内容解压到一个与压缩包同名的文件夹中），这个功能看起来很不起眼，但吾辈在此之前并未找到（需要特别注意压缩包的内容）</li>
+</ul>
+<blockquote>
+<p>注：最新版本强制更新还有广告，所以需要下载修改版或是旧版本，即便如此，它的自动解压仍然是非常优秀的解压功能。</p>
+</blockquote>
+<h3 id="ClipboardFusion：剪切板增强"><a href="#ClipboardFusion：剪切板增强" class="headerlink" title="ClipboardFusion：剪切板增强"></a>ClipboardFusion：剪切板增强</h3><p>[便携版], [免费]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.clipboardfusion.com/">官网</a></p>
+</blockquote>
+<p>Windows 剪切板增强工具，不得不说 Windows 上的工具确实很多。即使一个功能 Windows 本身支持的不好，然而总有其他的工具对其增强就是了。当然，吾辈需要的只是它的剪切板历史功能。</p>
+<blockquote>
+<p>注：目前 Windows 已经自带了剪切板历史功能，但尚未支持搜索，同时在布局上也并不是特别友好（只能显示 4 条），轻量级用户可以选择这个（毕竟是自带，很方便）。<br>注：之前在用 Ditto，但后面在吾辈电脑上出现了 bug，所以更换了其他工具，但并不是说它不好。参考：<a target="_blank" rel="noopener" href="https://xbeta.info/ditto.htm">善用佳软评测</a> 对其的介绍很全面，这里也就无需赘述了。</p>
+</blockquote>
+<h3 id="JPEGView：图片浏览"><a href="#JPEGView：图片浏览" class="headerlink" title="JPEGView：图片浏览"></a>JPEGView：图片浏览</h3><p>[便携版], [免费]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://sourceforge.net/projects/jpegview/">官网</a></p>
+</blockquote>
+<p>简单而且好用的图片查看器，相比于吾辈之前使用的 ImageView（中文名是 <strong>快眼看图王</strong>）更快，相比于 HoneyView 更见简洁和易操作。</p>
+<p>主要优点如下：</p>
+<ul>
+<li>操作简单：滚轮缩放，按住移动，ESC 关闭，Left/Right 查看上/下张图片</li>
+<li>性能很高：实测打开速度比 imageview/honeyview 都要更快</li>
+</ul>
+<p>借用<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/21305023">知乎</a>网友理想中的图片查看器需求图</p>
+<p><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20200408210706.png" alt="理想中的图片查看器"></p>
+<h3 id="Everything：文件快速搜索"><a href="#Everything：文件快速搜索" class="headerlink" title="Everything：文件快速搜索"></a>Everything：文件快速搜索</h3><p>[便携版], [免费]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.voidtools.com/">官网</a></p>
+</blockquote>
+<p>用过 Windows Explorer（文件管理器）搜索文件的人都知道速度是有多慢，有了 Everything 之后这一切都是往事了。Everything 建立了全盘索引，可以对文件/文件夹进行实时搜索，速度之快简直和默认的文件管理器有天壤之别。当然，也能够根据正则表达式/类型进行高级查询。</p>
+<h3 id="Snipaste：截图-贴图"><a href="#Snipaste：截图-贴图" class="headerlink" title="Snipaste：截图/贴图"></a>Snipaste：截图/贴图</h3><p>[便携版], [免费]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://zh.snipaste.com/">官网</a>, <a target="_blank" rel="noopener" href="https://github.com/Snipaste">GitHub</a>, <a target="_blank" rel="noopener" href="https://docs.snipaste.com/zh-cn/">GitBook 中文教程</a></p>
+</blockquote>
+<p>很漂亮，很漂亮，很漂亮！重要的话说三遍，Snipaste 相比于其他的截图软件（FSCapture）在使用时感觉漂亮了很多，而且在使用时会方便很多（截图完成后直接就进行编辑，而不是跳转到编辑器中编辑截图），保存时自动保存并且复制到剪切板也很方便。总而言之就是细节做的相当棒！</p>
+<h3 id="PicGo：图床上传"><a href="#PicGo：图床上传" class="headerlink" title="PicGo：图床上传"></a>PicGo：图床上传</h3><p>[开源], [跨平台], [免费]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://molunerfinn.com/PicGo/">官网</a>, <a target="_blank" rel="noopener" href="https://github.com/rxliuli/PicGo">GitHub</a></p>
+</blockquote>
+<p>使用 Markdown 写作必备的图床工具，解决了吾辈关于 GitHub 图床的几个痛点。</p>
+<ul>
+<li>上传之前重命名</li>
+<li>上传一键就好</li>
+<li>上传后图片管理</li>
+</ul>
+<h3 id="ScreenToGif：录制-GIF-动态图"><a href="#ScreenToGif：录制-GIF-动态图" class="headerlink" title="ScreenToGif：录制 GIF 动态图"></a>ScreenToGif：录制 GIF 动态图</h3><p>[便携版], [开源], [免费]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.screentogif.com/">官网</a>, <a target="_blank" rel="noopener" href="https://github.com/NickeManarin/ScreenToGif">GitHub</a></p>
+</blockquote>
+<p>虽然吾辈已经有了截图工具，但某些时候单靠截图并不能很好的表达意思，这时候就需要使用 Gif 去记录一系列的操作。这也是 ScreenToGif 的主要功能，将记录转换成 Gif 动态图。</p>
+<p>嘛，虽然就使用上吾辈觉得还是有一些不便：</p>
+<ul>
+<li>吸附窗口操作不太直观</li>
+<li>保存时不能直接一键保存到指定目录并复制到剪切板</li>
+</ul>
+<p>不过这也是目前吾辈能找到的比较好用的一个了</p>
+<h3 id="QuickLook：文件管理器预览增强"><a href="#QuickLook：文件管理器预览增强" class="headerlink" title="QuickLook：文件管理器预览增强"></a>QuickLook：文件管理器预览增强</h3><p>[便携版], [开源], [免费]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://pooi.moe/QuickLook/">官网</a>, <a target="_blank" rel="noopener" href="https://github.com/xupefei/QuickLook">GitHub</a></p>
+</blockquote>
+<p>Windows Explorer 预览功能增强，支持很多种格式的文件/文件夹进行预览，包括但不限于文本、图像、视频、音频、压缩包、文件夹等。在按下空格时，就弹出一个预览窗口，感觉还是不错的。</p>
+<h3 id="Steam：国外的游戏平台"><a href="#Steam：国外的游戏平台" class="headerlink" title="Steam：国外的游戏平台"></a>Steam：国外的游戏平台</h3><p>[跨平台], [免费]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://steamcommunity.com/">官网</a></p>
+</blockquote>
+<p>来自于金三胖出品的非常著名的游戏平台，非常之多的游戏在该平台上发售。Steam 提供了非常多的支付方式，对国内用户相当友好（支付宝/微信/银联）。吾辈个人是只玩 Galgame 的，所以能入正支持到做 Galgame 的公司表示还是很开心的。<br>唉，不过 Steam 也没能逃过魔掌呢。。。<a target="_blank" rel="noopener" href="https://www.google.com/search?q=steam+%E8%90%BD%E6%88%B7%E4%B8%8A%E6%B5%B7%E6%B5%A6%E4%B8%9C">steam 落户上海浦东</a>，吾辈表示转区势在必得了！</p>
+<blockquote>
+<p>附：Steam 上没有什么盗版游戏，所以想免费玩游戏的人就不用抱有什么幻想了</p>
+</blockquote>
+<h3 id="Mozilla-FireFox：抱有期待的浏览器"><a href="#Mozilla-FireFox：抱有期待的浏览器" class="headerlink" title="Mozilla FireFox：抱有期待的浏览器"></a>Mozilla FireFox：抱有期待的浏览器</h3><p>[开源], [跨平台], [免费]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://firefox.com/">官网</a>, <a target="_blank" rel="noopener" href="https://github.com/mozilla/gecko-dev">GitHub</a></p>
+</blockquote>
+<p>FireFox 是一个将 IE 拉下神坛的浏览器，一个开源的注重隐私的浏览器，但现在，它已然有些没落了。尤其是最近的 FireFox57 后为了提升性能更新了浏览器的整体架构，导致旧的扩展基本全部失效，恢复曾经的附加扩展生态却又不知道需要多久了。但是，这些问题，相比于隐私（信息收集）与自由（不限制扩展）来说，还是值得考虑一下的，确实挺期待 FireFox 之后发展的。</p>
+<p>相比于其他的浏览器最大的特点就是隐私性和自由，收集隐私是完全可选的（国内的流氓浏览器信息收集简直过分），附加扩展基本不怎么限制（Chrome 限制扩展只能从官方商店直接安装）。</p>
+<blockquote>
+<p>补充:</p>
+<ul>
+<li>2019-06-18: 现在 Chrome 居然限制 <strong>uBlock Origin</strong> 这类的扩展了。。。</li>
+</ul>
+</blockquote>
+<h3 id="AIMP：本地音乐播放器"><a href="#AIMP：本地音乐播放器" class="headerlink" title="AIMP：本地音乐播放器"></a>AIMP：本地音乐播放器</h3><p>[免費]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://www.aimp.ru/">官网</a></p>
+</blockquote>
+<p>一个非常漂亮的本地音乐播放器，貌似对歌曲音质的支持也很好（没什么感触，不玩耳机的萌新一只）。。。</p>
+<h3 id="PotPlayer：视频播放器"><a href="#PotPlayer：视频播放器" class="headerlink" title="PotPlayer：视频播放器"></a>PotPlayer：视频播放器</h3><p>[便携版], [免费]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://potplayer.daum.net/">官网</a></p>
+</blockquote>
+<p>非常强大/漂亮的本地视频播放器，虽然也可以播放 URL 的视频资源，但主要还是播放本地视频，支持大多数常见格式而且对于 1080P 之上的画质支持非常棒！</p>
+<h3 id="qBittorrent：BT-下载"><a href="#qBittorrent：BT-下载" class="headerlink" title="qBittorrent：BT 下载"></a>qBittorrent：BT 下载</h3><p>[免费]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.qbittorrent.org/">官网</a></p>
+</blockquote>
+<p>不错的 BT 客户端，相比于<strong>大名鼎鼎</strong>的比特彗星，它没有广告，没有等级。对于热门种子的下载速度十分喜人，最高可以跑到 10M 左右，比特彗星永远没有跑到这么高过。。。</p>
+<h3 id="Dism-：Windows-的一个集中式的系统管理工具"><a href="#Dism-：Windows-的一个集中式的系统管理工具" class="headerlink" title="Dism++：Windows 的一个集中式的系统管理工具"></a>Dism++：Windows 的一个集中式的系统管理工具</h3><p>[便携版], [免费]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.chuyu.me/">官网</a>, <a target="_blank" rel="noopener" href="https://github.com/Chuyu-Team/Dism-Multi-language">GitHub</a></p>
+</blockquote>
+<p>一个集中式管理 Windows 各种设置的 GUI 控制面板，能够方便的控制系统的各种设置（包括 Windows 10 的更新。。。），提供了一个简单但却还算可以的垃圾清理工具，感觉上很干净而且可以独立运行！</p>
+<h3 id="TreeSizeFree：以树状视图查看文件夹"><a href="#TreeSizeFree：以树状视图查看文件夹" class="headerlink" title="TreeSizeFree：以树状视图查看文件夹"></a>TreeSizeFree：以树状视图查看文件夹</h3><p>[便携版], [免费]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.jam-software.com/treesize/">官网</a></p>
+</blockquote>
+<p>用来以树状结构查看文件夹大小的工具，可以知道到底是哪些文件占用了硬盘及其大小。</p>
+<h3 id="renamer：文件-文件夹重命名"><a href="#renamer：文件-文件夹重命名" class="headerlink" title="renamer：文件/文件夹重命名"></a>renamer：文件/文件夹重命名</h3><p>[便携版], [免费]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://www.den4b.com/">官网</a></p>
+</blockquote>
+<p>或许很多人想吐槽，重命名不就一个 F2 的事情么？是的，如果只需要重命名一个文件，F2 是最快捷的方式。但 rename 针对的是需要重命名数十，数百个文件的情况，这种时候手动重命名实在太过于糟糕了点！</p>
+<h3 id="waifu2x-caffe：图片清晰化"><a href="#waifu2x-caffe：图片清晰化" class="headerlink" title="waifu2x-caffe：图片清晰化"></a>waifu2x-caffe：图片清晰化</h3><p>[便携版], [免费], [开源], [跨平台]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://waifu2x.udp.jp/">官网</a>, <a target="_blank" rel="noopener" href="https://github.com/nagadomi/waifu2x">GitHub</a>, <a target="_blank" rel="noopener" href="https://github.com/lltcggie/waifu2x-caffe">GitHub Windows</a></p>
+</blockquote>
+<p>可以让图片变得清晰，具体技术实现涉及机器学习等尖端技术（#dalao），可以说是很厉害了呢</p>
+<h3 id="Bandicam：视频录制"><a href="#Bandicam：视频录制" class="headerlink" title="Bandicam：视频录制"></a>Bandicam：视频录制</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.bandicam.com/">官网</a></p>
+</blockquote>
+<p>还算好用的视频录制工具，可以很方便的进行视频的录制。<br>特色功能：</p>
+<ul>
+<li>绘制模式：在录制视频时进行频幕上的编辑</li>
+<li>窗口依附：可以轻松指定需要录制的窗口</li>
+<li>多格式输出：支持输出多种格式，按照不同分辨率，预置平台输出</li>
+<li>添加水印：防盗利器，在视频中添加自己的 LOGO</li>
+</ul>
+<h3 id="LockHunter：解除文件占用"><a href="#LockHunter：解除文件占用" class="headerlink" title="LockHunter：解除文件占用"></a>LockHunter：解除文件占用</h3><p>[免费]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://lockhunter.com/">官网</a></p>
+</blockquote>
+<p>在删除文件/目录时，偶尔会遇到文件占用的问题，这个小工具直接集成到 MS Explorer 右键菜单中，可以方便查看占用程序，并关闭它。</p>
+<h3 id="rufus：USB-启动盘制作工具"><a href="#rufus：USB-启动盘制作工具" class="headerlink" title="rufus：USB 启动盘制作工具"></a>rufus：USB 启动盘制作工具</h3><p>[便携版], [免费], [开源]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://rufus.ie/">官网</a>, <a target="_blank" rel="noopener" href="https://github.com/pbatard/rufus">GitHub</a></p>
+</blockquote>
+<p>小巧方便的 USB 启动盘制作工具，完全的一键操作，<strong>下载 =&gt; 解压 =&gt; 运行</strong> 三连之后就是父母辈的人都能看懂的界面了！</p>
+<h3 id="Geek-Uninstaller：深度卸载"><a href="#Geek-Uninstaller：深度卸载" class="headerlink" title="Geek Uninstaller：深度卸载"></a>Geek Uninstaller：深度卸载</h3><h3 id="Loseless-Audio-Validator：音频校验"><a href="#Loseless-Audio-Validator：音频校验" class="headerlink" title="Loseless Audio Validator：音频校验"></a>Loseless Audio Validator：音频校验</h3><p>[便携版], [跨平台], [开源], [免费]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://losslessaudiochecker.com/">官网</a></p>
+</blockquote>
+<p>校验音乐是否是真的 <strong>Flac/Ape</strong> 无损音质的，其实作为一个外行人吾辈表示并不理解什么音频波形什么的。</p>
+<h3 id="ApowerMirror-手机投屏"><a href="#ApowerMirror-手机投屏" class="headerlink" title="ApowerMirror: 手机投屏"></a>ApowerMirror: 手机投屏</h3><p>[跨平台]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.apowersoft.com/phone-mirror">官网</a></p>
+</blockquote>
+<p>在局域网内将手机屏幕投影到 PC 上，延迟性在半秒之内，基本上不影响使用。相比于 <a target="_blank" rel="noopener" href="https://www.teamviewer.cn/cn/">TeamViewer</a> 的主要优点是不走中央服务器，延迟没那么高。而与之类似的 <a target="_blank" rel="noopener" href="https://www.airserver.com/">AirServer</a> 却延迟很大，而且操作过快时就会崩溃。吾辈主要是在 PC 演示操作时，涉及到手机上的操作时，为了避免录屏中断或是后期拼接，故而需要将手机屏幕投影至 PC 方便持续录制。</p>
+<h3 id="HandBrake-视频压缩工具"><a href="#HandBrake-视频压缩工具" class="headerlink" title="HandBrake: 视频压缩工具"></a>HandBrake: 视频压缩工具</h3><p>[便携版], [跨平台], [免费], [开源]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://handbrake.fr/">官网</a></p>
+</blockquote>
+<p>非常简单的视频压缩工具，对非专业人士非常友好，只要选择合适的<strong>预设</strong>，任何人都能批量将视频压缩。吾辈一般使用的是 <code>MP4+Web Optimized</code>，可以将 50M 的视频压缩到 10M 左右，同时支持删除音轨进一步缩小视频大小。</p>
+<blockquote>
+<p>ref: <a target="_blank" rel="noopener" href="https://www.pkstep.com/archives/37386">HandBrake 免費影片壓縮軟體教學，將視頻的檔案縮小。（Mac ,Windows）</a></p>
+</blockquote>
+<h3 id="OpenArk-快捷键占用检查工具"><a href="#OpenArk-快捷键占用检查工具" class="headerlink" title="OpenArk: 快捷键占用检查工具"></a>OpenArk: 快捷键占用检查工具</h3><p>[便携版], [免费], [开源]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://openark.blackint3.com/">官网</a></p>
+</blockquote>
+<p>遇到快捷键莫名其妙被占用的话可以使用这个工具查看，需要注意的是一些系统本身的快捷键无法被扫描到，例如 Windows 10 输入法的 <code>Ctrl+Space</code> 切换中英文。</p>
+<h2 id="国内流氓"><a href="#国内流氓" class="headerlink" title="国内流氓"></a>国内流氓</h2><h3 id="QQ：国内不得不用的流氓-IM"><a href="#QQ：国内不得不用的流氓-IM" class="headerlink" title="QQ：国内不得不用的流氓 IM"></a>QQ：国内不得不用的流氓 IM</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="https://im.qq.com/">官网</a></p>
+</blockquote>
+<p>垃圾 QQ，毁我人生！<br>好了，以上纯属吐槽不用在意。QQ 是腾讯的社交 IM，由于国内使用人数极其庞大，所以吾辈也不得不用的软件。一个软件居然会向系统添加驱动服务，而且禁用了还不让使用，真是厉害了呀。。。</p>
+<h3 id="百度网盘：国内事实上的垄断网盘"><a href="#百度网盘：国内事实上的垄断网盘" class="headerlink" title="百度网盘：国内事实上的垄断网盘"></a>百度网盘：国内事实上的垄断网盘</h3><p>[跨平台], [免费]</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://pan.baidu.com/">官网</a></p>
+</blockquote>
+<p>国内事实上的大文件共享服务，目前对普通用户的限制非常大，逼得人不得不开通 <a target="_blank" rel="noopener" href="https://pan.baidu.com/buy/checkoutcounter?from=homepage&svip=1">SVip</a> 才能使用，但同时也不能得到满速下载，在下载量较大后，之后的下载就会在服务端限速，同时百度网盘的客户端非常讨厌，即便是 SVip 也会看到广告。</p>
+<hr>
+<blockquote>
+<p>Pass：以上国内的流氓吾辈使用的都是修改过的绿色版本，基本上没什么太多麻烦的东西了呢</p>
+</blockquote>
+<hr>
+<h2 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h2><h3 id="便携版"><a href="#便携版" class="headerlink" title="便携版"></a>便携版</h3><p>能够下载完解压之后无需安装即可直接使用的软件，所有的配置文件也都在程序运行的文件目录下（非用户目录下），理论上可以配置完成一次之后就可以用一辈子了（#笑）</p>
+<h3 id="开源"><a href="#开源" class="headerlink" title="开源"></a>开源</h3><p>开放程序源代码，任何人都可以自由浏览</p>
+<h3 id="部分开源"><a href="#部分开源" class="headerlink" title="部分开源"></a>部分开源</h3><p>指程序既有开源版本又有商业版本，所以标识为部分开源</p>
+<h3 id="跨平台"><a href="#跨平台" class="headerlink" title="跨平台"></a>跨平台</h3><p>至少兼容两个主流 PC 系统平台（Windows/MacOS #Linux 桌面在哭泣 #笑）才会标记为跨平台</p>
+<h3 id="免费"><a href="#免费" class="headerlink" title="免费"></a>免费</h3><p>所有功能都完全免费（或许有捐助请求）才会标识为免费，有收费的高级功能的程序不会被标记为免费，例如 IDEA 就不会被标识为免费</p>
+<blockquote>
+<p>以上均为吾辈个人主观认知，参考一下就好。。。</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/02/02/5b565be2d93c4e03871e42aff60e2a9a/" data-id="ckmcqox5u00cu0kuv3d9hfl80" data-title="Windows 上的工具清单" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/windows/" rel="tag">windows</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" rel="tag">待更新</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-009384f82d44496ba4de15eec4625156" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/02/02/009384f82d44496ba4de15eec4625156/" class="article-date">
+  <time class="dt-published" datetime="2020-02-02T02:15:37.000Z" itemprop="datePublished">2020-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/02/02/009384f82d44496ba4de15eec4625156/">Git 常用命令</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>记录一些最常用的命令（从上往下使用频率依次降低），当然，这里只是吾辈个人的，其他功能可能暂时还没用到呢</p>
+<blockquote>
+<p>详细的 git 相关知识强烈推荐 <a target="_blank" rel="noopener" href="https://git-scm.com/book/zh">Pro Git</a></p>
+</blockquote>
+<h2 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h2><table>
+<thead>
+<tr>
+<th>关键词</th>
+<th>命令格式</th>
+<th>命令解释</th>
+<th>命令示例</th>
+<th>命令解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>init</td>
+<td><code>git init</code></td>
+<td>为当前目录初始化 git 本地仓库</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>add</td>
+<td><code>git add [要追踪的文件/路径]</code></td>
+<td>添加到 git 跟踪</td>
+<td><code>git add -A</code></td>
+<td>追踪仓库目录下的所有文件</td>
+</tr>
+<tr>
+<td>commit</td>
+<td><code>git commit [路径] [选项] [提交说明]</code></td>
+<td>提交当前的修改内容</td>
+<td><code>git commit -a -m &quot;提交全部的修改&quot;</code></td>
+<td>提交了全部的修改内容（仍在本机）</td>
+</tr>
+<tr>
+<td>remote</td>
+<td><code>git remote [选项] [远程仓库名]</code></td>
+<td>操作 git 远程仓库</td>
+<td><code>git remote</code></td>
+<td>显示所有远程仓库的别名</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><code>git remote add origin https://github.com/rxliuli/rxliuli.github.io.git</code></td>
+<td>为本地仓库关联一个远程仓库</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><code>git remote show origin</code></td>
+<td>显示 origin 远程仓库的详细信息</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><code>git remote remove origin</code></td>
+<td>删除 origin 远程仓库</td>
+</tr>
+<tr>
+<td>push</td>
+<td><code>git push [远程别名] [远程分支]</code></td>
+<td>推送本地修改到远程</td>
+<td><code>git push origin master</code></td>
+<td>推送本地修改到远程 origin 的 master 分支上</td>
+</tr>
+<tr>
+<td>pull</td>
+<td><code>git pull [远程别名] [远程分支]</code></td>
+<td>拉取远程修改到本地</td>
+<td><code>git pull origin master</code></td>
+<td>拉去远程 origin 上 master 分支的修改到本地</td>
+</tr>
+<tr>
+<td>status</td>
+<td><code>git status</code></td>
+<td>查看本地仓库的状态，以此得知添加和修改的文件</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>clone</td>
+<td><code>git clone [远程仓库地址]</code></td>
+<td>克隆一个远程仓库到本地，这里和 pull 不同点在于本地不存在要克隆的仓库</td>
+<td><code>git clone https://github.com/rxliuli/rxliuli.github.io.git</code></td>
+<td>克隆吾辈的博客 github 仓库到本地</td>
+</tr>
+<tr>
+<td>log</td>
+<td><code>git log [选项]</code></td>
+<td>查看 git 日志</td>
+<td><code>git log</code></td>
+<td>简单的查看 git commit 历史纪录</td>
+</tr>
+<tr>
+<td>revert</td>
+<td><code>git revert [提交记录 hash]</code></td>
+<td>撤销掉指定提交</td>
+<td><code>git revert ab1c2d2</code></td>
+<td>撤销一次提交内容，然后将撤销的内容作为修改提交一次，保留了所有的记录</td>
+</tr>
+<tr>
+<td>reset</td>
+<td><code>git reset [提交记录 hash]</code></td>
+<td>重置到某次提交上，和上面不一样的是不会添加新的提交记录，而是删除已有的提交记录</td>
+<td><code>git reset ab1c2d2</code></td>
+<td>不会在 log 中留下痕迹</td>
+</tr>
+<tr>
+<td></td>
+<td><code>git reset HEAD~[N 回退次数]</code></td>
+<td>回退最近几次的提交, N 为几就回退几次</td>
+<td><code>git reset HEAD~1</code></td>
+<td>回退最近一次的提交</td>
+</tr>
+<tr>
+<td>branch</td>
+<td><code>git branch [分支]</code></td>
+<td>git 分支(强大而又复杂的功能)</td>
+<td><code>git branch dev</code></td>
+<td>创建 dev 分支</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><code>git branch</code></td>
+<td>列出所有分支</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><code>git branch dev -D</code></td>
+<td>删除名为 dev 的分支</td>
+</tr>
+<tr>
+<td>checkout</td>
+<td><code>git checkout [分支名]</code></td>
+<td>切换当前分支(分支之间不共享修改)</td>
+<td><code>git checkout master</code></td>
+<td>切换当前分支到 master 分支</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><code>git checkout origin/dev -b dev</code></td>
+<td>拉取远程分支到本地并切换</td>
+</tr>
+<tr>
+<td>merge</td>
+<td><code>git merge [选项]</code></td>
+<td>合并其他分支的修改到当前分支上</td>
+<td><code>git merge dev</code></td>
+<td>合并 dev 分支的修改到当前分支(一般是 master 分支)</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><code>git merge origin/master --allow-unrelated-histories</code></td>
+<td>强行合并远程分支到本地</td>
+</tr>
+<tr>
+<td>push</td>
+<td><code>git push [远程仓库名] :[分支名]</code></td>
+<td>删除掉指定的远程分支（仓库还在，只是删除分支）</td>
+<td><code>git push origin :dev</code></td>
+<td>删除远程仓库 origin 下的 dev 开发分支</td>
+</tr>
+<tr>
+<td>stash</td>
+<td><code>git stash</code></td>
+<td>暂存本地更改</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>git stash list</code></td>
+<td>查看所有暂存更改</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>git stash apply [index]</code></td>
+<td>重新应用指定暂存更改</td>
+<td><code>git stash apply</code></td>
+<td>重新应用最新的暂存更改</td>
+</tr>
+<tr>
+<td></td>
+<td><code>git stash drop [index]</code></td>
+<td>删除掉指定的暂存更改</td>
+<td><code>git stash drop</code></td>
+<td>删除掉最新的暂存更改</td>
+</tr>
+</tbody></table>
+<h2 id="复合命令"><a href="#复合命令" class="headerlink" title="复合命令"></a>复合命令</h2><h3 id="撤销掉本地所有的修改"><a href="#撤销掉本地所有的修改" class="headerlink" title="撤销掉本地所有的修改"></a>撤销掉本地所有的修改</h3><p>命令</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add -A &amp;&amp; git stash &amp;&amp; git stash drop</span><br></pre></td></tr></table></figure>
+<p>解释</p>
+<ol>
+<li> 添加所有更改到 git 追踪中（如果没有被忽略的话）</li>
+<li> 添加所有本地更改到暂存区域中</li>
+<li> 删除掉刚添加的最新暂存更改</li>
+</ol>
+<p>应用场景<br>修改了一些文件但又没有提交，突然发现有问题，想把它们全删除了重来，或者全部回到上次提交，先把这些修改暂存起来（不加最后一条命令）</p>
+<h3 id="区分文件名大小写"><a href="#区分文件名大小写" class="headerlink" title="区分文件名大小写"></a>区分文件名大小写</h3><p>命令</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config core.ignorecase <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+<p>解释<br>Windows 下默认不区分文件名大小写，所以需要特别设置一下。</p>
+<h3 id="git-push-强制推送"><a href="#git-push-强制推送" class="headerlink" title="git push 强制推送"></a>git push 强制推送</h3><p>命令</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push -f</span><br></pre></td></tr></table></figure>
+<p>解释</p>
+<p>强制推送到远程分支，即便是远程包含本地不存在的提交</p>
+<h3 id="忽略已经跟踪的文件的提交"><a href="#忽略已经跟踪的文件的提交" class="headerlink" title="忽略已经跟踪的文件的提交"></a>忽略已经跟踪的文件的提交</h3><blockquote>
+<p>参考：<a target="_blank" rel="noopener" href="https://ruby-china.org/topics/17948">怎样让 Git 忽略当前已经更改的文件</a></p>
+</blockquote>
+<p>忽略修改</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git update-index --assume-unchanged &lt;files&gt;</span><br></pre></td></tr></table></figure>
+<p>取消这种设定</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git update-index --no-assume-unchanged &lt;files&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="从远端拉取分支"><a href="#从远端拉取分支" class="headerlink" title="从远端拉取分支"></a>从远端拉取分支</h3><blockquote>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/phpper/p/7136048.html">git 获取远程服务器的指定分支</a></p>
+</blockquote>
+<p>命令</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b [本地分支名(不存在)] [远程分支名]</span><br></pre></td></tr></table></figure>
+<p>示例</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b dev origin/dev</span><br></pre></td></tr></table></figure>
+<h3 id="忽略已提交的文件修改"><a href="#忽略已提交的文件修改" class="headerlink" title="忽略已提交的文件修改"></a>忽略已提交的文件修改</h3><blockquote>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/e5b13480479b">git 如何忽略已经提交的文件 (.gitignore 文件无效)</a></p>
+</blockquote>
+<p>主要用于忽略一些本地修改的文件但又不希望提交，同时也不希望添加到 .gitignore 中将之从云端排除的方式。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git update-index --assume-unchanged [file-pattern]</span><br></pre></td></tr></table></figure>
+<h3 id="git-删除远程-tag"><a href="#git-删除远程-tag" class="headerlink" title="git 删除远程 tag"></a>git 删除远程 tag</h3><p>显示本地 tag</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git tag</span><br></pre></td></tr></table></figure>
+<p>删除本地 tag</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git tag -d Remote_Systems_Operation &#96;&#96;&#96;</span><br></pre></td></tr></table></figure>
+<p>用 push, 删除远程 tag</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin :refs&#x2F;tags&#x2F;Remote_Systems_Operation&#96;&#96;&#96;</span><br></pre></td></tr></table></figure>
+<p>删除远程分支</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git branch -r -d origin&#x2F;branch-name</span><br><span class="line">git push origin :branch-name</span><br></pre></td></tr></table></figure>
+<h3 id="两个-git-仓库合并"><a href="#两个-git-仓库合并" class="headerlink" title="两个 git 仓库合并"></a>两个 git 仓库合并</h3><p>现在有两个仓库 <a target="_blank" rel="noopener" href="https://github.com/kktjs/kkt.git">kktjs/kkt</a> 和 <a target="_blank" rel="noopener" href="https://github.com/kktjs/kkt-next.git">kktjs/kkt-next</a> 我们需要将 <code>kkt-next</code> 仓库合并到 <code>kkt</code> 并保留 <code>kkt-next</code> 的所有提交内容。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 克隆主仓库代码</span></span><br><span class="line">git <span class="built_in">clone</span> git@github.com:kktjs/kkt.git</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 将 kkt-next 作为远程仓库，添加到 kkt 中，设置别名为 other</span></span><br><span class="line">git remote add other git@github.com:kktjs/kkt-next.git</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 从 kkt-next 仓库中拉取数据到本仓库</span></span><br><span class="line">git fetch other</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 将 kkt-next 仓库拉取的 master 分支作为新分支 checkout 到本地，新分支名设定为 kkt-next</span></span><br><span class="line">git checkout -b kkt-next other/master</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5. 切换回 kkt 的 master 分支</span></span><br><span class="line">git checkout master</span><br><span class="line"></span><br><span class="line"><span class="comment"># 6. 将 kkt-next 合并入 kkt 的 master 分支</span></span><br><span class="line">git merge kkt-next</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果第 6 步报错 `fatal: refusing to merge unrelated histories`</span></span><br><span class="line"><span class="comment"># 请执行下面命令 ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓</span></span><br><span class="line">git merge kkt-next --allow-unrelated-histories</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>JetBrains IDE 提供了非常好用的冲突合并工具</p>
+</blockquote>
+<p>在合并时有可能两个分支对同一个文件都做了修改，这时需要解决冲突，对文本文件来说很简单，根据需要对冲突的位置进行处理就可以。对于二进制文件，需要用到如下命令:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git checkout --theirs YOUR_BINARY_FILES     <span class="comment"># 保留需要合并进来的分支的修改</span></span><br><span class="line">git checkout --ours YOUR_BINARY_FILES       <span class="comment"># 保留自己的修改</span></span><br><span class="line">git add YOUR_BINARY_FILES</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>参考: <a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000021919753">https://segmentfault.com/a/1190000021919753</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/02/02/009384f82d44496ba4de15eec4625156/" data-id="ckmcqox1q00000kuv6gnn5leg" data-title="Git 常用命令" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/" rel="tag">git</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-03007913ebf74eaba1ccc8d069709f22" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/02/02/03007913ebf74eaba1ccc8d069709f22/" class="article-date">
+  <time class="dt-published" datetime="2020-02-02T02:15:37.000Z" itemprop="datePublished">2020-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/02/02/03007913ebf74eaba1ccc8d069709f22/">IDEA 热部署</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>在阅读本篇之前至少需要对以下概念有基本的认知：</p>
+<ul>
+<li>Java</li>
+<li>JetBrains IDEA</li>
+</ul>
+<hr>
+<h2 id="热部署-是什么？"><a href="#热部署-是什么？" class="headerlink" title="热部署 是什么？"></a><strong>热部署</strong> 是什么？</h2><p>以下内容引用于度娘百科：<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E7%83%AD%E9%83%A8%E7%BD%B2">https://baike.baidu.com/item/%E7%83%AD%E9%83%A8%E7%BD%B2</a></p>
+<blockquote>
+<p>所谓热部署，就是在应用正在运行的时候升级软件，却不需要重新启动应用。<br>对于 Java 应用程序来说，热部署就是在运行时更新 Java 类文件。在基于 Java 的应用服务器实现热部署的过程中，类装入器扮演着重要的角色。大多数基于 Java 的应用服务器，包括 EJB 服务器和 Servlet 容器，都支持热部署。类装入器不能重新装入一个已经装入的类，但只要使用一个新的类装入器实例，就可以将类再次装入一个正在运行的应用程序。</p>
+</blockquote>
+<p>简而言之，就是你在开发 Web 程序时不需要在每次 <strong>修改代码</strong> 之后都要重启 Web 容器再看效果了。</p>
+<blockquote>
+<p>修改按文件类型分类大致有：Java 源代码，<code>src/main/resource</code> 下的资源文件，<code>src/main/webapp</code> 下的前端资源文件，<code>src/main/webapp</code> 下的模板文件（例如 JSP/Freemarker），亦或是 <code>web.xml</code> 这种 Web 容器的配置文件。</p>
+</blockquote>
+<p>好了，废话就不说了（然而还是要了解一下概念啦）</p>
+<h2 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h2><ol>
+<li><p>在编辑运行配置窗口，配置 Tomcat（其他 Web 容器应该也类似）的页面。<br> <img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181122210657.png" alt="配置 Tomcat"></p>
+</li>
+<li><p>点击 Deployment 选项卡，配置要运行的 war，必须要选择 <strong>exploded</strong> 进行部署。<br> <img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181122210737.png" alt="Deployment 选项卡"></p>
+</li>
+<li><p>回到 Server 选项卡，配置 IDEA 在发现代码/框架发生变化是执行的动作。<br> <img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181122210756.png" alt="配置 IDEA 在发现代码"></p>
+</li>
+</ol>
+<p>然后，点击 OK 就可以了，接下来以 <code>Debug</code> 默认运行就可以自动帮你更新 Java 源码和 resources 资源文件以及 webapp 下的静态文件/模板文件了，愉快的玩耍吧！</p>
+<hr>
+<h2 id="多模块配置"><a href="#多模块配置" class="headerlink" title="多模块配置"></a>多模块配置</h2><blockquote>
+<p>注：如果你还没有接触多模块的话，可以略过下面的内容。</p>
+</blockquote>
+<p>。。。然而不幸的是对于多模块项目以及各种各样的框架和类库，IDEA 本身的热部署实在不够看。所以如果你想要更强大的热部署功能的话，可以使用 <strong>Jrebel</strong> 这个插件。</p>
+<ol>
+<li><p>IDEA 的官方 Plugin 商店里面就有这个，点击安装（由于众所周知的原因，下载可能比较慢），安装完成之后重启。</p>
+<blockquote>
+<p>然后，如果你不愿意支持正版又不打算折腾破解的话，也可以不用看下面的内容了（关于破解方法可以参考 <a target="_blank" rel="noopener" href="https://blog.rxliuli.com/p/88d60541/">https://blog.rxliuli.com/p/88d60541/</a>）<br><a target="_blank" rel="noopener" href="https://www.google.lk/search?q=IDEA+Jrebel+%E7%A0%B4%E8%A7%A3&oq=IDEA+Jrebel+%E7%A0%B4%E8%A7%A3">Google 上的相关内容</a></p>
+</blockquote>
+</li>
+<li><p>在 <code>help &gt; Jrebel &gt; Activation</code> 下输入 License<br> <img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181122210822.png" alt="20181122210822"><br> <img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181122210839.png" alt="20181122210839"><br> <img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181122210910.png" alt="20181122210910"></p>
+</li>
+<li><p>接下来如上面那样配置 IDEA 的 Tomcat 运行选项之后（就是没装 Jrebel 的那种热部署方式），然后点击 <code>View &gt; Tool Windows &gt; JRebel</code></p>
+<p> <img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181122210932.png" alt="20181122210932"></p>
+<p> 看到左侧弹出一个面板，选择你要热部署的模块，或者选择第一个以全选所有模块</p>
+<p> <img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181122210941.png" alt="20181122210941"></p>
+<blockquote>
+<p>你或许发现了 <code>src/main/resources</code> 目录下多了一个奇怪的配置文件 <code>rebel.xml</code>，然而你并不需要在意，因为它是 Jrebel 的热部署配置文件。</p>
+</blockquote>
+<p> <img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181122210955.png" alt="Jrebel 的热部署配置文件"></p>
+</li>
+<li><p>最后，点击 Jrebel 的 Debug 按钮即可<br> <img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181122211005.png" alt="Jrebel Debug"></p>
+</li>
+<li><p>使用 Jrebel 调试项目即可<br> <img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190325101659.png" alt="Jrebel 调试项目"></p>
+</li>
+<li><p> 现在，每当你的焦点离开 IDEA（切换到浏览器），Jrebel 就会自动检测变化的类和资源并帮你重新编译了（状态栏会有提示）</p>
+</li>
+</ol>
+<blockquote>
+<p>附：这里提供吾辈自建的一个激活服务器，请勿滥用：<a target="_blank" rel="noopener" href="http://39.108.15.57:8181/947122a0-7e9a-4bea-814d-876525d3767f">http://39.108.15.57:8181/947122a0-7e9a-4bea-814d-876525d3767f</a><br>邮箱的话格式正确即可</p>
+</blockquote>
+<p>那么，IDEA 的热部署配置就到这里了，实际上使用了 <code>SpringBoot</code> 之后就自带了热部署相关的类库。。。#贴心</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/02/02/03007913ebf74eaba1ccc8d069709f22/" data-id="ckmcqox1y00030kuvftza2gnm" data-title="IDEA 热部署" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jetbrains/" rel="tag">jetbrains</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-0189609a78e3428ea69f25852d50cae5" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/02/02/0189609a78e3428ea69f25852d50cae5/" class="article-date">
+  <time class="dt-published" datetime="2020-02-02T02:15:37.000Z" itemprop="datePublished">2020-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/02/02/0189609a78e3428ea69f25852d50cae5/">使用 ESDoc 生成文档</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p><a target="_blank" rel="noopener" href="https://esdoc.org/">esdoc 官网</a>, <a target="_blank" rel="noopener" href="https://blog.rxliuli.com/p/91fc75b3/">博客地址</a>, <a target="_blank" rel="noopener" href="https://github.com/rxliuli/esdocs-example">示例项目</a></p>
+</blockquote>
+<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>在尝试过使用 <a target="_blank" rel="noopener" href="https://md.rxliuli.com/">markdown</a>, <a target="_blank" rel="noopener" href="http://usejsdoc.org/">jsdoc</a>, <a target="_blank" rel="noopener" href="https://www.docz.site/">docz</a> 之后，吾辈终于找到了一个比较满意工具 – esdocs。</p>
+<h2 id="期望"><a href="#期望" class="headerlink" title="期望"></a>期望</h2><ul>
+<li><strong>开箱即用</strong>: 毫无疑问, js 正在把一切事情变得复杂，到处都是大量的配置，永远都学不会开箱即用</li>
+<li><strong>支持 jsdoc 注释</strong>: 已经熟悉了 jsdoc，所以不太希望切换到其他的注释规范了呢</li>
+<li><strong>可配置自定义页</strong>: 作为文档 API 列表还算合适，然而首页的话果然还是自定义最好</li>
+</ul>
+<p>因为以上的期望，吾辈最终选择了 esdocs。</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="添加依赖"><a href="#添加依赖" class="headerlink" title="添加依赖"></a>添加依赖</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add -D esdoc esdoc-standard-plugin</span><br></pre></td></tr></table></figure>
+<h3 id="初始化配置"><a href="#初始化配置" class="headerlink" title="初始化配置"></a>初始化配置</h3><p>创建一个配置文件 <em>.esdoc.json</em></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;source&quot;</span>: <span class="string">&quot;./src&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;destination&quot;</span>: <span class="string">&quot;./docs&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;plugins&quot;</span>: [&#123; <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;esdoc-standard-plugin&quot;</span> &#125;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当然，如果你使用的命令行是 <strong>bash</strong>/<strong>git-for-bash</strong>/<strong>cmder</strong> 的话，亦可使用命令快速完成</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;&#123;</span></span><br><span class="line"><span class="string">  &quot;source&quot;: &quot;./src&quot;,</span></span><br><span class="line"><span class="string">  &quot;destination&quot;: &quot;./docs&quot;,</span></span><br><span class="line"><span class="string">  &quot;plugins&quot;: [&#123;&quot;name&quot;: &quot;esdoc-standard-plugin&quot;&#125;]</span></span><br><span class="line"><span class="string">&#125;&#x27;</span> &gt; .esdoc.json</span><br></pre></td></tr></table></figure>
+<h3 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h3><p>在 <em>package.json</em> 中添加一个打包文档的 <code>script</code> 命令</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot;: &#123;</span><br><span class="line">  &quot;docs&quot;: &quot;esdoc&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后使用 <code>yarn docs</code> 命令即可打包一份新鲜可用的文档啦</p>
+<h3 id="查看"><a href="#查看" class="headerlink" title="查看"></a>查看</h3><p>然后打开 <em>docs/index.html</em> 文件即可查看了，下面截张吾辈的工具库 <a target="_blank" rel="noopener" href="https://rx-util.rxliuli.com/">rx-util</a> 生成的文档。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190331002416.png" alt="rx-util"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>感觉是不是很简单，吾辈也是这样认为的呢！后面会整理一份 jsdoc 的标签列表，便于快速查找与一览。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/02/02/0189609a78e3428ea69f25852d50cae5/" data-id="ckmcqox1z00040kuv3g4gfpjr" data-title="使用 ESDoc 生成文档" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" rel="tag">工程化</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-052bd63484684f78891a5dbaf8e84c10" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/02/02/052bd63484684f78891a5dbaf8e84c10/" class="article-date">
+  <time class="dt-published" datetime="2020-02-02T02:15:37.000Z" itemprop="datePublished">2020-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/02/02/052bd63484684f78891a5dbaf8e84c10/">如何编写一篇好的技术文章</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><blockquote>
+<p>人的目标总是追求「优越性」，是要摆脱自卑感以求得到优越感。</p>
+</blockquote>
+<p>现在网络上已经有很多写作平台了，让我们数数: 静态/动态博客（Hexo/WordPress），SegmentFault 专栏，简书，掘金，CSDN 博客。然而写作平台很多，愿意写作的人也很多，那么是否意味着我们就更容易获取知识了呢？其实并不是，原因在于很多人写作只是跟风，觉得很<strong>酷</strong>，所以用 <code>hexo/hugo + github pages</code> 建了静态站点发了一篇 <strong>hello world</strong> 之后就没有下文了。这种暂且按下不表，吾辈主要想说的是另一种：为了写作（<del>积分</del>）而写作，完全不用心，只是简单的把概念复制了一下，甚至直接<strong>抄袭</strong>别人的文章，不注明来源，而且没有尝试过文章做法的人。</p>
+<blockquote>
+<p>这里强烈批评一下 CSDN 博客，虽然也有一些优质的博客，但更多的是直接<strong>抄袭</strong>的文章，而且大多数都存在问题，实在令人深痛恶绝。甚至于，有人专门写了油猴脚本 <a target="_blank" rel="noopener" href="https://greasyfork.org/zh-CN/scripts/375279">google 百度搜索屏蔽 CSDN</a> 用来屏蔽它，糟糕程度可见一斑。</p>
+</blockquote>
+<h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><p>那么，真的想要开始写作，想要把自己的知识、感触和经验分享给其他人的话，有没有什么写作的技巧，或者说遵循的规则呢？下面是吾辈写作至今以来的一些经验，希望能帮到真心想要写作的人。</p>
+<p>重点</p>
+<ul>
+<li>是什么？</li>
+<li>怎么做？</li>
+<li>在哪里用？</li>
+</ul>
+<p>细节</p>
+<ul>
+<li>排版样式</li>
+<li>插图</li>
+<li>错别字</li>
+<li>转发文章</li>
+</ul>
+<h2 id="重点"><a href="#重点" class="headerlink" title="重点"></a>重点</h2><p>如果要写一个技术文档，那么有三点是必须要注意的。</p>
+<ul>
+<li>是什么？<br>可以是技术的一些简单介绍，或是在什么场景下会遇到这种问题，也可以是为什么要写这篇文章。就像吾辈，基本上每篇文章的正文都会有一个<strong>场景</strong>段落，用来介绍吾辈为什么写这篇文章，以及对涉及问题的介绍（吐槽 #打）。</li>
+<li>怎么做？<br>正确的描述具体如何使用，或是如何使用代码<strong>实现功能/修复错误</strong>。例如介绍 JavaScript Array 的文章，那就需要告诉读者如何使用常见的 API，例如 <code>forEach, filter, map, reduce</code> 这些函数，如何的使用它们，给出一些具体可运行的示例，如果有你觉得读者会难以理解的部分，更应该详细解释，并配上代码示例。</li>
+<li>在哪里用？<br>写作最有可能漏掉的部分，但却是最重要的。如果文章只是单纯罗列了一堆概念和代码，却不告诉读者在什么场景下才会用到，那么这只会是相当糟糕的文章，还不如去看官方文档（大部分文档都是告诉怎么做而不告诉在哪里用，尤其是某些 HTML/CSS 书籍，简直是把 MDN 的文档抄了一遍），至少还准确一些。</li>
+</ul>
+<h2 id="细节"><a href="#细节" class="headerlink" title="细节"></a>细节</h2><ul>
+<li>排版样式<br>读者进入网页之后，第一眼看到的绝对不是具体的内容，而是网页的排版大致是什么样子的，这点在读者阅读时能够清晰的感受出来。就像人的外貌，在开口前读者便能藉此看出大概（所谓以貌取人）。即便可能在读者继续阅读内容而扭转形象，但更有可能是读者直接点 X 关闭网页，并且留下了不好的印象。<br>所以排版真的很重要，下面提供吾辈的几条经验:<ul>
+<li>不要是纯 TXT 文本格式（<strong>大忌</strong>）</li>
+<li>使用代码块包裹代码片段，不要直接和普通文本一样，没有语法高亮看代码会死人的。</li>
+<li>合理使用标题。标题应该是逐级减小，而不应该出现一级标题，然后立刻就是三级标题，中间一定且必须有一个二级标题。</li>
+<li>文章中的链接应该是可点击的，并且最好引用一些比较官方的内容（MDN，Wiki）。</li>
+<li>错误示例: <a target="_blank" rel="noopener" href="https://blog.csdn.net/xlxxcc/article/details/52083543">https://blog.csdn.net/xlxxcc/article/details/52083543</a></li>
+</ul>
+</li>
+<li>插图<br>如果说排版样式是外貌，那图片就像人的衣服一样，能为文章锦上添花。更何况还有 <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E4%B8%80%E7%95%AB%E5%8B%9D%E5%8D%83%E8%A8%80">一图胜千言</a> 的说法，可以避免读者在阅读时感到无聊。像是如果有流程图/原理图/时序图这些，将会显著的提高文章的层次。<blockquote>
+<p>附: 画图真的很花时间，如果有图片的话，说明作者是真的用心在写文章。（一般是大佬才会做，吾辈不是大佬，所以一般不会画图 #笑哭）</p>
+</blockquote>
+</li>
+<li>错别字<br>但凡写作，如果有人说自己没写过错别字，吾辈是第一个不信的。人非圣贤，孰能无过。写作时出现错别字是很正常的，但由于人类本身的原因（参考 <a target="_blank" rel="noopener" href="https://www.guokr.com/article/439010/">查出自己的错别字，为什么这么难？</a>），所以想要检查是比较困难的 – 但并不是毫无办法，我们在文章发布后，在网络上再次查看文章，会比在编辑器中更容易察觉到文章中的问题，这其中当然包含错别字。</li>
+<li>转发文章<br>当我们在网络上看到别人的文章，觉得写得很好，于是转发了文章想让更多人看到。但在转发之前，最好先询问一下原作者的意愿（一般是允许署名转载的），而且必须要在显眼的位置（文章顶部或尾部，一般最好是顶部）放置原文的链接，以使读者能够找到原作者。</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>上面说了这么多，还有最后一句话要送给大家: <strong>保持作者这个称呼的基本水平和对读者的基本尊重</strong>。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/02/02/052bd63484684f78891a5dbaf8e84c10/" data-id="ckmcqox2000080kuvby5khrii" data-title="如何编写一篇好的技术文章" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-0e74662caf3c4fcca4ff06b4282e9577" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/02/02/0e74662caf3c4fcca4ff06b4282e9577/" class="article-date">
+  <time class="dt-published" datetime="2020-02-02T02:15:37.000Z" itemprop="datePublished">2020-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/02/02/0e74662caf3c4fcca4ff06b4282e9577/">JavaScript 善用解构赋值</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>在今天写 JavaScript 函数时，发现了一个有趣的技巧。</p>
+<p>在此之前，吾辈想知道泥萌需要默认值的时候是如何做的呢？</p>
+<p>例如下面的函数 <code>print</code>，吾辈需要在没有给定参数 <code>user</code> 的情况下，给出合适的输出</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">print</span>(<span class="params">user</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!user) &#123;</span><br><span class="line">    user = &#123;&#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (!user.name) &#123;</span><br><span class="line">    user.name = <span class="string">&quot;未设置&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (!user.age) &#123;</span><br><span class="line">    user.age = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`姓名：<span class="subst">$&#123;user.name&#125;</span>，年龄：<span class="subst">$&#123;user.age&#125;</span>`</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那么，我们应该怎么优化呢？</p>
+<ul>
+<li>三元表达式</li>
+<li><code>||</code> / <code>&amp;&amp;</code> 赋予默认值</li>
+<li><code>Object.assign()</code> 合并对象</li>
+</ul>
+<p>我们分别来实现一下</p>
+<h3 id="三元表达式实现"><a href="#三元表达式实现" class="headerlink" title="三元表达式实现"></a>三元表达式实现</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">print</span>(<span class="params">user</span>) </span>&#123;</span><br><span class="line">  user = user ? user : &#123;&#125;;</span><br><span class="line">  <span class="built_in">console</span>.log(</span><br><span class="line">    <span class="string">`姓名：<span class="subst">$&#123;user.name ? user.name : <span class="string">&quot;未设置&quot;</span>&#125;</span>，年龄：<span class="subst">$&#123;</span></span></span><br><span class="line"><span class="string"><span class="subst">      user.age ? user.age : <span class="number">0</span></span></span></span><br><span class="line"><span class="string"><span class="subst">    &#125;</span>`</span></span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="amp-amp-赋予默认值"><a href="#amp-amp-赋予默认值" class="headerlink" title="|| / &amp;&amp; 赋予默认值"></a><code>||</code> / <code>&amp;&amp;</code> 赋予默认值</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">print</span>(<span class="params">user</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(</span><br><span class="line">    <span class="string">`姓名：<span class="subst">$&#123;(user || &#123;&#125;).name || <span class="string">&quot;未设置&quot;</span>&#125;</span>，年龄：<span class="subst">$&#123;(user || &#123;&#125;).age || <span class="number">0</span>&#125;</span>`</span></span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用 <code>&amp;&amp;</code> 也可以</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">print</span>(<span class="params">user</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(</span><br><span class="line">    <span class="string">`姓名：<span class="subst">$&#123;(user &amp;&amp; user.name) || <span class="string">&quot;未设置&quot;</span>&#125;</span>，年龄：<span class="subst">$&#123;(user &amp;&amp; user.age) || <span class="number">0</span>&#125;</span>`</span></span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>||</code> / <code>&amp;&amp;</code> 解释</p>
+<ul>
+<li><code>||</code> 用来取默认值，避免太多的 <code>if</code> 判断。例如对于 <code>a || b</code> 我们可以认为：如果 <code>a</code> 为空，则赋值为 <code>b</code></li>
+<li><code>&amp;&amp;</code> 用来连续执行，避免深层嵌套的 <code>if</code> 判断。例如对于 <code>a || b</code>，我们可以认为：如果 <code>a</code> 不为空，则赋值为 <code>b</code></li>
+</ul>
+<p>注：||<code>/</code>&amp;&amp;` 非常适合简单的默认值赋值，但一旦设置到深层嵌套默认值就不太合适了</p>
+</blockquote>
+<h3 id="Object-assign-合并对象"><a href="#Object-assign-合并对象" class="headerlink" title="Object.assign() 合并对象"></a><code>Object.assign()</code> 合并对象</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">print</span>(<span class="params">user</span>) </span>&#123;</span><br><span class="line">  _user = &#123;</span><br><span class="line">    name: <span class="string">&quot;未设置&quot;</span>,</span><br><span class="line">    age: <span class="number">0</span>,</span><br><span class="line">  &#125;;</span><br><span class="line">  user = <span class="built_in">Object</span>.assign(_user, user);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`姓名：<span class="subst">$&#123;user.name&#125;</span>，年龄：<span class="subst">$&#123;user.age&#125;</span>`</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>可以看出</p>
+<ol>
+<li> 三元表达式的方式方式明显有点繁琐</li>
+<li> <code>||</code> / <code>&amp;&amp;</code> 很好很强大，缺点是看起来很不直观，而且容易混淆</li>
+<li> <code>Object.assign()</code> 合并对象的方式应该算是最好的了，然而是在方法内部进行的初始化，作为调用者除非查看文档或源码才能知道</li>
+</ol>
+<p>那么，有没有更好的解决方案呢？</p>
+<h2 id="解构赋值"><a href="#解构赋值" class="headerlink" title="解构赋值"></a>解构赋值</h2><p>解构赋值是 ES6 的一个新的语法，具体可以查看 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment">MDN</a>。</p>
+<p>下面是一些简单的解构赋值操作</p>
+<h3 id="数组解构"><a href="#数组解构" class="headerlink" title="数组解构"></a>数组解构</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];</span><br><span class="line"><span class="keyword">var</span> [first, second, ...remaining] = arr; <span class="comment">// first: 1, second: 2, remaining: [3, 4]</span></span><br><span class="line"><span class="comment">// 接受一或多个可变参数的函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">join</span>(<span class="params">...arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> arr.join(<span class="string">&quot;, &quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 调用时可以使用 ... 将数组解构</span></span><br><span class="line">join(...arr); <span class="comment">// 1, 2, 3, 4</span></span><br><span class="line"><span class="comment">// 忽略开始的某些值</span></span><br><span class="line"><span class="keyword">var</span> [, , ...remaining] = arr; <span class="comment">// remaining: [3, 4]</span></span><br><span class="line"><span class="comment">// 默认值</span></span><br><span class="line"><span class="keyword">var</span> [first = <span class="number">1</span>, second = <span class="number">2</span>, ...remaining] = []; <span class="comment">// first: 1, second: 2, remaining:</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">1</span>,</span><br><span class="line">  b = <span class="number">2</span>;</span><br><span class="line"><span class="comment">// 交换变量</span></span><br><span class="line">[a, b] = [b, a]; <span class="comment">// a: 2, b: 1</span></span><br></pre></td></tr></table></figure>
+<h3 id="对象解构"><a href="#对象解构" class="headerlink" title="对象解构"></a>对象解构</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> user = &#123;</span><br><span class="line">  id: <span class="number">1</span>,</span><br><span class="line">  name: <span class="string">&quot;未设置&quot;</span>,</span><br><span class="line">  age: <span class="number">0</span>,</span><br><span class="line">  sex: <span class="literal">false</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 排除指定属性</span></span><br><span class="line"><span class="keyword">var</span> &#123; name, age, ...rest &#125; = user; <span class="comment">// name: &#x27;未设置&#x27;, age: 0, 其他属性: &#123; &quot;id&quot;: 1,&quot;sex&quot;: false &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用新的变量名</span></span><br><span class="line"><span class="keyword">var</span> &#123; <span class="attr">name</span>: newName, <span class="attr">age</span>: newAge &#125; = user; <span class="comment">// newName: &#x27;未设置&#x27;, newAge: 0</span></span><br><span class="line"><span class="comment">// 默认值</span></span><br><span class="line"><span class="keyword">var</span> &#123; name = <span class="string">&quot;未设置&quot;</span>, age = <span class="number">0</span> &#125; = &#123;&#125;; <span class="comment">// name: &#x27;未设置&#x27;, age: 0</span></span><br><span class="line"><span class="comment">// 同时使用新的变量名和默认值</span></span><br><span class="line"><span class="keyword">var</span> &#123; <span class="attr">name</span>: newName = <span class="string">&quot;未设置&quot;</span>, <span class="attr">age</span>: newAge = <span class="number">0</span> &#125; = user; <span class="comment">// newName: &#x27;未设置&#x27;, newAge: 0</span></span><br><span class="line"><span class="comment">// 计算属性名</span></span><br><span class="line"><span class="keyword">var</span> key = <span class="string">&quot;name&quot;</span>;</span><br><span class="line"><span class="keyword">var</span> &#123; [key]: name &#125; = user;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 数组迭代解构</span></span><br><span class="line"><span class="keyword">var</span> users = [</span><br><span class="line">  &#123;</span><br><span class="line">    name: <span class="string">&quot;琉璃&quot;</span>,</span><br><span class="line">    age: <span class="number">17</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    name: <span class="string">&quot;楚轩&quot;</span>,</span><br><span class="line">    age: <span class="number">23</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">];</span><br><span class="line">users.map(<span class="function">(<span class="params">&#123; name, age &#125;</span>) =&gt;</span> <span class="string">`name: <span class="subst">$&#123;name&#125;</span>, age: <span class="subst">$&#123;age&#125;</span>`</span>).join(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line"><span class="comment">// 解构函数实参</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">print</span>(<span class="params">&#123; name = <span class="string">&quot;未设置&quot;</span>, age = <span class="number">0</span> &#125; = &#123;&#125;</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`姓名：<span class="subst">$&#123;name&#125;</span>，年龄：<span class="subst">$&#123;age&#125;</span>`</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>啊嘞，吾辈好像不知不觉间把解决方案写出来了。。。？</p>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>让我们好好看下这段代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">print</span>(<span class="params">&#123; name = <span class="string">&quot;未设置&quot;</span>, age = <span class="number">0</span> &#125; = &#123;&#125;</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`姓名：<span class="subst">$&#123;name&#125;</span>，年龄：<span class="subst">$&#123;age&#125;</span>`</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一眼看过去，是不是感觉很直观，如果稍微了解一点 ES6 就能瞬间明白这是解构赋值以及默认参数</p>
+<p>我们分析一下具体流程</p>
+<ol>
+<li><p> 调用 <code>print</code> 函数</p>
+</li>
+<li><p>检查参数是否为有值，没有的话设置默认值 <code>&#123;&#125;</code><br> 相当于</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!user) &#123;</span><br><span class="line">  user = &#123;&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>解构参数，检查解构的属性是否有值，没有的话设置默认值<br> 相当于</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name;</span><br><span class="line"><span class="keyword">if</span> (!user.name) &#123;</span><br><span class="line">  name = <span class="string">&quot;未设置&quot;</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  name = user.name;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> age;</span><br><span class="line"><span class="keyword">if</span> (!user.age) &#123;</span><br><span class="line">  age = <span class="number">0</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  age = user.age;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p> 进入函数内部</p>
+</li>
+</ol>
+<p>关键就在于第 2,3 步，<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Functions/Default_parameters">默认参数</a> 和 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment">解构赋值</a> 都是 ES6 的新特性，善于使用能大大简化代码的繁琐性。</p>
+<hr>
+<p>希望有更多的人能够学会怎么使用，让我们早日抛弃 babel 吧 (*＾ ▽ ＾)／</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/02/02/0e74662caf3c4fcca4ff06b4282e9577/" data-id="ckmcqox26000k0kuv00i3fqys" data-title="JavaScript 善用解构赋值" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-120ca30c1003493eadd2e619edd5cf3f" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/02/02/120ca30c1003493eadd2e619edd5cf3f/" class="article-date">
+  <time class="dt-published" datetime="2020-02-02T02:15:37.000Z" itemprop="datePublished">2020-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/02/02/120ca30c1003493eadd2e619edd5cf3f/">Vue 打包的静态文件不能直接运行</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>吾辈使用 <strong>vue-cli</strong> 直接生成的 vue 模板项目，在模板之上继续开发的。然而在使用 <code>npm run build</code> 打包项目时，却发现打包好的项目在浏览器中直接打开好像什么都没有？</p>
+<h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>查看了一下打包后的 <code>index.html</code> 源码，终于发现了一个重要的点：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181029131219.png" alt="vue-cli 打包的项目 index.html 源码"></p>
+<p><em>所有涉及到路径的地方全都是以 <strong>/</strong> 开头的</em></p>
+<p>下面是吾辈打包后生成的 dist 目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">dist:.</span><br><span class="line">│  index.html</span><br><span class="line">│</span><br><span class="line">└─static</span><br><span class="line">    ├─css</span><br><span class="line">    │      app.b7bce283257fbd427fb1dc3fea80cee1.css</span><br><span class="line">    │      app.b7bce283257fbd427fb1dc3fea80cee1.css.map</span><br><span class="line">    │</span><br><span class="line">    ├─fonts</span><br><span class="line">    │      MaterialIcons-Regular.012cf6a.woff</span><br><span class="line">    │      MaterialIcons-Regular.570eb83.woff2</span><br><span class="line">    │      MaterialIcons-Regular.a37b0c0.ttf</span><br><span class="line">    │      MaterialIcons-Regular.e79bfd8.eot</span><br><span class="line">    │</span><br><span class="line">    └─js</span><br><span class="line">            app.58cce746b2fe4ac2f2b9.js</span><br><span class="line">            app.58cce746b2fe4ac2f2b9.js.map</span><br><span class="line">            manifest.2ae2e69a05c33dfc65f8.js</span><br><span class="line">            manifest.2ae2e69a05c33dfc65f8.js.map</span><br><span class="line">            vendor.a32972498ed8de656202.js</span><br><span class="line">            vendor.a32972498ed8de656202.js.map</span><br></pre></td></tr></table></figure>
+<p>这下很清楚了，vue-cli 生成的模板项目打包后的文件默认需要放到静态资源服务器上，而且还必须是根目录！这很不好，很糟糕，所以需要修改配置。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><ol>
+<li>修改文件 _/config/index.js_，将 <code>build.assetsPublicPath</code> 属性的值由 <code>/</code> 改为 <code>./</code><br> <img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181029133603.png" alt="/config/index.js"></li>
+<li>修改文件 _/build/utils.js_，在插件 <code>ExtractTextPlugin</code> 中添加 <code>publicPath: &#39;../../&#39;</code><br> <img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181029133636.png" alt="/build/utils.js"></li>
+</ol>
+<p>那么，使用 <code>npm run build</code> 重新打包后的静态文件应该就可以直接打开啦</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/02/02/120ca30c1003493eadd2e619edd5cf3f/" data-id="ckmcqox29000r0kuv6pmv4xxp" data-title="Vue 打包的静态文件不能直接运行" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/12/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" href="/page/14/">Next &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/electron/" rel="tag">electron</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grid/" rel="tag">grid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jetbrains/" rel="tag">jetbrains</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webstorm/" rel="tag">webstorm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/" rel="tag">windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA/" rel="tag">个人</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%AC%E5%8F%B8/" rel="tag">公司</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%A8%E6%8A%A5/" rel="tag">周报</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%A3%E5%91%8A/" rel="tag">宣告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" rel="tag">工程化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90/" rel="tag">开源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%82%E6%AD%A5/" rel="tag">异步</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" rel="tag">待更新</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%8F%E9%AA%8C/" rel="tag">经验</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6/" rel="tag">读书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/css/" style="font-size: 12.14px;">css</a> <a href="/tags/electron/" style="font-size: 15.71px;">electron</a> <a href="/tags/git/" style="font-size: 12.86px;">git</a> <a href="/tags/grid/" style="font-size: 10.71px;">grid</a> <a href="/tags/java/" style="font-size: 19.29px;">java</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/jetbrains/" style="font-size: 12.14px;">jetbrains</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 10.71px;">markdown</a> <a href="/tags/react/" style="font-size: 14.29px;">react</a> <a href="/tags/sql/" style="font-size: 14.29px;">sql</a> <a href="/tags/typescript/" style="font-size: 12.14px;">typescript</a> <a href="/tags/vscode/" style="font-size: 12.86px;">vscode</a> <a href="/tags/vue/" style="font-size: 16.43px;">vue</a> <a href="/tags/webstorm/" style="font-size: 10px;">webstorm</a> <a href="/tags/windows/" style="font-size: 17.14px;">windows</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 12.86px;">个人</a> <a href="/tags/%E5%85%AC%E5%8F%B8/" style="font-size: 10px;">公司</a> <a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 10px;">周报</a> <a href="/tags/%E5%AE%A3%E5%91%8A/" style="font-size: 10px;">宣告</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.57px;">工具</a> <a href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" style="font-size: 17.86px;">工程化</a> <a href="/tags/%E5%BC%80%E6%BA%90/" style="font-size: 10px;">开源</a> <a href="/tags/%E5%BC%82%E6%AD%A5/" style="font-size: 15px;">异步</a> <a href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" style="font-size: 10.71px;">待更新</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 18.57px;">杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BB%8F%E9%AA%8C/" style="font-size: 11.43px;">经验</a> <a href="/tags/%E8%AF%BB%E4%B9%A6/" style="font-size: 12.14px;">读书</a> <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 11.43px;">转载</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/14/8fb2d58463ae4191ac064a76e15bffbd/">2021 第十周</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/12/7e7131c07c984d928ba3fefa7a9cef06/">读书-[颓废与沉默：透视犬儒文化]</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/02/db74e6e5d2444bc3b6e185a7b338bbf6/">electron 开发经验之谈系列-在渲染、主进程间共享数据</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/27/06cb464179cf45c598208534705aae3c/">2020 吾辈在公司推动的前端技术演进</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/23/cd66150d2b86448590fcc9bb2419c0b2/">实践 lerna monorepo</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

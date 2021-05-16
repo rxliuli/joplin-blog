@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/20/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-fd2ee073c51c4c169ebff5a32795d375" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/02/02/fd2ee073c51c4c169ebff5a32795d375/" class="article-date">
+  <time class="dt-published" datetime="2020-02-02T02:15:37.000Z" itemprop="datePublished">2020-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/02/02/fd2ee073c51c4c169ebff5a32795d375/">JavaScript 避免使用 if-else 的方法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>在日常编写 JavaScript 代码的过程中，或许会遇到一个很常见的问题。根据某个状态，进行判断，并执行不同的操作。吾辈并不是说 <code>if-else</code> 不好，简单的逻辑判断 <code>if-else</code> 毫无疑问是个不错的选择。然而在很多时候似乎我们习惯了使用 <code>if-else</code>，导致代码不断庞大的同时复杂度越来越高，所有的 JavaScript 代码都乱作一团，后期维护时越发困难。</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/rxliuli/avoid-if-else-example">GitHub</a>, <a target="_blank" rel="noopener" href="https://avoid-if-else.rxliuli.com/">演示地址</a></p>
+</blockquote>
+<p>例如下面这段代码，点击不同的按钮，显示不同的面板。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- index.html --&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;X-UA-Compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;ie=edge&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>JavaScript 避免使用 if-else<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">main</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;tab&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">label</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;radio&quot;</span> <span class="attr">data-index</span>=<span class="string">&quot;1&quot;</span> <span class="attr">name</span>=<span class="string">&quot;form-tab-radio&quot;</span> /&gt;</span></span><br><span class="line">          第一个选项卡</span><br><span class="line">        <span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">label</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;radio&quot;</span> <span class="attr">data-index</span>=<span class="string">&quot;2&quot;</span> <span class="attr">name</span>=<span class="string">&quot;form-tab-radio&quot;</span> /&gt;</span></span><br><span class="line">          第二个选项卡</span><br><span class="line">        <span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">label</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;radio&quot;</span> <span class="attr">data-index</span>=<span class="string">&quot;3&quot;</span> <span class="attr">name</span>=<span class="string">&quot;form-tab-radio&quot;</span> /&gt;</span></span><br><span class="line">          第三个选项卡</span><br><span class="line">        <span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">form</span> <span class="attr">id</span>=<span class="string">&quot;extends-form&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">main</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;./js/if-else.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// js/if-else.js</span></span><br><span class="line"><span class="built_in">document</span>.querySelectorAll(<span class="string">&#x27;#tab input[name=&quot;form-tab-radio&quot;]&#x27;</span>).forEach(<span class="function">(<span class="params">el</span>) =&gt;</span> &#123;</span><br><span class="line">  el.addEventListener(<span class="string">&quot;click&quot;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> index = el.dataset.index;</span><br><span class="line">    <span class="keyword">const</span> header = el.parentElement.innerText.trim();</span><br><span class="line">    <span class="comment">// 如果为 1 就添加一个文本表单</span></span><br><span class="line">    <span class="keyword">if</span> (index === <span class="string">&quot;1&quot;</span>) &#123;</span><br><span class="line">      <span class="built_in">document</span>.querySelector(<span class="string">&quot;#extends-form&quot;</span>).innerHTML = <span class="string">`</span></span><br><span class="line"><span class="string">            &lt;header&gt;&lt;h2&gt;<span class="subst">$&#123;header&#125;</span>&lt;/h2&gt;&lt;/header&gt;</span></span><br><span class="line"><span class="string">            &lt;div&gt;</span></span><br><span class="line"><span class="string">              &lt;label for=&quot;name&quot;&gt;姓名&lt;/label&gt;</span></span><br><span class="line"><span class="string">              &lt;input type=&quot;text&quot; name=&quot;name&quot; id=&quot;name&quot; /&gt;</span></span><br><span class="line"><span class="string">            &lt;/div&gt;</span></span><br><span class="line"><span class="string">            &lt;div&gt;</span></span><br><span class="line"><span class="string">              &lt;label for=&quot;age&quot;&gt;年龄&lt;/label&gt;</span></span><br><span class="line"><span class="string">              &lt;input type=&quot;number&quot; name=&quot;age&quot; id=&quot;age&quot; /&gt;</span></span><br><span class="line"><span class="string">            &lt;/div&gt;</span></span><br><span class="line"><span class="string">            &lt;div&gt;</span></span><br><span class="line"><span class="string">              &lt;button type=&quot;submit&quot;&gt;提交&lt;/button&gt; &lt;button type=&quot;reset&quot;&gt;重置&lt;/button&gt;</span></span><br><span class="line"><span class="string">            &lt;/div&gt;</span></span><br><span class="line"><span class="string">          `</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (index === <span class="string">&quot;2&quot;</span>) &#123;</span><br><span class="line">      <span class="built_in">document</span>.querySelector(<span class="string">&quot;#extends-form&quot;</span>).innerHTML = <span class="string">`</span></span><br><span class="line"><span class="string">        &lt;header&gt;&lt;h2&gt;<span class="subst">$&#123;header&#125;</span>&lt;/h2&gt;&lt;/header&gt;</span></span><br><span class="line"><span class="string">        &lt;div&gt;</span></span><br><span class="line"><span class="string">          &lt;label for=&quot;avatar&quot;&gt;头像&lt;/label&gt;</span></span><br><span class="line"><span class="string">          &lt;input type=&quot;file&quot; name=&quot;avatar&quot; id=&quot;avatar&quot; /&gt;</span></span><br><span class="line"><span class="string">        &lt;/div&gt;</span></span><br><span class="line"><span class="string">        &lt;div&gt;&lt;img id=&quot;avatar-preview&quot; src=&quot;&quot; /&gt;&lt;/div&gt;</span></span><br><span class="line"><span class="string">        &lt;div&gt;</span></span><br><span class="line"><span class="string">          &lt;button type=&quot;submit&quot;&gt;提交&lt;/button&gt; &lt;button type=&quot;reset&quot;&gt;重置&lt;/button&gt;</span></span><br><span class="line"><span class="string">        &lt;/div&gt;</span></span><br><span class="line"><span class="string">      `</span>;</span><br><span class="line">      <span class="function"><span class="keyword">function</span> <span class="title">readLocalFile</span>(<span class="params">file</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">const</span> fr = <span class="keyword">new</span> FileReader();</span><br><span class="line">          fr.onload = <span class="function">(<span class="params">event</span>) =&gt;</span> &#123;</span><br><span class="line">            resolve(event.target.result);</span><br><span class="line">          &#125;;</span><br><span class="line">          fr.onerror = <span class="function">(<span class="params">error</span>) =&gt;</span> &#123;</span><br><span class="line">            reject(error);</span><br><span class="line">          &#125;;</span><br><span class="line">          fr.readAsDataURL(file);</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="built_in">document</span>.querySelector(<span class="string">&quot;#avatar&quot;</span>).addEventListener(<span class="string">&quot;change&quot;</span>, <span class="function">(<span class="params">evnet</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> file = evnet.target.files[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">if</span> (!file) &#123;</span><br><span class="line">          <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!file.type.includes(<span class="string">&quot;image&quot;</span>)) &#123;</span><br><span class="line">          <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        readLocalFile(file).then(<span class="function">(<span class="params">link</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="built_in">document</span>.querySelector(<span class="string">&quot;#avatar-preview&quot;</span>).src = link;</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (index === <span class="string">&quot;3&quot;</span>) &#123;</span><br><span class="line">      <span class="keyword">const</span> initData = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">100</span>).fill(<span class="number">0</span>).map(<span class="function">(<span class="params">v, i</span>) =&gt;</span> <span class="string">`第 <span class="subst">$&#123;i&#125;</span> 项内容`</span>);</span><br><span class="line">      <span class="built_in">document</span>.querySelector(<span class="string">&quot;#extends-form&quot;</span>).innerHTML = <span class="string">`</span></span><br><span class="line"><span class="string">        &lt;header&gt;&lt;h2&gt;<span class="subst">$&#123;header&#125;</span>&lt;/h2&gt;&lt;/header&gt;</span></span><br><span class="line"><span class="string">        &lt;div&gt;</span></span><br><span class="line"><span class="string">          &lt;label for=&quot;search-text&quot;&gt;搜索文本&lt;/label&gt;</span></span><br><span class="line"><span class="string">          &lt;input type=&quot;text&quot; name=&quot;search-text&quot; id=&quot;search-text&quot; /&gt;</span></span><br><span class="line"><span class="string">          &lt;ul id=&quot;search-result&quot;&gt;&lt;/ul&gt;</span></span><br><span class="line"><span class="string">        &lt;/div&gt;</span></span><br><span class="line"><span class="string">      `</span>;</span><br><span class="line">      <span class="built_in">document</span></span><br><span class="line">        .querySelector(<span class="string">&quot;#search-text&quot;</span>)</span><br><span class="line">        .addEventListener(<span class="string">&quot;input&quot;</span>, <span class="function">(<span class="params">evnet</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">const</span> searchText = event.target.value;</span><br><span class="line">          <span class="built_in">document</span>.querySelector(<span class="string">&quot;#search-result&quot;</span>).innerHTML = initData</span><br><span class="line">            .filter(<span class="function">(<span class="params">v</span>) =&gt;</span> v.includes(searchText))</span><br><span class="line">            .map(<span class="function">(<span class="params">v</span>) =&gt;</span> <span class="string">`&lt;li&gt;<span class="subst">$&#123;v&#125;</span>&lt;/li&gt;`</span>)</span><br><span class="line">            .join();</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>那么，我们可以如何优化呢？</p>
+<h2 id="抽取函数"><a href="#抽取函数" class="headerlink" title="抽取函数"></a>抽取函数</h2><p>稍有些经验的 developer 都知道，如果一个函数过于冗长，那么就应该将之分离成多个单独的函数。</p>
+<p>所以，我们的代码变成了下面这样</p>
+<p>实现思路</p>
+<ol>
+<li> 抽取每个状态对应执行的函数</li>
+<li> 根据状态使用 <code>if-else/switch</code> 判断然后调用不同的函数</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 抽取函数</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">switchFirst</span>(<span class="params">header</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">document</span>.querySelector(<span class="string">&quot;#extends-form&quot;</span>).innerHTML = <span class="string">`</span></span><br><span class="line"><span class="string">          <span class="subst">$&#123;header&#125;</span></span></span><br><span class="line"><span class="string">          &lt;div&gt;</span></span><br><span class="line"><span class="string">            &lt;label for=&quot;name&quot;&gt;姓名&lt;/label&gt;</span></span><br><span class="line"><span class="string">            &lt;input type=&quot;text&quot; name=&quot;name&quot; id=&quot;name&quot; /&gt;</span></span><br><span class="line"><span class="string">          &lt;/div&gt;</span></span><br><span class="line"><span class="string">          &lt;div&gt;</span></span><br><span class="line"><span class="string">            &lt;label for=&quot;age&quot;&gt;年龄&lt;/label&gt;</span></span><br><span class="line"><span class="string">            &lt;input type=&quot;number&quot; name=&quot;age&quot; id=&quot;age&quot; /&gt;</span></span><br><span class="line"><span class="string">          &lt;/div&gt;</span></span><br><span class="line"><span class="string">          &lt;div&gt;</span></span><br><span class="line"><span class="string">            &lt;button type=&quot;submit&quot;&gt;提交&lt;/button&gt; &lt;button type=&quot;reset&quot;&gt;重置&lt;/button&gt;</span></span><br><span class="line"><span class="string">          &lt;/div&gt;</span></span><br><span class="line"><span class="string">        `</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">switchSecond</span>(<span class="params">header</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">document</span>.querySelector(<span class="string">&quot;#extends-form&quot;</span>).innerHTML = <span class="string">`</span></span><br><span class="line"><span class="string">      <span class="subst">$&#123;header&#125;</span></span></span><br><span class="line"><span class="string">      &lt;div&gt;</span></span><br><span class="line"><span class="string">        &lt;label for=&quot;avatar&quot;&gt;头像&lt;/label&gt;</span></span><br><span class="line"><span class="string">        &lt;input type=&quot;file&quot; name=&quot;avatar&quot; id=&quot;avatar&quot; /&gt;</span></span><br><span class="line"><span class="string">      &lt;/div&gt;</span></span><br><span class="line"><span class="string">      &lt;div&gt;&lt;img id=&quot;avatar-preview&quot; src=&quot;&quot; /&gt;&lt;/div&gt;</span></span><br><span class="line"><span class="string">      &lt;div&gt;</span></span><br><span class="line"><span class="string">        &lt;button type=&quot;submit&quot;&gt;提交&lt;/button&gt; &lt;button type=&quot;reset&quot;&gt;重置&lt;/button&gt;</span></span><br><span class="line"><span class="string">      &lt;/div&gt;</span></span><br><span class="line"><span class="string">    `</span>;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">readLocalFile</span>(<span class="params">file</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> fr = <span class="keyword">new</span> FileReader();</span><br><span class="line">      fr.onload = <span class="function">(<span class="params">event</span>) =&gt;</span> &#123;</span><br><span class="line">        resolve(event.target.result);</span><br><span class="line">      &#125;;</span><br><span class="line">      fr.onerror = <span class="function">(<span class="params">error</span>) =&gt;</span> &#123;</span><br><span class="line">        reject(error);</span><br><span class="line">      &#125;;</span><br><span class="line">      fr.readAsDataURL(file);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">document</span>.querySelector(<span class="string">&quot;#avatar&quot;</span>).addEventListener(<span class="string">&quot;change&quot;</span>, <span class="function">(<span class="params">evnet</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> file = evnet.target.files[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">if</span> (!file) &#123;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (!file.type.includes(<span class="string">&quot;image&quot;</span>)) &#123;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    readLocalFile(file).then(<span class="function">(<span class="params">link</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">document</span>.querySelector(<span class="string">&quot;#avatar-preview&quot;</span>).src = link;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">switchThree</span>(<span class="params">header</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> initData = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">100</span>).fill(<span class="number">0</span>).map(<span class="function">(<span class="params">v, i</span>) =&gt;</span> <span class="string">`第 <span class="subst">$&#123;i&#125;</span> 项内容`</span>);</span><br><span class="line">  <span class="built_in">document</span>.querySelector(<span class="string">&quot;#extends-form&quot;</span>).innerHTML = <span class="string">`</span></span><br><span class="line"><span class="string">      <span class="subst">$&#123;header&#125;</span></span></span><br><span class="line"><span class="string">      &lt;div&gt;</span></span><br><span class="line"><span class="string">        &lt;label for=&quot;search-text&quot;&gt;搜索文本&lt;/label&gt;</span></span><br><span class="line"><span class="string">        &lt;input type=&quot;text&quot; name=&quot;search-text&quot; id=&quot;search-text&quot; /&gt;</span></span><br><span class="line"><span class="string">        &lt;ul id=&quot;search-result&quot;&gt;&lt;/ul&gt;</span></span><br><span class="line"><span class="string">      &lt;/div&gt;</span></span><br><span class="line"><span class="string">    `</span>;</span><br><span class="line">  <span class="built_in">document</span>.querySelector(<span class="string">&quot;#search-text&quot;</span>).addEventListener(<span class="string">&quot;input&quot;</span>, <span class="function">(<span class="params">evnet</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> searchText = event.target.value;</span><br><span class="line">    <span class="built_in">document</span>.querySelector(<span class="string">&quot;#search-result&quot;</span>).innerHTML = initData</span><br><span class="line">      .filter(<span class="function">(<span class="params">v</span>) =&gt;</span> v.includes(searchText))</span><br><span class="line">      .map(<span class="function">(<span class="params">v</span>) =&gt;</span> <span class="string">`&lt;li&gt;<span class="subst">$&#123;v&#125;</span>&lt;/li&gt;`</span>)</span><br><span class="line">      .join();</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">switchTab</span>(<span class="params">el</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> index = el.dataset.index;</span><br><span class="line">  <span class="keyword">const</span> header = <span class="string">`&lt;header&gt;&lt;h2&gt;<span class="subst">$&#123;el.parentElement.innerText.trim()&#125;</span>&lt;/h2&gt;&lt;/header&gt;`</span>;</span><br><span class="line">  <span class="comment">// 如果为 1 就添加一个文本表单</span></span><br><span class="line">  <span class="keyword">if</span> (index === <span class="string">&quot;1&quot;</span>) &#123;</span><br><span class="line">    switchFirst(header);</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (index === <span class="string">&quot;2&quot;</span>) &#123;</span><br><span class="line">    switchSecond(header);</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (index === <span class="string">&quot;3&quot;</span>) &#123;</span><br><span class="line">    switchThree(header);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.querySelectorAll(<span class="string">&#x27;#tab input[name=&quot;form-tab-radio&quot;]&#x27;</span>).forEach(<span class="function">(<span class="params">el</span>) =&gt;</span> &#123;</span><br><span class="line">  el.addEventListener(<span class="string">&quot;click&quot;</span>, <span class="function">() =&gt;</span> switchTab(el));</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="ES6-class：有限状态机"><a href="#ES6-class：有限状态机" class="headerlink" title="ES6 class：有限状态机"></a>ES6 class：有限状态机</h2><p>如果你知道 ES6 的 <code>class</code> 的话，应该也了解到目前 js 可以使用 <code>class</code> 模拟面向对象的继承，以及多态。</p>
+<p>实现思路</p>
+<ol>
+<li> 创建一个基类，并在其中声明一个需要被子类重写的方法</li>
+<li> 根据不同的状态创建不同的子类，并分别实现基类的方法</li>
+<li> 添加一个 <code>Builder</code> 类，用于根据不同的状态判断来创建不同的子类</li>
+<li> 调用者使用 <code>Builder</code> 类构造出来的对象调用父类中声明的方法</li>
+</ol>
+<p>具体实现</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 有限状态机</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Tab</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 基类里面的初始化方法放一些通用的操作</span></span><br><span class="line">  <span class="function"><span class="title">init</span>(<span class="params">header</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> html = <span class="string">`</span></span><br><span class="line"><span class="string">      &lt;header&gt;&lt;h2&gt;<span class="subst">$&#123;header&#125;</span>&lt;/h2&gt;&lt;/header&gt;</span></span><br><span class="line"><span class="string">      <span class="subst">$&#123;<span class="built_in">this</span>.initHTML()&#125;</span></span></span><br><span class="line"><span class="string">    `</span>;</span><br><span class="line">    <span class="built_in">document</span>.querySelector(<span class="string">&quot;#extends-form&quot;</span>).innerHTML = html;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 给出一个方法让子类实现，以获得不同的 HTML 内容</span></span><br><span class="line">  <span class="function"><span class="title">initHTML</span>(<span class="params"></span>)</span> &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Tab1</span> <span class="keyword">extends</span> <span class="title">Tab</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 实现 initHTML，获得选项卡对应的 HTML</span></span><br><span class="line">  <span class="function"><span class="title">initHTML</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`</span></span><br><span class="line"><span class="string">      &lt;div&gt;</span></span><br><span class="line"><span class="string">        &lt;label for=&quot;name&quot;&gt;姓名&lt;/label&gt;</span></span><br><span class="line"><span class="string">        &lt;input type=&quot;text&quot; name=&quot;name&quot; id=&quot;name&quot; /&gt;</span></span><br><span class="line"><span class="string">      &lt;/div&gt;</span></span><br><span class="line"><span class="string">      &lt;div&gt;</span></span><br><span class="line"><span class="string">        &lt;label for=&quot;age&quot;&gt;年龄&lt;/label&gt;</span></span><br><span class="line"><span class="string">        &lt;input type=&quot;number&quot; name=&quot;age&quot; id=&quot;age&quot; /&gt;</span></span><br><span class="line"><span class="string">      &lt;/div&gt;</span></span><br><span class="line"><span class="string">      &lt;div&gt;</span></span><br><span class="line"><span class="string">        &lt;button type=&quot;submit&quot;&gt;提交&lt;/button&gt; &lt;button type=&quot;reset&quot;&gt;重置&lt;/button&gt;</span></span><br><span class="line"><span class="string">      &lt;/div&gt;</span></span><br><span class="line"><span class="string">    `</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Tab2</span> <span class="keyword">extends</span> <span class="title">Tab</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="title">initHTML</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`</span></span><br><span class="line"><span class="string">    &lt;div&gt;</span></span><br><span class="line"><span class="string">      &lt;label for=&quot;avatar&quot;&gt;头像&lt;/label&gt;</span></span><br><span class="line"><span class="string">      &lt;input type=&quot;file&quot; name=&quot;avatar&quot; id=&quot;avatar&quot; /&gt;</span></span><br><span class="line"><span class="string">    &lt;/div&gt;</span></span><br><span class="line"><span class="string">    &lt;div&gt;&lt;img id=&quot;avatar-preview&quot; src=&quot;&quot; /&gt;&lt;/div&gt;</span></span><br><span class="line"><span class="string">    &lt;div&gt;</span></span><br><span class="line"><span class="string">      &lt;button type=&quot;submit&quot;&gt;提交&lt;/button&gt; &lt;button type=&quot;reset&quot;&gt;重置&lt;/button&gt;</span></span><br><span class="line"><span class="string">    &lt;/div&gt;</span></span><br><span class="line"><span class="string">    `</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 重写 init 初始化方法，并首先调用基类通用初始化的方法</span></span><br><span class="line">  <span class="function"><span class="title">init</span>(<span class="params">header</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>.init(header);</span><br><span class="line">    <span class="built_in">document</span>.querySelector(<span class="string">&quot;#avatar&quot;</span>).addEventListener(<span class="string">&quot;change&quot;</span>, <span class="function">(<span class="params">evnet</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> file = evnet.target.files[<span class="number">0</span>];</span><br><span class="line">      <span class="keyword">if</span> (!file) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (!file.type.includes(<span class="string">&quot;image&quot;</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="built_in">this</span>.readLocalFile(file).then(<span class="function">(<span class="params">link</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">document</span>.querySelector(<span class="string">&quot;#avatar-preview&quot;</span>).src = link;</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 子类独有方法</span></span><br><span class="line">  <span class="function"><span class="title">readLocalFile</span>(<span class="params">file</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> fr = <span class="keyword">new</span> FileReader();</span><br><span class="line">      fr.onload = <span class="function">(<span class="params">event</span>) =&gt;</span> &#123;</span><br><span class="line">        resolve(event.target.result);</span><br><span class="line">      &#125;;</span><br><span class="line">      fr.onerror = <span class="function">(<span class="params">error</span>) =&gt;</span> &#123;</span><br><span class="line">        reject(error);</span><br><span class="line">      &#125;;</span><br><span class="line">      fr.readAsDataURL(file);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Tab3</span> <span class="keyword">extends</span> <span class="title">Tab</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="title">initHTML</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`</span></span><br><span class="line"><span class="string">      &lt;div&gt;</span></span><br><span class="line"><span class="string">        &lt;label for=&quot;search-text&quot;&gt;搜索文本&lt;/label&gt;</span></span><br><span class="line"><span class="string">        &lt;input type=&quot;text&quot; name=&quot;search-text&quot; id=&quot;search-text&quot; /&gt;</span></span><br><span class="line"><span class="string">        &lt;ul id=&quot;search-result&quot; /&gt;</span></span><br><span class="line"><span class="string">      &lt;/div&gt;</span></span><br><span class="line"><span class="string">    `</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="title">init</span>(<span class="params">header</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>.init(header);</span><br><span class="line">    <span class="keyword">const</span> initData = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">100</span>).fill(<span class="number">0</span>).map(<span class="function">(<span class="params">v, i</span>) =&gt;</span> <span class="string">`第 <span class="subst">$&#123;i&#125;</span> 项内容`</span>);</span><br><span class="line">    <span class="built_in">document</span></span><br><span class="line">      .querySelector(<span class="string">&quot;#search-text&quot;</span>)</span><br><span class="line">      .addEventListener(<span class="string">&quot;input&quot;</span>, <span class="function">(<span class="params">evnet</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> searchText = event.target.value;</span><br><span class="line">        <span class="built_in">document</span>.querySelector(<span class="string">&quot;#search-result&quot;</span>).innerHTML = initData</span><br><span class="line">          .filter(<span class="function">(<span class="params">v</span>) =&gt;</span> v.includes(searchText))</span><br><span class="line">          .map(<span class="function">(<span class="params">v</span>) =&gt;</span> <span class="string">`&lt;li&gt;<span class="subst">$&#123;v&#125;</span>&lt;/li&gt;`</span>)</span><br><span class="line">          .join();</span><br><span class="line">      &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TabBuilder</span> </span>&#123;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 获取一个标签子类对象</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param <span class="type">&#123;Number&#125;</span> </span>index 索引</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@returns <span class="type">&#123;Tab&#125;</span> </span>子类对象</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">static</span> <span class="function"><span class="title">getInstance</span>(<span class="params">index</span>)</span> &#123;</span><br><span class="line">    <span class="comment">// Tab 构造类，用于根据不同的状态 index 构造不同的 Tab 对象</span></span><br><span class="line">    <span class="keyword">const</span> tabMap = <span class="keyword">new</span> <span class="built_in">Map</span>(</span><br><span class="line">      <span class="built_in">Object</span>.entries(&#123;</span><br><span class="line">        <span class="number">1</span>: <span class="function">() =&gt;</span> <span class="keyword">new</span> Tab1(),</span><br><span class="line">        <span class="number">2</span>: <span class="function">() =&gt;</span> <span class="keyword">new</span> Tab2(),</span><br><span class="line">        <span class="number">3</span>: <span class="function">() =&gt;</span> <span class="keyword">new</span> Tab3(),</span><br><span class="line">      &#125;)</span><br><span class="line">    );</span><br><span class="line">    <span class="keyword">return</span> tabMap.get(index)();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.querySelectorAll(<span class="string">&#x27;#tab input[name=&quot;form-tab-radio&quot;]&#x27;</span>).forEach(<span class="function">(<span class="params">el</span>) =&gt;</span> &#123;</span><br><span class="line">  el.addEventListener(<span class="string">&quot;click&quot;</span>, <span class="function">() =&gt;</span></span><br><span class="line">    <span class="comment">// 首先通过 Builder 构造类获取 Tab 子类实例，然后调用初始化方法 init</span></span><br><span class="line">    TabBuilder.getInstance(el.dataset.index).init(</span><br><span class="line">      el.parentElement.innerText.trim()</span><br><span class="line">    )</span><br><span class="line">  );</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>主要优势</p>
+<ul>
+<li>分离了状态与执行函数之间的关联，具体执行由具体的子类决定</li>
+<li>子类允许包含独有的属性/方法</li>
+<li>可扩展性更好，随时可以扩展任意多个子类</li>
+</ul>
+<h2 id="ES6-class：无限状态机"><a href="#ES6-class：无限状态机" class="headerlink" title="ES6 class：无限状态机"></a>ES6 class：无限状态机</h2><p>上面使用 class 继承多态实现的状态机虽然很好，但却并不能应对 <strong>不确定</strong> 具体有多少种状态的情况。因为每个子类都与父类有着强关联，直接在 Builder 类中进行了声明。那么，有没有一种方式，可以在添加/删除后不影响基类或者构造类呢？</p>
+<ol>
+<li> 创建一个基类，并在其中声明一个需要被子类重写的方法</li>
+<li> 添加一个 <code>Builder</code> 类，具体子类对应的状态由子类的某个属性决定</li>
+<li>根据不同的状态创建不同的子类，并分别实现基类的方法，调用 <code>Builder</code> 类的方法注册自身<blockquote>
+<p>此处因为 js 无法通过反射拿到所有子类，所以子类需要在 <code>Builder</code> 类注册自己</p>
+</blockquote>
+</li>
+<li> 使用 <code>Builder</code> 构造子类对象，并调用基类声明的方法</li>
+</ol>
+<p>具体实现</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 无限状态机</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Tab</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 基类里面的初始化方法放一些通用的操作</span></span><br><span class="line">  <span class="function"><span class="title">init</span>(<span class="params">header</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> html = <span class="string">`</span></span><br><span class="line"><span class="string">      &lt;header&gt;&lt;h2&gt;<span class="subst">$&#123;header&#125;</span>&lt;/h2&gt;&lt;/header&gt;</span></span><br><span class="line"><span class="string">      <span class="subst">$&#123;<span class="built_in">this</span>.initHTML()&#125;</span></span></span><br><span class="line"><span class="string">    `</span>;</span><br><span class="line">    <span class="built_in">document</span>.querySelector(<span class="string">&quot;#extends-form&quot;</span>).innerHTML = html;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 给出一个方法让子类实现，以获得不同的 HTML 内容</span></span><br><span class="line">  <span class="function"><span class="title">initHTML</span>(<span class="params"></span>)</span> &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 状态机</span></span><br><span class="line"><span class="comment"> * 用于避免使用 if-else 的一种方式</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StateMachine</span> </span>&#123;</span><br><span class="line">  <span class="keyword">static</span> <span class="function"><span class="title">getBuilder</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> clazzMap = <span class="keyword">new</span> <span class="built_in">Map</span>();</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 状态注册器</span></span><br><span class="line"><span class="comment">     * 更好的有限状态机，分离子类与构建的关系，无论子类如何增删该都不影响基类及工厂类</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> (<span class="class"><span class="keyword">class</span> <span class="title">Builder</span> </span>&#123;</span><br><span class="line">      <span class="comment">// noinspection JSMethodCanBeStatic</span></span><br><span class="line">      <span class="comment">/**</span></span><br><span class="line"><span class="comment">       * 注册一个 class，创建子类时调用，用于记录每一个 [状态 =&gt; 子类] 对应</span></span><br><span class="line"><span class="comment">       * <span class="doctag">@param </span>state 作为键的状态</span></span><br><span class="line"><span class="comment">       * <span class="doctag">@param </span>clazz 对应的子类型</span></span><br><span class="line"><span class="comment">       * <span class="doctag">@returns <span class="type">&#123;*&#125;</span> </span>返回 clazz 本身</span></span><br><span class="line"><span class="comment">       */</span></span><br><span class="line">      <span class="function"><span class="title">register</span>(<span class="params">state, clazz</span>)</span> &#123;</span><br><span class="line">        clazzMap.set(state, clazz);</span><br><span class="line">        <span class="keyword">return</span> clazz;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// noinspection JSMethodCanBeStatic</span></span><br><span class="line">      <span class="comment">/**</span></span><br><span class="line"><span class="comment">       * 获取一个标签子类对象</span></span><br><span class="line"><span class="comment">       * <span class="doctag">@param <span class="type">&#123;Number&#125;</span> </span>state 状态索引</span></span><br><span class="line"><span class="comment">       * <span class="doctag">@returns <span class="type">&#123;QuestionType&#125;</span> </span>子类对象</span></span><br><span class="line"><span class="comment">       */</span></span><br><span class="line">      <span class="function"><span class="title">getInstance</span>(<span class="params">state</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> clazz = clazzMap.get(state);</span><br><span class="line">        <span class="keyword">if</span> (!clazz) &#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//构造函数的参数</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> clazz(...Array.from(<span class="built_in">arguments</span>).slice(<span class="number">1</span>));</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 状态注册器</span></span><br><span class="line"><span class="comment"> * 更好的有限状态机，分离子类与构建的关系，无论子类如何增删该都不影响基类及工厂类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">const</span> builder = StateMachine.getBuilder();</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Tab1 = builder.register(</span><br><span class="line">  <span class="number">1</span>,</span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Tab1</span> <span class="keyword">extends</span> <span class="title">Tab</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 实现 initHTML，获得选项卡对应的 HTML</span></span><br><span class="line">    <span class="function"><span class="title">initHTML</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="string">`</span></span><br><span class="line"><span class="string">        &lt;div&gt;</span></span><br><span class="line"><span class="string">          &lt;label for=&quot;name&quot;&gt;姓名&lt;/label&gt;</span></span><br><span class="line"><span class="string">          &lt;input type=&quot;text&quot; name=&quot;name&quot; id=&quot;name&quot; /&gt;</span></span><br><span class="line"><span class="string">        &lt;/div&gt;</span></span><br><span class="line"><span class="string">        &lt;div&gt;</span></span><br><span class="line"><span class="string">          &lt;label for=&quot;age&quot;&gt;年龄&lt;/label&gt;</span></span><br><span class="line"><span class="string">          &lt;input type=&quot;number&quot; name=&quot;age&quot; id=&quot;age&quot; /&gt;</span></span><br><span class="line"><span class="string">        &lt;/div&gt;</span></span><br><span class="line"><span class="string">        &lt;div&gt;</span></span><br><span class="line"><span class="string">          &lt;button type=&quot;submit&quot;&gt;提交&lt;/button&gt; &lt;button type=&quot;reset&quot;&gt;重置&lt;/button&gt;</span></span><br><span class="line"><span class="string">        &lt;/div&gt;</span></span><br><span class="line"><span class="string">      `</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Tab2 = builder.register(</span><br><span class="line">  <span class="number">2</span>,</span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Tab2</span> <span class="keyword">extends</span> <span class="title">Tab</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">initHTML</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="string">`</span></span><br><span class="line"><span class="string">      &lt;div&gt;</span></span><br><span class="line"><span class="string">        &lt;label for=&quot;avatar&quot;&gt;头像&lt;/label&gt;</span></span><br><span class="line"><span class="string">        &lt;input type=&quot;file&quot; name=&quot;avatar&quot; id=&quot;avatar&quot; /&gt;</span></span><br><span class="line"><span class="string">      &lt;/div&gt;</span></span><br><span class="line"><span class="string">      &lt;div&gt;&lt;img id=&quot;avatar-preview&quot; src=&quot;&quot; /&gt;&lt;/div&gt;</span></span><br><span class="line"><span class="string">      &lt;div&gt;</span></span><br><span class="line"><span class="string">        &lt;button type=&quot;submit&quot;&gt;提交&lt;/button&gt; &lt;button type=&quot;reset&quot;&gt;重置&lt;/button&gt;</span></span><br><span class="line"><span class="string">      &lt;/div&gt;</span></span><br><span class="line"><span class="string">      `</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 重写 init 初始化方法，并首先调用基类通用初始化的方法</span></span><br><span class="line">    <span class="function"><span class="title">init</span>(<span class="params">header</span>)</span> &#123;</span><br><span class="line">      <span class="built_in">super</span>.init(header);</span><br><span class="line">      <span class="built_in">document</span>.querySelector(<span class="string">&quot;#avatar&quot;</span>).addEventListener(<span class="string">&quot;change&quot;</span>, <span class="function">(<span class="params">evnet</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> file = evnet.target.files[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">if</span> (!file) &#123;</span><br><span class="line">          <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!file.type.includes(<span class="string">&quot;image&quot;</span>)) &#123;</span><br><span class="line">          <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">this</span>.readLocalFile(file).then(<span class="function">(<span class="params">link</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="built_in">document</span>.querySelector(<span class="string">&quot;#avatar-preview&quot;</span>).src = link;</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 子类独有方法</span></span><br><span class="line">    <span class="function"><span class="title">readLocalFile</span>(<span class="params">file</span>)</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> fr = <span class="keyword">new</span> FileReader();</span><br><span class="line">        fr.onload = <span class="function">(<span class="params">event</span>) =&gt;</span> &#123;</span><br><span class="line">          resolve(event.target.result);</span><br><span class="line">        &#125;;</span><br><span class="line">        fr.onerror = <span class="function">(<span class="params">error</span>) =&gt;</span> &#123;</span><br><span class="line">          reject(error);</span><br><span class="line">        &#125;;</span><br><span class="line">        fr.readAsDataURL(file);</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Tab3 = builder.register(</span><br><span class="line">  <span class="number">3</span>,</span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Tab3</span> <span class="keyword">extends</span> <span class="title">Tab</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">initHTML</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="string">`</span></span><br><span class="line"><span class="string">      &lt;div&gt;</span></span><br><span class="line"><span class="string">        &lt;label for=&quot;search-text&quot;&gt;搜索文本&lt;/label&gt;</span></span><br><span class="line"><span class="string">        &lt;input type=&quot;text&quot; name=&quot;search-text&quot; id=&quot;search-text&quot; /&gt;</span></span><br><span class="line"><span class="string">        &lt;ul id=&quot;search-result&quot; /&gt;</span></span><br><span class="line"><span class="string">      &lt;/div&gt;</span></span><br><span class="line"><span class="string">    `</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="title">init</span>(<span class="params">header</span>)</span> &#123;</span><br><span class="line">      <span class="built_in">super</span>.init(header);</span><br><span class="line">      <span class="keyword">const</span> initData = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">100</span>).fill(<span class="number">0</span>).map(<span class="function">(<span class="params">v, i</span>) =&gt;</span> <span class="string">`第 <span class="subst">$&#123;i&#125;</span> 项内容`</span>);</span><br><span class="line">      <span class="built_in">document</span></span><br><span class="line">        .querySelector(<span class="string">&quot;#search-text&quot;</span>)</span><br><span class="line">        .addEventListener(<span class="string">&quot;input&quot;</span>, <span class="function">(<span class="params">evnet</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">const</span> searchText = event.target.value;</span><br><span class="line">          <span class="built_in">document</span>.querySelector(<span class="string">&quot;#search-result&quot;</span>).innerHTML = initData</span><br><span class="line">            .filter(<span class="function">(<span class="params">v</span>) =&gt;</span> v.includes(searchText))</span><br><span class="line">            .map(<span class="function">(<span class="params">v</span>) =&gt;</span> <span class="string">`&lt;li&gt;<span class="subst">$&#123;v&#125;</span>&lt;/li&gt;`</span>)</span><br><span class="line">            .join();</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.querySelectorAll(<span class="string">&#x27;#tab input[name=&quot;form-tab-radio&quot;]&#x27;</span>).forEach(<span class="function">(<span class="params">el</span>) =&gt;</span> &#123;</span><br><span class="line">  el.addEventListener(<span class="string">&quot;click&quot;</span>, <span class="function">() =&gt;</span></span><br><span class="line">    <span class="comment">// 调用方式不变</span></span><br><span class="line">    builder</span><br><span class="line">      .getInstance(<span class="built_in">Number</span>.parseInt(el.dataset.index))</span><br><span class="line">      .init(el.parentElement.innerText.trim())</span><br><span class="line">  );</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>主要优势</p>
+<ul>
+<li>可扩展性最好，添加/修改/删除子类不影响父类及构造类</li>
+</ul>
+<hr>
+<p>那么，关于 JavaScript 中如何避免使用 if-else 到这里就结束啦</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/02/02/fd2ee073c51c4c169ebff5a32795d375/" data-id="ckmcqox5r00cj0kuv6v8j06ls" data-title="JavaScript 避免使用 if-else 的方法" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BB%8F%E9%AA%8C/" rel="tag">经验</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-dc16ebcc6afe4f0aaed0f9a40b59f73d" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/02/02/dc16ebcc6afe4f0aaed0f9a40b59f73d/" class="article-date">
+  <time class="dt-published" datetime="2020-02-02T02:15:37.000Z" itemprop="datePublished">2020-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/02/02/dc16ebcc6afe4f0aaed0f9a40b59f73d/">如何编写无法维护的代码</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>屁股决定脑袋</p>
+</blockquote>
+<h2 id="让自己稳拿铁饭碗；"><a href="#让自己稳拿铁饭碗；" class="headerlink" title="让自己稳拿铁饭碗；-)"></a>让自己稳拿铁饭碗；-)</h2><blockquote>
+<p>转自 <a target="_blank" rel="noopener" href="https://coderlmn.github.io/frontEndCourse/unmaintainable.html?hmsr=toutiao.io">https://coderlmn.github.io/frontEndCourse/unmaintainable.html?hmsr=toutiao.io</a>，这里仅修复了部分错别字，优化了代码显示。<br><strong>–Roedy Green</strong>（老码农翻译，略有删节）</p>
+</blockquote>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><blockquote>
+<p>永远不要（把自己遇到的问题）归因于（他人的）恶意，这恰恰说明了（你自己的）无能。– 拿破仑</p>
+</blockquote>
+<p>为了造福大众，在 Java 编程领域创造就业机会，兄弟我在此传授大师们的秘籍。这些大师写的代码极其难以维护，后继者就是想对它做最简单的修改都需要花上数年时间。而且，如果你能对照秘籍潜心修炼，你甚至可以给自己弄个铁饭碗，因为除了你之外，没人能维护你写的代码。再而且，如果你能练就秘籍中的<strong>全部</strong>招式，那么连你自己都无法维护你的代码了！</p>
+<p>你不想练功过度走火入魔吧。那就不要让你的代码<strong>一眼看去</strong>就完全无法维护，只要它<strong>实质上是</strong>那样就行了。否则，你的代码就有被重写或重构的风险！</p>
+<h2 id="总体原则"><a href="#总体原则" class="headerlink" title="总体原则"></a>总体原则</h2><blockquote>
+<p><em>Quidquid latine dictum sit, altum sonatur.</em><br>(随便用拉丁文写点啥都会显得高大上。)</p>
+</blockquote>
+<p>想挫败维护代码的程序员，你必须先明白他的思维方式。他接手了你的庞大程序，没有时间把它全部读一遍，更别说理解它了。他无非是想快速找到修改代码的位置、改代码、编译，然后就能交差，并希望他的修改不会出现意外的副作用。</p>
+<p>他查看你的代码不过是管中窥豹，一次只能看到一小段而已。你要确保他永远看不到全貌。要尽量和让他难以找到他想找的代码。但更重要的是，要让他不能有把握<strong>忽略</strong>任何东西。</p>
+<p>程序员都被编程惯例洗脑了，还为此自鸣得意。每一次你处心积虑地违背编程惯例，都会迫使他必须用放大镜去仔细阅读你的每一行代码。</p>
+<p>你可能会觉得每个语言特性都可以用来让代码难以维护，其实不然。你必须精心地误用它们才行。</p>
+<h2 id="命名"><a href="#命名" class="headerlink" title="命名"></a>命名</h2><blockquote>
+<p>“当我使用一个单词的时候” Humpty Dumpty 曾经用一种轻蔑的口气说，” 它就是我想表达的意思，不多也不少。“<br>- Lewis Carroll – 《爱丽丝魔镜之旅》， 第 6 章</p>
+</blockquote>
+<p>编写无法维护代码的技巧的重中之重是变量和方法命名的艺术。如何命名是和编译器无关的。这就让你有巨大的自由度去利用它们迷惑维护代码的程序员。</p>
+<h3 id="妙用宝宝起名大全"><a href="#妙用宝宝起名大全" class="headerlink" title="妙用宝宝起名大全"></a>妙用宝宝起名大全</h3><p>买本宝宝起名大全，你就永远不缺变量名了。比如 <code>Fred</code> 就是个好名字，而且键盘输入它也省事。如果你就想找一些容易输入的变量名，可以试试 <code>adsf</code> 或者 <code>aoeu</code> 之类。</p>
+<h3 id="单字母变量名"><a href="#单字母变量名" class="headerlink" title="单字母变量名"></a>单字母变量名</h3><p>如果你给变量起名为 a,b,c，用简单的文本编辑器就没法搜索它们的引用。而且，没人能猜到它们的含义。</p>
+<h3 id="创造性的拼写错误"><a href="#创造性的拼写错误" class="headerlink" title="创造性的拼写错误"></a>创造性的拼写错误</h3><p>如果你必须使用描述性的变量和函数名，那就把它们都拼错。还可以把某些函数和变量名拼错，再把其他的拼对 (例如 SetPintleOpening 和 SetPintalClosing) ，我们就能有效地将 grep 或 IDE 搜索技术玩弄于股掌之上。这招超级管用。还可以混淆不同语言（比如 colour – 英国英语，和 color – 美国英语)。</p>
+<h3 id="抽象"><a href="#抽象" class="headerlink" title="抽象"></a>抽象</h3><p>在命名函数和变量的时候，充分利用抽象单词，例如 it, everything, data, handle, stuff, do, routine, perform 和数字，例如 e.g. <code>routineX48</code>, <code>PerformDataFunction</code>, <code>DoIt</code>, <code>HandleStuff</code> 还有 <code>do_args_method。</code></p>
+<h3 id="首字母大写的缩写"><a href="#首字母大写的缩写" class="headerlink" title="首字母大写的缩写"></a>首字母大写的缩写</h3><p>用首字母大写缩写（比如 GNU 代表 GNU’s Not Unix) 使代码简洁难懂。真正的汉子 (无论男女) 从来不说明这种缩写的含义，他们生下来就懂。</p>
+<h3 id="辞典大轮换"><a href="#辞典大轮换" class="headerlink" title="辞典大轮换"></a>辞典大轮换</h3><p>为了打破沉闷的编程气氛，你可以用一本辞典来查找尽量多的同义词。例如 display, show, present。在注释里含糊其辞地暗示这些命名之间有细微的差别，其实根本没有。不过，如果有两个命名相似的函数真的有重大差别，那倒是一定要确保它们用相同的单词来命名 (例如，对于 “写入文件”, “在纸上书写” 和 “屏幕显示” 都用 print 来命名)。 在任何情况下都不要屈服于编写明确的项目词汇表这种无理要求。你可以辩解说，这种要求是一种不专业的行为，它违反了结构化设计的 _信息隐藏原则_。</p>
+<h3 id="首字母大写"><a href="#首字母大写" class="headerlink" title="首字母大写"></a>首字母大写</h3><p>随机地把单词中间某个音节的首字母大写。例如 <code>ComputeReSult()</code>。</p>
+<h3 id="重用命名"><a href="#重用命名" class="headerlink" title="重用命名"></a>重用命名</h3><p>在语言规则允许的地方，尽量把类、构造器、方法、成员变量、参数和局部变量都命名成一样。更高级的技巧是在 {} 块中重用局部变量。这样做的目的是迫使维护代码的程序员认真检查每个示例的范围。特别是在 Java 代码中，可以把普通方法伪装成构造器。</p>
+<h3 id="使用非英语字母"><a href="#使用非英语字母" class="headerlink" title="使用非英语字母"></a>使用非英语字母</h3><p>在命名中偷偷使用不易察觉的非英语字母，例如</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">typedef <span class="keyword">struct</span> &#123; <span class="built_in">int</span> i; &#125; ínt;</span><br></pre></td></tr></table></figure>
+<p>看上去没啥不对是吧？嘿嘿嘿… 这里的第二个 ínt 的 <code>í</code> 实际上是东北欧字母，并不是英语中的 <code>i</code>。在简单的文本编辑器里，想看出这一点点区别几乎是不可能的。</p>
+<h3 id="巧妙利用编译器对于命名长度的限制"><a href="#巧妙利用编译器对于命名长度的限制" class="headerlink" title="巧妙利用编译器对于命名长度的限制"></a>巧妙利用编译器对于命名长度的限制</h3><p>如果编译器只区分命名的前几位，比如前 8 位，那么就把后面的字母写得不一样。比如，其实是同一个变量，有时候写成 <code>var_unit_update()</code>，有时候又写成 <code>var_unit_setup()</code>，看起来是两个不同的函数调用。而在编译的时候，它们其实是同一个变量 <code>var_unit</code>。</p>
+<h3 id="下划线，一位真正的朋友"><a href="#下划线，一位真正的朋友" class="headerlink" title="下划线，一位真正的朋友"></a>下划线，一位真正的朋友</h3><p>可以拿 _ 和 __ 作为标示符。</p>
+<h3 id="混合多语言"><a href="#混合多语言" class="headerlink" title="混合多语言"></a>混合多语言</h3><p>随机地混用两种语言（人类语言或计算机语言都行）。如果老板要求使用他指定的语言，你就告诉他你用自己的语言更有利于组织你的思路，万一这招不管用，就去控诉这是语言歧视，并威胁起诉老板要求巨额精神损失赔偿。</p>
+<h3 id="扩展-ASCII-字符"><a href="#扩展-ASCII-字符" class="headerlink" title="扩展 ASCII 字符"></a>扩展 ASCII 字符</h3><p>扩展 ASCII 字符用于变量命名是完全合法的，包括 ß, Ð, 和 ñ 等。在简单的文本编辑器里，除了拷贝/粘贴，基本上没法输入。</p>
+<h3 id="其他语言的命名"><a href="#其他语言的命名" class="headerlink" title="其他语言的命名"></a>其他语言的命名</h3><p>使用外语字典作为变量名的来源。例如，可以用德语单词 <em>punkt</em> 代替 _point_。除非维护代码的程序员也像你一样熟练掌握了德语。不然他就只能尽情地在代码中享受异域风情了。</p>
+<h3 id="数学命名"><a href="#数学命名" class="headerlink" title="数学命名"></a>数学命名</h3><p>用数学操作符的单词来命名变量。例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">openParen = (slash + asterix) / equals;</span><br><span class="line">(左圆括号 = (斜杠 + 星号)/ 等号；)</span><br></pre></td></tr></table></figure>
+<h3 id="令人眩晕的命名"><a href="#令人眩晕的命名" class="headerlink" title="令人眩晕的命名"></a>令人眩晕的命名</h3><p>用带有完全不相关的感情色彩的单词来命名变量。例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">marypoppins = (superman + starship) / god;</span><br><span class="line">(欢乐满人间 = (超人 + 星河战队)/ 上帝；)</span><br></pre></td></tr></table></figure>
+<p>这一招可以让阅读代码的人陷入迷惑之中，因为他们在试图想清楚这些命名的逻辑时，会不自觉地联系到不同的感情场景里而无法自拔。</p>
+<h3 id="何时使用-i"><a href="#何时使用-i" class="headerlink" title="何时使用 i"></a>何时使用 i</h3><p>永远不要把 <code>i</code> 用作最内层的循环变量。 用什么命名都行，就是别用 <code>i</code>。把 <code>i</code> 用在其他地方就随便了，用作非整数变量尤其好。</p>
+<h3 id="惯例-–-明修栈道，暗度陈仓"><a href="#惯例-–-明修栈道，暗度陈仓" class="headerlink" title="惯例 – 明修栈道，暗度陈仓"></a>惯例 – 明修栈道，暗度陈仓</h3><p>忽视 <a target="_blank" rel="noopener" href="http://java.sun.com/docs/codeconv/">Java 编码惯例</a>，Sun 就是这样做的。幸运的是，你违反了它编译器也不会打小报告。这一招的目的是搞出一些在某些特殊情况下有细微差别的名字来。如果你被强迫遵循驼峰法命名，你还是可以在某些模棱两可的情况下颠覆它。例如， <em>inputFilename</em> 和 <em>inputfileName</em> 两个命名都可以合法使用。在此基础上自己发明一套复杂到变态的命名惯例，然后就可以痛扁其他人，说他们违反了惯例。</p>
+<h3 id="小写的-l-看上去很像数字-1"><a href="#小写的-l-看上去很像数字-1" class="headerlink" title="小写的 l 看上去很像数字 1"></a>小写的 l 看上去很像数字 1</h3><p>用小写字母 l 标识 long 常数。例如 10l 更容易被误认为是 101 而不是 10L 。 禁用所有能让人准确区分 uvw wW gq9 2z 5s il17|!j oO08 `‘“ ;,. m nn rn {[()]} 的字体。要做个有创造力的人。</p>
+<h3 id="把全局命名重用为私有"><a href="#把全局命名重用为私有" class="headerlink" title="把全局命名重用为私有"></a>把全局命名重用为私有</h3><p>在 A 模块里声明一个全局数组，然后在 B 模块的头文件里在声明一个同名的私有数组，这样看起来你在 B 模块里引用的是那个全局数组，其实却不是。不要在注释里提到这个重复的情况。</p>
+<h3 id="误导性的命名"><a href="#误导性的命名" class="headerlink" title="误导性的命名"></a>误导性的命名</h3><p>让每个方法都和它的名字蕴含的功能有一些差异。例如，一个叫 <code>isValid(x)</code> 的方法在判断完参数 x 的合法性之后，还顺带着把它转换成二进制并保存到数据库里。</p>
+<h2 id="伪装"><a href="#伪装" class="headerlink" title="伪装"></a>伪装</h2><blockquote>
+<p>当一个 bug 需要越长的时间才会暴露，它就越难被发现。<br>- Roedy Green（本文作者）</p>
+</blockquote>
+<p>编写无法维护代码的另一大秘诀就是伪装的艺术，即隐藏它或者让它看起来像其他东西。很多招式有赖于这样一个事实：编译器比肉眼或文本编辑器更有分辨能力。下面是一些伪装的最佳招式。</p>
+<h3 id="把代码伪装成注释，反之亦然"><a href="#把代码伪装成注释，反之亦然" class="headerlink" title="把代码伪装成注释，反之亦然"></a>把代码伪装成注释，反之亦然</h3><p>下面包括了一些被注释掉的代码，但是一眼看去却像是正常代码。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(j=<span class="number">0</span>; j&lt;array_len; j+ =<span class="number">8</span>)</span><br><span class="line">  &#123;</span><br><span class="line">  total += array[j+<span class="number">0</span> ];</span><br><span class="line">  total += array[j+<span class="number">1</span> ];</span><br><span class="line">  total += array[j+<span class="number">2</span> ]; <span class="comment">/* Main body of</span></span><br><span class="line"><span class="comment">  total += array[j+3]; * loop is unrolled</span></span><br><span class="line"><span class="comment">  total += array[j+4]; * for greater speed.</span></span><br><span class="line"><span class="comment">  total += array[j+5]; */</span></span><br><span class="line">  total += array[j+<span class="number">6</span> ];</span><br><span class="line">  total += array[j+<span class="number">7</span> ];</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>如果不是用绿色标出来，你能注意到这三行代码被注释掉了么？</p>
+<h3 id="用连接符隐藏变量"><a href="#用连接符隐藏变量" class="headerlink" title="用连接符隐藏变量"></a>用连接符隐藏变量</h3><p>对于下面的定义</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> local_var xy_z</span></span><br></pre></td></tr></table></figure>
+<p>可以把 “xy_z” 打散到两行里：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> local_var xy\</span></span><br><span class="line">_z <span class="comment">// local_var OK</span></span><br></pre></td></tr></table></figure>
+<p>这样全局搜索 xy_z 的操作在这个文件里就一无所获了。 对于 C 预处理器来说，第一行最后的 “” 表示继续拼接下一行的内容。</p>
+<h2 id="文档"><a href="#文档" class="headerlink" title="文档"></a>文档</h2><blockquote>
+<p>任何傻瓜都能说真话，而要把谎编圆则需要相当的智慧。<br>- Samuel Butler (1835 - 1902)</p>
+<p>不正确的文档往往比没有文档还糟糕。<br>- Bertrand Meyer</p>
+</blockquote>
+<p>既然计算机是忽略注释和文档的，你就可以在里边堂而皇之地编织弥天大谎，让可怜的维护代码的程序员彻底迷失。</p>
+<h3 id="在注释中撒谎"><a href="#在注释中撒谎" class="headerlink" title="在注释中撒谎"></a>在注释中撒谎</h3><p>实际上你不需要主动地撒谎，只要没有及时保持注释和代码更新的一致性就可以了。</p>
+<h3 id="只记录显而易见的东西"><a href="#只记录显而易见的东西" class="headerlink" title="只记录显而易见的东西"></a>只记录显而易见的东西</h3><p>往代码里掺进去类似于 <code>/* 给 i 加 1 */</code> 这样的注释，但是永远不要记录包或者方法的整体设计这样的干货。</p>
+<h3 id="记录-How-而不是-Why"><a href="#记录-How-而不是-Why" class="headerlink" title="记录 How 而不是 Why"></a>记录 How 而不是 Why</h3><p>只解释一个程序功能的细节，而不是它要完成的任务是什么。这样的话，如果出现了一个 bug，修复者就搞不清这里的代码应有的功能。</p>
+<h3 id="该写的别写"><a href="#该写的别写" class="headerlink" title="该写的别写"></a>该写的别写</h3><p>比如你在开发一套航班预定系统，那就要精心设计，让它在增加另一个航空公司的时候至少有 25 处代码需要修改。永远不要在文档里说明要修改的位置。后来的开发人员要想修改你的代码门都没有，除非他们能把每一行代码都读懂。</p>
+<h3 id="计量单位"><a href="#计量单位" class="headerlink" title="计量单位"></a>计量单位</h3><p>永远不要在文档中说明任何变量、输入、输出或参数的计量单位，如英尺、米、加仑等。计量单位对数豆子不是太重要，但在工程领域就相当重要了。同理，永远不要说明任何转换常量的计量单位，或者是它的取值如何获得。要想让代码更乱的话，你还可以在注释里写上错误的计量单位，这是赤裸裸的欺骗，但是非常有效。如果你想做一个恶贯满盈的人，不妨自己发明一套计量单位，用自己或某个小人物的名字命名这套计量单位，但不要给出定义。万一有人挑刺儿，你就告诉他们，你这么做是为了把浮点数运算凑成整数运算而进行的转换。</p>
+<h3 id="坑"><a href="#坑" class="headerlink" title="坑"></a>坑</h3><p>永远不要记录代码中的坑。如果你怀疑某个类里可能有 bug，天知地知你知就好。如果你想到了重构或重写代码的思路，看在老天爷的份上，千万别写出来。切记电影《小鹿斑比》里那句台词 “如果你不能说好听的话，那就什么也不要说。”。万一这段代码的原作者看到你的注释怎么办？万一老板看到了怎么办？万一客户看到了怎么办？搞不好最后你自己被解雇了。一句” 这里需要修改 “的匿名注释就好多了，尤其是当看不清这句注释指的是哪里需要修改的情况下。切记难得糊涂四个字，这样大家都不会感觉受到了批评。</p>
+<h3 id="说明变量"><a href="#说明变量" class="headerlink" title="说明变量"></a>说明变量</h3><p>永远不要 对变量声明加注释。有关变量使用的方式、边界值、合法值、小数点后的位数、计量单位、显示格式、数据录入规则等等，后继者完全可以自己从程序代码中去理解和整理嘛。如果老板强迫你写注释，就把方法体代码混进去，但绝对不要对变量声明写注释，即使是临时变量！</p>
+<h3 id="在注释里挑拨离间"><a href="#在注释里挑拨离间" class="headerlink" title="在注释里挑拨离间"></a>在注释里挑拨离间</h3><p>为了阻挠任何雇佣外部维护承包商的倾向，可以在代码中散布针对其他同行软件公司的攻击和抹黑，特别是可能接替你工作的其中任何一家。例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 优化后的内层循环</span></span><br><span class="line"><span class="comment">这套技巧对于 SSI 软件服务公司的那帮蠢材来说太高深了，他们只会</span></span><br><span class="line"><span class="comment">用 &lt;math.h&gt; 里的笨例程，消耗 50 倍的内存和处理时间。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">clever_SSInc</span></span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>可能的话，除了注释之外，这些攻击抹黑的内容也要掺到代码里的重要部分，这样如果管理层想清理掉这些攻击性的言论然后发给外部承包商去维护，就会破坏代码结构。</p>
+<h2 id="程序设计"><a href="#程序设计" class="headerlink" title="程序设计"></a>程序设计</h2><blockquote>
+<p>编写无法维护代码的基本规则就是：在尽可能多的地方，以尽可能多的方式表述每一个事实。<br>- Roedy Green<br>编写可维护代码的关键因素是只在一个地方表述应用里的一个事实。如果你的想法变了，你也只在一个地方修改，这样就能保证整个程序正常工作。所以，编写无法维护代码的关键因素就是反复地表述同一个事实，在尽可能多的地方，以尽可能多的方式进行。令人高兴的是，像 Java 这样的语言让编写这种无法维护代码变得非常容易。例如，改变一个被引用很多的变量的类型几乎是不可能的，因为所有造型和转换功能都会出错，而且关联的临时变量的类型也不合适了。而且，如果变量值要在屏幕上显示，那么所有相关的显示和数据录入代码都必须一一找到并手工进行修改。类似的还有很多，比如由 C 和 Java 组成的 Algol 语言系列，Abundance 甚至 Smalltalk 对于数组等结构的处理，都是大有可为的。</p>
+</blockquote>
+<h3 id="Java-类型"><a href="#Java-类型" class="headerlink" title="Java 类型"></a>Java 类型</h3><p>Java 的类型机制是上帝的礼物。你可以问心无愧地使用它，因为 Java 语言本身就需要它。每次你从一个 Collection 里获取一个对象，你都必须把它造型为原始类型。这样这个变量的类型就必须在无数地方表述。如果后来类型变了，所有的造型都要修改才能匹配。如果倒霉的维护代码的程序员没有找全（或者修改太多），编译器能不能检测到也不好说。类似的，如果变量类型从 <code>short</code> 变成 <code>int</code>，所有匹配的造型也都要从 <code>(short)</code>改成 <code>(int)</code>。</p>
+<h3 id="利用-Java-的冗余"><a href="#利用-Java-的冗余" class="headerlink" title="利用 Java 的冗余"></a>利用 Java 的冗余</h3><p>Java 要求你给每个变量的类型写两次表述。 Java 程序员已经习惯了这种冗余，他们不会注意到你的两次表述有细微的差别，例如</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Bubblegum b = <span class="keyword">new</span> Bubblegom();</span><br></pre></td></tr></table></figure>
+<p>不幸的是 ++ 操作符的盛行让下面这种伪冗余代码得手的难度变大了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">swimmer = swimner + <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="永远不做校验"><a href="#永远不做校验" class="headerlink" title="永远不做校验"></a>永远不做校验</h3><p>永远不要对输入数据做任何的正确性或差异性检查。这样能表现你对公司设备的绝对信任，以及你是一位信任所有项目伙伴和系统管理员的团队合作者。总是返回合理的值，即使数据输入有问题或者错误。</p>
+<h3 id="有礼貌，无断言"><a href="#有礼貌，无断言" class="headerlink" title="有礼貌，无断言"></a>有礼貌，无断言</h3><p>避免使用 assert() 机制，因为它可能把三天的 debug 盛宴变成 10 分钟的快餐。</p>
+<h3 id="避免封装"><a href="#避免封装" class="headerlink" title="避免封装"></a>避免封装</h3><p>为了提高效率，不要使用封装。方法的调用者需要所有能得到的外部信息，以便了解方法的内部是如何工作的。</p>
+<h3 id="复制粘贴修改"><a href="#复制粘贴修改" class="headerlink" title="复制粘贴修改"></a>复制粘贴修改</h3><p>以效率的名义，使用 复制 + 粘贴 + 修改。这样比写成小型可复用模块效率高得多。在用代码行数衡量你的进度的小作坊里，这招尤其管用。</p>
+<h3 id="使用静态数组"><a href="#使用静态数组" class="headerlink" title="使用静态数组"></a>使用静态数组</h3><p>如果一个库里的模块需要一个数组来存放图片，就定义一个静态数组。没人会有比 512 X 512 更大的图片，所以固定大小的数组就可以了。为了最佳精度，就把它定义成 double 类型的数组。</p>
+<h3 id="傻瓜接口"><a href="#傻瓜接口" class="headerlink" title="傻瓜接口"></a>傻瓜接口</h3><p>编写一个名为 “WrittenByMe” 之类的空接口，然后让你的所有类都实现它。然后给所有你用到的 Java 内置类编写包装类。这里的思想是确保你程序里的每个对象都实现这个接口。最后，编写所有的方法，让它们的参数和返回类型都是这个 WrittenByMe。这样就几乎不可能搞清楚某个方法的功能是什么，并且所有类型都需要好玩的造型方法。更出格的玩法是，让每个团队成员编写它们自己的接口 (例如 WrittenByJoe)，程序员用到的任何类都要实现他自己的接口。这样你就可以在大量无意义接口中随便找一个来引用对象了。</p>
+<h3 id="巨型监听器"><a href="#巨型监听器" class="headerlink" title="巨型监听器"></a>巨型监听器</h3><p>永远不要为每个组件创建分开的监听器。对所有按钮总是用同一个监听器，只要用大量的 if…else 来判断是哪一个按钮被点击就行了。</p>
+<p>好事成堆 TM<br>狂野地使用封装和 OO 思想。例如</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">myPanel.add( getMyButton() );</span><br><span class="line"><span class="function"><span class="keyword">private</span> JButton <span class="title">getMyButton</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> myButton;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这段很可能看起来不怎么好笑。别担心，只是时候未到而已。</p>
+<h3 id="友好的朋友"><a href="#友好的朋友" class="headerlink" title="友好的朋友"></a>友好的朋友</h3><p>在 C++ 里尽量多使用 friend 声明。再把创建类的指针传递给已创建类。现在你不用浪费时间去考虑接口了。另外，你应该用上关键字 private 和 protected 来表明你的类封装得很好。</p>
+<h3 id="使用三维数组"><a href="#使用三维数组" class="headerlink" title="使用三维数组"></a>使用三维数组</h3><p>大量使用它们。用扭曲的方式在数组之间移动数据，比如，用 arrayA 里的行去填充 arrayB 的列。这么做的时候，不管三七二十一再加上 1 的偏移值，这样很灵。让维护代码的程序员抓狂去吧。</p>
+<h3 id="混合与匹配"><a href="#混合与匹配" class="headerlink" title="混合与匹配"></a>混合与匹配</h3><p>存取方法和公共变量神马的都要给他用上。这样的话，你无需调用存取器的开销就可以修改一个对象的变量，还能宣称这个类是个 “Java Bean”。对于那些试图添加日志函数来找出改变值的源头的维护代码的程序员，用这一招来迷惑他尤其有效。</p>
+<h3 id="没有秘密"><a href="#没有秘密" class="headerlink" title="没有秘密"></a>没有秘密</h3><p>把每个方法和变量都声明为 public。毕竟某个人某天可能会需要用到它。一旦方法被声明为 public 了，就很难缩回去。对不？这样任何它覆盖到的代码都很难修改了。它还有个令人愉快的副作用，就是让你看不清类的作用是什么。如果老板质问你是不是疯了，你就告诉他你遵循的是经典的透明接口原则。</p>
+<h3 id="全堆一块"><a href="#全堆一块" class="headerlink" title="全堆一块"></a>全堆一块</h3><p>把你所有的没用的和过时的方法和变量都留在代码里。毕竟说起来，既然你在 1976 年用过一次，谁知道你啥时候会需要再用到呢？当然程序是改了，但它也可能会改回来嘛，你 “不想要重新发明轮子”（领导们都会喜欢这样的口气）。如果你还原封不动地留着这些方法和变量的注释，而且注释写得又高深莫测，甭管维护代码的是谁，恐怕都不敢对它轻举妄动。</p>
+<h3 id="就是-Final"><a href="#就是-Final" class="headerlink" title="就是 Final"></a>就是 Final</h3><p>把你所有的叶子类都声明为 final。毕竟说起来，你在项目里的活儿都干完了，显然不会有其他人会通过扩展你的类来改进你的代码。这种情况甚至可能有安全漏洞。 java.lang.String 被定义成 final 也许就是这个原因吧？如果项目组其他程序员有意见，告诉他们这样做能够提高运行速度。</p>
+<h3 id="避免布局"><a href="#避免布局" class="headerlink" title="避免布局"></a>避免布局</h3><p>永远不要用到布局。当维护代码的程序员想增加一个字段，他必须手工调整屏幕上显示所有内容的绝对坐标值。如果老板强迫你使用布局，那就写一个巨型的 GridBagLayout 并在里面用绝对坐标进行硬编码。</p>
+<h3 id="全局变量，怎么强调都不过分"><a href="#全局变量，怎么强调都不过分" class="headerlink" title="全局变量，怎么强调都不过分"></a>全局变量，怎么强调都不过分</h3><p>如果上帝不愿意我们使用全局变量，他就不会发明出这个东西。不要让上帝失望，尽量多使用全局变量。每个函数最起码都要使用和设置其中的两个，即使没有理由也要这么做。毕竟，任何优秀的维护代码的程序员都会很快搞清楚这是一种侦探工作测试，有利于让他们从笨蛋中脱颖而出。</p>
+<h3 id="再一次说说全局变量"><a href="#再一次说说全局变量" class="headerlink" title="再一次说说全局变量"></a>再一次说说全局变量</h3><p>全局变量让你可以省去在函数里描述参数的麻烦。充分利用这一点。在全局变量中选那么几个来表示对其他全局变量进行操作的类型。</p>
+<h3 id="局部变量"><a href="#局部变量" class="headerlink" title="局部变量"></a>局部变量</h3><p>永远不要用局部变量。在你感觉想要用的时候，把它改成一个实例或者静态变量，并无私地和其他方法分享它。这样做的好处是，你以后在其他方法里写类似声明的时候会节省时间。C++ 程序员可以百尺竿头更进一步，把所有变量都弄成全局的。</p>
+<h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><p>配置文件通常是以 关键字 = 值 的形式出现。在加载时这些值被放入 Java 变量中。最明显的迷惑技术就是把有细微差别的名字用于关键字和 Java 变量。甚至可以在配置文件里定义运行时根本不会改变的常量。参数文件变量和简单变量比，维护它的代码量起码是后者的 5 倍。</p>
+<h3 id="子类"><a href="#子类" class="headerlink" title="子类"></a>子类</h3><p>对于编写无法维护代码的任务来说，面向对象编程的思想简直是天赐之宝。如果你有一个类，里边有 10 个属性（成员 / 方法），可以考虑写一个基类，里面只有一个属性，然后产生 9 层的子类，每层增加一个属性。等你访问到最终的子类时，你才能得到全部 10 个属性。如果可能，把每个类的声明都放在不同的文件里。</p>
+<h2 id="编码迷局"><a href="#编码迷局" class="headerlink" title="编码迷局"></a>编码迷局</h2><h3 id="迷惑-C"><a href="#迷惑-C" class="headerlink" title="迷惑 C"></a>迷惑 C</h3><p>从互联网上的各种混乱 C 语言竞赛中学习，追随大师们的脚步。</p>
+<h3 id="追求极致"><a href="#追求极致" class="headerlink" title="追求极致"></a>追求极致</h3><p>总是追求用最迷惑的方式来做普通的任务。例如，要用数组来把整数转换为相应的字符串，可以这么做：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> *p;</span><br><span class="line"><span class="keyword">switch</span> (n)</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">    p = <span class="string">&quot;one&quot;</span>;</span><br><span class="line">    <span class="keyword">if</span> (<span class="number">0</span>)</span><br><span class="line"><span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">    p = <span class="string">&quot;two&quot;</span>;</span><br><span class="line">    <span class="keyword">if</span> (<span class="number">0</span>)</span><br><span class="line"><span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">    p = <span class="string">&quot;three&quot;</span>;</span><br><span class="line">    printf(<span class="string">&quot;%s&quot;</span>, p);</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="一致性的小淘气"><a href="#一致性的小淘气" class="headerlink" title="一致性的小淘气"></a>一致性的小淘气</h3><p>当你需要一个字符常量的时候，可以用多种不同格式： ‘ ‘, 32, 0x20, 040。在 C 或 Java 里 10 和 010 是不同的数（0 开头的表示 16 进制），你也可以充分利用这个特性。</p>
+<h3 id="造型"><a href="#造型" class="headerlink" title="造型"></a>造型</h3><p>把所有数据都以 void * 形式传递，然后再造型为合适的结构。不用结构而是通过位移字节数来造型也很好玩。</p>
+<h3 id="嵌套-Switch"><a href="#嵌套-Switch" class="headerlink" title="嵌套 Switch"></a>嵌套 Switch</h3><p>Switch 里边还有 Switch，这种嵌套方式是人类大脑难以破解的。</p>
+<h3 id="利用隐式转化"><a href="#利用隐式转化" class="headerlink" title="利用隐式转化"></a>利用隐式转化</h3><p>牢记编程语言中所有的隐式转化细节。充分利用它们。数组的索引要用浮点变量，循环计数器用字符，对数字执行字符串函数调用。不管怎么说，所有这些操作都是合法的，它们无非是让源代码更简洁而已。任何尝试理解它们的维护者都会对你感激不尽，因为他们必须阅读和学习整个关于隐式数据类型转化的章节，而这个章节很可能是他们来维护你的代码之前完全忽略了的。</p>
+<h3 id="分号"><a href="#分号" class="headerlink" title="分号"></a>分号</h3><p>在所有语法允许的地方都加上分号，例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(a);</span><br><span class="line"><span class="keyword">else</span>;</span><br><span class="line">    &#123;</span><br><span class="line">    <span class="keyword">int</span> d;</span><br><span class="line">    d = c;</span><br><span class="line">    &#125;</span><br><span class="line">    ;</span><br></pre></td></tr></table></figure>
+<h3 id="使用八进制数"><a href="#使用八进制数" class="headerlink" title="使用八进制数"></a>使用八进制数</h3><p>把八进制数混到十进制数列表里，就像这样：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">array = <span class="keyword">new</span> <span class="keyword">int</span> []</span><br><span class="line">    &#123;</span><br><span class="line">    <span class="number">111</span>,</span><br><span class="line">    <span class="number">120</span>,</span><br><span class="line">    <span class="number">013</span>,</span><br><span class="line">    <span class="number">121</span>,</span><br><span class="line">    &#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="嵌套"><a href="#嵌套" class="headerlink" title="嵌套"></a>嵌套</h3><p>尽可能深地嵌套。优秀的程序员能在一行代码里写 10 层 ()，在一个方法里写 20 层 {}。</p>
+<h3 id="C-数组"><a href="#C-数组" class="headerlink" title="C 数组"></a>C 数组</h3><p>C 编译器会把 <code>myArray[i]</code> 转换成 <code>_(myArray + i)</code>，它等同于 <code>_(i + myArray)</code> 也等同于 <code>i[myArray]</code>。 高手都知道怎么用好这个招。可以用下面的函数来产生索引，这样就把代码搞乱了：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">myfunc</span><span class="params">(<span class="keyword">int</span> q, <span class="keyword">int</span> p)</span> </span>&#123; <span class="keyword">return</span> p%q; &#125;</span><br><span class="line">...</span><br><span class="line">myfunc(<span class="number">6291</span>, <span class="number">8</span>)[Array];</span><br></pre></td></tr></table></figure>
+<p>遗憾的是，这一招只能在本地 C 类里用，Java 还不行。</p>
+<h3 id="放长线钓大鱼"><a href="#放长线钓大鱼" class="headerlink" title="放长线钓大鱼"></a>放长线钓大鱼</h3><p>一行代码里堆的东西越多越好。这样可以省下临时变量的开销，去掉换行和空格还可以缩短源文件大小。记住，要去掉运算符两边的空格。优秀的程序员总是能突破某些编辑器对于 255 个字符行宽的限制。</p>
+<h3 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h3><p>我这里要向你传授一个编程中鲜为人知的秘诀。异常是个讨厌的东西。良好的代码永远不会出错，所以异常实际上是不必要的。不要把时间浪费在这上面。子类异常是给那些知道自己代码会出错的低能儿用的。在整个应用里，你只用在 main () 里放一个 try/catch，里边直接调用 System.exit() 就行了。在每个方法头要贴上标准的抛出集合定义，到底会不会抛出异常你就不用管了。</p>
+<h3 id="使用异常的时机"><a href="#使用异常的时机" class="headerlink" title="使用异常的时机"></a>使用异常的时机</h3><p>在非异常条件下才要使用异常。比如终止循环就可以用 <code>ArrayIndexOutOfBoundsException</code>。还可以从异常里的方法返回标准的结果。</p>
+<h3 id="狂热奔放地使用线程"><a href="#狂热奔放地使用线程" class="headerlink" title="狂热奔放地使用线程"></a>狂热奔放地使用线程</h3><p>如题。</p>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>在程序里留些 bug，让后继的维护代码的程序员能做点有意思的事。精心设计的 bug 是无迹可寻的，而且谁也不知道它啥时候会冒出来。要做到这一点，最简单的办法的就是不要测试代码。</p>
+<h3 id="永不测试"><a href="#永不测试" class="headerlink" title="永不测试"></a>永不测试</h3><p>永远不要测试负责处理错误、当机或操作系故障的任何代码。反正这些代码永远也不会执行，只会拖累你的测试。还有，你怎么可能测试处理磁盘错误、文件读取错误、操作系统崩溃这些类型的事件呢？为啥你要用特别不稳定的计算机或者用测试脚手架来模拟这样的环境？现代化的硬件永远不会崩溃，谁还愿意写一些仅仅用于测试的代码？这一点也不好玩。如果用户抱怨，你就怪到操作系统或者硬件头上。他们永远不会知道真相的。</p>
+<h3 id="永远不要做性能测试"><a href="#永远不要做性能测试" class="headerlink" title="永远不要做性能测试"></a>永远不要做性能测试</h3><p>嘿，如果软件运行不够快，只要告诉客户买个更快的机器就行了。如果你真的做了性能测试，你可能会发现一个瓶颈，这会导致修改算法，然后导致整个产品要重新设计。谁想要这种结果？而且，在客户那边发现性能问题意味着你可以免费到外地旅游。你只要备好护照和最新照片就行了。</p>
+<h3 id="永远不要写任何测试用例"><a href="#永远不要写任何测试用例" class="headerlink" title="永远不要写任何测试用例"></a>永远不要写任何测试用例</h3><p>永远不要做代码覆盖率或路径覆盖率测试。自动化测试是给那些窝囊废用的。搞清楚哪些特性占到你的例程使用率的 90%，然后把 90% 的测试用在这些路径上。毕竟说起来，这种方法可能只测试到了大约你代码的 60%，这样你就节省了 40% 的测试工作。这能帮助你赶上项目后端的进度。等到有人发现所有这些漂亮的 “市场特性” 不能正常工作的时候，你早就跑路了。一些有名的大软件公司就是这样测试代码的，所以你也应该这样做。如果因为某种原因你还没走，那就接着看下一节。</p>
+<h3 id="测试是给懦夫用的"><a href="#测试是给懦夫用的" class="headerlink" title="测试是给懦夫用的"></a>测试是给懦夫用的</h3><p>勇敢的程序员会跳过这个步骤。太多程序员害怕他们的老板，害怕丢掉工作，害怕客户的投诉邮件，害怕遭到起诉。这种恐惧心理麻痹了行动，降低了生产率。有科学研究成果表明，取消测试阶段意味着经理有把握能提前确定交付时间，这对于规划流程显然是有利的。消除了恐惧心理，创新和实验之花就随之绽放。程序员的角色是生产代码，调试工作完全可以由技术支持和遗留代码维护组通力合作来进行。</p>
+<p>如果我们对自己的编程能力有充分信心，那么测试就没有必要了。如果我们逻辑地看待这个问题，随便一个傻瓜都能认识到测试根本都不是为了解决技术问题，相反，它是一种感性的信心问题。针对这种缺乏信心的问题，更有效的解决办法就是完全取消测试，送我们的程序员去参加自信心培训课程。毕竟说起来，如果我们选择做测试，那么我们就要测试每个程序的变更，但其实我们只需要送程序员去一次建立自信的培训课就行了。很显然这么做的成本收益是相当可观的。</p>
+<h2 id="编程语言的选择"><a href="#编程语言的选择" class="headerlink" title="编程语言的选择"></a>编程语言的选择</h2><p>计算机语言正在逐步进化，变得更加傻瓜化。使用最新的语言是不人性的。尽可能坚持使用你会用的最老的语言，先考虑用穿孔纸带，不行就用汇编，再不行用 FORTRAN 或者 COBOL，再不行就用 C 还有 BASIC，实在不行再用 C++。</p>
+<h3 id="FORTRAN"><a href="#FORTRAN" class="headerlink" title="FØRTRAN"></a>FØRTRAN</h3><p>用 FORTRAN 写所有的代码。如果老板问你为啥，你可以回答说有很多它非常有用的库，你用了可以节约时间。不过，用 FORTRAN 写出可维护代码的概率是 0，所以，要达到不可维护代码编程指南里的要求就容易多了。</p>
+<h3 id="用-ASM"><a href="#用-ASM" class="headerlink" title="用 ASM"></a>用 ASM</h3><p>把所有的通用工具函数都转成汇编程序。</p>
+<h3 id="用-QBASIC"><a href="#用-QBASIC" class="headerlink" title="用 QBASIC"></a>用 QBASIC</h3><p>所有重要的库函数都要用 QBASIC 写，然后再写个汇编的封包程序来处理 large 到 medium 的内存模型映射。</p>
+<h3 id="内联汇编"><a href="#内联汇编" class="headerlink" title="内联汇编"></a>内联汇编</h3><p>在你的代码里混杂一些内联的汇编程序，这样很好玩。这年头几乎没人懂汇编程序了。只要放几行汇编代码就能让维护代码的程序员望而却步。</p>
+<h3 id="宏汇编调用-C"><a href="#宏汇编调用-C" class="headerlink" title="宏汇编调用 C"></a>宏汇编调用 C</h3><p>如果你有个汇编模块被 C 调用，那就尽可能经常从汇编模块再去调用 C，即使只是出于微不足道的用途，另外要充分利用 goto, bcc 和其他炫目的汇编秘籍。</p>
+<h2 id="与他人共事之道"><a href="#与他人共事之道" class="headerlink" title="与他人共事之道"></a>与他人共事之道</h2><h3 id="老板才是真行家"><a href="#老板才是真行家" class="headerlink" title="老板才是真行家"></a>老板才是真行家</h3><p>如果你的老板认为他 20 年的 FORTRAN 编程经验对于现代软件开发具有很高的指导价值，你务必严格采纳他的所有建议。投桃报李，你的老板也会信任你。这会对你的职业发展有利。你还会从他那里学到很多搞乱程序代码的新方法。</p>
+<h3 id="颠覆技术支持"><a href="#颠覆技术支持" class="headerlink" title="颠覆技术支持"></a>颠覆技术支持</h3><p>确保代码中到处是 bug 的有效方法是永远不要让维护代码的程序员知道它们。这需要颠覆技术支持工作。永远不接电话。使用自动语音答复 “感谢拨打技术支持热线。需要人工服务请按 1，或在嘀声后留言。”，请求帮助的电子邮件必须忽略，不要给它分配服务追踪号。对任何问题的标准答复是 “我估计你的账户被锁定了，有权限帮你恢复的人现在不在。”</p>
+<h3 id="沉默是金"><a href="#沉默是金" class="headerlink" title="沉默是金"></a>沉默是金</h3><p>永远不要对下一个危机保持警觉。如果你预见到某个问题可能会在一个固定时间爆发，摧毁西半球的全部生命，不要公开讨论它。不要告诉朋友、同事或其他你认识的有本事的人。在任何情况下都不要发表任何可能暗示到这种新的威胁的内容。只发送一篇正常优先级的、语焉不详的备忘录给管理层，保护自己免遭秋后算账。如果可能的话，把这篇稀里糊涂的信息作为另外一个更紧急的业务问题的附件。这样就可以心安理得地休息了，你知道将来你被强制提前退休之后一段时间，他们又会求着你回来，并给你对数级增长的时薪！</p>
+<h3 id="每月一书俱乐部"><a href="#每月一书俱乐部" class="headerlink" title="每月一书俱乐部"></a>每月一书俱乐部</h3><p>加入一个计算机每月一书俱乐部。选择那些看上去忙着写书不可能有时间真的去写代码的作者。去书店里找一些有很多图表但是没有代码例子的书。浏览一下这些书，从中学会一些迂腐拗口的术语，用它们就能唬住那些自以为是的维护代码的程序员。你的代码肯定会给他留下深刻印象。如果人们连你写的术语都理解不了，他们一定会认为你非常聪明，你的算法非常深奥。不要在你的算法说明里作任何朴素的类比。</p>
+<h2 id="自立门户"><a href="#自立门户" class="headerlink" title="自立门户"></a>自立门户</h2><p>你一直想写系统级的代码。现在机会来了。忽略标准库， <a target="_blank" rel="noopener" href="http://www.roll-your-own.com/">编写你自己的标准</a>，这将会是你简历中的一个亮点。</p>
+<h3 id="推出你自己的-BNF-范式"><a href="#推出你自己的-BNF-范式" class="headerlink" title="推出你自己的 BNF 范式"></a>推出你自己的 BNF 范式</h3><p>总是用你自创的、独一无二的、无文档的 BNF 范式记录你的命令语法。永远不要提供一套带注解的例子（合法命令和非法命令之类）来解释你的语法体系。那样会显得完全缺乏学术严谨性。确保没有明显的方式来区分终结符和中间符号。永远不要用字体、颜色、大小写和其他任何视觉提示帮助读者分辨它们。在你的 BNF 范式用和命令语言本身完全一样的标点符号，这样读者就永远无法分清一段 (…), […], {…} 或 “…” 到底是你在命令行里真正输入的，还是想提示在你的 BNF 范式里哪个语法元素是必需的、可重复的、或可选的。不管怎么样，如果他们太笨，搞不清你的 BNF 范式的变化，就没资格使用你的程序。</p>
+<h3 id="推出你自己的内存分配"><a href="#推出你自己的内存分配" class="headerlink" title="推出你自己的内存分配"></a>推出你自己的内存分配</h3><p>地球人儿都知道，调试动态存储是复杂和费时的。与其逐个类去确认它没有内存溢出，还不如自创一套存储分配机制呢。其实它无非是从一大片内存中 malloc 一块空间而已。用不着释放内存，让用户定期重启动系统，这样不就清除了堆么。重启之后系统需要追踪的就那么一点东西，比起解决所有的内存泄露简单得不知道到哪里去了！而且，只要用户记得定期重启系统，他们也永远不会遇到堆空间不足的问题。一旦系统被部署，你很难想象他们还能改变这个策略。</p>
+<h2 id="其他杂七杂八的招"><a href="#其他杂七杂八的招" class="headerlink" title="其他杂七杂八的招"></a>其他杂七杂八的招</h2><blockquote>
+<p><em>如果你给某人一段程序，你会让他困惑一天；如果你教他们如何编程，你会让他困惑一辈子。</em>– Anonymous</p>
+</blockquote>
+<h3 id="1-不要重编译"><a href="#1-不要重编译" class="headerlink" title="1. 不要重编译"></a>1. 不要重编译</h3><p>让我们从一条可能是有史以来最友好的技巧开始：把代码编译成可执行文件。如果它能用，就在源代码里做一两个微小的改动 – 每个模块都照此办理。<strong>但是不要费劲巴拉地再编译一次了。</strong> 你可以留着等以后有空而且需要调试的时候再说。多年以后，等可怜的维护代码的程序员更改了代码之后发现出错了，他会有一种错觉，觉得这些肯定是他自己最近修改的。这样你就能让他毫无头绪地忙碌很长时间。</p>
+<h3 id="2-挫败调试工具"><a href="#2-挫败调试工具" class="headerlink" title="2. 挫败调试工具"></a>2. 挫败调试工具</h3><p>对于试图用行调试工具追踪来看懂你的代码的人，简单的一招就能让他狼狈不堪，那就是把每一行代码都写得很长。特别要把 then 语句 和 if 语句放在同一行里。他们无法设置断点。他们也无法分清在看的分支是哪个 if 里的。</p>
+<h3 id="3-公制和美制"><a href="#3-公制和美制" class="headerlink" title="3. 公制和美制"></a>3. 公制和美制</h3><p>在工程方面有两种编码方式。一种是把所有输入都转换为公制（米制）计量单位，然后在输出的时候自己换算回各种民用计量单位。另一种是从头到尾都保持各种计量单位混合在一起。总是选择第二种方式，这就是美国之道！</p>
+<h3 id="4-持续改进"><a href="#4-持续改进" class="headerlink" title="4. 持续改进"></a>4. 持续改进</h3><p>要持续不懈地改进。要常常对你的代码做出 “改进”，并强迫用户经常升级 – 毕竟没人愿意用一个过时的版本嘛。即便他们觉得他们对现有的程序满意了，想想看，如果他们看到你又 “完善 “了它，他们会多么开心啊！不要告诉任何人版本之间的差别，除非你被逼无奈 – 毕竟，为什么要告诉他们本来永远也不会注意到的一些 bug 呢？</p>
+<h3 id="5-”-关于-“"><a href="#5-”-关于-“" class="headerlink" title="5. ” 关于 “"></a>5. ” 关于 “</h3><p>” 关于 “一栏应该只包含程序名、程序员姓名和一份用法律用语写的版权声明。理想情况下，它还应该链接到几 MB 的代码，产生有趣的动画效果。但是，里边永远不要包含程序用途的描述、它的版本号、或最新代码修改日期、或获取更新的网站地址、或作者的 email 地址等。这样，所有的用户很快就会运行在不同的版本上，在安装 N+1 版之前就试图安装 N+2 版。</p>
+<h3 id="6-变更"><a href="#6-变更" class="headerlink" title="6. 变更"></a>6. 变更</h3><p>在两个版本之间，你能做的变更自然是多多益善。你不会希望用户年复一年地面对同一套老的接口或用户界面，这样会很无聊。最后，如果你能在用户不注意的情况下做出这些变更，那就更好了 – 这会让他们保持警惕，戒骄戒躁。</p>
+<h3 id="7-无需技能"><a href="#7-无需技能" class="headerlink" title="7. 无需技能"></a>7. 无需技能</h3><p>写无法维护代码不需要多高的技能。喊破嗓子不如甩开膀子，不管三七二十一开始写代码就行了。记住，管理层还在按代码行数考核生产率，即使以后这些代码里的大部分都得删掉。</p>
+<h3 id="8-只带一把锤子"><a href="#8-只带一把锤子" class="headerlink" title="8. 只带一把锤子"></a>8. 只带一把锤子</h3><p>一招鲜吃遍天，轻装前进。如果你手头只有一把锤子，那么所有的问题都是钉子。</p>
+<h3 id="9-规范体系"><a href="#9-规范体系" class="headerlink" title="9. 规范体系"></a>9. 规范体系</h3><p>有可能的话，忽略当前你的项目所用语言和环境中被普罗大众所接受的编程规范。比如，编写基于 MFC 的应用时，就坚持使用 STL 编码风格。</p>
+<h3 id="10-翻转通常的-True-False-惯例"><a href="#10-翻转通常的-True-False-惯例" class="headerlink" title="10. 翻转通常的 True False 惯例"></a>10. 翻转通常的 True False 惯例</h3><p>把常用的 true 和 false 的定义反过来用。这一招听起来平淡无奇，但是往往收获奇效。你可以先藏好下面的定义：</p>
+<figure class="highlight d"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#define TRUE <span class="number">0</span></span><br><span class="line">#define FALSE <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>把这个定义深深地藏在代码中某个没人会再去看的文件里不易被发现的地方，然后让程序做下面这样的比较</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (var == TRUE)</span><br><span class="line"><span class="keyword">if</span> (var != FALSE)</span><br></pre></td></tr></table></figure>
+<p>某些人肯定会迫不及待地跳出来 “修正” 这种明显的冗余，并且在其他地方照着常规去使用变量 var：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (var)</span><br></pre></td></tr></table></figure>
+<p>还有一招是为 <code>TRUE</code> 和 <code>FALSE</code> 赋予相同的值，虽然大部分人可能会看穿这种骗局。给它们分别赋值 1 和 2 或者 -1 和 0 是让他们瞎忙乎的方式里更精巧的，而且这样做看起来也不失对他们的尊重。你在 Java 里也可以用这一招，定义一个叫 <code>TRUE</code> 的静态常量。在这种情况下，其他程序员更有可能怀疑你干的不是好事，因为 Java 里已经有了内建的标识符 <code>true</code>。</p>
+<h3 id="11-第三方库"><a href="#11-第三方库" class="headerlink" title="11. 第三方库"></a>11. 第三方库</h3><p>在你的项目里引入功能强大的第三方库，然后不要用它们。潜规则就是这样，虽然你对这些好的工具仍然一无所知，却还是可以在你简历的 “其他工具” 一节中写上这些没用过的库。</p>
+<h3 id="12-不要用库"><a href="#12-不要用库" class="headerlink" title="12. 不要用库"></a>12. 不要用库</h3><p>假装不知道有些库已经直接在你的开发工具中引入了。如果你用 VC++ 编程，忽略 MFC 或 STL 的存在，手工编写所有字符串和数组的实现；这样有助于保持你的指针技术，并自动阻止任何扩展代码功能的企图。</p>
+<h3 id="13-创建一套-Build-顺序"><a href="#13-创建一套-Build-顺序" class="headerlink" title="13. 创建一套 Build 顺序"></a>13. 创建一套 Build 顺序</h3><p>把这套顺序规则做得非常晦涩，让维护者根本无法编译任何他的修改代码。秘密保留 SmartJ ，它会让 <code>make</code> 脚本形同废物。类似地，偷偷地定义一个 <code>javac</code> 类，让它和编译程序同名。说到大招，那就是编写和维护一个定制的小程序，在程序里找到需要编译的文件，然后通过直接调用 <code>sun.tools.javac.Main</code> 编译类来进行编译。</p>
+<h3 id="14-Make-的更多玩法"><a href="#14-Make-的更多玩法" class="headerlink" title="14. Make 的更多玩法"></a>14. Make 的更多玩法</h3><p>用一个 makefile-generated-batch-file 批处理文件从多个目录复制源文件，文件之间的覆盖规则在文档中是没有的。这样，无需任何炫酷的源代码控制系统，就能实现代码分支，并阻止你的后继者弄清哪个版本的 DoUsefulWork () 才是他需要修改的那个。</p>
+<h3 id="15-搜集编码规范"><a href="#15-搜集编码规范" class="headerlink" title="15. 搜集编码规范"></a>15. 搜集编码规范</h3><p>尽可能搜集所有关于编写可维护代码的建议，例如 <a target="_blank" rel="noopener" href="http://www.squarebox.co.uk/javatips.html">SquareBox 的建议</a> ，然后明目张胆地违反它们。</p>
+<h3 id="16-规避公司的编码规则"><a href="#16-规避公司的编码规则" class="headerlink" title="16. 规避公司的编码规则"></a>16. 规避公司的编码规则</h3><p>某些公司有严格的规定，不允许使用数字标识符，你必须使用预先命名的常量。要挫败这种规定背后的意图太容易了。比如，一位聪明的 C++ 程序员是这么写的：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> K_ONE 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> K_TWO 2</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> K_THOUSAND 999</span></span><br></pre></td></tr></table></figure>
+<h3 id="17-编译器警告"><a href="#17-编译器警告" class="headerlink" title="17. 编译器警告"></a>17. 编译器警告</h3><p>一定要保留一些编译器警告。在 make 里使用 “-” 前缀强制执行，忽视任何编译器报告的错误。这样，即使维护代码的程序员不小心在你的源代码里造成了一个语法错误，make 工具还是会重新把整个包 build 一遍，甚至可能会成功！而任何程序员要是手工编译你的代码，看到屏幕上冒出一堆其实无关紧要的警告，他们肯定会觉得是自己搞坏了代码。同样，他们一定会感谢你让他们有找错的机会。学有余力的同学可以做点手脚让编译器在打开编译错误诊断工具时就没法编译你的程序。当然了，编译器也许能做一些脚本边界检查，但是真正的程序员是不用这些特性的，所以你也不该用。既然你用自己的宝贵时间就能找到这些精巧的 bug，何必还多此一举让编译器来检查错误呢？</p>
+<h3 id="18-把-bug-修复和升级混在一起"><a href="#18-把-bug-修复和升级混在一起" class="headerlink" title="18. 把 bug 修复和升级混在一起"></a>18. 把 bug 修复和升级混在一起</h3><p>永远不要推出什么 “bug 修复 “ 版本。一定要把 bug 修复和数据库结构变更、复杂的用户界面修改，还有管理界面重写等混在一起。那样的话，升级就变成一件非常困难的事情，人们会慢慢习惯 bug 的存在并开始称他们为特性。那些真心希望改变这些” 特性 “的人们就会有动力升级到新版本。这样从长期来说可以节省你的维护工作量，并从你的客户那里获得更多收入。</p>
+<h3 id="19-在你的产品发布每个新版本的时候都改变文件结构"><a href="#19-在你的产品发布每个新版本的时候都改变文件结构" class="headerlink" title="19. 在你的产品发布每个新版本的时候都改变文件结构"></a>19. 在你的产品发布每个新版本的时候都改变文件结构</h3><p>没错，你的客户会要求向上兼容，那就去做吧。不过一定要确保向下是不兼容的。这样可以阻止客户从新版本回退，再配合一套合理的 bug 修复规则（见上一条），就可以确保每次新版本发布后，客户都会留在新版本。学有余力的话，还可以想办法让旧版本压根无法识别新版本产生的文件。那样的话，老版本系统不但无法读取新文件，甚至会否认这些文件是自己的应用系统产生的！温馨提示：PC 上的 Word 文字处理软件就典型地精于此道。</p>
+<h3 id="20-抵消-Bug"><a href="#20-抵消-Bug" class="headerlink" title="20. 抵消 Bug"></a>20. 抵消 Bug</h3><p>不用费劲去代码里找 bug 的根源。只要在更高级的例程里加入一些抵销它的代码就行了。这是一种很棒的智力测验，类似于玩 3D 棋，而且能让将来的代码维护者忙乎很长时间都想不明白问题到底出在哪里：是产生数据的低层例程，还是莫名其妙改了一堆东西的高层代码。这一招对天生需要多回合执行的编译器也很好用。你可以在较早的回合完全避免修复问题，让较晚的回合变得更加复杂。如果运气好，你永远都不用和编译器前端打交道。学有余力的话，在后端做点手脚，一旦前端产生的是正确的数据，就让后端报错。</p>
+<h3 id="21-使用旋转锁"><a href="#21-使用旋转锁" class="headerlink" title="21. 使用旋转锁"></a>21. 使用旋转锁</h3><p>不要用真正的同步原语，多种多样的旋转锁更好 – 反复休眠然后测试一个 (non-volatile 的) 全局变量，直到它符合你的条件为止。相比系统对象，旋转锁使用简便，” 通用 “性强，” 灵活 “多变，实为居家旅行必备。</p>
+<h3 id="22-随意安插-sync-代码"><a href="#22-随意安插-sync-代码" class="headerlink" title="22. 随意安插 sync 代码"></a>22. 随意安插 sync 代码</h3><p>把某些系统同步原语安插到一些用不着它们的地方。本人曾经在一段不可能会有第二个线程的代码中看到一个临界区（critical section）代码。本人当时就质问写这段代码的程序员，他居然理直气壮地说这么写是为了表明这段代码是很” 关键 “（也是 critical）的！</p>
+<h3 id="23-优雅降级"><a href="#23-优雅降级" class="headerlink" title="23. 优雅降级"></a>23. 优雅降级</h3><p>如果你的系统包含了一套 NT 设备驱动，就让应用程序负责给驱动分配 I/O 缓冲区，然后在任何交易过程中对内存中的驱动加锁，并在交易完成后释放或解锁。这样一旦应用非正常终止，I/O 缓存又没有被解锁，NT 服务器就会当机。但是在客户现场不太可能会有人知道怎么弄好设备驱动，所以他们就没有选择（只能请你去免费旅游了）。</p>
+<h3 id="24-定制脚本语言"><a href="#24-定制脚本语言" class="headerlink" title="24. 定制脚本语言"></a>24. 定制脚本语言</h3><p>在你的 C/S 应用里嵌入一个在运行时按字节编译的脚本命令语言。</p>
+<h3 id="25-依赖于编译器的代码"><a href="#25-依赖于编译器的代码" class="headerlink" title="25. 依赖于编译器的代码"></a>25. 依赖于编译器的代码</h3><p>如果你发现在你的编译器或解释器里有个 bug，一定要确保这个 bug 的存在对于你的代码正常工作是至关重要的。毕竟你又不会使用其他的编译器，其他任何人也不允许！</p>
+<h3 id="26-一个货真价实的例子"><a href="#26-一个货真价实的例子" class="headerlink" title="26. 一个货真价实的例子"></a>26. 一个货真价实的例子</h3><p>下面是一位大师编写的真实例子。让我们来瞻仰一下他在这样短短几行 C 函数里展示的高超技巧。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span>* <span class="title">Realocate</span><span class="params">(<span class="keyword">void</span>*buf, <span class="keyword">int</span> os, <span class="keyword">int</span> ns)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">void</span>*temp;</span><br><span class="line">    temp = <span class="built_in">malloc</span>(os);</span><br><span class="line">    <span class="built_in">memcpy</span>((<span class="keyword">void</span>*)temp, (<span class="keyword">void</span>*)buf, os);</span><br><span class="line">    <span class="built_in">free</span>(buf);</span><br><span class="line">    buf = <span class="built_in">malloc</span>(ns);</span><br><span class="line">    <span class="built_in">memset</span>(buf, <span class="number">0</span>, ns);</span><br><span class="line">    <span class="built_in">memcpy</span>((<span class="keyword">void</span>*)buf, (<span class="keyword">void</span>*)temp, ns);</span><br><span class="line">    <span class="keyword">return</span> buf;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>重新发明了标准库里已有的简单函数。</li>
+<li><em>Realocate</em> 这个单词拼写错误。所以说，永远不要低估创造性拼写的威力。</li>
+<li>无缘无故地给输入缓冲区产生一个临时的副本。</li>
+<li>无缘无故地造型。 memcpy () 里有 (void*)，这样即使我们的指针已经(void*) 了也要再造型一次。另外这样可以传递任何东西作为参数，加 10 分。</li>
+<li>永远不必费力去释放临时内存空间。这样会导致缓慢的内存泄露，一开始看来，要程序运行一段时间才行。</li>
+<li>把用不着的东西也从缓冲区里拷贝出来，以防万一。这样只会在 Unix 上产 core dump，Windows 就不会。</li>
+<li>很显然，os 和 ns 的含义分别是”old size”和”new size”。</li>
+<li>给 buf 分配内存之后，memset 初始化它为 0。不要使用 calloc ()，因为某些人会重写 ANSI 规范，这样将来保不齐 calloc () 往 buf 里填的就不是 0 了。（虽然我们复制过去的数据量和 buf 的大小是一样的，不需要初始化，不过这也无所谓啦）</li>
+</ul>
+<h3 id="27-如何修复-“unused-variable”-错误"><a href="#27-如何修复-“unused-variable”-错误" class="headerlink" title="27. 如何修复 “unused variable” 错误"></a>27. 如何修复 “unused variable” 错误</h3><p>如果你的编译器冒出了 “unused local variable” 警告，不要去掉那个变量。相反，要找个聪明的办法把它用起来。我最喜欢的方法是：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">i = i;</span><br></pre></td></tr></table></figure>
+<h3 id="28-大小很关键"><a href="#28-大小很关键" class="headerlink" title="28. 大小很关键"></a>28. 大小很关键</h3><p>差点忘了说了，函数是越大越好。跳转和 GOTO 语句越多越好。那样的话，想做任何修改都需要分析很多场景。这会让维护代码的程序员陷入千头万绪之中。如果函数真的体型庞大的话，对于维护代码的程序员就是哥斯拉怪兽了，它会在他搞清楚情况之前就残酷无情地将他们踩翻在地。</p>
+<h3 id="29-一张图片顶-1000-句话，一个函数就是-1000-行"><a href="#29-一张图片顶-1000-句话，一个函数就是-1000-行" class="headerlink" title="29. 一张图片顶 1000 句话，一个函数就是 1000 行"></a>29. 一张图片顶 1000 句话，一个函数就是 1000 行</h3><p>把每个方法体写的尽可能的长 – 最好是你写的任何方法或函数都没有少于 1000 行代码的，而且里边深度嵌套，这是必须的。</p>
+<h3 id="30-少个文件"><a href="#30-少个文件" class="headerlink" title="30. 少个文件"></a>30. 少个文件</h3><p>一定要保证一个或多个关键文件是找不到的。利用 includes 里边再 includes 就能做到这一点。例如，在你的 main 模块里，你写上：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdcode.h&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p>Stdcode.h 是有的。但是在 stdcode.h 里，还有个引用：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;a:\\refcode.h&quot;</span></span></span><br></pre></td></tr></table></figure>
+<p>然后，refcode.h 就没地方能找到了。</p>
+<h3 id="31-到处可写，无处可读"><a href="#31-到处可写，无处可读" class="headerlink" title="31. 到处可写，无处可读"></a>31. 到处可写，无处可读</h3><p>至少要把一个变量弄成这样：到处被设置，但是几乎没有哪里用到它。不幸的是，现代编译器通常会阻止你做相反的事：到处读，没处写。不过你在 C 或 C++ 里还是可以这样做的。</p>
+<blockquote>
+<p><strong>原始博文发布于：</strong> <a target="_blank" rel="noopener" href="http://mindprod.com/unmain.html">Roedy Green’s Mindproducts</a>。</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/02/02/dc16ebcc6afe4f0aaed0f9a40b59f73d/" data-id="ckmcqox5v00cv0kuv480f2uzq" data-title="如何编写无法维护的代码" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-79577e180afd4e59b502cc7af0c54964" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/02/02/79577e180afd4e59b502cc7af0c54964/" class="article-date">
+  <time class="dt-published" datetime="2020-02-02T02:15:37.000Z" itemprop="datePublished">2020-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/02/02/79577e180afd4e59b502cc7af0c54964/">论国内的通货膨胀率</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>偶然在知乎上面看到的一个长篇评论，对国内的通货膨胀讲解的有理有据，便于此转载一下，供人参考。</p>
+<blockquote>
+<p>原文地址: <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/21470072">https://www.zhihu.com/question/21470072</a></p>
+</blockquote>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>小猫猫</p>
+<p>最近有三个信息正在证明我的一个判断，2017 年通货紧缩周期形成后，2018 年将进入自我加速阶段；</p>
+<p>1，按美元计算，2017 年现金收益率高达 11%</p>
+<p>2，任志强先生透露许多房企开年就没钱了，在拼命找钱</p>
+<p>3，某高官在最近达沃斯论坛表态，中国将致力缩小和平衡外贸顺差</p>
+<p>一，假设你 2017 年初有 100 万现金，投入保守型理财，年收益率约 4%，年初人民币约 6.9 元 = 1 美元，年底升值到约 6.4 元，升值超过 7%，这样，你年收益将高达 11%，</p>
+<p>除个别房价上涨的城市外，这是国内理财的最好收益了，而房子你却无法兑现。。。</p>
+<p>大多数网友都没有留意这个现金收益率的历史意义，因为这是 40 年来从未有过的事，</p>
+<p>想想看，从 1978 年到 1998 年，尽管房价没有上涨多少，但物价不断快速上涨，你的现金收益远远落后于物价涨幅。</p>
+<p>想想看，从 1998 年起，不但物价继续涨，房价更是一路飙升，你手里的现金看着看着就变了水。。。</p>
+<p>然而，2017 年，悄悄地就颠倒了这个持续 40 年的历史，现金为王时代来临。。。而且可以预计的是，2018 年不但将延续，而且可能还会加速。。。</p>
+<p>二，据凤凰台报道，任志强先生最近讲话透露，一些房企一开年就国内外到处融资，甚至在出售资产，许多房企没钱了，在拼命找钱。</p>
+<p>这就怪了，刚刚过去的 2017 年可是中国房地产历史上的最大丰收年，销售额和销售面积双双创新高，千亿级房企已经多达 10 多家，如此大好形势，房地产企业怎么会却缺钱呢，这逻辑不通啊，</p>
+<p>任志强先生可是长期活跃在地产界的大佬，对中国的房地产状况可是了如指掌，所述一定是事实。。。</p>
+<p>这是为什么？</p>
+<p>这就是房地产泡沫即将破裂的明显迹象，是通货紧缩正在自我加速的典型现象。。。</p>
+<p>因为，在过去的一年中，房企收获最丰，但负债增加也最多，著名房企万科的资产负债率在销售额突破 5000 亿的同时，负债率也上升了 2 个百分点。。。</p>
+<p>负债率上升意味着资金流动性更加紧张，此时更需要融资，更需要银行贷款，可银行呢，正在缓缓对房地产企业贷款融资关上大门。。。</p>
+<p>许多网友一定会说，这是房地产调控政策的原因，是银监会管控结果。。。</p>
+<p>是吗，这个问题并不好判断，如果房价泡沫由此开始破裂，到底是政策调控的结果，还是房地产泡沫已经到了不得不破的程度。。。</p>
+<p>接下来我简要介绍一个著名日本电影《穿越泡沫时代》。。。大家就知道为什么难以判断了。。。</p>
+<p>未完，待续</p>
+<p>hnpjcw 2018-01-28 13:25<br>好吧，继续学习。<br>尽天事听天人命 2018-01-28 13:32<br>16，17 年房子都已经去库存了，应该赚得盆满钵满，怎么还缺钱？贪心不足，摊子越铺越大？<br>剩余 17 条<br>评论 看全部<br>x8596t<br>2018-01-28 15:04<br>26026 楼<br>继续 385</p>
+<p>日本电影《穿越泡沫时代》拍摄于 2007 年，就是说，拍摄于中国还没有房价泡沫概念之前，或者说，电影作者完全没有受到今天中国房地产泡沫影响，但描述的现象竟然与今天的中国惊人一致。。。</p>
+<p>镜头一，1990 年 3 月 30 日，日本财政部宣布，一项关于限制银行对不动产贷款的条例生效，财务省发言人说，实施这个条例是为了限制地产投机，土地价格降了，大家就买得起房了。。。</p>
+<p>镜头二，真弓小姐从 2007 年穿越到 1990 年房价泡沫高企的日本经济繁荣时代，见到一位刚毕业的大学生，大学生高兴的说，他找到了著名长银银行工作，真弓告诉他，这个银行将会倒闭，</p>
+<p>这个大学生惊讶的回答，银行怎么会倒闭，不可能。</p>
+<p>镜头三，真弓小姐参加了泡沫时代的一个同学聚会，刚报到就得到了一叠免费乘坐出租车的免费卷，接着还得到了一位初次见面的未来明星大方送给她的一条项链，还幸运抽到了奖金 200 万日元。</p>
+<p>仅仅一天什么都没干，就得到了这么多，真弓小姐禁不住高喊；泡沫经济万岁</p>
+<p>镜头四；一群官员，国内外商人正在密谋出台限制不动产银行贷款条例，也是穿越过来的真弓小姐的母亲告诉与会者，千万不要出台这个条例，否则泡沫破裂，房价下跌，银行破产，经济将进入大萧条。。。</p>
+<p>与会财政省官员说，要的就是这个效果，如是把真弓母亲抓起来，要强行通过条咧。。。</p>
+<p>镜头五，经过一番激烈斗争，新任财政省官员宣布；这个限制房地产投机贷款条例宣布撤销，因为这个条例会对经济产生很大的收紧作用，会有很多银行破产。。。</p>
+<p>然而，非常令人深思的是；有记者提问，那面对高房价，财政省打算什么都不做吗？</p>
+<p>新任财政省官员环顾左右而言它；我们目前的繁荣不可能不付代价的结束，泡沫最终会破裂。。。</p>
+<p>当记者紧紧追问财政省将会做些什么时；财政省官员答复，他要回家了。。。</p>
+<p>网友们看看，这些镜头与当今中国的状况是多么的惊人一致；</p>
+<p>银行绝不可能倒闭</p>
+<p>泡沫时代是多么繁荣，钱是多么容易赚</p>
+<p>精英鼓吹，底线是房价泡沫不能破，房价泡沫破裂是美国阴谋，美国发力就可以刺破中国房价泡沫。。。</p>
+<p>2017 年一连串的限购，限售，禁止贷款流入房地产市场的监管政策，条例出台。。。。</p>
+<p>按日本经验，这一系列限制房地产政策出台是可能刺破房价泡沫的，繁荣将会结束，银行将会破产。。。</p>
+<p>不过从这个日本电影判断，至今在日本有一种质疑的舆论，质疑当时的日本政府一系列限制地产的政策是否正确，如果不刺破，是否日本的经济繁荣就能继续。。。</p>
+<p>我解读这个日本电影，。。。看来刺破泡沫是有政治风险的。。。</p>
+<p>所以，由此我得出结论，恐怕没有任何行政力量会愿意主动刺破泡沫，一定会尽最大努力延续泡沫繁荣经济的。。。</p>
+<p>因为，美联储主席格林斯潘说过；泡沫只有破裂后，才知道是泡沫，换句话就是；</p>
+<p>谁知道，今天中国的房地产到底是不是泡沫呢，不是还有经济精英说，房价还没有泡沫，房价还会永远涨。。。哈哈，网友们，你们说呢？<br>继续 387</p>
+<p>今天讨论一个重要的经济原理，消费，投资与经济增长的关系。</p>
+<p>近几年，统计局官员总是摇头晃脑的说，消费占 GDP 比重不断提高，这是经济结构改善，是消费逐渐成为推动经济增长主要动力。。。云云。</p>
+<p>例如，2016 年消费占 GDP 比重达到 64.6%，比 2015 年提高了 9.7 个百分点。。。统计局官员总是把这些当好消息告诉我们。。。</p>
+<p>我十分不解这些经济精英的经济学知识是在哪里学来的？</p>
+<p>1，消费是不可能推动经济增长的，只有投资才能推动经济增长。</p>
+<p>2，消费占 GDP 比重提高决不代表经济结构改善。</p>
+<p>为什么？先从第 1 点说起；</p>
+<p>举例 1，某家庭农场年农产品收入 100 万，那这个家庭该如何安排消费与投资呢？理论上有如下几种安排；</p>
+<p>1,100 万全部吃光用光，这样该农场第二年就没法延续生产了，因为第 2 年的生产需要一定的投入，包括种子，化肥，农药，更新和维修农具，水利灌溉设施等等，这些都需要钱，需要投资。</p>
+<p>所以，如果该农场不投资，不要说第 2 年会增产，连再生产都不可能。</p>
+<p>2，80 万用于消费，20 万用于投资，简单再生产得以继续进行。</p>
+<p>所以，没有投资就不会有经济增长，连简单再生产都无法进行。</p>
+<p>再看所谓消费占比提高是经济结构改善，经济原理证明同样不符合逻辑。</p>
+<p>举例 2，该农场全家节衣缩食，50 万用于消费，50 万用于投资，购买了先进农业机械，第 2 年生产率提高，收入增多。不但可以提高生活水平，还可以滚动高效发展。</p>
+<p>比如，该农场节衣缩食拿出 50 万购买先进农具等，收入从 100 万提高到 120 万，即使还是按 50% 比例消费，50% 比例投资，不但实际消费提高了 10 万，投资也提高了 10 万，生活改善，还为下一年的农场发展奠定基础。</p>
+<p>从以上 2 个例子，我们很容易就理解了如下两条经济原理。</p>
+<p>1，没有投资就没有经济发展</p>
+<p>2，勤俭节约，适当减少消费，提高投资比例更有利于经济发展，所谓消费比例提高就是经济结构改善是逻辑不通的。</p>
+<p>难道中国的经济学家这么笨，连这点道理都不明白，网友一定一头雾水，一定抱着深深的怀疑看待我这个观点。。。</p>
+<p>其实，点破了很简单；</p>
+<p>这个所谓消费占 GDP 比重上升是从美国那里学的，因为美国经济消费占 GDP 比重高达 70% 以上，美国是高收入发达国家，我们要成为高收入国家，当然也要提高消费比重。。。</p>
+<p>这真的让人哭笑不得，不禁使我想起了古代著名的削足适履的故事。。。</p>
+<p>未完待续</p>
+<p>老鼠飞上天 2018-01-30 19:22<br>“勤俭节约，适当减少消费，提高投资比例更有利于经济发展” 的目的是为了将来更好的消费。所以，生产和消费终究是要平衡的。<br>ty_XEN 2018-01-30 19:25<br>刻舟求剑，呵呵！同意！<br>剩余 15 条<br>评论 看全部<br>x8596t<br>2018-01-30 20:22<br>26123 楼<br>继续 388</p>
+<p>接着 387 聊；为什么学美国提高消费占 GDP 比重是削足适履；</p>
+<p>道理很简单，因为中美两国发展阶段不同。</p>
+<p>美国消费比重高是经济全球化的结果，是美国的无可奈何的选择。</p>
+<p>二战后，美国经济快速发展，生活水平提高，劳动力变得昂贵，于是大量向发展中国家转移制造业，制造业逐渐空心化，消费比重当然不得不提高，否则经济就垮下去了，</p>
+<p>所以美国这 20 多年来，不断鼓励老百姓借贷消费，以维持经济增长，结果仍然是经济增长缓慢，基础设施等得不到更新，。。</p>
+<p>这就是许多中国人跑到美国去，大喊美国落后，中国基础设施先进的原因。。。这就是美国经济消费比例高，投资比例小的原因造成的。。。</p>
+<p>反观中国，我们仍然处于中等收入的发展阶段，这个阶段不但制造业不能丢，还得大力投资，还得加快发展，改变严重的地方贫富差距，完善基础设施等等。。。为中国尽快成为高收入国家奠定基础。。。</p>
+<p>换句话说，中国还没有到要提高消费比重阶段，还不应该提倡消费，反而还应该提倡勤俭节约，积累资本，增加投资。。。</p>
+<p>为什么中国现在就进入了消费比重不断提高的经济状况了呢，这其实不是什么好的经济现象。。。</p>
+<p>原因是什么呢，其实很简单，就是债务太高，因为多年来总是吃光用光，投资全靠借，弄得债台高筑。。。</p>
+<p>俗话说，不听老人言，吃亏在眼前，</p>
+<p>亚当斯密早在 200 多年前的《国富论》中告诫我们说；勤劳不能积累资本，只有节俭才能积累资本。。。</p>
+<p>同时还告诫我们说，不要从银行借贷投资，不要从银行借贷消费，银行的借贷只应该用于解决商人的资金流动性，盘活商人的准备金。。。</p>
+<p>例如，某商人有 100 万流动资金，但他往往不能全部投入，得留一部分作为备用金，以防万一，亚当斯密赞成银行给这位商人借贷流动资金，这样该商人就可以把全部 100 万用于经营了，就提高了资金运用效率。。。</p>
+<p>许多网友一定认为这亚当斯密理论太老化了，不适应今天的经济发展了。。。</p>
+<p>真的吗，我下面举出 2 个实际例子，网友大家评；</p>
+<p>举例 1，前 30 年计划经济时，是没有银行借贷业务的，就是说，不能从银行借贷投资，借贷消费的。。。</p>
+<p>所以，那时要投资就得勤俭节约，积累资金用于投资，发展经济，所以，那时有个广为人知的口号 “为国家建设节约每一分钱”</p>
+<p>这种硬碰硬的经济发展方式，导致 30 年后留下了一个十分良好的发展基础，这就是；既无内债又无外债。。。干干净净，无债一身轻。。。</p>
+<p>有网友一定说，那时经济发展慢，现在虽然欠债，但发展快，是吗？恐怕要打个疑问号。</p>
+<p>我们实事求是的比较一下；</p>
+<p>举例 2，</p>
+<p>假设 1949 年到 1979 年 30 年中国经济从 1000 亿发展到 2000 亿，经济总量提高了 1 倍。但没有 1 分钱债务。</p>
+<p>假设按不变价算，从 1979 年到 2009 年 30 年，经济总量从 2000 亿提高到 8000 亿，经济总量提高了 4 倍，但负债 6000 亿，结果是；去掉这 6000 亿债务还是只增长 2000 亿，不会比前 30 年强。。。</p>
+<p>有网友一定不服气；不对不对，债务虽然很高，但主要是国内债务，是左手与右手，左</p>
+<p>口袋与右口袋的关系。。。</p>
+<p>真的吗，国内债务是左手与右手的关系吗，或者说，还不还无所谓。。。。</p>
+<p>真的吗，我们从今天起，就大手一挥，所有债务一风吹。。。。</p>
+<p>到底是不是无所谓，是不是可以一风吹。。。我们接下来讨论，甚至辩论。。。</p>
+<p>未完，待续</p>
+<p>夏尘埃 2013 2018-01-30 20:33<br>请教楼主，看新闻开发商竞拍价格第一后继续自己给自己加价拿地是什么意思？<br>xieyu007007 2018-01-30 21:05<br>套路，不敢不加价，你懂的<br>剩余 12 条<br>评论 看全部<br>x8596t<br>2018-01-31 04:38<br>26137 楼<br>@第一 MP 2018-01-30 23:02:10</p>
+<p>楼主所言差矣，有空再辩。先指出一点，前 30 年经济增长一倍，后 30 年增长 4 倍，去掉债务和前 30 年一样…… 这犯了最基本的错误，不能用货币量和 Gdp 量对比，因为单位是货币单位，而不是购买力。经济发展的结果不是一个 Gdp 数字，而是物质财富，近 30 年的物质财富是前 30 年的上百倍，只是价格大大降低，最终用货币量衡量差异不明显。这就是所谓的 “百姓福祉”，负作用是污染等…… 大家就想想现在你家里有啥东西，79 年家里有啥东西…………</p>
+<hr>
+<p>你对前 30 年充满了偏见；</p>
+<p>1，按国家统计局数据，年平均 GDP 增速，前 30 年只比后 30 年低一个百分点。何来什么几百倍。</p>
+<p>2，电视机，手机等都是科技发明进步，再落后的非洲国家也在用手机。</p>
+<p>3,1979 年与 1949 年比那也是天翻地覆的变化，</p>
+<p>4，如果你去过印度，你就知道前 30 年是如何伟大了。</p>
+<p>5，前 30 年给中国留下了两弹一星，完整的科研工业体系，基本普及高小，初中教育，医疗卫生体系，获得如此巨大成就却没有给后面的留下一分钱债务。。。</p>
+<p>假设，1979 年留下的是一个债台高筑的经济体，你认为还有可能搞什么改革开放吗？？</p>
+<p>第一 MP 2018-01-31 04:53<br>我对前 30 年没有偏见，前 30 年和后 30 年的差异是百姓生活的财富差别，这个可以让大家来感觉…… 两弹一星恰恰是你前述所有例子的反证，即没有任何收益的资本投入，只不过是国家资本。抛开安全因素，纯从经济学来说，两弹一星就是你说的货币黑洞，朝鲜仍有这个黑洞<br>第一 MP 2018-01-31 05:08<br>1979 如果留下的是一个债务重重的经济体，还会有现在的改革开放吗？…… 没错啊，假设 49 年改革开放，估计 1979 年就债务重重了，不就是改革开放提前了吗？呵呵。最终不就是要进步吗<br>剩余 19 条<br>评论 看全部<br>x8596t<br>2018-01-31 14:22<br>26164 楼<br>继续 389</p>
+<p>今天聊 2 个问题；</p>
+<p>1，国内债务是不是左手与右手，债务可以一风吹</p>
+<p>2，近年消费占 GDP 比重上升，是经济结构改善吗，消费成为推动经济增长主要动力是好现象吗？</p>
+<p>先看第 1 个问题；</p>
+<p>不用说什么深奥的大道理，只需凭生活常识就可以明白。</p>
+<p>2017 年大约有 20 多万亿理财产品，也就是 20 万亿债务，不还了，一风吹了，那就是有无数人的 20 多万亿现金没了，可能吗，你同意吗。</p>
+<p>2017 年全银行系统有贷款余额 120 万亿，如果不还了，一风吹了，结果就是所有银行倒闭无数次，更重要的是 120 万亿货币也没了，也就是现有 170 万亿货币总量只剩下 50 万亿了。。。</p>
+<p>所以说国内债务不要紧的专家就是砖家，普通百姓恐怕是在用骨头想。。。</p>
+<p>相反，外债倒是好办，免掉就免掉了，只会占便宜，例如中国免掉非洲国家那么多债务，欠债国家就占便宜了。。。</p>
+<p>我们再看第 2 个问题；</p>
+<p>我们用数据说话；</p>
+<p>2015 年，M2 净增额 16.4 万亿，居民贷款 3.8 万亿，占货币净增额的比例；23%</p>
+<p>2016 年，M2 净增额 15.8 万亿，居民贷款 6.3 万亿，占货币净增额的比例；40%</p>
+<p>2017 年，M2 净增额 12.6 万亿，居民贷款 7.1 万亿，占货币净增额的比例；56%</p>
+<p>网友看看，居民贷款占比快速上升，一年比一年高，与这几年消费占 GDP 比重不断升高完全一致</p>
+<p>这就道出了一个公开的秘密，即；消费占 GDP 比重是靠普通百姓大幅增加借债取得的。</p>
+<p>也就是说，老百姓用大幅透支自己的未来收入，提高了消费占 GDP 比重，</p>
+<p>这就是经济精英口中的经济结构改善？</p>
+<p>这就是经济精英口中的消费成为经济增长主要推动力？</p>
+<p>这只能说明，中国老百姓很可爱，很善良，很爱国，宁愿用将来的节衣缩食来支持所谓经济结构改善，成为推动经济增长的主要动力。。。。</p>
+<p>天理良心何在。。。</p>
+<p>以上数据可都是来自国家统计局，我可没有加油添醋，只是分析角度不一样，网友们认为这种分析角度对吗。。。</p>
+<p>接下来我们还可以从另一个角度分析 GDP。。。</p>
+<p>未完，待续</p>
+<p>ty_133106929 2018-01-31 14:27<br>这一段不错？？拜读<br>夏尘埃 2013 2018-01-31 14:42<br>如楼主所言，贷款投资基建不可以，贷款消费不可以，那经济增长何去何从呢？<br>剩余 15 条<br>评论 看全部<br>x8596t<br>2018-02-01 13:50<br>26191 楼<br>继续 390</p>
+<p>今天我们从另一个角度看 GDP，即；从老百姓的实际生活角度看。。。</p>
+<p>对普通百姓来说，是不会关心 GDP 增速的，老百姓只关心自己的生活水平能否实实在在提高，实际收入能否跑赢物价涨幅，跑赢多少。。。</p>
+<p>从过去 30 多年的实际看，中国 GDP 一直高速增长，总体来说，老百姓收入还是跑赢物价涨幅的，就是说老百姓的生活水平这几十年有了极大提高。。。（请网友注意，我这里说的是收入跑赢物价涨幅，与以前说过的银行利率跑赢物价涨幅是两个不同概念）</p>
+<p>问题是老百姓并不满意，或者说还有相当部分老百姓感到忧虑，或者说有如下三大不良后果；</p>
+<p>1，收入跑赢了 CPI 物价涨幅，但却跑输了房价涨幅，甚至是大幅跑输了房价，</p>
+<p>以北京为例，10 年前 1 个月工资再不济也能买 0.2 个平米房子吧，现在恐怕连 0.1 个平米也买不到了吧。。。</p>
+<p>这就造成了相当数量的高负债房奴几乎生活在还贷压力和房价下跌的恐惧之中。生活一点都不轻松。。。</p>
+<p>2，延迟退休，养老金亏空的忧虑和恐惧，严重损害了普通老百姓的长远利益。。</p>
+<p>别小看养老金不够发的问题，今天绝大部分西方发达国家几乎都深陷不得不动用大量财政资金来弥补养老亏空和福利的黑洞中。。。成为西方国家财政不可持续的关键因素之一。。。</p>
+<p>原因很简单，这就是西方市场经济国家长期运用凯恩斯理论，刻意用温和通货膨胀刺激经济增长的必然结果。因为长期的通货膨胀导致货币价值不断下降，也必然导致积累的巨量的养老金价值下降。。。</p>
+<p>例如，30 年前当你月工资 100 元时，按 28% 比例交 28 元养老金，但 30 年后这 28 元养老金已经贬值到几乎一钱不值，等于白交了。。。</p>
+<p>用凯恩斯理论发展创造 GDP 的后果是非常残酷的，网友们到西方国家去，你们可以看到大量白发苍苍的老头老太太还在工作，而中国的许多中年妇女已经在每天跳广场舞了。。。</p>
+<p>比较起来，中国妇女 50 岁退休是不是太幸福了，然而这个幸福竟然将伴随所谓几十年高速经济发展的赞歌声中而结束。。。真是莫大的讽刺啊。。。。</p>
+<p>3，无论是政府还是普通百姓无一不是债台高筑，特别是西方老百姓，遗憾的是中国老百姓近年也急起直追。。。不说了，说起来那些高负债房奴满眼都是泪。。。</p>
+<p>好了，当我们明白依托凯恩斯理论的 GDP 发展效果和弊病后，再具体分析一下中国 2017 年 GDP。。。看看会给我们带来那些启发。。。<br>继续 391</p>
+<p>今天紧贴时事，聊一个最时髦话题，为什么这半年来人民币会疯狂升值，这出乎许多人的预料，包括经济精英。。。</p>
+<p>与此同时，美元变得越来越宝贵，资本管制是越来越严格，国外消费 1000 元以上要报央行，一年最高 10 万元限额。。等等。</p>
+<p>我要给这个最新经济现象一个有点难听的名称；美元荒</p>
+<p>这个 “美元荒” 是继 “钱荒” 后的又一个信号，是客观经济规律给中国经济的又一个重要信号，通知中国经济必须放弃行政力量与客观经济规律规律的抗衡了，再不放弃，客观经济规律就会让你按下葫芦浮起瓢，顾得了这头，顾不了那头。。。</p>
+<p>网友们应该记得，仅仅 3 到 4 年前，中国还在嫌美元太多，官员感叹，外汇储备太多，头痛，老百姓在国外买买买，，牛气冲天，转眼之间又变成美元太少，闹起 “美元荒” 了。</p>
+<p>这到底是怎么回事，为什么会这样，下一步会发生什么，让我们从最基本的经济原理谈起。。。</p>
+<p>懂得一些最基本经济原理是非常重要的，为什么古代 “秀才不出门，全知天下事”，就是因为秀才掌握了知识，所以能够根据道听途说得来的信息，判断天下的大趋势。。。</p>
+<p>美元荒是反常经济现象，其根源就在中国经济精英界长期坚持的对外贸易错误观点；</p>
+<p>这个错误观点就是；出口多好。出口顺差好，以至于行政力量长期只关注 GDP，而不重视对外贸易均衡和人民币汇率对国家经济的决定性作用。。。</p>
+<p>我们还是以举例的方式来说明一些基本经济原理；</p>
+<p>举例 1，在黄金白银作货币时代，大清朝对英帝国大量出口丝绸，茶叶等，大量白银源源不断流于入中国。。。</p>
+<p>与此同时，大清朝闭关锁国，制造种种障碍禁止英国的先进商品进口，从而造成中英贸易不平衡。。。</p>
+<p>英帝国只好来邪的，默许英国商人出口鸦片来实现中英贸易平衡。。。结果导致了著名的鸦片战争。。。</p>
+<p>请网友注意，鸦片战争签订不平等条约中最重要条款就是开放中国沿海 10 多个城市港口，与外国自由贸易。。。</p>
+<p>在今天的人看来，不就是开放对外贸易吗，咋看都不像是不平等条约啊。。。</p>
+<p>这个例子充分说明，两国之间的贸易一定要平衡，如果一国对另一国长期贸易顺差，那对逆差国是不公平的，如果长期逆差，会遭到逆差国反抗，甚至战争的。。。</p>
+<p>以上例子说的是黄金白银为货币的时代，那么今天的纸币体系时代呢？</p>
+<p>未完，待续</p>
+<p>hnpjcw 2018-02-02 14:27<br>学习了。<br>ty_XEN 2018-02-02 14:59<br>太好了，期待下文！<br>剩余 11 条<br>评论 看全部<br>x8596t<br>2018-02-02 15:38<br>26219 楼<br>继续 382</p>
+<p>接着聊 “美元荒”</p>
+<p>在纸币体系时代，对外贸易有个很大不同特点；</p>
+<p>在黄金白银时代，你出口越多，顺差越大，你获取的黄金白银就越多，你就越占便宜，因为你得到的是有价值的真金白银，而不是纸币，而纸币的价值是由该国政府决定的，多印刷，该国纸币价值就降低。。。</p>
+<p>所以，在纸币时代，就更要讲究进出口平衡了，否则你多出口，得到的是人家的纸币，是没有多大意义的，实际是吃亏的、、、</p>
+<p>以中美贸易为例，中国对美国贸易长期顺差，多年来，每年对美贸易顺差少则 1 到 2 千亿，多则 3 到 4 千亿美元，这其实都是美元纸币，对中国经济是没有多大实际意义的，</p>
+<p>可，中国经济精英像着了迷一样，喜欢美元纸币，。。</p>
+<p>2005 年，美国贸易代表来到中国，试图强迫人民币升值，甚至建议人民币一次性升值 25%，相关官员连连摆手，不可能，那怎么得了，那会有多少血汗工厂关闭，多少工人失业啊。。。</p>
+<p>结果达成妥协，人民币缓慢升值。。。由于升值力度不够，对美贸易顺差仍然高居不下，外汇储备继续飙升，到 2014 年，外汇储备达到创纪录的约 4 万亿美元。。。</p>
+<p>然而，这 4 万亿美元哪里来的呢，事实证明大部分是从美联储印钞机来的。。。不信，请看下列数据；</p>
+<p>2008 年中国外汇储备突破 1 万亿美元，达到 10600 亿美元。到 2014 年增加到 4 万亿美元，净增约 3 万亿美元。</p>
+<p>2008 年美联储开动印钞机救市，美联储资产负债表中的美元基础货币从约 9000 亿美元上升到 2014 年的约 4.5 万亿美元，净增约 3.6 万亿美元。</p>
+<p>这是偶然的巧合吗，事实是；美联储印刷的 3.5 万亿美元纸币确实大部分到了中国。。。</p>
+<p>想想看，中国这 3 万亿美元外汇储备可是无数打工者的血汗劳动换来的，是无数个集装箱，装载着无数中国产实体商品，浩浩荡荡运到美国换来的。。。</p>
+<p>而美国呢，美联储仅仅开动印钞机，印了 3 万亿美元给中国，轻轻松松换来中国巨额实物商品，美国人占大便宜了。。。。</p>
+<p>可，遗憾的是，美国占了便宜还卖乖，年年指责中国操纵汇率，要求中国开放市场，特别是中国农业深受其害，作为大豆之乡的中国，大豆首先沦陷。。。</p>
+<p>说起中美贸易，真是满眼都是泪啊，。。。</p>
+<p>然而事情还远未就此结束，特朗普政府上台后，变本加厉。。。。</p>
+<p>未完，待续</p>
+<p>碧海蓝天已被使用 2018-02-02 16:43<br>同意楼主观点，楼主知识渊博，佩服佩服。<br>ty_终于白首 872 2018-02-02 17:12<br>这回不是马上超美了！看看血月今年注定是不平凡的一年，满朝文武拿绿卡！老百姓苦了<br>剩余 13 条<br>评论 看全部<br>x8596t<br>2018-02-03 13:13<br>26252 楼<br>继续 393</p>
+<p>前面聊 “美元荒” 的 392 错成了 382.</p>
+<p>为什么说，与前任美国总统不同，特朗普政府会变本加厉压制中国，会不惜重大代价也要缩小中国对美贸易顺差呢？</p>
+<p>道理不复杂，这就是因为美联储的缩表，也就是美联储不再开动印钞机给美国政府输血了。</p>
+<p>那，为什么缩表就会导致特朗普政府要尽力缩小对外贸易逆差呢，特别是来自中国的逆差，。。</p>
+<p>举例；假设 2018 年美国出口 7000 亿美元，进口 1 万亿美元，逆差 3000 亿美元，</p>
+<p>按照以前的做法，美联储开动印钞机印刷了 3000 亿美元投入市场，意味着这 3000 亿美元间接支付了 3000 亿美元逆差，否则，这 3000 亿美元就得从存量资金中支付，也就是得从老百姓口袋中支付。。。</p>
+<p>这就导致美国老百姓的实际消费会减少 3000 亿美元，直接就拉低美国的 GDP，当然特朗普就不会干了，</p>
+<p>而来自中国的 3000 多亿美元逆差占全美贸易逆差 5000 亿美元的约 70%，理所当然，特朗普政府会盯住中国不放了。。。</p>
+<p>为了美国的 GDP，精明商人特朗普早就拨拉着算盘算好了，一些中国经济精英还在试图用所谓双输，双赢的道理像说服前任美国总统一样，说服特朗普，恐怕只能是一厢情愿了。</p>
+<p>面对超 3 万亿美元的巨额中国外汇储备，已经关闭印钞机的美国不惦念，谁惦念，中国有句老话；这钱啊，不怕贼偷，就怕贼惦念。。。。哈哈。</p>
+<p>现在我们再来看中国。。。</p>
+<p>未完，待续</p>
+<p>评论 看全部<br>x8596t<br>2018-02-03 14:41<br>26256 楼<br>继续 394</p>
+<p>接着 393 聊，我们来看中国的对美贸易顺差，解释一下为什么今天中国闹 “美元荒” 的真实原因；</p>
+<p>先看下列两组数据；</p>
+<p>第一组；从 2014 年到 2017 年中国对美贸易顺差数据</p>
+<p>2014 年，对美贸易顺差约 2400 亿美元</p>
+<p>2015 年，对美贸易顺差约 3700 亿美元</p>
+<p>2016 年，对美贸易顺差约 3400 亿美元，</p>
+<p>2017 年，估计对美贸易顺差也在 3000 亿美元以上。</p>
+<p>四年合计；对美贸易顺差总额约 1.25 万亿美元。</p>
+<p>众所周知，按 GDP 核算公式；顺差就直接增加了中国 GDP，相反逆差的美国 GDP 就被直接拉低了。。。</p>
+<p>1.25 万亿美元啊，这对中美两国都是巨额，假设某个经济谋士拨拉着算盘，把这个帐算给特朗普看，特朗普岂不勃然大怒，咬牙切齿。。。</p>
+<p>如果换成早几年，美联储 QE 量化宽松，大印美元时，美国还会偷着乐，可美国关闭印钞机已经 2 年多了，现在支付中国的可不是兑了水的美元啊，可是真金白银了啊。。。</p>
+<p>再看第二组数据；2014 年和 2017 年 M2 货币总量与外汇储备的比值</p>
+<p>2014 年中国 M2 总量约 122 万亿，外汇储备约 4 万亿美元，当年平均汇率；1 美元 = 6.14 元</p>
+<p>换算成比值；122 万亿 ÷（4 万亿 X6.14）=4.96 元</p>
+<p>这意味着人民币还有很大的升值压力。因为实际汇率高于比值 1.18 元</p>
+<p>2017 年中国 M2 总量约 167 万亿，外汇储备约 3.1 万亿美元，按当年平均汇率；大约 1 美元 = 6.4 元。</p>
+<p>换算成比值；167 万亿 ÷（3.1 万亿 X6.4）=8.41 元</p>
+<p>这意味着人民币有很大的贬值压力，因为实际汇率低于比值 2.01 元。</p>
+<p>网友们看清楚了，人民币汇率处于一种相互矛盾的状态中。</p>
+<p>从对美贸易顺差看，人民币币值被严重低估，人民币有着巨大的升值潜力。</p>
+<p>相反，从 M2 总额与外汇储备币值看，人民币却是被严重高估，人民币有着巨大的贬值压力。</p>
+<p>这到底信哪一个，问题是，这两个都是真实的，信了这个就信不了那个，反之亦然。。。</p>
+<p>这就导致我们看到了极不正常的人民币汇率波动现象；</p>
+<p>2015 年 811 汇改，人民币从 6.2 元一路贬值到 2017 年初的 6.95 元，央行不得不釜底抽薪，收缩境外人民币，以牺牲人民币国际化进程为代价止住了贬值。</p>
+<p>不料，从 2017 年 5 月起，到 2018 年 1 月，人民币又一路疯狂升值，从 6.95 元一路升值到今天的 6.30 元。。。</p>
+<p>有经济精英一定会说，这很好，很正常吗，央行要的就是汇率双向波动吗。。。</p>
+<p>真的吗？我一句话就要让这些经济精英目瞪口呆，哑口无言。。。。</p>
+<p>很简单，因为这人民币升值和贬值的原因竟然都是同一个；“缺美元” 或叫 “美元荒”</p>
+<p>这就是天下奇闻了，无论升值贬值都是缺美元，这太奇怪了，因为按原理只有贬值才是缺美元啊，怎么升值也会缺美元呢？</p>
+<p>我估计，问遍世界上的经济学家，他们只能感叹，奇迹啊，奇迹啊，这奇迹真的只有中国才能创造。。。</p>
+<p>所以有中国经济学家常常引以为傲，中国经济奇迹是西方经济学不能解释的，这是又一证明。。。哈哈。</p>
+<p>那么到底是什么原因会造成这种经济现象呢？</p>
+<p>我曾经做个形象的比喻，把客观经济规律比作幼小树苗，把行政权力比作大石头，大石头不断压迫树苗，但树苗却一定会顽强抗衡，一定会绕过大石头，顽强地从石头缝隙里弯弯曲曲生长出来，不过虽然生长出来了，但一定是扭扭曲曲的。。。。</p>
+<p>ty_自留地 66 2018-02-03 15:11<br>有道理<br>大狗熊 2018-02-03 15:12<br>继续<br>剩余 19 条<br>评论 看全部<br>x8596t<br>2018-02-04 13:51<br>26278 楼<br>@atian110 2018-02-04 11:15:19</p>
+<p>在第十六届企业发展高层论坛上的讲话</p>
+<p>楼继伟</p>
+<p>2018 年 1 月 28 日</p>
+<p>谢谢主持人的介绍，各位来宾，女士们，先生们：</p>
+<p>大家下午好！非常高兴参加此次论坛。按照会议安排，围绕新时代宏观经济形势这个主题，我主要从以下三个方面谈谈个人的观点。</p>
+<p>第一，年度经济指标是超预期的，反映出良性变化的趋势。</p>
+<p>2017 年主要经济指标都在可接受的范围，部分指标甚至在上限区。从经济总量看，GDP 达到 82.7 万亿元，增长 6…….</p>
+<hr>
+<p>继续 395</p>
+<p>非常感谢这位 ati110 网友，我正打算就楼先生提供的经济数据聊一下中美日三国经济发展趋势，恰遇网友提供这个资料，真是人多力量大啊。。。</p>
+<p>我们先以楼先生提供的数据，列出中美日三国的最重要宏观经济数据如下；</p>
+<p>日本；拆借利率；0.01%，政府债务；250%/GDP，M2；200%/GDP，总债务；400/GDP</p>
+<p>美国；拆借利率；1.1%， 政府债务；100%/GDP，M2；91%/GDP，总债务；300/GDP</p>
+<p>中国；拆借利率；4.09%，政府债务；50%.GDP，M2；200%/GDP, 总债务；300/GDP</p>
+<p>依据以上数据，我们基本可以判断，中美日三国经济状况都没能跳出凯恩斯理论框框，即；都不同程度的掉入了流动性陷阱。</p>
+<p>让我们一个个看；</p>
+<p>先看日本；</p>
+<p>日本的流动性陷阱特征最为明显和典型，银行拆借利率竟然是负数，-0.01，这在市场经济中是不可想象的，甚至也超越了凯恩斯理论，凯恩斯想到了零利率，却万万没想到还有负利率，由此可见日本掉入流动性陷阱之深。。。</p>
+<p>日本在 20 多年前房价泡沫破裂后，就逐步掉入流动性陷阱，利率逐步降至零，甚至负利率，毫无疑问，零利率就是流动性陷阱的最典型特征，因为零利率下就不会有什么经济增长和物价上涨，经济基本就是死水一潭。。。</p>
+<p>这个道理很简单；资本是逐利的，零利率意味着资本没有利益了，没利益资本就不会投资，就不会活跃，经济发展当然就会停滞。。。</p>
+<p>最近 5 年，安倍政府采用极端的货币宽松手段，但也没能把日本经济拉出流动性陷阱泥潭，这负的拆借利率就是证明。。。</p>
+<p>有网友会说，最近 2 年，日本 GDP 还有了 2% 左右的增速，可网友注意没有，这是以日元贬值为代价的，</p>
+<p>安倍政府这几年大量货币宽松，导致日元从 1 美元 = 80 多日元，贬值到 1 美元 = 约 110 日元，这种以日元贬值为代价的 GDP 增长，导致按美元计算的 GDP 实际没啥增长，最近几年日本人均 GDP 在世界排名是下降的，这就是证明，证明日本经济根本就没有跳出流动性陷阱，依靠货币宽松搞出的 GDP 增长实际只是货币泡沫。。。</p>
+<p>这就是凯恩斯理论的威力，摆在日本面前只有一条出路；将通货紧缩进行到底，消灭债务，消灭货币，经济才能真正恢复健康，否则经济发展就只能停滞。。。</p>
+<p>但是，日本经济并非没有亮点，日本经济唯一的亮点就是；失业率低，几乎处于充分就业状况，这就怪了，经济不好，这就业怎么会好呢。。。</p>
+<p>大家记得，有中国经济精英还煞有介事的计算过，GDP 增长一个百分点，就可以创造就业 150 万，因为中国每年有超过 1000 万人新增就业，所以 GDP 增速要 7% 左右。。。云云。。。</p>
+<p>然而，日本就业率状况证明中国经济精英的这种观点并不正确，我估计也不会有一个中国经济学者能正确解释日本经济低迷，为何还能充分就业。。。</p>
+<p>这个问题先放一边，我会找机会与网友深入探讨。。。</p>
+<p>我们继续看美国。。。</p>
+<p>未完待续</p>
+<p>碧海蓝天已被使用 2018-02-04 17:52<br>楼主博学，没有比较就没有鉴别，日本有充分的就业是不是人口少的缘故？<br>晔小生 2018-02-04 23:50<br>评论 碧海蓝天已被使用：日本的人口数量低，但是日本的人口密度比中国高很多。日本的就业率高，可能是人口老龄化，制造业这些旧产业一直稳步发展，而且一些新兴产业的涌现。日本的就业率很高，但也并非如报道那样全覆盖的，里面有很多就业人员工资很低的<br>剩余 4 条<br>评论 看全部<br>x8596t<br>2018-02-04 15:56<br>26282 楼<br>继续 396</p>
+<p>现在我们来聊美国的经济发展趋势。</p>
+<p>看上去，美国的经济情况比日本要好得多，无论是总债务还是政府债务要少的多，GDP 增速还有 2 到 3%，M2 也只有 GDP 的 91%。。。</p>
+<p>但美国经济有两大软肋；1 是巨大的泡沫股市，2 是已经永远还不清的政府债务，</p>
+<p>美国股市泡沫如同悬在美国经济头上的达摩斯剑，随时都可能掉下来，美国经济就会好日子不再，直接掉入像日本一样的低利率流动性陷阱。。。</p>
+<p>而支撑美国股市泡沫的又是美国的不断增长的财政开支，一旦财政开支停止增长，或者增长慢了，美国股市就可能随时崩盘，上个星期五，道琼斯指数狂跌 700 点，就是客观经济规律给美国经济的一个警告。。。</p>
+<p>与此同时，美国财政开支的增长越来越不可持续，美国中央银行美联储已经对美国政府关闭了印钞机，</p>
+<p>评论 看全部<br>x8596t<br>2018-02-04 17:05<br>26283 楼<br>继续 396 第二部分；</p>
+<p>刚才不小心点错了键，还没写完就发出来了，网友见谅。。。</p>
+<p>美联储对美国政府关闭印钞机后，美国财政赤字就只能靠全世界老百姓和政府购买美国国债，就是说，美国国债唯一来源就是存量资金了。。。</p>
+<p>这就引发我们必须讨论和学习的一大经济原理，搞明白这一大经济原理后，我们就会明白，美国经济同样无别路可走，只有一条路，将通货紧缩进行到底，或者说，美国股市泡沫必破。。。</p>
+<p>为什么？是什么样的经济原理有这么大的能耐。。。</p>
+<p>其实很简单，这就是以凯恩斯理论为基础的纸币体系的基本特性决定了。。。。</p>
+<p>这个特性就是，现代市场的所谓经济增长必定是货币数量的增长，或者说没有货币数量的增长就没有经济增长。。。</p>
+<p>例如；美国 2017 年有 GDP 总额 19 万亿美元，增长 3% 就是增长净额为；5700 亿美元，这 5700 亿美元必须对应货币数量的增长。。。</p>
+<p>因为这 5700 亿美元 GDP 增长分为三大块；劳动者工资，资本家利润，政府税收，</p>
+<p>例如，工资增长 2000 亿美元，利润增加 2000 亿美元，税收增加 1700 亿美元，这都得体现在货币数量的增长上。。。</p>
+<p>这就冒出一个天大的问题，美国的货币总量一定得比前一年增加 5700 亿美元，否则工人，资本家，政府就无法得到足额的收入增长。。。对不对。</p>
+<p>那么，这货币增量从哪里来呢？</p>
+<p>按纸币体系原理，只有两个来源；1，美联储印钞机，2，美国各个商业银行创造信用货币。</p>
+<p>这要在中国，增长点货币实在小菜一碟，来个 PSL 印个 1 万亿，PPP 项目银行贷款 2 万亿，三万亿货币就增发出来了，也就是发个红头文件就轻易搞定。。。哈哈</p>
+<p>可在美国却没那么容易，因为美联储，商业银行都是私人性质，都是不能亏本，不能庞氏借债的。。。</p>
+<p>例如，美联储之所以对美国政府关闭印钞机，原因就是看你美国政府还不上了，利息都还不起了，那对不起，不借了，要缩表了。。。</p>
+<p>例如，美国地方政府要借新债还旧债，要搞什么债务置换，对不起，美国商业银行打死也不会同意，因为美国商业银行都是私人银行，这消息传出去，引起储户挤兑，那银行是要破产的。。。</p>
+<p>但美元作为世界货币，美国政府还有一大优势，这就是把散落在世界各地的美元收集起来，同时大幅缩减对外贸易逆差，也就是减少美元流失。。。</p>
+<p>这就是为什么美国总统特朗普一面大肆吹牛，要给每个中产家庭减税 4000 亿美元，同时要大幅减税，吸引苹果公司，微软等美国企业的海外资金流入美国的原因。。。</p>
+<p>与此同时，特朗普还盯上了中国的巨额外汇储备和贸易顺差，中美贸易对决不可避免。。。</p>
+<p>不过理想很丰满，现实很骨感，特朗普虽然野心勃勃，但美国财政现实很可能让他碰个满头包。。。</p>
+<p>为什么，道理很简单；</p>
+<p>要美元回流美国，就得减税，就得加息，现在美国政府债务高达 20 万亿，加一个点利息就增加 2000 亿，预计 2018 年美国财政利息开支将暴增到 5000 多亿美元，庞氏借债已经非常明显，</p>
+<p>如果特朗普政府一意孤行的借债借下去，要不了多久就会遭遇国债违约的风险，这时的特朗普政府就只有乞求美国国会提高预算，要求美联储开动印钞机救美国政府了。。</p>
+<p>可美国的经济制度不是中国式的经济制度，只要美国国债违约消息传出，不等国会投票通过预算，美国股市泡沫可能就破裂了。。。</p>
+<p>史上最大美国股市泡沫破裂，美国经济一头掉进日本式的流动性陷阱就是大概率了。。。</p>
+<p>到时，再能干的特朗普总统也只能仰天长叹，生不逢时啊。。。</p>
+<p>以上议论，许多网友一定听得一愣一愣的，半信半疑，将信将疑，这需要我们进一步把纸币体系和金银货币体系推动经济增长的经济原理探讨清楚，网友就明白了。。。</p>
+<p>未完，待续<br>继续 397</p>
+<p>接着 396 聊，为什么美国经济最终跳不出凯恩斯理论框框，必定掉入日本式的低利率流动性陷阱。。。</p>
+<p>这得从金银货币体系与现代纸币体系推动经济增长的经济原理说起；</p>
+<p>当今世界，老百姓都习惯了货币超发，认为货币面额只能越来越大，从来没有想过，纸币其实也是可以朝面额越来越小方向发行的。。。</p>
+<p>例如人民币，几十年前最大面额是 10 元，后来就增加了 20,50,100 元面额，面额越来越大，似乎天经地义，一些网友甚至还煞有介事的质问；经济越来越发展，商品越来越多，不发行一定货币怎么行，。。。</p>
+<p>有没有网友想过，其实人民币也可以朝小面额方向发行的，例如，发行分币以下的厘，豪之类的更小面额的纸币。。。</p>
+<p>什么叫解放思想，打破纸币只能朝大面额发行的思想框框，树立纸币也可以朝小面额发行的创新思想就是最新的思想解放潮流。。。，现在不是提倡创新吗。。。哈哈</p>
+<p>一些网友一定提出质疑，纸币朝小面额发行怎么发展经济。。。</p>
+<p>其实，货币面值越来越小才是适合人类经济发展规律的，货币面额越来越大，反而是违背人类经济发展客观规律的。。。</p>
+<p>为什么？</p>
+<p>因为商品价值由其所含社会平均必要劳动时间决定，隋着科学技术的发展，劳动生产率不断提高，生产一件商品所耗费的劳动时间就会越来越少，商品价值就越来越低，价格当然就越来越低了。。</p>
+<p>例如，10 年前一个 100 工人鞋厂，年产 10 万双鞋，10 年后，采用先进制鞋设备，同样 100 个工人年产鞋提高到 100 万双，这样每双鞋耗费的劳动时间就只有 10 分之一了，价值降低了，价格也就应该下降了，。。对不对。</p>
+<p>所以，货币面额越来越小才是符合经济发展客观规律的。。。</p>
+<p>那么如果采用朝面额越来越小的方向发行货币，商品价格越来越便宜，那经济又是如何发展的呢？</p>
+<p>未完，待续</p>
+<p>别崩着我 2018-02-05 15:41<br>楼主你就在这里忽悠吧<br>滑雪爱好者 2017 2018-02-05 16:13<br>评论 别崩着我：你别听啊，欠儿的进来一楼楼追完然后嘲讽一句，滚<br>剩余 4 条<br>评论 看全部<br>x8596t<br>2018-02-05 14:46<br>26310 楼<br>继续 398</p>
+<p>接着聊，货币面值越来越小是怎样推动经济发展的；</p>
+<p>举例 1；</p>
+<p>甲猎人擅长捕猎野兔，平均每 2 小时劳动时间可捕获一只，标价 2 元。</p>
+<p>乙猎人擅长捕猎野鸡，平均每 2 小时劳动时间可捕获一只，标价 2 元。</p>
+<p>甲猎人卖出野兔 1 只，获得 2 元，从乙哪里购得野兔 1 只，甲乙猎人各用 2 小时劳动时间获得一只野兔，或一只野鸡。</p>
+<p>举例 2；</p>
+<p>甲猎人改进捕猎工具，劳动生产率提高，平均每 1 个劳动小时可以捕猎 1 只野兔了，标价 1 元，因为甲的劳动生产率提高，捕猎野兔耗费的劳动时间降低，也就是商品价值降低，所以每只野兔降价为 1 元。</p>
+<p>乙猎人也一样提高了劳动生产率，平均每 1 个劳动小时可以捕猎一只野鸡了。野鸡降价，标价 1 元。</p>
+<p>甲卖掉 2 小时捕猎的 2 只野兔，获得 2 元，从乙哪里买来 2 只野鸡，甲用同样 2 小时的劳动时间，却多换得 1 只野鸡，甲的生活水平提高了，也就是经济发展了。</p>
+<p>反之，对乙猎人也是一样，由于劳动生产率提高，尽管野鸡价格降低了，但同样的 2 小时劳动时间却可以换得更多商品了。。。</p>
+<p>这样，甲乙都会努力提高劳动生产率，劳动积极性更高了，经济也就不断发展了。。。</p>
+<p>因为，因为，因为，甲乙猎人发现，只要劳动生产率提高，即使商品价格下跌，照样可以提高生活水平啊。。。</p>
+<p>从以上 2 个例子，我们明白如下科学道理；</p>
+<p>1，经济发展的决定性因素是劳动生产率提高，只要劳动生产率提高，即使商品降价，同样可以促进经济发展。</p>
+<p>2，货币只是商品交易媒介，与经济发展其实没有关系，货币数量增加，价格上涨不一定代表经济发展了，相反，货币总量不变，商品增加，价格下跌，反而更能代表经济发展，甚至是经济发展更为健康的标志。。。</p>
+<p>我们把以上两个例子扩展到现代经济体制下的一个国家，道理也是一样。。。</p>
+<p>即；我们既可以用超发货币的办法发展经济，也可以用通货紧缩的办法发展经济，也就是说，货币面额朝不断增大的方向发行可以发展经济，也可以朝货币面值不断缩小的方向发行来发展经济，</p>
+<p>最为重要的是，这种通货紧缩发展经济的办法更健康，可持续，因为这是符合人类经济发展规律的，而通货膨胀发展经济的办法是违背客观经济规律的。。。</p>
+<p>而凯恩斯理论是依靠通货膨胀办法发展经济的，是违背人类经济发展客观规律的，最终必将把人类经济引入流动性陷阱的死胡同。。。</p>
+<p>特别要提醒网友的是，连凯恩斯本人都承认，按他的理论发展经济，最终难逃流动性陷阱。。。</p>
+<p>所以，我点赞凯恩斯先生，毕竟是个经济科学家，能够实事求是。。。凯恩斯先生对人类经济，特别是对资本主义经济发展贡献是伟大的，无与伦比的。。。</p>
+<p>所以，今天美国经济，无论特朗普多么能干，经济政策刀刀见血，也是无力回天，而且越是折腾，美国股市崩盘还会越快。。。越会加速掉入日本式流动性陷阱。。。</p>
+<p>时势造英雄，时势也可以灭英雄。。。哈哈</p>
+<p>接下来我们再聊中国。。。</p>
+<p>未完，待续</p>
+<p>ty_134772404 2018-02-05 14:55<br>我就想知道中国 2.3.4 线城市的房价何时崩盘<br>hnpjcw 2018-02-05 15:12<br>崩盘的定义呢？<br>剩余 20 条<br>评论 看全部<br>x8596t<br>2018-02-06 04:33<br>26332 楼<br>@金陵徒步者 2018-02-05 19:20:39</p>
+<p>我没有经济理论来反驳 LZ 的通缩发展经济的设想，但是我基于常识，提出几个问题：</p>
+<p>LZ 通缩发展经济理论 是按通货膨胀形态进行倒推的。看起来好像没有错误哦，但为什么那么多政府 和 经济学家没有想到呢？ 凯恩斯那么聪明，难道就没有考虑过把事情颠倒过来操作？？？ 为什么世界范围没有实施的案例？？？？</p>
+<p>原因很简单：通缩不可能发展经济！！！！！！ 通缩下，获利最大的行为是存储货币，自然就会降低消费，经……</p>
+<hr>
+<p>人类经济发展科分为三大阶段；</p>
+<p>1，商品 - 货币 - 商品，这个阶段的货币只是交易媒介。</p>
+<p>2，资本 1 - 商品 - 资本 2，这个阶段是资本主义生产阶段，这个阶段货币转化为资本，货币的主要功能转变为谋取利润服务。资本的逐利性成为推动经济发展的第一动力。。。</p>
+<p>3，劳动 - 劳动，这个阶段作为交易媒介的货币也会逐步消失，人们将直接进行劳动的交换。。。</p>
+<p>这个阶段是建立在生产力，科学技术高度发达的基础上，接下来会与网友详细探讨这个经济发展阶段。。。</p>
+<p>网友们长期生活在市场经济中，已经习惯了资本主义生产方式和交换方式，思维已经定格，所以，一时半时是很难理解通货紧缩是如何发展经济的。。。</p>
+<p>你说得没错，探讨这个阶段难免会牵扯到比特币和区块链技术，。。。争议太激烈，慢慢来吧，来日方长，大家共同探讨，共同学习，共同提高。。。</p>
+<p>x8596t 楼主: 2018-02-06 04:38<br>顺便说一下，你说为什么没有经济学者探讨这个问题，道理很简单，现在的经济学，经济学家都是为资本主义服务的，探讨通货紧缩下如何发展经济的结论只能是否定资本主义，他们当然没法探讨了，凯恩斯主义就是为挽救资本主义而兴起的一门经济学。。。<br>pxlee21cn 2018-02-06 10:46<br>楼主思想超前 N 年。劳动 - 劳动，比特币和区块链要去中心化，然而政府不会放取手中的利益， 肯定拼命抵制。<br>剩余 6 条<br>评论 看全部<br>x8596t<br>2018-02-06 14:00<br>26353 楼<br>继续 399</p>
+<p>今天聊一个非常重要，事关网友切身利益的大事，这就是失业问题，因为我预计，2 到 3 年后火热的房价话题将不再被大家关注，人们将越来越关注失业。。。</p>
+<p>早几年，有中国经济精英说，GDP 每增加一个百分点，就可以解决约 150 万人失业，中国每年新增就业人口约 1000 多万，所以 GDP 增速要保持在 7% 左右才能解决就业问题。。。云云。</p>
+<p>可美日近年来在 GDP 增速仅为 1 到 2% 左右的情况下，却几乎达到了 4% 左右的失业率，4% 在经济学上已经可以视为充分就业了。。。</p>
+<p>事实证明，中国经济精英的 GDP 与失业关系的理论是不正确的，因为美日的实践证明，低 GDP 增速下也可以实现高就业。。。</p>
+<p>这是什么原因呢，是什么样的经济原理在起作用呢？还没有看到任何一个经济专家学者对此做过解释，我估计他们也解释不出。。。</p>
+<p>今天，我就与网友深入探讨一下，欢迎网友批评指正，加入讨论。。。</p>
+<p>这个经济原理其实很简单，这就是低利率，零利率的经济环境促成的结果。。</p>
+<p>那为什么低利率，零利率环境下可以出现低经济增长，高就业呢？</p>
+<p>我曾经在前面相关帖文中提出过这样的观点，即；造成失业的主要原因是资本的逐利性，逻辑推理如果要提高就业，就需要去除资本的逐利性。。。</p>
+<p>而美国日本多年来执行低利率，零利率，甚至负利率，这就在一定程度上去除了资本的逐利性，或者说，制造了资本难以获取利润，资本生存艰难的经济环境。。。</p>
+<p>1，零利率消除了大量不劳而获的人群，逼迫所有的人都得劳动，只有劳动才能生存。</p>
+<p>例如，中国财政 2017 年支出国债利息 6130 亿元，加上地方政府利息支出。合计总利息支出大约为 2.5 万亿。。。</p>
+<p>2.5 万亿是什么概念，如果工资 2000 元月，那么将有 1 亿人口可以不劳而获的靠利息收入生活。。。</p>
+<p>一亿人啊，这还仅仅只算政府这一块的利息支出，算上全国各行业，那将是天文数字。</p>
+<p>在零利率情况下呢，这 1 亿人就没法靠利息不劳动而生活了，他们就必须靠劳动获得收入生存了。</p>
+<p>2，在零利率环境下，资本也不得不放弃追求高利润，力图以最小的利润率求生存了。</p>
+<p>按资本逐利性原则，市场利率高。资本追求的利润率也就会高，反之资本追求的利润率就低。。。</p>
+<p>例如，当银行利率 5%，企业均利润率 2 时，资本家就会放弃企业，资本就会转而去追求</p>
+<p>银行高利率了。</p>
+<p>反之，当银行利率为零时，资本就只能放弃追求高利润率，转而以保持极低的利润率求生存了。</p>
+<p>未完，待续</p>
+<p>箐箐河边草 2016 2018-02-06 14:12<br>这意思是日本负利率好处大大的 实现完全就业了 ⊙?⊙！<br>jianpu2015 2018-02-06 14:16<br>评论 x8596t：同样债台高筑，那国内是否也可以实行低利率？<br>剩余 5 条<br>评论 看全部<br>x8596t<br>2018-02-06 15:15<br>26355 楼<br>继续 400</p>
+<p>前面 399 说到，低利率，零利率经济环境下会出现如下两种情况；</p>
+<p>1，大量靠利息不劳而获的人群被消除，人人都得靠劳动生存。</p>
+<p>2，资本追逐利润率目标降低，资本的逐利性大幅下降，资本将以保持最低利润率求生存。</p>
+<p>所以，在零利率环境下，劳动者和资本家都得为生存而努力，一个要找工作求生存，一个以资本最低利润率求生存，双方抱团取暖。。。</p>
+<p>这样，经过一段时间的磨合，相互结合，经济就稳定了，劳动就业率就会上升。。。</p>
+<p>与此同时，消费也会趋于稳定，因为人人靠劳动获取收入，收入的大部分会用在消费上，进而导致资本的生存空间也稳定下来。。。</p>
+<p>不过零利率环境付出的代价就是低经济增长，因为资本无法追逐到高利润，资本活跃度降低，投资意愿降低，经济死水一潭。。。</p>
+<p>所以，此时要想提高经济增长率，就得抬高利率，抬高通货膨胀，以满足资本的逐利性，。。</p>
+<p>不过自相矛盾的是，此时的美日经济体都是债台高筑，任何提高利率的做法几乎都是不作就不会死。。。</p>
+<p>例如，日本政府负债高达 GDP 的 250%，任何加息几乎都是自杀行为，都是在引爆债务炸弹。</p>
+<p>例如，美国债务总额高达 20 万亿，利率每上升一个点就得增加 2000 亿美元，如果按照特朗普，美联储的计划，真的把利息升到正常利率 3.5% 左右，那美国国债利率将升高到 4.5% 左右，一年美国政府光利息开支就会超过 9000 亿美元。。。</p>
+<p>而现在美国财政赤字一年高达 1.3 万亿美元，增加的债务将大部分被用来偿付利息，结果必然导致美国国会的反对，会不断提高特朗普政府预算批准难度。。。</p>
+<p>当国会议员看到特朗普政府减税，加息必定导致美国政府永远也还不清债务了，美国政府越来越高的财务预算将很难获得国会批准了，最近美国政府因为国会迟迟不通过提高债务上限而关门，就是国会对美国政府的警告。。。</p>
+<p>美国是个多权分立的国家，因为美国政府的庞氏借债，美联储已经关闭印钞机了，很有可能，美国国会也将对特朗普的预算计划说不了。。。</p>
+<p>这可不像中国，几个国会，政府，央行巨头一碰面，那有预算不能通过的，哪有央行敢不开动印钞机的，这大概就是一些经济精英鼓吹的中国模式的优势吧。。。哈哈。</p>
+<p>所以，美日如果不将通货紧缩进行到底，彻底消除债务，消减贫富分化，调整经济结构，就别想真正恢复经济增长。。。</p>
+<p>好，扯远了，现在我们回到失业问题的讨论上来。。。</p>
+<p>毫无疑问，美日低利率环境下，低经济增长，高就业的实践会对中国可能遭到经济危机时，如何应对大规模失业将有十分要的理论和实践意义。。。</p>
+<p>未完，待续</p>
+<p>小龙栖尧 2018-02-06 15:33<br>没有连续加息，中国的房子估计又要反弹了<br>无心插柳 oy 2018-02-06 15:41<br>房价和 m2 有关 加息是为了稳汇率 当然加息了 各种债务会被引爆 ！目前估计谁也解决不了这难题，只有静观其变，实际上就是拖吧<br>剩余 5 条<br>评论 看全部<br>x8596t<br>2018-02-07 16:24<br>26394 楼<br>继续 401</p>
+<p>我觉得可以聊聊比特币和区块链技术了。。。</p>
+<p>一是因为比特币暴跌到 6000 美元，现在谈，一些网友就没那么反感了。。。</p>
+<p>二是因为事关网友的人生发展选择，事关网友，特别是年轻网友的学习，就业。。。</p>
+<p>当今世界和中国正处于一个新的历史潮流拐点，每个人都不得不作出选择，选择正确，人生道路就可能顺风顺水，事半功倍，错了就可能坎坎坷坷，事倍功半了。。。</p>
+<p>例如，1979 年，你考上大学，你是选择马列主义专业，还是选择金融专业，那对你的前途影响就大了。</p>
+<p>例如，大清朝末年，你是选择读四书五经，考秀才，还是选择学习蒸汽动力原理，蒸汽机制造，那你的前途就相差天远地远了。。。</p>
+<p>回到当今现实中；</p>
+<p>学习金融</p>
+<p>学习比特币和区块链技术。</p>
+<p>如果你选择学金融，对不起，你将来可能很难找到对口工作，除了改行，别无选择，</p>
+<p>因为我预测，一旦危机来临，失业大军中最大比例可能就是当今红得发紫的所谓经济金融界</p>
+<p>很明显，是学金融还是学比特币，区块链技术，毫无疑问，我是赞成年轻网友学习比特币和区块链技术的。。。</p>
+<p>为什么？</p>
+<p>未完，待续</p>
+<hr>
+<p>注意: 目前而言比特币，区块链之类的技术泡沫已经破裂了，无事勿扰，有事烧纸！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/02/02/79577e180afd4e59b502cc7af0c54964/" data-id="ckmcqox5x00d10kuveh1oe00h" data-title="论国内的通货膨胀率" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/19/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="page-number" href="/page/19/">19</a><span class="page-number current">20</span>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/electron/" rel="tag">electron</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grid/" rel="tag">grid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jetbrains/" rel="tag">jetbrains</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webstorm/" rel="tag">webstorm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/" rel="tag">windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA/" rel="tag">个人</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%AC%E5%8F%B8/" rel="tag">公司</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%A8%E6%8A%A5/" rel="tag">周报</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%A3%E5%91%8A/" rel="tag">宣告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" rel="tag">工程化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90/" rel="tag">开源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%82%E6%AD%A5/" rel="tag">异步</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" rel="tag">待更新</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%8F%E9%AA%8C/" rel="tag">经验</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6/" rel="tag">读书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/css/" style="font-size: 12.14px;">css</a> <a href="/tags/electron/" style="font-size: 15.71px;">electron</a> <a href="/tags/git/" style="font-size: 12.86px;">git</a> <a href="/tags/grid/" style="font-size: 10.71px;">grid</a> <a href="/tags/java/" style="font-size: 19.29px;">java</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/jetbrains/" style="font-size: 12.14px;">jetbrains</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 10.71px;">markdown</a> <a href="/tags/react/" style="font-size: 14.29px;">react</a> <a href="/tags/sql/" style="font-size: 14.29px;">sql</a> <a href="/tags/typescript/" style="font-size: 12.14px;">typescript</a> <a href="/tags/vscode/" style="font-size: 12.86px;">vscode</a> <a href="/tags/vue/" style="font-size: 16.43px;">vue</a> <a href="/tags/webstorm/" style="font-size: 10px;">webstorm</a> <a href="/tags/windows/" style="font-size: 17.14px;">windows</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 12.86px;">个人</a> <a href="/tags/%E5%85%AC%E5%8F%B8/" style="font-size: 10px;">公司</a> <a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 10px;">周报</a> <a href="/tags/%E5%AE%A3%E5%91%8A/" style="font-size: 10px;">宣告</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.57px;">工具</a> <a href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" style="font-size: 17.86px;">工程化</a> <a href="/tags/%E5%BC%80%E6%BA%90/" style="font-size: 10px;">开源</a> <a href="/tags/%E5%BC%82%E6%AD%A5/" style="font-size: 15px;">异步</a> <a href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" style="font-size: 10.71px;">待更新</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 18.57px;">杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BB%8F%E9%AA%8C/" style="font-size: 11.43px;">经验</a> <a href="/tags/%E8%AF%BB%E4%B9%A6/" style="font-size: 12.14px;">读书</a> <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 11.43px;">转载</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/14/8fb2d58463ae4191ac064a76e15bffbd/">2021 第十周</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/12/7e7131c07c984d928ba3fefa7a9cef06/">读书-[颓废与沉默：透视犬儒文化]</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/02/db74e6e5d2444bc3b6e185a7b338bbf6/">electron 开发经验之谈系列-在渲染、主进程间共享数据</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/27/06cb464179cf45c598208534705aae3c/">2020 吾辈在公司推动的前端技术演进</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/23/cd66150d2b86448590fcc9bb2419c0b2/">实践 lerna monorepo</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

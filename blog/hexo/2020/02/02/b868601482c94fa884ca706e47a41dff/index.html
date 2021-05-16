@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>JavaScript 使用 Promise | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="场景为什么要使用 Promise？ JavaScript 异步发展史：回调函数 -&gt; Promise -&gt; async&#x2F;await 传统异步使用回调函数，回调意味着嵌套，当你需要使用很多异步函数时，那你需要非常多的回调函数，可能形成回调地狱。有问题就有人解决，js 没有多线程，所以天生就是异步的。正是因为异步的广泛性，所以很早之前就有人着力于解决异步回调的问题，github 上有很多已">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript 使用 Promise">
+<meta property="og:url" content="http://example.com/2020/02/02/b868601482c94fa884ca706e47a41dff/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="场景为什么要使用 Promise？ JavaScript 异步发展史：回调函数 -&gt; Promise -&gt; async&#x2F;await 传统异步使用回调函数，回调意味着嵌套，当你需要使用很多异步函数时，那你需要非常多的回调函数，可能形成回调地狱。有问题就有人解决，js 没有多线程，所以天生就是异步的。正是因为异步的广泛性，所以很早之前就有人着力于解决异步回调的问题，github 上有很多已">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-02-02T02:15:37.000Z">
+<meta property="article:modified_time" content="2020-12-24T23:11:30.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="javascript">
+<meta property="article:tag" content="异步">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-b868601482c94fa884ca706e47a41dff" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/02/02/b868601482c94fa884ca706e47a41dff/" class="article-date">
+  <time class="dt-published" datetime="2020-02-02T02:15:37.000Z" itemprop="datePublished">2020-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      JavaScript 使用 Promise
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>为什么要使用 Promise？</p>
+<p>JavaScript 异步发展史：<code>回调函数 -&gt; Promise -&gt; async/await</code></p>
+<p>传统异步使用回调函数，回调意味着嵌套，当你需要使用很多异步函数时，那你需要非常多的回调函数，可能形成回调地狱。<br>有问题就有人解决，js 没有多线程，所以天生就是异步的。正是因为异步的广泛性，所以很早之前就有人着力于解决异步回调的问题，github 上有很多已经废弃的库就是用于解决这个问题的。<br>然而现在，es6 出现了 <code>Promise</code>，它能把嵌套回调压平为一层的链式调用，并且写进了 js 标准里。es7 甚至出现了更加优雅的方式，<code>async/await</code>，能以同步的方式写异步的代码。当然，本质上只是 Promise 的一个语法糖，但其重要性也是不言而喻的——异步回调地狱已经不存在了！<br>说了这么多，那么平常我们应该怎么使用 Promise 呢？</p>
+<h2 id="使用-Promise"><a href="#使用-Promise" class="headerlink" title="使用 Promise"></a>使用 Promise</h2><p>一般而言，我们作为使用者是无需创建 Promise 的，支持 Promise 的函数会返回一个 Promise 对象给我们，然后我们使用它的方法 <code>then/catch</code> 即可。</p>
+<ul>
+<li><code>then()</code>：当前的 JavaScript 已经完成，要进行下一步的同步/异步操作了</li>
+<li><code>catch()</code>：用于捕获 Promise 链式调用中可能出现的错误</li>
+</ul>
+<blockquote>
+<p>注：<code>then/catch</code> 均返回一个新的 Promise</p>
+</blockquote>
+<p>例如我们有这样一个需求</p>
+<ol>
+<li> 等待资源 A 加载完成</li>
+<li> 在 A 资源加载完成之后等待 B 资源加载完成</li>
+</ol>
+<p>之前使用回调函数，我们的代码可能是这样的</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 等待指定的时间/等待指定表达式成立</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;Number|Function&#125;</span> </span>param 等待时间/等待条件</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;Function&#125;</span> </span>callback 回调函数</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">wait</span>(<span class="params">param, callback</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> param === <span class="string">&quot;number&quot;</span>) &#123;</span><br><span class="line">    <span class="built_in">setTimeout</span>(callback, param);</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> param === <span class="string">&quot;function&quot;</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> timer = <span class="built_in">setInterval</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (param()) &#123;</span><br><span class="line">        <span class="built_in">clearInterval</span>(timer);</span><br><span class="line">        callback();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;, <span class="number">100</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    callback();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">wait(</span><br><span class="line">  () =&gt; <span class="built_in">document</span>.querySelector(<span class="string">&quot;#a&quot;</span>),</span><br><span class="line">  () =&gt; &#123;</span><br><span class="line">    wait(</span><br><span class="line">      () =&gt; <span class="built_in">document</span>.querySelector(<span class="string">&quot;#b&quot;</span>),</span><br><span class="line">      () =&gt; &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&quot;a, b 两个资源已经全部加载完成&quot;</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br><span class="line"><span class="comment">// 结果</span></span><br><span class="line"><span class="comment">// a, b 两个资源已经全部加载完成</span></span><br></pre></td></tr></table></figure>
+<p>可以看到，上面如果还需要等待 <code>c,d,e,f...</code> 资源，那么回调函数的层级将是无法接受的。<br>现在，我们使用 Promise 改造一下代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 先不要管这个函数的具体实现，下面再说如何自己封装 Promise</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 等待指定的时间/等待指定表达式成立</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;Number|Function&#125;</span> </span>param 等待时间/等待条件</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@returns <span class="type">&#123;Promise&#125;</span> </span>Promise 对象</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">wait</span>(<span class="params">param</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> param === <span class="string">&quot;number&quot;</span>) &#123;</span><br><span class="line">      <span class="built_in">setTimeout</span>(resolve, param);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> param === <span class="string">&quot;function&quot;</span>) &#123;</span><br><span class="line">      <span class="keyword">var</span> timer = <span class="built_in">setInterval</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (param()) &#123;</span><br><span class="line">          <span class="built_in">clearInterval</span>(timer);</span><br><span class="line">          resolve();</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;, <span class="number">100</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      resolve();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">wait(<span class="function">() =&gt;</span> <span class="built_in">document</span>.querySelector(<span class="string">&quot;#a&quot;</span>))</span><br><span class="line">  <span class="comment">// 注意这里的 wait(() =&gt; document.querySelector(&#x27;#b&#x27;)) 同样是一个异步函数，返回了一个 Promise</span></span><br><span class="line">  <span class="comment">// 接下来，有趣的地方来了</span></span><br><span class="line">  <span class="comment">// 很明显，wait 是一个异步函数。wait 函数的 then 函数调用了另一个异步函数，然而 then 会等待异步执行完成，才继续执行后面的函数</span></span><br><span class="line">  .then(<span class="function">() =&gt;</span> wait(<span class="function">() =&gt;</span> <span class="built_in">document</span>.querySelector(<span class="string">&quot;#b&quot;</span>)))</span><br><span class="line">  <span class="comment">// 这里仍然会等待上面的 Promise 完成之后才执行下面的内容</span></span><br><span class="line">  .then(<span class="function">() =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&quot;a, b 两个资源已经全部加载完成&quot;</span>));</span><br><span class="line"><span class="comment">// 结果</span></span><br><span class="line"><span class="comment">// a, b 两个资源已经全部加载完成</span></span><br></pre></td></tr></table></figure>
+<p>下面我们尝试使用一下 <code>catch</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">wait(<span class="function">() =&gt;</span> <span class="built_in">document</span>.querySelector(<span class="string">&quot;#a&quot;</span>))</span><br><span class="line">  .then(<span class="function">() =&gt;</span> wait(<span class="function">() =&gt;</span> <span class="built_in">document</span>.querySelector(<span class="string">&quot;#b&quot;</span>)))</span><br><span class="line">  .then(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&quot;执行了某些操作发生了异常&quot;</span>);</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="comment">// 上面抛出了异常并且没有使用 catch 处理的话就会继续找下一个调用，直到找到处理的 catch，或者调用结束为止</span></span><br><span class="line">  .then(<span class="function">() =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&quot;a, b 两个资源已经全部加载完成&quot;</span>))</span><br><span class="line">  <span class="comment">// 捕获上面的 then() 发生的异常，保证后面的调用正常执行</span></span><br><span class="line">  .catch(<span class="function">(<span class="params">error</span>) =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&quot;使用 catch 捕获的异常: &quot;</span>, error))</span><br><span class="line">  .then(<span class="function">() =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&quot;测试异步函数结束&quot;</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 结果</span></span><br><span class="line"><span class="comment">// 使用 catch 捕获的异常:  Error: 执行了某些操作发生了异常</span></span><br><span class="line"><span class="comment">//     at wait.then.then (&lt;anonymous&gt;:4:11)</span></span><br><span class="line"><span class="comment">// VM272:9 测试异步函数结束</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>可以参考 MDN 上的教程 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Using_promises">使用 Promises</a></p>
+</blockquote>
+<h2 id="封装-Promise"><a href="#封装-Promise" class="headerlink" title="封装 Promise"></a>封装 Promise</h2><p>那么，你是否也对上面自定义的 <code>wait</code> 函数感到好奇呢？我们来详细的了解一下具体如何做到的吧！</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 等待指定的时间/等待指定表达式成立</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;Number|Function&#125;</span> </span>param 等待时间/等待条件</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@returns <span class="type">&#123;Promise&#125;</span> </span>Promise 对象</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">wait</span>(<span class="params">param</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 这里返回了一个 Promise 对象，Promise 的构造函数要求一个函数参数</span></span><br><span class="line">  <span class="comment">// 函数的参数实际上有两个，resolve 和 reject，分别代表 [已经完成] 和 [出现错误]</span></span><br><span class="line">  <span class="comment">// 注：这个函数是立刻执行的，当 resolve 或 reject 执行时，这个 Promise 算是结束了，将进入下一个 then/catch 调用</span></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> param === <span class="string">&quot;number&quot;</span>) &#123;</span><br><span class="line">      <span class="built_in">setTimeout</span>(resolve, param);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> param === <span class="string">&quot;function&quot;</span>) &#123;</span><br><span class="line">      <span class="keyword">var</span> timer = <span class="built_in">setInterval</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (param()) &#123;</span><br><span class="line">          <span class="built_in">clearInterval</span>(timer);</span><br><span class="line">          <span class="comment">// 这里执行了代码，如果有什么结果需要传递给下一个调用，则直接放到 resolve 函数内即可</span></span><br><span class="line">          resolve();</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;, <span class="number">100</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      resolve();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同样的，我们也可以使用 Promise 封装其他函数</p>
+<ul>
+<li><code>timeout</code>：一个简单的 <code>setTimeout()</code> 的封装</li>
+<li><code>readLocal</code>：读取本地浏览器选择的文件</li>
+<li><code>timing</code>：测试函数执行的时间，不管是同步还是异步的(Promise)</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 使用 Promise 简单封装 setTimeout</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;Number&#125;</span> </span>ms 等待时间</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@returns <span class="type">&#123;Promise&#125;</span> </span>Promise 对象</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">const</span> timeout = <span class="function">(<span class="params">ms</span>) =&gt;</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> <span class="built_in">setTimeout</span>(resolve, ms));</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 读取本地浏览器选择的文件</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;File&#125;</span> </span>file 选择的文件</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;&#123;String&#125;</span></span>&#125; init 一些初始选项，目前只有 type 一项</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@returns <span class="type">&#123;Promise&#125;</span> </span>返回了读取到的内容（异步）</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">const</span> readLocal = (<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> result = <span class="function">(<span class="params">file, &#123; type = <span class="string">&quot;readAsDataURL&quot;</span> &#125; = &#123;&#125;</span>) =&gt;</span></span><br><span class="line">    <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (!file) &#123;</span><br><span class="line">        reject(<span class="string">&quot;file not exists&quot;</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">const</span> fr = <span class="keyword">new</span> FileReader();</span><br><span class="line">      fr.onload = <span class="function">(<span class="params">event</span>) =&gt;</span> &#123;</span><br><span class="line">        resolve(event.target.result);</span><br><span class="line">      &#125;;</span><br><span class="line">      fr.onerror = <span class="function">(<span class="params">error</span>) =&gt;</span> &#123;</span><br><span class="line">        reject(error);</span><br><span class="line">      &#125;;</span><br><span class="line">      fr[type](file);</span><br><span class="line">    &#125;);</span><br><span class="line">  result.DataURL = <span class="string">&quot;readAsDataURL&quot;</span>;</span><br><span class="line">  result.Text = <span class="string">&quot;readAsText&quot;</span>;</span><br><span class="line">  result.BinaryString = <span class="string">&quot;readAsBinaryString&quot;</span>;</span><br><span class="line">  result.ArrayBuffer = <span class="string">&quot;readAsArrayBuffer&quot;</span>;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 测试函数的执行时间</span></span><br><span class="line"><span class="comment"> * 注：如果函数返回 Promise，则该函数也会返回 Promise，否则直接返回执行时间</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;Function&#125;</span> </span>fn 需要测试的函数</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@returns <span class="type">&#123;Number|Promise&#125;</span> </span>执行的毫秒数</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">timing</span>(<span class="params">fn</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> begin = performance.now();</span><br><span class="line">  <span class="keyword">const</span> result = fn();</span><br><span class="line">  <span class="keyword">if</span> (!(result <span class="keyword">instanceof</span> <span class="built_in">Promise</span>)) &#123;</span><br><span class="line">    <span class="keyword">return</span> performance.now() - begin;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result.then(<span class="function">() =&gt;</span> performance.now() - begin);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>吾辈建议你也可以封装一些常用的异步函数，下面会展示 JavaScript 中如何更简单的使用异步！</p>
+<h2 id="使用-async-await"><a href="#使用-async-await" class="headerlink" title="使用 async/await"></a>使用 async/await</h2><ul>
+<li><code>async</code>：用于标识一个函数是异步函数，默认这个函数将返回一个 Promise 对象</li>
+<li><code>await</code>：用于在 async 函数内部使用的关键字，标识一个返回 Promise 的异步函数需要等待</li>
+</ul>
+<p>使用 <code>async/await</code> 重构上面的代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">init</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// await 等待异步函数执行完成</span></span><br><span class="line">  <span class="keyword">await</span> wait(<span class="function">() =&gt;</span> <span class="built_in">document</span>.querySelector(<span class="string">&quot;#a&quot;</span>));</span><br><span class="line">  <span class="keyword">await</span> wait(<span class="function">() =&gt;</span> <span class="built_in">document</span>.querySelector(<span class="string">&quot;#b&quot;</span>));</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&quot;a, b 两个资源已经全部加载完成&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 注：init() 函数将返回一个 Promise，我们可以继续追加下一步的操作</span></span><br><span class="line">init();</span><br></pre></td></tr></table></figure>
+<p>是的，就是如此简单，直接在异步函数添加 <code>await</code> 关键字就好了！</p>
+<hr>
+<p>最后，如果你要使用这些特性，请务必使用 babel 转换器。毕竟，有太多的人就是不肯升级浏览器。。。</p>
+<blockquote>
+<p>可以参考</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://babeljs.io/docs/en/">babeljs 官方文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.rxliuli.com/p/e73e3322/">在传统项目中使用 babel 编译 ES6</a></li>
+</ul>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/02/02/b868601482c94fa884ca706e47a41dff/" data-id="ckmcqox4m007z0kuv7vdten0a" data-title="JavaScript 使用 Promise" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BC%82%E6%AD%A5/" rel="tag">异步</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/02/02/ad1c52ed52954ad2ba4cf28785cb063f/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          jsdoc 注释标签一览
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/02/02/bd842060067c45708d8c08f89c9fcf4c/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">使用 rollup 打包 JavaScript SDK</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/electron/" rel="tag">electron</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grid/" rel="tag">grid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jetbrains/" rel="tag">jetbrains</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webstorm/" rel="tag">webstorm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/" rel="tag">windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA/" rel="tag">个人</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%AC%E5%8F%B8/" rel="tag">公司</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%A8%E6%8A%A5/" rel="tag">周报</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%A3%E5%91%8A/" rel="tag">宣告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" rel="tag">工程化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90/" rel="tag">开源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%82%E6%AD%A5/" rel="tag">异步</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" rel="tag">待更新</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%8F%E9%AA%8C/" rel="tag">经验</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6/" rel="tag">读书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/css/" style="font-size: 12.14px;">css</a> <a href="/tags/electron/" style="font-size: 15.71px;">electron</a> <a href="/tags/git/" style="font-size: 12.86px;">git</a> <a href="/tags/grid/" style="font-size: 10.71px;">grid</a> <a href="/tags/java/" style="font-size: 19.29px;">java</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/jetbrains/" style="font-size: 12.14px;">jetbrains</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 10.71px;">markdown</a> <a href="/tags/react/" style="font-size: 14.29px;">react</a> <a href="/tags/sql/" style="font-size: 14.29px;">sql</a> <a href="/tags/typescript/" style="font-size: 12.14px;">typescript</a> <a href="/tags/vscode/" style="font-size: 12.86px;">vscode</a> <a href="/tags/vue/" style="font-size: 16.43px;">vue</a> <a href="/tags/webstorm/" style="font-size: 10px;">webstorm</a> <a href="/tags/windows/" style="font-size: 17.14px;">windows</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 12.86px;">个人</a> <a href="/tags/%E5%85%AC%E5%8F%B8/" style="font-size: 10px;">公司</a> <a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 10px;">周报</a> <a href="/tags/%E5%AE%A3%E5%91%8A/" style="font-size: 10px;">宣告</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.57px;">工具</a> <a href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" style="font-size: 17.86px;">工程化</a> <a href="/tags/%E5%BC%80%E6%BA%90/" style="font-size: 10px;">开源</a> <a href="/tags/%E5%BC%82%E6%AD%A5/" style="font-size: 15px;">异步</a> <a href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" style="font-size: 10.71px;">待更新</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 18.57px;">杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BB%8F%E9%AA%8C/" style="font-size: 11.43px;">经验</a> <a href="/tags/%E8%AF%BB%E4%B9%A6/" style="font-size: 12.14px;">读书</a> <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 11.43px;">转载</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/14/8fb2d58463ae4191ac064a76e15bffbd/">2021 第十周</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/12/7e7131c07c984d928ba3fefa7a9cef06/">读书-[颓废与沉默：透视犬儒文化]</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/02/db74e6e5d2444bc3b6e185a7b338bbf6/">electron 开发经验之谈系列-在渲染、主进程间共享数据</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/27/06cb464179cf45c598208534705aae3c/">2020 吾辈在公司推动的前端技术演进</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/23/cd66150d2b86448590fcc9bb2419c0b2/">实践 lerna monorepo</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>electron 开发经验之谈系列-基本项目搭建 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="环境 Windows 10 NodeJS 12 WebStorm VSCode（编写 markdown 文档）  创建 lerna 项目创建目录 _electron_example_，然后使用 yarn 初始化 12mkdir electron_example &amp;&amp; cd electron_exampleyarn init -y 修改 package.json 123456789&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="electron 开发经验之谈系列-基本项目搭建">
+<meta property="og:url" content="http://example.com/2021/01/05/475d21afd2404d5ba1f71f600c44da09/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="环境 Windows 10 NodeJS 12 WebStorm VSCode（编写 markdown 文档）  创建 lerna 项目创建目录 _electron_example_，然后使用 yarn 初始化 12mkdir electron_example &amp;&amp; cd electron_exampleyarn init -y 修改 package.json 123456789&amp;">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/images/08869afb99594ede8c00d65ad4b65c19.png">
+<meta property="og:image" content="http://example.com/images/8f2afb0c085a4d3c8c678c71bc128412.png">
+<meta property="article:published_time" content="2021-01-05T00:46:18.000Z">
+<meta property="article:modified_time" content="2021-02-19T02:31:31.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="electron">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/08869afb99594ede8c00d65ad4b65c19.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-475d21afd2404d5ba1f71f600c44da09" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/05/475d21afd2404d5ba1f71f600c44da09/" class="article-date">
+  <time class="dt-published" datetime="2021-01-05T00:46:18.000Z" itemprop="datePublished">2021-01-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      electron 开发经验之谈系列-基本项目搭建
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><ul>
+<li>Windows 10</li>
+<li>NodeJS 12</li>
+<li>WebStorm</li>
+<li>VSCode（编写 markdown 文档）</li>
+</ul>
+<h2 id="创建-lerna-项目"><a href="#创建-lerna-项目" class="headerlink" title="创建 lerna 项目"></a>创建 lerna 项目</h2><p>创建目录 _electron_example_，然后使用 yarn 初始化</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir electron_example &amp;&amp; <span class="built_in">cd</span> electron_example</span><br><span class="line">yarn init -y</span><br></pre></td></tr></table></figure>
+<p>修改 <em>package.json</em></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;electron_example&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;version&quot;</span>: <span class="string">&quot;1.0.0&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;private&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">&quot;license&quot;</span>: <span class="string">&quot;MIT&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;workspaces&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;packages&quot;</span>: [<span class="string">&quot;apps/*&quot;</span>]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>随后创建 <em>lerna.json</em> 配置文件</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;packages&quot;</span>: [<span class="string">&quot;apps/*&quot;</span>],</span><br><span class="line">  <span class="attr">&quot;version&quot;</span>: <span class="string">&quot;independent&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;npmClient&quot;</span>: <span class="string">&quot;yarn&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;useWorkspaces&quot;</span>: <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>初始化目录如下</p>
+<ul>
+<li><em>apps</em><ul>
+<li><em>main</em>: 主进程</li>
+<li><em>renderer</em>: 渲染进程</li>
+</ul>
+</li>
+<li>_node_modules_</li>
+<li><em>lerna.json</em></li>
+<li><em>package.json</em></li>
+<li><em>yarn.lock</em></li>
+</ul>
+<blockquote>
+<p>参考: <a target="_blank" rel="noopener" href="https://github.com/rxliuli/electron_example/tree/b9628e1fd16bb5b6807e55e9ca72fdf2daf5bfde">https://github.com/rxliuli/electron_example/tree/b9628e1fd16bb5b6807e55e9ca72fdf2daf5bfde</a></p>
+</blockquote>
+<h2 id="初始化渲染层模块"><a href="#初始化渲染层模块" class="headerlink" title="初始化渲染层模块"></a>初始化渲染层模块</h2><p>在 renderer 目录中使用 create-react-app 创建一个 react 项目，并添加</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx create-react-app apps/renderer/ --template typescript</span><br></pre></td></tr></table></figure>
+<p>不过还需要修改其中部分配置，主要包含</p>
+<ul>
+<li>删除 <em>yarn.lock</em> 或 <em>package-lock.json</em> 文件</li>
+</ul>
+<blockquote>
+<p>参考: <a target="_blank" rel="noopener" href="https://github.com/rxliuli/electron_example/tree/8e0920af985e1201fc05ca36302e094532843c2d">https://github.com/rxliuli/electron_example/tree/8e0920af985e1201fc05ca36302e094532843c2d</a></p>
+</blockquote>
+<p>尝试再 yarn 安装依赖，接着再使用 <code>yarn start</code> 启动开发环境，应该可以在浏览器中看到默认的页面。</p>
+<p><img src="/images/08869afb99594ede8c00d65ad4b65c19.png" alt="20210106194304.png"></p>
+<h2 id="初始化主进程模块"><a href="#初始化主进程模块" class="headerlink" title="初始化主进程模块"></a>初始化主进程模块</h2><blockquote>
+<p>参考: <a target="_blank" rel="noopener" href="https://github.com/rxliuli/electron_example/tree/a78885b76de9322dfdac82e2c220b7c6e0a9617f">https://github.com/rxliuli/electron_example/tree/a78885b76de9322dfdac82e2c220b7c6e0a9617f</a><br>注：electron 版本选择双数，生命周期更长。</p>
+</blockquote>
+<p>初始化主进程模块，主要包括</p>
+<h3 id="为主进程创建-package-json"><a href="#为主进程创建-package-json" class="headerlink" title="为主进程创建 package.json"></a>为主进程创建 package.json</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;main&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;version&quot;</span>: <span class="string">&quot;0.1.0&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="添加依赖-yarn-add-electron-electron-builder-typescript"><a href="#添加依赖-yarn-add-electron-electron-builder-typescript" class="headerlink" title="添加依赖 yarn add electron electron-builder typescript"></a>添加依赖 <code>yarn add electron electron-builder typescript</code></h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// package.json</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;devDependencies&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;electron&quot;</span>: <span class="string">&quot;^10.2.0&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;electron-builder&quot;</span>: <span class="string">&quot;^22.9.1&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;typescript&quot;</span>: <span class="string">&quot;^4.1.3&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="添加-tsconfig-json-配置文件"><a href="#添加-tsconfig-json-配置文件" class="headerlink" title="添加 tsconfig.json 配置文件"></a>添加 <em>tsconfig.json</em> 配置文件</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// tsconfig.json</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;compilerOptions&quot;</span>: &#123;</span><br><span class="line">    <span class="comment">// nodejs 生态大多数都支持这种模块</span></span><br><span class="line">    <span class="attr">&quot;module&quot;</span>: <span class="string">&quot;commonjs&quot;</span>,</span><br><span class="line">    <span class="comment">// 优先考虑输出 es5</span></span><br><span class="line">    <span class="attr">&quot;target&quot;</span>: <span class="string">&quot;es5&quot;</span>,</span><br><span class="line">    <span class="comment">// 但不要自缚手脚，仍然使用最新的 es 特性</span></span><br><span class="line">    <span class="attr">&quot;lib&quot;</span>: [<span class="string">&quot;ESNext&quot;</span>],</span><br><span class="line">    <span class="comment">// 定义源目录与输出目录</span></span><br><span class="line">    <span class="attr">&quot;rootDir&quot;</span>: <span class="string">&quot;src&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;outDir&quot;</span>: <span class="string">&quot;dist&quot;</span>,</span><br><span class="line">    <span class="comment">// 生成 sourceMap 方便 IDE 本地调试</span></span><br><span class="line">    <span class="attr">&quot;sourceMap&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="comment">// 禁止 ts 检查 npm 依赖的类型定义（例如 electron 的类型定义就很容易被 ts 检查出错误，毕竟这个项目实在太大了）</span></span><br><span class="line">    <span class="attr">&quot;skipLibCheck&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;skipDefaultLibCheck&quot;</span>: <span class="literal">true</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">// 排除依赖目录与输出目录</span></span><br><span class="line">  <span class="attr">&quot;exclude&quot;</span>: [<span class="string">&quot;node_modules&quot;</span>, <span class="string">&quot;dist&quot;</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="添加-src-main-ts-基本的启动文件"><a href="#添加-src-main-ts-基本的启动文件" class="headerlink" title="添加 src/main.ts 基本的启动文件"></a>添加 <em>src/main.ts</em> 基本的启动文件</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/main.ts</span></span><br><span class="line"><span class="keyword">import</span> &#123; app, BrowserWindow &#125; <span class="keyword">from</span> <span class="string">&quot;electron&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">createMainWindow</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 创建新的 electron 窗口</span></span><br><span class="line">  <span class="keyword">const</span> mainWindow = <span class="keyword">new</span> BrowserWindow();</span><br><span class="line">  <span class="comment">// 载入开发环境的 url</span></span><br><span class="line">  <span class="keyword">await</span> mainWindow.loadURL(<span class="string">&quot;http://localhost:3000/&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * main 函数</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">main</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  app.on(<span class="string">&quot;ready&quot;</span>, createMainWindow);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">main();</span><br></pre></td></tr></table></figure>
+<h3 id="更新-package-json-添加几个-npm-script"><a href="#更新-package-json-添加几个-npm-script" class="headerlink" title="更新 package.json 添加几个 npm script"></a>更新 <em>package.json</em> 添加几个 npm script</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// package.json</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;scripts&quot;</span>: &#123;</span><br><span class="line">    <span class="comment">// 编译 ts 代码</span></span><br><span class="line">    <span class="attr">&quot;compile&quot;</span>: <span class="string">&quot;tsc&quot;</span>,</span><br><span class="line">    <span class="comment">// 编译 tsc 代码且启动监听模式</span></span><br><span class="line">    <span class="attr">&quot;watch&quot;</span>: <span class="string">&quot;yarn compile -w&quot;</span>,</span><br><span class="line">    <span class="comment">// 在主进程通过 lerna 启动渲染进程模块的开发环境</span></span><br><span class="line">    <span class="attr">&quot;dev:web&quot;</span>: <span class="string">&quot;lerna run --scope renderer start&quot;</span>,</span><br><span class="line">    <span class="comment">// 启动主进程的开发环境</span></span><br><span class="line">    <span class="attr">&quot;dev:electron&quot;</span>: <span class="string">&quot;electron ./dist/main.js&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来，我们通过这些 npm script 启动 electron 开发环境</p>
+<ol>
+<li> 运行 <code>yarn watch</code></li>
+<li> 运行 <code>dev:web</code></li>
+<li> 等待以上两条命令都运行完成，再继续运行 <code>dev:electron</code></li>
+</ol>
+<p>现在，你应该可以看到一个 electron 窗口，其中显示着。</p>
+<p><img src="/images/8f2afb0c085a4d3c8c678c71bc128412.png" alt="20210106194102.png"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>目前，使用 lerna monorepo 似乎还看不出来明显的优点，不过实际上在后面逐步完善 Electron 程序的过程中我们会发现它的强大之处。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/05/475d21afd2404d5ba1f71f600c44da09/" data-id="ckmcqox37003e0kuvbuif5qj6" data-title="electron 开发经验之谈系列-基本项目搭建" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/electron/" rel="tag">electron</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/01/05/6e778ce220e042a0902e7a85976e7e47/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          electron 开发经验之谈系列-渲染、主进程通信
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/01/05/74b1ec3c598940c2afbd17cdd50e31cb/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">electron 开发经验之谈系列-技术栈简介及选择</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/electron/" rel="tag">electron</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grid/" rel="tag">grid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jetbrains/" rel="tag">jetbrains</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webstorm/" rel="tag">webstorm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/" rel="tag">windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA/" rel="tag">个人</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%AC%E5%8F%B8/" rel="tag">公司</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%A8%E6%8A%A5/" rel="tag">周报</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%A3%E5%91%8A/" rel="tag">宣告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" rel="tag">工程化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90/" rel="tag">开源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%82%E6%AD%A5/" rel="tag">异步</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" rel="tag">待更新</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%8F%E9%AA%8C/" rel="tag">经验</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6/" rel="tag">读书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/css/" style="font-size: 12.14px;">css</a> <a href="/tags/electron/" style="font-size: 15.71px;">electron</a> <a href="/tags/git/" style="font-size: 12.86px;">git</a> <a href="/tags/grid/" style="font-size: 10.71px;">grid</a> <a href="/tags/java/" style="font-size: 19.29px;">java</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/jetbrains/" style="font-size: 12.14px;">jetbrains</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 10.71px;">markdown</a> <a href="/tags/react/" style="font-size: 14.29px;">react</a> <a href="/tags/sql/" style="font-size: 14.29px;">sql</a> <a href="/tags/typescript/" style="font-size: 12.14px;">typescript</a> <a href="/tags/vscode/" style="font-size: 12.86px;">vscode</a> <a href="/tags/vue/" style="font-size: 16.43px;">vue</a> <a href="/tags/webstorm/" style="font-size: 10px;">webstorm</a> <a href="/tags/windows/" style="font-size: 17.14px;">windows</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 12.86px;">个人</a> <a href="/tags/%E5%85%AC%E5%8F%B8/" style="font-size: 10px;">公司</a> <a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 10px;">周报</a> <a href="/tags/%E5%AE%A3%E5%91%8A/" style="font-size: 10px;">宣告</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.57px;">工具</a> <a href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" style="font-size: 17.86px;">工程化</a> <a href="/tags/%E5%BC%80%E6%BA%90/" style="font-size: 10px;">开源</a> <a href="/tags/%E5%BC%82%E6%AD%A5/" style="font-size: 15px;">异步</a> <a href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" style="font-size: 10.71px;">待更新</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 18.57px;">杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BB%8F%E9%AA%8C/" style="font-size: 11.43px;">经验</a> <a href="/tags/%E8%AF%BB%E4%B9%A6/" style="font-size: 12.14px;">读书</a> <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 11.43px;">转载</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/14/8fb2d58463ae4191ac064a76e15bffbd/">2021 第十周</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/12/7e7131c07c984d928ba3fefa7a9cef06/">读书-[颓废与沉默：透视犬儒文化]</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/02/db74e6e5d2444bc3b6e185a7b338bbf6/">electron 开发经验之谈系列-在渲染、主进程间共享数据</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/27/06cb464179cf45c598208534705aae3c/">2020 吾辈在公司推动的前端技术演进</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/23/cd66150d2b86448590fcc9bb2419c0b2/">实践 lerna monorepo</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

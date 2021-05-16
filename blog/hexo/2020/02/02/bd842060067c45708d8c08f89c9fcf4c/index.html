@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>使用 rollup 打包 JavaScript SDK | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="吾辈已经写了一个 TypeScript&#x2F;JavaScript Cli 工具 liuli-cli，如有需要可以使用这个 Cli 直接生成一个开箱即用 SDK 项目，然后就可以直接开始写自己的代码，不需要太过关心下面的内容了 – 因为，它们都已然集成了。  场景为什么要使用打包工具如果我们想要写一个 JavaScript SDK，那么就不太可能将所有的代码都写到同一个 js 文件中。当然了，想做的话">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 rollup 打包 JavaScript SDK">
+<meta property="og:url" content="http://example.com/2020/02/02/bd842060067c45708d8c08f89c9fcf4c/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="吾辈已经写了一个 TypeScript&#x2F;JavaScript Cli 工具 liuli-cli，如有需要可以使用这个 Cli 直接生成一个开箱即用 SDK 项目，然后就可以直接开始写自己的代码，不需要太过关心下面的内容了 – 因为，它们都已然集成了。  场景为什么要使用打包工具如果我们想要写一个 JavaScript SDK，那么就不太可能将所有的代码都写到同一个 js 文件中。当然了，想做的话">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-02-02T02:15:37.000Z">
+<meta property="article:modified_time" content="2020-12-24T23:15:19.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="javascript">
+<meta property="article:tag" content="工程化">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-bd842060067c45708d8c08f89c9fcf4c" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/02/02/bd842060067c45708d8c08f89c9fcf4c/" class="article-date">
+  <time class="dt-published" datetime="2020-02-02T02:15:37.000Z" itemprop="datePublished">2020-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      使用 rollup 打包 JavaScript SDK
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>吾辈已经写了一个 TypeScript/JavaScript Cli 工具 <a target="_blank" rel="noopener" href="https://www.npmjs.com/package/liuli-cli">liuli-cli</a>，如有需要可以使用这个 Cli 直接生成一个开箱即用 SDK 项目，然后就可以直接开始写自己的代码，不需要太过关心下面的内容了 – 因为，它们都已然集成了。</p>
+</blockquote>
+<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><h3 id="为什么要使用打包工具"><a href="#为什么要使用打包工具" class="headerlink" title="为什么要使用打包工具"></a>为什么要使用打包工具</h3><p>如果我们想要写一个 <code>JavaScript SDK</code>，那么就不太可能将所有的代码都写到同一个 js 文件中。当然了，想做的话的确可以做到，但随着 <code>JavaScript SDK</code> 内容的增加，一个 js 文件容易造成开发冲突，以及测试上的困难，这也是现代前端基本上都依赖于打包工具的原因。</p>
+<h3 id="为什么打包工具是-rollup"><a href="#为什么打包工具是-rollup" class="headerlink" title="为什么打包工具是 rollup"></a>为什么打包工具是 rollup</h3><p>现今最流行的打包工具是 <a target="_blank" rel="noopener" href="https://webpack.js.org/">webpack</a>，然而事实上对于单纯的打包 JavaScript SDK 而言 webpack 显得有些太重了。webpack 终究是用来整合多种类型的资源而产生的（<code>ReactJS/VueJS/Babel/TypeScript/Stylus</code>），对于纯 JavaScript 库而言其实并没有必要使用如此 <strong>强大</strong> 的工具。而 rollup 就显得小巧精致，少许配置就能立刻打包了。</p>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><blockquote>
+<p>该记录的代码被吾辈放到了 <a target="_blank" rel="noopener" href="https://github.com/rxliuli/rollup-example">GitHub</a>，有需要的话可以看下。</p>
+</blockquote>
+<h3 id="前置要求"><a href="#前置要求" class="headerlink" title="前置要求"></a>前置要求</h3><p>开始之前，我们必须要对以下内容有所了解</p>
+<ul>
+<li>[x] JavaScript</li>
+<li>[x] npm</li>
+<li>[ ] babel</li>
+<li>[ ] uglify</li>
+<li>[ ] eslint</li>
+</ul>
+<h3 id="需要打包的代码"><a href="#需要打包的代码" class="headerlink" title="需要打包的代码"></a>需要打包的代码</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/wait.js</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 等待指定的时间/等待指定表达式成立</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;Number|Function&#125;</span> </span>param 等待时间/等待条件</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@returns <span class="type">&#123;Promise&#125;</span> </span>Promise 对象</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">wait</span>(<span class="params">param</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> param === <span class="string">&quot;number&quot;</span>) &#123;</span><br><span class="line">      <span class="built_in">setTimeout</span>(resolve, param);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> param === <span class="string">&quot;function&quot;</span>) &#123;</span><br><span class="line">      <span class="keyword">var</span> timer = <span class="built_in">setInterval</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (param()) &#123;</span><br><span class="line">          <span class="built_in">clearInterval</span>(timer);</span><br><span class="line">          resolve();</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;, <span class="number">100</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      resolve();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> wait;</span><br><span class="line"></span><br><span class="line"><span class="comment">// src/fetchTimeout.js</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 为 fetch 请求添加超时选项</span></span><br><span class="line"><span class="comment"> * 注：超时选项并非真正意义上的超时即取消请求，请求依旧正常执行完成，但会提前返回 reject 结果</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;Promise&#125;</span> </span>fetchPromise fetch 请求的 Promise</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;Number&#125;</span> </span>timeout 超时时间</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@returns <span class="type">&#123;Promise&#125;</span> </span>如果超时就提前返回 reject, 否则正常返回 fetch 结果</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fetchTimeout</span>(<span class="params">fetchPromise, timeout</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> abortFn = <span class="literal">null</span>;</span><br><span class="line">  <span class="comment">//这是一个可以被 reject 的 Promise</span></span><br><span class="line">  <span class="keyword">var</span> abortPromise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">    abortFn = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      reject(<span class="string">&quot;abort promise&quot;</span>);</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="comment">// 有一个 Promise 完成就立刻结束</span></span><br><span class="line">  <span class="keyword">var</span> abortablePromise = <span class="built_in">Promise</span>.race([fetchPromise, abortPromise]);</span><br><span class="line">  <span class="built_in">setTimeout</span>(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    abortFn();</span><br><span class="line">  &#125;, timeout);</span><br><span class="line">  <span class="keyword">return</span> abortablePromise;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> fetchTimeout;</span><br><span class="line"></span><br><span class="line"><span class="comment">// src/main.js</span></span><br><span class="line"><span class="keyword">import</span> wait <span class="keyword">from</span> <span class="string">&quot;./wait&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> fetchTimeout <span class="keyword">from</span> <span class="string">&quot;./fetchTimeout&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 限制并发请求数量的 fetch 封装</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FetchLimiting</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="title">constructor</span>(<span class="params">&#123; timeout = <span class="number">10000</span>, limit = <span class="number">10</span> &#125;</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.timeout = timeout;</span><br><span class="line">    <span class="built_in">this</span>.limit = limit;</span><br><span class="line">    <span class="built_in">this</span>.execCount = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// 等待队列</span></span><br><span class="line">    <span class="built_in">this</span>.waitArr = [];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 执行一个请求</span></span><br><span class="line"><span class="comment">   * 如果到达最大并发限制时就进行等待</span></span><br><span class="line"><span class="comment">   * 注：该方法的请求顺序是无序的，与代码里的顺序无关</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param <span class="type">&#123;RequestInfo&#125;</span> </span>url 请求 url 信息</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param <span class="type">&#123;RequestInit&#125;</span> </span>init 请求的其他可选项</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@returns <span class="type">&#123;Promise&#125;</span> </span>如果超时就提前返回 reject, 否则正常返回 fetch 结果</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">async</span> <span class="function"><span class="title">_fetch</span>(<span class="params">url, init</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> _innerFetch = <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(</span><br><span class="line">        <span class="string">`执行 execCount: <span class="subst">$&#123;<span class="built_in">this</span>.execCount&#125;</span>, waitArr length: <span class="subst">$&#123;</span></span></span><br><span class="line"><span class="string"><span class="subst">          <span class="built_in">this</span>.waitArr.length</span></span></span><br><span class="line"><span class="string"><span class="subst">        &#125;</span>, index: <span class="subst">$&#123;<span class="built_in">JSON</span>.stringify(<span class="built_in">this</span>.waitArr[<span class="number">0</span>])&#125;</span>`</span></span><br><span class="line">      );</span><br><span class="line">      <span class="built_in">this</span>.execCount++;</span><br><span class="line">      <span class="keyword">const</span> args = <span class="built_in">this</span>.waitArr.shift(<span class="number">0</span>);</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">await</span> fetchTimeout(fetch(...args), <span class="built_in">this</span>.timeout);</span><br><span class="line">      &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.execCount--;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="built_in">this</span>.waitArr.push(<span class="built_in">arguments</span>);</span><br><span class="line">    <span class="keyword">await</span> wait(<span class="function">() =&gt;</span> <span class="built_in">this</span>.execCount &lt; <span class="built_in">this</span>.limit);</span><br><span class="line">    <span class="comment">// 尝试启动等待队列</span></span><br><span class="line">    <span class="keyword">return</span> _innerFetch();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> FetchLimiting;</span><br></pre></td></tr></table></figure>
+<h3 id="使用-rollup-直接打包"><a href="#使用-rollup-直接打包" class="headerlink" title="使用 rollup 直接打包"></a>使用 rollup 直接打包</h3><p>安装 <code>rollup</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i rollup -D</span><br></pre></td></tr></table></figure>
+<p>在根目录创建一个 <code>rollup.config.js</code> 配置文件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="comment">// 入口文件</span></span><br><span class="line">  input: <span class="string">&quot;src/main.js&quot;</span>,</span><br><span class="line">  output: &#123;</span><br><span class="line">    <span class="comment">// 打包名称</span></span><br><span class="line">    name: <span class="string">&quot;bundlea&quot;</span>,</span><br><span class="line">    <span class="comment">// 打包的文件</span></span><br><span class="line">    file: <span class="string">&quot;dist/bundle.js&quot;</span>,</span><br><span class="line">    <span class="comment">// 打包的格式，umd 支持 commonjs/amd/life 三种方式</span></span><br><span class="line">    format: <span class="string">&quot;umd&quot;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>添加一个 <code>npm script</code></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot;: &#123;</span><br><span class="line">  &quot;build&quot;: &quot;rollup -c&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后运行 <code>npm run build</code> 测试打包，可以看到 <em>dist</em> 目录下已经有 <code>bundle.js</code> 文件了</p>
+<blockquote>
+<p>好了，到此为止我们已经简单使用 rollup 打包 js 了，下面的内容都是可选项，如果需要可以分节选读。</p>
+</blockquote>
+<h3 id="使用-babel-转换-ES5"><a href="#使用-babel-转换-ES5" class="headerlink" title="使用 babel 转换 ES5"></a>使用 babel 转换 ES5</h3><p>然而，我们虽然已经将 main.js 打包了，然而实际上我们的代码没有发生什么变化。即：原本是 ES6 的代码仍然会是 ES6，而如果我们想要尽可能地支持更多的浏览器，目前而言还是需要兼容到 ES5 才行。</p>
+<p>所以，我们需要 <code>babel</code>，它能够帮我们把 ES6 的代码编译成 ES5。</p>
+<blockquote>
+<p>附：babel 被称为现代前端的 jquery。</p>
+</blockquote>
+<p>首先，安装 babel 需要的包</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i -D rollup-plugin-babel @babel/core @babel/plugin-external-helpers @babel/preset-env</span><br></pre></td></tr></table></figure>
+<p>在 <code>rollup.config.js</code> 中添加 <code>plugins</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> babel <span class="keyword">from</span> <span class="string">&quot;rollup-plugin-babel&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="comment">// 引入 babel 插件</span></span><br><span class="line">    babel(&#123;</span><br><span class="line">      exclude: <span class="string">&quot;node_modules/**&quot;</span>,</span><br><span class="line">    &#125;),</span><br><span class="line">  ],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>添加 babel 的配置文件 <code>.babelrc</code></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;presets&quot;</span>: [</span><br><span class="line">    [</span><br><span class="line">      <span class="string">&quot;@babel/preset-env&quot;</span>,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">&quot;modules&quot;</span>: <span class="literal">false</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">&quot;plugins&quot;</span>: [<span class="string">&quot;@babel/plugin-external-helpers&quot;</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再重新运行 <code>npm run build</code>，可以看到 <code>bundle.js</code> 中的代码已经被编译成 ES5 了。</p>
+<h3 id="使用-uglify-压缩生产环境代码"><a href="#使用-uglify-压缩生产环境代码" class="headerlink" title="使用 uglify 压缩生产环境代码"></a>使用 uglify 压缩生产环境代码</h3><p>那么，生产中的代码还需要做什么呢？是的，压缩，减小 js 代码的体积是必要的。接下来，我们还需要使用 <code>uglify</code> 压缩我们打包后的 <code>bundle.js</code> 代码。</p>
+<p>首先仍然是安装 <code>uglify</code> 相关的包</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i -D rollup-plugin-uglify</span><br></pre></td></tr></table></figure>
+<p>然后在 <code>rollup.config.js</code> 中引入插件就好了</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 注意，这里引入需要使用 &#123; uglify &#125; 而非 uglify，因为 uglify 导出自身时使用的是 exports.uglify</span></span><br><span class="line"><span class="keyword">import</span> &#123; uglify &#125; <span class="keyword">from</span> <span class="string">&quot;rollup-plugin-uglify&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="comment">// js 压缩插件，需要在最后引入</span></span><br><span class="line">    uglify(),</span><br><span class="line">  ],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="使用-ESLint-检查代码"><a href="#使用-ESLint-检查代码" class="headerlink" title="使用 ESLint 检查代码"></a>使用 ESLint 检查代码</h3><p>如果我们想要需要多人协作统一代码风格，那么可以使用 ESLint 来强制规范。</p>
+<p>首先，全局安装 <code>eslint</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i eslint -g</span><br></pre></td></tr></table></figure>
+<p>然后使用 <code>eslint cli</code> 初始化</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eslint --init</span><br></pre></td></tr></table></figure>
+<p>下面的三项问题选择</p>
+<ol>
+<li>How would you like to configure ESLint? (Use arrow keys)<br> <code>Use a popular style guide</code></li>
+<li>Which style guide do you want to follow? (Use arrow keys)<br> <code>Standard (https://github.com/standard/standard)</code></li>
+<li>What format do you want your config file to be in? (Use arrow keys)<br> <code>JavaScript</code></li>
+<li>Would you like to install them now with npm?<br> <code>y</code></li>
+</ol>
+<p>然后，我们发现项目根目录下多出了 <code>.eslintrc.js</code>，这是 eslit 的配置文件。然而，我们需要对其稍微修改一下，不然如果我们的代码中出现了浏览器中的对象，例如 <code>document</code>，eslint 就会傻傻的认为那是个错误！<br>修改后的 <code>.eslintrc.js</code> 配置</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="keyword">extends</span>: <span class="string">&quot;standard&quot;</span>,</span><br><span class="line">  <span class="comment">// 添加了运行环境设定，设置 browser 为 true</span></span><br><span class="line">  env: &#123;</span><br><span class="line">    browser: <span class="literal">true</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>当我们查看打包后的 <code>bundle.js</code> 时发现 eslint 给我们报了一堆错误，所以我们需要排除掉 dist 文件夹<br>添加 <code>.eslintignore</code> 文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dist</span><br></pre></td></tr></table></figure>
+<p>添加 <code>rollup-plugin-eslint</code> 插件，在打包之前进行格式校验</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i -D rollup-plugin-eslint</span><br></pre></td></tr></table></figure>
+<p>然后引入它</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; eslint &#125; <span class="keyword">from</span> <span class="string">&quot;rollup-plugin-eslint&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="comment">// 引入 eslint 插件</span></span><br><span class="line">    eslint(),</span><br><span class="line">  ],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这个时候，当你运行 <code>npm run build</code> 的时候，eslint 可能提示你一堆代码格式错误，难道我们还要一个个的去修复么？不，eslint 早已考虑到了这一点，我们可以添加一个 npm 脚本用于全局修复格式错误。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot;: &#123;</span><br><span class="line">  &quot;lint&quot;: &quot;eslint --fix src&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后运行 <code>npm run lint</code>，eslint 会尽可能修复格式错误，如果不能修复，会在控制台打印异常文件的路径，然后我们手动修复就好啦</p>
+<h3 id="其他-rollup-配置"><a href="#其他-rollup-配置" class="headerlink" title="其他 rollup 配置"></a>其他 rollup 配置</h3><h4 id="添加代码映射文件"><a href="#添加代码映射文件" class="headerlink" title="添加代码映射文件"></a>添加代码映射文件</h4><p>其实很简单，只要在 <code>rollup.config.js</code> 启用一个配置就好了</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  output: &#123;</span><br><span class="line">    <span class="comment">// 启用代码映射，便于调试之用</span></span><br><span class="line">    sourcemap: <span class="literal">true</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="多环境打包"><a href="#多环境打包" class="headerlink" title="多环境打包"></a>多环境打包</h4><p>首先移除掉根目录下的 <code>rollup.config.js</code> 配置文件，然后创建 build 目录并添加下面四个文件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// build/util.js</span></span><br><span class="line"><span class="keyword">import</span> path <span class="keyword">from</span> <span class="string">&quot;path&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 根据相对路径计算真是的路径</span></span><br><span class="line"><span class="comment"> * 从当前类的文件夹开始计算，这里是 /build</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;String&#125;</span> </span>relaPath 相对路径</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@returns <span class="type">&#123;String&#125;</span> </span>绝对路径</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">calcPath</span>(<span class="params">relaPath</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> path.resolve(__dirname, relaPath);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// build/rollup.config.dev.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; eslint &#125; <span class="keyword">from</span> <span class="string">&quot;rollup-plugin-eslint&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; calcPath &#125; <span class="keyword">from</span> <span class="string">&quot;./util&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; name &#125; <span class="keyword">from</span> <span class="string">&quot;../package.json&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="comment">// 入口文件</span></span><br><span class="line">  input: calcPath(<span class="string">&quot;../src/main.js&quot;</span>),</span><br><span class="line">  output: &#123;</span><br><span class="line">    <span class="comment">// 打包名称</span></span><br><span class="line">    name,</span><br><span class="line">    <span class="comment">// 打包的文件</span></span><br><span class="line">    file: calcPath(<span class="string">`../dist/<span class="subst">$&#123;name&#125;</span>.js`</span>),</span><br><span class="line">    <span class="comment">// 打包的格式，umd 支持 commonjs/amd/life 三种方式</span></span><br><span class="line">    format: <span class="string">&quot;umd&quot;</span>,</span><br><span class="line">    <span class="comment">// 启用代码映射，便于调试之用</span></span><br><span class="line">    sourcemap: <span class="literal">true</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="comment">// 引入 eslint 插件，必须在 babel 之前引入，因为 babel 编译之后的代码未必符合 eslint 规范，eslint 仅针对我们 [原本] 的代码</span></span><br><span class="line">    eslint(),</span><br><span class="line">  ],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// build/rollup.config.prod.js</span></span><br><span class="line"><span class="keyword">import</span> babel <span class="keyword">from</span> <span class="string">&quot;rollup-plugin-babel&quot;</span>;</span><br><span class="line"><span class="comment">// 注意，这里引入需要使用 &#123; uglify &#125; 而非 uglify，因为 uglify 导出自身时使用的是 exports.uglify</span></span><br><span class="line"><span class="keyword">import</span> &#123; uglify &#125; <span class="keyword">from</span> <span class="string">&quot;rollup-plugin-uglify&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; eslint &#125; <span class="keyword">from</span> <span class="string">&quot;rollup-plugin-eslint&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; calcPath &#125; <span class="keyword">from</span> <span class="string">&quot;./util&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> dev <span class="keyword">from</span> <span class="string">&quot;./rollup.config.dev&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; name &#125; <span class="keyword">from</span> <span class="string">&quot;../package.json&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> [</span><br><span class="line">  dev,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="comment">// 入口文件</span></span><br><span class="line">    input: calcPath(<span class="string">&quot;../src/main.js&quot;</span>),</span><br><span class="line">    output: &#123;</span><br><span class="line">      <span class="comment">// 打包名称</span></span><br><span class="line">      name,</span><br><span class="line">      <span class="comment">// 打包的文件</span></span><br><span class="line">      file: calcPath(<span class="string">`../dist/<span class="subst">$&#123;name&#125;</span>.min.js`</span>),</span><br><span class="line">      <span class="comment">// 打包的格式，umd 支持 commonjs/amd/life 三种方式</span></span><br><span class="line">      format: <span class="string">&quot;umd&quot;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    plugins: [</span><br><span class="line">      <span class="comment">// 引入 eslint 插件，必须在 babel 之前引入，因为 babel 编译之后的代码未必符合 eslint 规范，eslint 仅针对我们 [原本] 的代码</span></span><br><span class="line">      eslint(),</span><br><span class="line">      <span class="comment">// 引入 babel 插件</span></span><br><span class="line">      babel(&#123;</span><br><span class="line">        exclude: calcPath(<span class="string">&quot;../node_modules/**&quot;</span>),</span><br><span class="line">      &#125;),</span><br><span class="line">      <span class="comment">// js 压缩插件，需要在最后引入</span></span><br><span class="line">      uglify(),</span><br><span class="line">    ],</span><br><span class="line">  &#125;,</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// build/rollup.config.js</span></span><br><span class="line"><span class="keyword">import</span> dev <span class="keyword">from</span> <span class="string">&quot;./rollup.config.dev&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> prod <span class="keyword">from</span> <span class="string">&quot;./rollup.config.prod&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果当前环境时 production，则使用 prod 配置，否则使用 dev 配置</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> process.env.NODE_ENV === <span class="string">&quot;production&quot;</span> ? prod : dev;</span><br></pre></td></tr></table></figure>
+<p>修改 npm 脚本</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot;: &#123;</span><br><span class="line">  &quot;build:dev&quot;: &quot;rollup -c build/rollup.config.js --environment NODE_ENV:development&quot;,</span><br><span class="line">  &quot;build:prod&quot;: &quot;rollup -c build/rollup.config.js --environment NODE_ENV:production&quot;,</span><br><span class="line">  &quot;build&quot;: &quot;npm run build:dev &amp;&amp; npm run build:prod&quot;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>那么，关于使用 rollup 打包 JavaScript 的内容就先到这里了，有需要的话后续吾辈还会继续更新的！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/02/02/bd842060067c45708d8c08f89c9fcf4c/" data-id="ckmcqox4n00830kuv5er7e8qs" data-title="使用 rollup 打包 JavaScript SDK" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" rel="tag">工程化</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/02/02/b868601482c94fa884ca706e47a41dff/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          JavaScript 使用 Promise
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/02/02/bf496d4b660f4226a03f2b8a04baee04/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">react 入坑思考</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/electron/" rel="tag">electron</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grid/" rel="tag">grid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jetbrains/" rel="tag">jetbrains</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webstorm/" rel="tag">webstorm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/" rel="tag">windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA/" rel="tag">个人</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%AC%E5%8F%B8/" rel="tag">公司</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%A8%E6%8A%A5/" rel="tag">周报</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%A3%E5%91%8A/" rel="tag">宣告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" rel="tag">工程化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90/" rel="tag">开源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%82%E6%AD%A5/" rel="tag">异步</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" rel="tag">待更新</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%8F%E9%AA%8C/" rel="tag">经验</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6/" rel="tag">读书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/css/" style="font-size: 12.14px;">css</a> <a href="/tags/electron/" style="font-size: 15.71px;">electron</a> <a href="/tags/git/" style="font-size: 12.86px;">git</a> <a href="/tags/grid/" style="font-size: 10.71px;">grid</a> <a href="/tags/java/" style="font-size: 19.29px;">java</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/jetbrains/" style="font-size: 12.14px;">jetbrains</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 10.71px;">markdown</a> <a href="/tags/react/" style="font-size: 14.29px;">react</a> <a href="/tags/sql/" style="font-size: 14.29px;">sql</a> <a href="/tags/typescript/" style="font-size: 12.14px;">typescript</a> <a href="/tags/vscode/" style="font-size: 12.86px;">vscode</a> <a href="/tags/vue/" style="font-size: 16.43px;">vue</a> <a href="/tags/webstorm/" style="font-size: 10px;">webstorm</a> <a href="/tags/windows/" style="font-size: 17.14px;">windows</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 12.86px;">个人</a> <a href="/tags/%E5%85%AC%E5%8F%B8/" style="font-size: 10px;">公司</a> <a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 10px;">周报</a> <a href="/tags/%E5%AE%A3%E5%91%8A/" style="font-size: 10px;">宣告</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.57px;">工具</a> <a href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" style="font-size: 17.86px;">工程化</a> <a href="/tags/%E5%BC%80%E6%BA%90/" style="font-size: 10px;">开源</a> <a href="/tags/%E5%BC%82%E6%AD%A5/" style="font-size: 15px;">异步</a> <a href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" style="font-size: 10.71px;">待更新</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 18.57px;">杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BB%8F%E9%AA%8C/" style="font-size: 11.43px;">经验</a> <a href="/tags/%E8%AF%BB%E4%B9%A6/" style="font-size: 12.14px;">读书</a> <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 11.43px;">转载</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/14/8fb2d58463ae4191ac064a76e15bffbd/">2021 第十周</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/12/7e7131c07c984d928ba3fefa7a9cef06/">读书-[颓废与沉默：透视犬儒文化]</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/02/db74e6e5d2444bc3b6e185a7b338bbf6/">electron 开发经验之谈系列-在渲染、主进程间共享数据</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/27/06cb464179cf45c598208534705aae3c/">2020 吾辈在公司推动的前端技术演进</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/23/cd66150d2b86448590fcc9bb2419c0b2/">实践 lerna monorepo</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

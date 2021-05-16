@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>MySQL 获取随机条数据 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="场景有一个需要从数据库随机获取指定数量的数据的需求，然而这个问题却是意外的挺麻烦。 假设有一个数据表 1234567create table topic (  id      int primary key not null  comment &amp;#x27;编号&amp;#x27;,  content varchar(20)     not null  comment &amp;#x27;内容&amp;#x27;)  co">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL 获取随机条数据">
+<meta property="og:url" content="http://example.com/2020/04/18/0540dc0bb40e41c58e19c3b827aba1cd/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="场景有一个需要从数据库随机获取指定数量的数据的需求，然而这个问题却是意外的挺麻烦。 假设有一个数据表 1234567create table topic (  id      int primary key not null  comment &amp;#x27;编号&amp;#x27;,  content varchar(20)     not null  comment &amp;#x27;内容&amp;#x27;)  co">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-04-18T02:14:09.000Z">
+<meta property="article:modified_time" content="2020-12-29T17:18:49.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="sql">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-0540dc0bb40e41c58e19c3b827aba1cd" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/04/18/0540dc0bb40e41c58e19c3b827aba1cd/" class="article-date">
+  <time class="dt-published" datetime="2020-04-18T02:14:09.000Z" itemprop="datePublished">2020-04-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      MySQL 获取随机条数据
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>有一个需要从数据库随机获取指定数量的数据的需求，然而这个问题却是意外的挺麻烦。</p>
+<p>假设有一个数据表</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> topic (</span><br><span class="line">  id      <span class="type">int</span> <span class="keyword">primary</span> <span class="keyword">key</span> <span class="keyword">not</span> <span class="keyword">null</span></span><br><span class="line">  comment <span class="string">&#x27;编号&#x27;</span>,</span><br><span class="line">  content <span class="type">varchar</span>(<span class="number">20</span>)     <span class="keyword">not</span> <span class="keyword">null</span></span><br><span class="line">  comment <span class="string">&#x27;内容&#x27;</span></span><br><span class="line">)</span><br><span class="line">  comment <span class="string">&#x27;主题表&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里的 <code>topic</code> 表有两个关键性的特点</p>
+<ul>
+<li>主键可以进行比较（<code>int</code>）</li>
+<li>主键整体存在趋势（自增/自减）</li>
+</ul>
+</blockquote>
+<h2 id="解决方案-1：直接使用-order-by-rand"><a href="#解决方案-1：直接使用-order-by-rand" class="headerlink" title="解决方案 1：直接使用 order by rand()"></a>解决方案 1：直接使用 <code>order by rand()</code></h2><p>直接使用 <code>order by rand()</code> 就可以获取到随机的数据了，而且能够获取到全部的数据（顺序仍然是随机的）。</p>
+<ol>
+<li>按照 <code>rand()</code> 产生的结果<blockquote>
+<p>这一步相当于为每条数据加上一列由 <code>rand()</code> 函数产生的数据，然后对这一列进行排序</p>
+</blockquote>
+</li>
+<li> 限制查询条数</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">from</span> topic</span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> rand()</span><br><span class="line">limit <span class="number">50000</span>;</span><br></pre></td></tr></table></figure>
+<p>但缺点很明显，速度是个问题，因为 rand() 的数据没有索引，所以会造成排序速度极慢。</p>
+<p>在 10w 条数据中随机获取 5w 条数据，花费时常 <strong>6 s 378 ms</strong>，这个时间真的太长了点。</p>
+<p>其实 <code>order by rand()</code> 看起来很奇怪，实际上等效于：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">from</span> (</span><br><span class="line">       <span class="keyword">select</span></span><br><span class="line">         topic.<span class="operator">*</span>,</span><br><span class="line">         rand() <span class="keyword">as</span> order_column</span><br><span class="line">       <span class="keyword">from</span> topic</span><br><span class="line">     ) <span class="keyword">as</span> temp</span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> order_column</span><br><span class="line">limit <span class="number">50000</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="解决方案-2：使用-where-subquery-取中间的随机值"><a href="#解决方案-2：使用-where-subquery-取中间的随机值" class="headerlink" title="解决方案 2：使用 where subquery 取中间的随机值"></a>解决方案 2：使用 <code>where subquery</code> 取中间的随机值</h2><p>因为 <code>order by rand()</code> 没有索引导致的排序太耗时，我们可以尝试绕过这个问题。</p>
+<p>下面的这种解决方案便是如此</p>
+<ol>
+<li> 取最小值和最大值之间的随机值</li>
+<li> 判断 id 是否大于（或者小于）这个随机值</li>
+<li> 限制查询条数</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">from</span> topic</span><br><span class="line"><span class="keyword">where</span> id <span class="operator">&gt;=</span> ((<span class="keyword">select</span> <span class="built_in">max</span>(id)</span><br><span class="line">              <span class="keyword">from</span> topic)</span><br><span class="line">             <span class="operator">-</span> (<span class="keyword">select</span> <span class="built_in">min</span>(id)</span><br><span class="line">                <span class="keyword">from</span> topic))</span><br><span class="line">            <span class="operator">*</span> rand()</span><br><span class="line">            <span class="operator">+</span> (<span class="keyword">select</span> <span class="built_in">min</span>(id)</span><br><span class="line">               <span class="keyword">from</span> topic)</span><br><span class="line">limit <span class="number">50000</span>;</span><br></pre></td></tr></table></figure>
+<p>这种方法查询速度虽然极快（150 ms），但却会受到数据分布密度的影响。如果数据不是平均的，那么查询到的总数据条数就会受限。</p>
+<p>那么，下面来说该方法的缺陷</p>
+<ul>
+<li><p>获取到的数据受分布密度影响</p>
+<p>例如数据分布呈以下情况</p>
+<p><code>1,100002,100003,100004...199999,200000</code></p>
+<p>那么使用上述代码就只能获取到很少一部分数据（大约在 2.5w 条左右）。然而如果将符号稍微下改一下，将 <code>&gt;=</code> 修改为 <code>&lt;=</code>，那么能够获取到的平均数量将大大增加（7.5w 条左右）。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">from</span> topic</span><br><span class="line"># 注意：这里的符号修改了</span><br><span class="line"><span class="keyword">where</span> id <span class="operator">&gt;=</span> ((<span class="keyword">select</span> <span class="built_in">max</span>(id)</span><br><span class="line">              <span class="keyword">from</span> topic)</span><br><span class="line">            <span class="operator">-</span> (<span class="keyword">select</span> <span class="built_in">min</span>(id)</span><br><span class="line">                <span class="keyword">from</span> topic))</span><br><span class="line">            <span class="operator">*</span> rand()</span><br><span class="line">            <span class="operator">+</span> (<span class="keyword">select</span> <span class="built_in">min</span>(id)</span><br><span class="line">              <span class="keyword">from</span> topic)</span><br><span class="line">limit <span class="number">50000</span>;</span><br></pre></td></tr></table></figure></li>
+<li><p>每一条数据获取到的概率不是完全相同的<br>虽然获取到的全部数据是随机的，但每一个的概率却并不相同。例如在 <code>&lt;=</code> 时会出现永远都为第一条的现象，究其原因就是因为 <strong>第一条</strong> 的概率实在是太大了，因为查询数据表时数据的检索规则是从第一条开始的呢！即便修改成 <code>&gt;=</code>，所得到的第一条数据也普遍偏小。<br>使用 <code>&gt;=</code> 的结果</p>
+<ul>
+<li>数据越是在前面，那么获取到的概率就越低</li>
+<li>但即便是很低概率，在最前面总有机会，所以第一条一般偏小</li>
+<li>数据密度前面偏大时，获取到的数量会非常小</li>
+</ul>
+</li>
+</ul>
+<p>密度越是趋于平均，获取到的最大随机数据条数的平均值愈接近 <code>1/2</code>，否则则会愈加偏离（不一定偏大还是偏小）。</p>
+<h2 id="解决方案-3：使用临时表-temporary-table"><a href="#解决方案-3：使用临时表-temporary-table" class="headerlink" title="解决方案 3：使用临时表 temporary table"></a>解决方案 3：使用临时表 <code>temporary table</code></h2><p>解决方案 2 着眼于避免使用没有索引的 <code>rand()</code> 进行排序，但这里思考另一个解决方案，使用加了索引之后的 <code>rand()</code> 进行排序。创建临时表，仅包含主键 <code>id</code> 和需要进行排序的索引列 <code>randomId</code>，然后排序完成过后获取到乱序数据。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> temporary <span class="keyword">table</span> if <span class="keyword">exists</span> temp_topic;</span><br><span class="line"><span class="keyword">create</span> temporary <span class="keyword">table</span> temp_topic (</span><br><span class="line">  id       <span class="type">bigint</span> <span class="keyword">primary</span> <span class="keyword">key</span> <span class="keyword">not</span> <span class="keyword">null</span>,</span><br><span class="line">  randomId <span class="keyword">double</span>             <span class="keyword">not</span> <span class="keyword">null</span>,</span><br><span class="line">  index (randomId)</span><br><span class="line">)</span><br><span class="line">  <span class="keyword">as</span></span><br><span class="line">    <span class="keyword">select</span></span><br><span class="line">      id,</span><br><span class="line">      rand() <span class="keyword">as</span> randomId</span><br><span class="line">    <span class="keyword">from</span> topic;</span><br><span class="line"><span class="keyword">select</span> t.<span class="operator">*</span></span><br><span class="line"><span class="keyword">from</span> topic t</span><br><span class="line">  <span class="keyword">join</span> (</span><br><span class="line">         <span class="keyword">select</span> id</span><br><span class="line">         <span class="keyword">from</span> (</span><br><span class="line">                <span class="keyword">select</span> id</span><br><span class="line">                <span class="keyword">from</span> temp_topic</span><br><span class="line">                <span class="keyword">order</span> <span class="keyword">by</span> randomId</span><br><span class="line">              ) <span class="keyword">as</span> temp</span><br><span class="line">         limit <span class="number">50000</span></span><br><span class="line">       ) <span class="keyword">as</span> temp</span><br><span class="line">    <span class="keyword">on</span> t.id <span class="operator">=</span> temp.id;</span><br></pre></td></tr></table></figure>
+<p>这种方法的查询速度不算很快（878 ms，相比于第二种），而且仍然是与数据量呈正相关的（因为要复制数据）。但和第一种，也是真正的随机获取。</p>
+<h2 id="解决方案-4：使用-join-order-by-rand"><a href="#解决方案-4：使用-join-order-by-rand" class="headerlink" title="解决方案 4：使用 join order by rand()"></a>解决方案 4：使用 <code>join order by rand()</code></h2><p>吾辈在 <a target="_blank" rel="noopener" href="https://stackoverflow.com/">StackOverflow</a> 上面看到了一个 <a target="_blank" rel="noopener" href="https://stackoverflow.com/a/36013954/8409380">最优解 by 2016</a>，一切表现的都很好，速度不算慢（261 ms），也可以获取到全部数据，也是真正的随机获取。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> g.<span class="operator">*</span></span><br><span class="line"><span class="keyword">from</span></span><br><span class="line">  topic g</span><br><span class="line">  <span class="keyword">join</span></span><br><span class="line">  (<span class="keyword">select</span> id</span><br><span class="line">   <span class="keyword">from</span></span><br><span class="line">     topic</span><br><span class="line">   <span class="keyword">where</span></span><br><span class="line">     rand() <span class="operator">&lt;</span> (<span class="keyword">select</span> ((<span class="number">50000</span> <span class="operator">/</span> <span class="built_in">count</span>(<span class="number">0</span>)) <span class="operator">*</span> <span class="number">10</span>)</span><br><span class="line">               <span class="keyword">from</span></span><br><span class="line">                 topic)</span><br><span class="line">   <span class="keyword">order</span> <span class="keyword">by</span> rand()</span><br><span class="line">   limit <span class="number">50000</span>) <span class="keyword">as</span> z <span class="keyword">on</span> z.id <span class="operator">=</span> g.id;</span><br></pre></td></tr></table></figure>
+<p>这里的 <code>where rand()</code> 是想要在获取的数据与总数据量差距过大（10 倍以上）时过滤数据，提高排序效率。</p>
+<p>吾辈这里不清楚上面发生了什么，感觉 <code>rand()</code> 只要在 <code>join</code> 里面之后的排序就会变得很快！<br>事实上，只要使用 <code>join</code> 内连接之后，就算是 <code>order by rand()</code> 的效率也很高，甚至在获取少量数据时比上面使用 <code>where rand</code> 过滤数据后再排序的的速度还要快</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> t.<span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> topic t</span><br><span class="line">  <span class="keyword">JOIN</span></span><br><span class="line">  (<span class="keyword">SELECT</span> id</span><br><span class="line">   <span class="keyword">FROM</span> `topic`</span><br><span class="line">   <span class="keyword">ORDER</span> <span class="keyword">BY</span> RAND()</span><br><span class="line">   LIMIT <span class="number">50000</span>) <span class="keyword">AS</span> z <span class="keyword">ON</span> z.id <span class="operator">=</span> t.id;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注：在获取的数据量很大时，使用上面那种 <code>where</code> 过滤一次的效率上会更有优势一点！</p>
+</blockquote>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
+<p>这里有一篇不错的英文文章对随机获取数据进行了分析：<a target="_blank" rel="noopener" href="http://jan.kneschke.de/projects/mysql/order-by-rand/">http://jan.kneschke.de/projects/mysql/order-by-rand/</a>，也有人在 StackOverflow 上进行了讨论 <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/1823306/">https://stackoverflow.com/questions/1823306/</a></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>不同点</th>
+<th><code>order by rand()</code></th>
+<th><code>where subquery</code></th>
+<th><code>temporary table</code></th>
+<th><code>join order by rand()</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>可以随机获取全部</td>
+<td>可以</td>
+<td>几乎不可能</td>
+<td>可以</td>
+<td>可以</td>
+</tr>
+<tr>
+<td>速度</td>
+<td>慢</td>
+<td>极快</td>
+<td>较快</td>
+<td>极快</td>
+</tr>
+<tr>
+<td>需要可比较的主键类型</td>
+<td>否</td>
+<td>是</td>
+<td>否</td>
+<td>否</td>
+</tr>
+<tr>
+<td>受数据分布密度影响</td>
+<td>否</td>
+<td>是</td>
+<td>否</td>
+<td>否</td>
+</tr>
+<tr>
+<td>速度受表数据复杂度影响</td>
+<td>很大</td>
+<td>极小</td>
+<td>较小</td>
+<td>极小</td>
+</tr>
+</tbody></table>
+<p>那么，看完上面的不同点对比，我们也可以得出它们的使用场景了</p>
+<ul>
+<li>强烈推荐首选 <code>join order by rand()</code> 作为随机获取数据的解决方案</li>
+<li>唯一不推荐的就是 <code>order by rand()</code>，这是新手才会写出来 sql。当然，如果你的数据量很小（1000 条以下）时，直接使用 <code>order by rand()</code> 以现代机器的性能 sql 也不会很慢呢</li>
+</ul>
+<blockquote>
+<p>注：如果仅仅只是需要打乱数据顺序的话还是更推荐将数据读取到内存中在进行操作更好！</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/04/18/0540dc0bb40e41c58e19c3b827aba1cd/" data-id="ckmcqox22000b0kuvbtfhaobv" data-title="MySQL 获取随机条数据" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql/" rel="tag">sql</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/04/27/ddcef057b6fa4f4bb8707e0978665f7c/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          JavaScript 禁止用户保存图片
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/04/18/07b0f417d17c460383ae8a1a668b8e1a/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">MySQL 无法插入中文数据</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/electron/" rel="tag">electron</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grid/" rel="tag">grid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jetbrains/" rel="tag">jetbrains</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webstorm/" rel="tag">webstorm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/" rel="tag">windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA/" rel="tag">个人</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%AC%E5%8F%B8/" rel="tag">公司</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%A8%E6%8A%A5/" rel="tag">周报</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%A3%E5%91%8A/" rel="tag">宣告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" rel="tag">工程化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90/" rel="tag">开源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%82%E6%AD%A5/" rel="tag">异步</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" rel="tag">待更新</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%8F%E9%AA%8C/" rel="tag">经验</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6/" rel="tag">读书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/css/" style="font-size: 12.14px;">css</a> <a href="/tags/electron/" style="font-size: 15.71px;">electron</a> <a href="/tags/git/" style="font-size: 12.86px;">git</a> <a href="/tags/grid/" style="font-size: 10.71px;">grid</a> <a href="/tags/java/" style="font-size: 19.29px;">java</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/jetbrains/" style="font-size: 12.14px;">jetbrains</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 10.71px;">markdown</a> <a href="/tags/react/" style="font-size: 14.29px;">react</a> <a href="/tags/sql/" style="font-size: 14.29px;">sql</a> <a href="/tags/typescript/" style="font-size: 12.14px;">typescript</a> <a href="/tags/vscode/" style="font-size: 12.86px;">vscode</a> <a href="/tags/vue/" style="font-size: 16.43px;">vue</a> <a href="/tags/webstorm/" style="font-size: 10px;">webstorm</a> <a href="/tags/windows/" style="font-size: 17.14px;">windows</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 12.86px;">个人</a> <a href="/tags/%E5%85%AC%E5%8F%B8/" style="font-size: 10px;">公司</a> <a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 10px;">周报</a> <a href="/tags/%E5%AE%A3%E5%91%8A/" style="font-size: 10px;">宣告</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.57px;">工具</a> <a href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" style="font-size: 17.86px;">工程化</a> <a href="/tags/%E5%BC%80%E6%BA%90/" style="font-size: 10px;">开源</a> <a href="/tags/%E5%BC%82%E6%AD%A5/" style="font-size: 15px;">异步</a> <a href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" style="font-size: 10.71px;">待更新</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 18.57px;">杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BB%8F%E9%AA%8C/" style="font-size: 11.43px;">经验</a> <a href="/tags/%E8%AF%BB%E4%B9%A6/" style="font-size: 12.14px;">读书</a> <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 11.43px;">转载</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/14/8fb2d58463ae4191ac064a76e15bffbd/">2021 第十周</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/12/7e7131c07c984d928ba3fefa7a9cef06/">读书-[颓废与沉默：透视犬儒文化]</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/02/db74e6e5d2444bc3b6e185a7b338bbf6/">electron 开发经验之谈系列-在渲染、主进程间共享数据</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/27/06cb464179cf45c598208534705aae3c/">2020 吾辈在公司推动的前端技术演进</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/23/cd66150d2b86448590fcc9bb2419c0b2/">实践 lerna monorepo</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

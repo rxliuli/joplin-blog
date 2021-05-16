@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-701ee4d58e954c848e20e898ed0d428b" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/12/30/701ee4d58e954c848e20e898ed0d428b/" class="article-date">
+  <time class="dt-published" datetime="2020-12-30T04:54:38.000Z" itemprop="datePublished">2020-12-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/12/30/701ee4d58e954c848e20e898ed0d428b/">JavaScript 中的 ES6 Proxy</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><blockquote>
+<p>就算只是扮演，也会成为真实的自我的一部分。对人类的精神来说，真实和虚假其实并没有明显的界限。入戏太深不是一件好事，但对于你来说并不成立，因为戏中的你才是真正符合你的身份的你。如今的你是真实的，就算一开始你只是在模仿着这种形象，现在的你也已经成为了这种形象。无论如何，你也不可能再回到过去了。</p>
+</blockquote>
+<p><code>Proxy</code> 代理，在 JavaScript 似乎很陌生，却又在生活中无处不在。或许有人在学习 ES6 的时候有所涉猎，但却并未真正了解它的使用场景，平时在写业务代码时也不会用到这个特性。</p>
+<p>相比于文绉绉的定义内容，想必我们更希望了解它的使用场景，使其在真正的生产环境发挥强大的作用，而不仅仅是作为一个新的特性 – <strong>然后，实际中完全没有用到！</strong></p>
+<ul>
+<li>为函数添加特定的功能</li>
+<li>代理对象的访问</li>
+<li>作为胶水桥接不同结构的对象</li>
+<li>监视对象的变化</li>
+<li>还有更多。。。</li>
+</ul>
+<p>如果你还没有了解过 <code>Proxy</code> 特性，可以先去 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Proxy">MDN Proxy</a> 上查看基本概念及使用。</p>
+<h2 id="为函数添加特定的功能"><a href="#为函数添加特定的功能" class="headerlink" title="为函数添加特定的功能"></a>为函数添加特定的功能</h2><p>下面是一个为异步函数自动添加超时功能的高阶函数，我们来看一下它有什么问题</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 为异步函数添加自动超时功能</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param </span>timeout 超时时间</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param </span>action 异步函数</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@returns </span>包装后的异步函数</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">asyncTimeout</span>(<span class="params">timeout, action</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">...args</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Promise</span>.race([</span><br><span class="line">      <span class="built_in">Reflect</span>.apply(action, <span class="built_in">this</span>, args),</span><br><span class="line">      wait(timeout).then(<span class="built_in">Promise</span>.reject),</span><br><span class="line">    ]);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>一般而言</strong>，上面的代码足以胜任，但问题就在这里，不一般的情况 – 函数上面包含<strong>自定义属性</strong>呢？<br>众所周知，JavaScript 中的函数是一等公民，即函数可以被传递，被返回，以及，被添加属性！</p>
+<p>例如下面这个简单的函数 <code>get</code>，其上有着 <code>_name</code> 这个属性</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> get = <span class="keyword">async</span> (i) =&gt; i;</span><br><span class="line">get._name = <span class="string">&quot;get&quot;</span>;</span><br></pre></td></tr></table></figure>
+<p>一旦使用上面的 <code>asyncTimeout</code> 函数包裹之后，问题便会出现，返回的函数中 <code>_name</code> 属性不见了。这是当然的，毕竟实际上返回的是一个匿名函数。那么，如何才能让返回的函数能够拥有传入函数参数上的所有自定义属性呢？<br>一种方式是复制参数函数上的所有属性，但这点实现起来其实并不容易，真的不容易，不信你可以看看 Lodash 的 clone 函数。那么，有没有一种更简单的方式呢？答案就是 <code>Proxy</code>，它可以代理对象的指定操作，除此之外，其他的一切都指向原对象。<br>下面是 <code>Proxy</code> 实现的 <code>asyncTimeout</code> 函数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 为异步函数添加自动超时功能</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param </span>timeout 超时时间</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param </span>action 异步函数</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@returns </span>包装后的异步函数</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">asyncTimeout</span>(<span class="params">timeout, action</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Proxy</span>(action, &#123;</span><br><span class="line">    <span class="function"><span class="title">apply</span>(<span class="params">_, _this, args</span>)</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">Promise</span>.race([</span><br><span class="line">        <span class="built_in">Reflect</span>.apply(_, _this, args),</span><br><span class="line">        wait(timeout).then(<span class="built_in">Promise</span>.reject),</span><br><span class="line">      ]);</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>测试一下，是可以正常调用与访问其上的属性的</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">await</span> get(<span class="number">1</span>));</span><br><span class="line">  <span class="built_in">console</span>.log(get._name);</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+<p>好了，这便是吾辈最常用的一种方式了 – <strong>封装高阶函数，为函数添加某些功能</strong>。</p>
+<h2 id="代理对象的访问"><a href="#代理对象的访问" class="headerlink" title="代理对象的访问"></a>代理对象的访问</h2><p>下面是一段代码，用以在页面上展示从后台获取的数据，如果字段没有值则默认展示 <code>&#39;&#39;</code></p>
+<p>模拟一个获取列表的异步请求</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">list</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 此处仅为构造列表</span></span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">&#123; id, name, age, sex, address &#125; = &#123;&#125;</span>)</span> &#123;</span><br><span class="line">      <span class="built_in">this</span>.id = id;</span><br><span class="line">      <span class="built_in">this</span>.name = name;</span><br><span class="line">      <span class="built_in">this</span>.age = age;</span><br><span class="line">      <span class="built_in">this</span>.sex = sex;</span><br><span class="line">      <span class="built_in">this</span>.address = address;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> [</span><br><span class="line">    <span class="keyword">new</span> Person(&#123; <span class="attr">id</span>: <span class="number">1</span>, <span class="attr">name</span>: <span class="string">&quot;琉璃&quot;</span> &#125;),</span><br><span class="line">    <span class="keyword">new</span> Person(&#123; <span class="attr">id</span>: <span class="number">2</span>, <span class="attr">age</span>: <span class="number">17</span> &#125;),</span><br><span class="line">    <span class="keyword">new</span> Person(&#123; <span class="attr">id</span>: <span class="number">3</span>, <span class="attr">sex</span>: <span class="literal">false</span> &#125;),</span><br><span class="line">    <span class="keyword">new</span> Person(&#123; <span class="attr">id</span>: <span class="number">4</span>, <span class="attr">address</span>: <span class="string">&quot;幻想乡&quot;</span> &#125;),</span><br><span class="line">  ];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>尝试直接通过解构为属性赋予默认值，并在默认值实现这个功能</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="comment">// 为所有为赋值属性都赋予默认值 &#x27;&#x27;</span></span><br><span class="line">  <span class="keyword">const</span> persons = (<span class="keyword">await</span> list()).map(</span><br><span class="line">    (&#123; id = <span class="string">&quot;&quot;</span>, name = <span class="string">&quot;&quot;</span>, age = <span class="string">&quot;&quot;</span>, sex = <span class="string">&quot;&quot;</span>, address = <span class="string">&quot;&quot;</span> &#125;) =&gt; (&#123;</span><br><span class="line">      id,</span><br><span class="line">      name,</span><br><span class="line">      age,</span><br><span class="line">      sex,</span><br><span class="line">      address,</span><br><span class="line">    &#125;)</span><br><span class="line">  );</span><br><span class="line">  <span class="built_in">console</span>.log(persons);</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+<p>下面让我们写得更通用一些</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">warp</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> result = obj;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> k <span class="keyword">of</span> <span class="built_in">Reflect</span>.ownKeys(obj)) &#123;</span><br><span class="line">    <span class="keyword">const</span> v = <span class="built_in">Reflect</span>.get(obj, k);</span><br><span class="line">    result[k] = v === <span class="literal">undefined</span> ? <span class="string">&quot;&quot;</span> : v;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> obj;</span><br><span class="line">&#125;</span><br><span class="line">(<span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="comment">// 为所有为赋值属性都赋予默认值 &#x27;&#x27;</span></span><br><span class="line">  <span class="keyword">const</span> persons = (<span class="keyword">await</span> list()).map(warp);</span><br><span class="line">  <span class="built_in">console</span>.log(persons);</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+<p>暂且先看一下这里的 <code>warp</code> 函数有什么问题？</p>
+<hr>
+<p>这里是答案的分割线</p>
+<hr>
+<ul>
+<li>所有属性需要预定义，不能运行时决定</li>
+<li>没有指向原对象，后续的修改会造成麻烦</li>
+</ul>
+<p>吾辈先解释一下这两个问题</p>
+<ol>
+<li>所有属性需要预定义，不能运行时决定<br> 如果调用了 <code>list[0].a</code> 会发生什么呢？是的，依旧会是 <code>undefined</code>，因为 <code>Reflect.ownKeys</code> 也不能找到没有定义的属性（<code>真*undefined</code>），因此导致访问未定义的属性仍然会是 <code>undefined</code> 而非期望的默认值。</li>
+<li>没有指向原对象，后续的修改会造成麻烦<br> 如果我们此时修改对象的一个属性，那么会影响到原本的属性么？不会，因为 <code>warp</code> 返回的对象已经是全新的了，和原对象没有什么联系。所以，当你修改时当然不会影响到原对象。<br> Pass: 我们当然可以直接修改原对象，但这很明显不太符合我们的期望：显示时展示默认值 <code>&#39;&#39;</code> – 这并不意味着我们愿意在其他操作时需要 <code>&#39;&#39;</code>，否则我们还要再转换一遍。（例如发送编辑后的数据到后台）</li>
+</ol>
+<p>这个时候 <code>Proxy</code> 也可以派上用场，使用 <code>Proxy</code> 实现 <code>warp</code> 函数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">warp</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> result = <span class="keyword">new</span> <span class="built_in">Proxy</span>(obj, &#123;</span><br><span class="line">    <span class="function"><span class="title">get</span>(<span class="params">_, k</span>)</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> v = <span class="built_in">Reflect</span>.get(_, k);</span><br><span class="line">      <span class="keyword">if</span> (v !== <span class="literal">undefined</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> v;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在，上面的那两个问题都解决了！</p>
+<blockquote>
+<p>注: 知名的 GitHub 库 <a target="_blank" rel="noopener" href="https://github.com/immerjs/immer">immer</a> 就使用了该特性实现了不可变状态树。</p>
+</blockquote>
+<h2 id="作为胶水桥接不同结构的对象"><a href="#作为胶水桥接不同结构的对象" class="headerlink" title="作为胶水桥接不同结构的对象"></a>作为胶水桥接不同结构的对象</h2><p>通过上面的例子我们可以知道，即便是未定义的属性，<code>Proxy</code> 也能进行代理。这意味着，我们可以通过 <code>Proxy</code> 抹平相似对象之间结构的差异，以相同的方式处理类似的对象。</p>
+<blockquote>
+<p>Pass: 不同公司的项目中的同一个实体的结构不一定完全相同，但基本上类似，只是字段名不同罢了。所以使用 <code>Proxy</code> 实现胶水桥接不同结构的对象方便我们在不同公司使用我们的工具库！<br>嘛，开个玩笑，其实在同一个公司中不同的实体也会有类似的结构，也会需要相同的操作，最常见的应该是树结构数据。例如下面的菜单实体和系统权限实体就很相似，也需要相同的操作 – <strong>树 &lt;=&gt; 列表 相互转换</strong>。</p>
+</blockquote>
+<p>思考一下如何在同一个函数中处理这两种树节点结构</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 系统菜单</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SysMenu</span> </span>&#123;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 构造函数</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param <span class="type">&#123;Number&#125;</span> </span>id 菜单 id</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param <span class="type">&#123;String&#125;</span> </span>name 显示的名称</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param <span class="type">&#123;Number&#125;</span> </span>parent 父级菜单 id</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="function"><span class="title">constructor</span>(<span class="params">id, name, parent</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.id = id;</span><br><span class="line">    <span class="built_in">this</span>.name = name;</span><br><span class="line">    <span class="built_in">this</span>.parent = parent;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 系统权限</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SysPermission</span> </span>&#123;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 构造函数</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param <span class="type">&#123;String&#125;</span> </span>uid 系统唯一 uuid</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param <span class="type">&#123;String&#125;</span> </span>label 显示的菜单名</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param <span class="type">&#123;String&#125;</span> </span>parentId 父级权限 uid</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="function"><span class="title">constructor</span>(<span class="params">uid, label, parentId</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.uid = uid;</span><br><span class="line">    <span class="built_in">this</span>.label = label;</span><br><span class="line">    <span class="built_in">this</span>.parentId = parentId;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>下面让我们使用 <code>Proxy</code> 来抹平访问它们之间的差异</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> sysMenuProxy = &#123; <span class="attr">parentId</span>: <span class="string">&quot;parent&quot;</span> &#125;;</span><br><span class="line"><span class="keyword">const</span> sysMenu = <span class="keyword">new</span> <span class="built_in">Proxy</span>(<span class="keyword">new</span> SysMenu(<span class="number">1</span>, <span class="string">&quot;rx&quot;</span>, <span class="number">0</span>), &#123;</span><br><span class="line">  <span class="function"><span class="title">get</span>(<span class="params">_, k</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">Reflect</span>.has(sysMenuProxy, k)) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">Reflect</span>.get(_, <span class="built_in">Reflect</span>.get(sysMenuProxy, k));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Reflect</span>.get(_, k);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">console</span>.log(sysMenu.id, sysMenu.name, sysMenu.parentId); <span class="comment">// 1 &#x27;rx&#x27; 0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> sysPermissionProxy = &#123; <span class="attr">id</span>: <span class="string">&quot;uid&quot;</span>, <span class="attr">name</span>: <span class="string">&quot;label&quot;</span> &#125;;</span><br><span class="line"><span class="keyword">const</span> sysPermission = <span class="keyword">new</span> <span class="built_in">Proxy</span>(<span class="keyword">new</span> SysPermission(<span class="number">1</span>, <span class="string">&quot;rx&quot;</span>, <span class="number">0</span>), &#123;</span><br><span class="line">  <span class="function"><span class="title">get</span>(<span class="params">_, k</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">Reflect</span>.has(sysPermissionProxy, k)) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">Reflect</span>.get(_, <span class="built_in">Reflect</span>.get(sysPermissionProxy, k));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Reflect</span>.get(_, k);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">console</span>.log(sysPermission.id, sysPermission.name, sysPermission.parentId); <span class="comment">// 1 &#x27;rx&#x27; 0</span></span><br></pre></td></tr></table></figure>
+<p>看起来似乎有点繁琐，让我们封装一下</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 桥接对象不存在的字段</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;Object&#125;</span> </span>map 代理的字段映射 Map</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@returns <span class="type">&#123;Function&#125;</span> </span>转换一个对象为代理对象</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bridge</span>(<span class="params">map</span>) </span>&#123;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 为对象添加代理的函数</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param <span class="type">&#123;Object&#125;</span> </span>obj 任何对象</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@returns <span class="type">&#123;Proxy&#125;</span> </span>代理后的对象</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">obj</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Proxy</span>(obj, &#123;</span><br><span class="line">      <span class="function"><span class="title">get</span>(<span class="params">target, k</span>)</span> &#123;</span><br><span class="line">        <span class="comment">// 如果遇到被代理的属性则返回真实的属性</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">Reflect</span>.has(map, k)) &#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="built_in">Reflect</span>.get(target, <span class="built_in">Reflect</span>.get(map, k));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">Reflect</span>.get(target, k);</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="function"><span class="title">set</span>(<span class="params">target, k, v</span>)</span> &#123;</span><br><span class="line">        <span class="comment">// 如果遇到被代理的属性则设置真实的属性</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">Reflect</span>.has(map, k)) &#123;</span><br><span class="line">          <span class="built_in">Reflect</span>.set(target, <span class="built_in">Reflect</span>.get(map, k), v);</span><br><span class="line">          <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">Reflect</span>.set(target, k, v);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在，我们可以用更简单的方式来做代理了。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> sysMenu = bridge(&#123;</span><br><span class="line">  parentId: <span class="string">&quot;parent&quot;</span>,</span><br><span class="line">&#125;)(<span class="keyword">new</span> SysMenu(<span class="number">1</span>, <span class="string">&quot;rx&quot;</span>, <span class="number">0</span>));</span><br><span class="line"><span class="built_in">console</span>.log(sysMenu.id, sysMenu.name, sysMenu.parentId); <span class="comment">// 1 &#x27;rx&#x27; 0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> sysPermission = bridge(&#123;</span><br><span class="line">  id: <span class="string">&quot;uid&quot;</span>,</span><br><span class="line">  name: <span class="string">&quot;label&quot;</span>,</span><br><span class="line">&#125;)(<span class="keyword">new</span> SysPermission(<span class="number">1</span>, <span class="string">&quot;rx&quot;</span>, <span class="number">0</span>));</span><br><span class="line"><span class="built_in">console</span>.log(sysPermission.id, sysPermission.name, sysPermission.parentId); <span class="comment">// 1 &#x27;rx&#x27; 0</span></span><br></pre></td></tr></table></figure>
+<p>如果想看 JavaScirpt 如何处理树结构数据话，可以参考吾辈的 <a target="_blank" rel="noopener" href="https://blog.rxliuli.com/p/bb943156/">JavaScript 处理树数据结构</a></p>
+<h2 id="监视对象的变化"><a href="#监视对象的变化" class="headerlink" title="监视对象的变化"></a>监视对象的变化</h2><p>接下来，我们想想，平时是否有需要监视对象的变化，然后进行某些处理呢？</p>
+<p>例如监视用户复选框选中项列表的变化并更新对应的需要发送到后台的 <code>id</code> 拼接字符串。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 模拟页面的复选框列表</span></span><br><span class="line"><span class="keyword">const</span> hobbyMap = <span class="keyword">new</span> <span class="built_in">Map</span>()</span><br><span class="line">  .set(<span class="number">1</span>, <span class="string">&quot;小说&quot;</span>)</span><br><span class="line">  .set(<span class="number">2</span>, <span class="string">&quot;动画&quot;</span>)</span><br><span class="line">  .set(<span class="number">3</span>, <span class="string">&quot;电影&quot;</span>)</span><br><span class="line">  .set(<span class="number">4</span>, <span class="string">&quot;游戏&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> user = &#123;</span><br><span class="line">  id: <span class="number">1</span>,</span><br><span class="line">  <span class="comment">// 保存兴趣 id 的列表</span></span><br><span class="line">  hobbySet: <span class="keyword">new</span> <span class="built_in">Set</span>(),</span><br><span class="line">  <span class="comment">// 发送到后台的兴趣 id 拼接后的字符串，以都好进行分割</span></span><br><span class="line">  hobby: <span class="string">&quot;&quot;</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">onClick</span>(<span class="params">id</span>) </span>&#123;</span><br><span class="line">  user.hobbySet.has(id) ? user.hobbySet.delete(id) : user.hobbySet.add(id);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 模拟两次点击</span></span><br><span class="line">onClick(<span class="number">1</span>);</span><br><span class="line">onClick(<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(user.hobby); <span class="comment">// &#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>下面使用 <code>Proxy</code> 来完成 <code>hobbySet</code> 属性改变后 <code>hobby</code> 自动更新的操作</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 深度监听指定对象属性的变化</span></span><br><span class="line"><span class="comment"> * 注：指定对象不能是原始类型，即不可变类型，而且对象本身的引用不能改变，最好使用 const 进行声明</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param </span>object 需要监视的对象</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param </span>callback 当代理对象发生改变时的回调函数，回调函数有三个参数，分别是对象，修改的 key，修改的 v</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@returns </span>返回源对象的一个代理</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">watchObject</span>(<span class="params">object, callback</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> handler = &#123;</span><br><span class="line">    <span class="function"><span class="title">get</span>(<span class="params">_, k</span>)</span> &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 注意: 这里很关键，它为对象的字段也添加了代理</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Proxy</span>(v, <span class="built_in">Reflect</span>.get(_, k));</span><br><span class="line">      &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">Reflect</span>.get(_, k);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="function"><span class="title">set</span>(<span class="params">_, k, v</span>)</span> &#123;</span><br><span class="line">      callback(_, k, v);</span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">Reflect</span>.set(_, k, v);</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Proxy</span>(object, handler);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 模拟页面的复选框列表</span></span><br><span class="line"><span class="keyword">const</span> hobbyMap = <span class="keyword">new</span> <span class="built_in">Map</span>()</span><br><span class="line">  .set(<span class="number">1</span>, <span class="string">&quot;小说&quot;</span>)</span><br><span class="line">  .set(<span class="number">2</span>, <span class="string">&quot;动画&quot;</span>)</span><br><span class="line">  .set(<span class="number">3</span>, <span class="string">&quot;电影&quot;</span>)</span><br><span class="line">  .set(<span class="number">4</span>, <span class="string">&quot;游戏&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> user = &#123;</span><br><span class="line">  id: <span class="number">1</span>,</span><br><span class="line">  <span class="comment">// 保存兴趣 id 的列表</span></span><br><span class="line">  hobbySet: <span class="keyword">new</span> <span class="built_in">Set</span>(),</span><br><span class="line">  <span class="comment">// 发送到后台的兴趣 id 拼接后的字符串，以都好进行分割</span></span><br><span class="line">  hobby: <span class="string">&quot;&quot;</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> proxy = watchObject(user, <span class="function">(<span class="params">_, k, v</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (k === <span class="string">&quot;hobbySet&quot;</span>) &#123;</span><br><span class="line">    _.hobby = [..._.hobbySet].join(<span class="string">&quot;,&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">onClick</span>(<span class="params">id</span>) </span>&#123;</span><br><span class="line">  proxy.hobbySet = proxy.hobbySet.has(id)</span><br><span class="line">    ? proxy.hobbySet.delete(id)</span><br><span class="line">    : proxy.hobbySet.add(id);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 模拟两次点击</span></span><br><span class="line">onClick(<span class="number">1</span>);</span><br><span class="line">onClick(<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 现在，user.hobby 的值将会自动更新</span></span><br><span class="line"><span class="built_in">console</span>.log(user.hobby); <span class="comment">// 1,2</span></span><br></pre></td></tr></table></figure>
+<p>当然，这里实现的 <code>watchObject</code> 函数还非常非常非常简陋，如果有需要可以进行更深度/强大的监听，可以尝试自行实现一下啦！</p>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><p>说完了这些 <code>Proxy</code> 的使用场景，下面稍微来说一下它的缺点</p>
+<ul>
+<li><p>运行环境必须要 ES6 支持<br>这是一个不大不小的问题，现代的浏览器基本上都支持 ES6，但如果泥萌公司技术栈非常老旧的话（例如支持 IE6），还是安心吃土吧 #笑 #这种公司不离职等着老死</p>
+</li>
+<li><p>不能直接代理一些需要 this 的对象<br>这个问题就比较麻烦了，任何需要 this 的对象，代理之后的行为可能会发生变化。例如 <code>Set</code> 对象</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> proxy = <span class="keyword">new</span> <span class="built_in">Proxy</span>(<span class="keyword">new</span> <span class="built_in">Set</span>([]), &#123;&#125;);</span><br><span class="line">proxy.add(<span class="number">1</span>); <span class="comment">// Method Set.prototype.add called on incompatible receiver [object Object]</span></span><br></pre></td></tr></table></figure>
+<p>是不是很奇怪，解决方案是把所有的 <code>get</code> 操作属性值为 <code>function</code> 的函数都手动绑定 <code>this</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> proxy = <span class="keyword">new</span> <span class="built_in">Proxy</span>(<span class="keyword">new</span> <span class="built_in">Set</span>([]), &#123;</span><br><span class="line">  <span class="function"><span class="title">get</span>(<span class="params">_, k</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> v = <span class="built_in">Reflect</span>.get(_, k);</span><br><span class="line">    <span class="comment">// 遇到 Function 都手动绑定一下 this</span></span><br><span class="line">    <span class="keyword">if</span> (v <span class="keyword">instanceof</span> <span class="built_in">Function</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> v.bind(_);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> v;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br><span class="line">proxy.add(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2></li>
+</ul>
+<p><code>Proxy</code> 是个很强大的特性，能够让我们实现一些曾经难以实现的功能（所以这就是你不支持 ES5 的理由？#打），就连 Vue3+ 都开始使用 <code>Proxy</code> 实现了，你还有什么理由在乎上古时期的 IE 而不用呢？（ｖ＾＿＾）ｖ</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/12/30/701ee4d58e954c848e20e898ed0d428b/" data-id="ckmcqox3n004n0kuv2avpgfnt" data-title="JavaScript 中的 ES6 Proxy" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-859bf7609f884a4a891123feac4db809" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/12/30/859bf7609f884a4a891123feac4db809/" class="article-date">
+  <time class="dt-published" datetime="2020-12-30T04:48:15.000Z" itemprop="datePublished">2020-12-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/12/30/859bf7609f884a4a891123feac4db809/">树莓派入坑体会</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近想在家里搭个本地服务器玩，于是便买了个树莓派 4。现在，吾辈已经让它在纸盒里默默吃灰了。</p>
+<ul>
+<li>为什么吾辈搭建服务器？</li>
+<li>为什么吾辈要选择树莓派？</li>
+<li>以及为何最终它还是吃灰了？</li>
+</ul>
+<p>上面这些问题吾辈会在下面一一解答。</p>
+<h2 id="为什么吾辈搭建服务器"><a href="#为什么吾辈搭建服务器" class="headerlink" title="为什么吾辈搭建服务器"></a>为什么吾辈搭建服务器</h2><p>搭建本地服务器的原因当然是想让一些服务持续 24 小时运行了，而吾辈最初的需求便是 <strong>PT/BT 做种</strong>。BT 或许很多人听说过，PT 又是什么呢？</p>
+<p><img src="https://img.rxliuli.com/20190903081607.png" alt="PT 下载"></p>
+<p>PT，全程 Private Tracker，是一种私有的 BT 服务。整个 BT 网络将不再是完全公开并且可供任何人下载的了，每个用户都会被计算上传量/下载量，如果这个比率过低就会被 ban。这种下载方式本意是为了解决 BT 中很多用户喜欢只下载而不进行上传的行为，强制所有人必须<strong>殚精竭虑</strong>地计算分享率，注意自己的下载量，考虑下载热门资源而赚取积分（事实证明这条路注定也不会走的太顺利，分享是一个长期收益的行为，最终下载的人短期内实际上并不多，而计算分享率却是实时的）。<br>吾辈需要的便是 24h 不间断的挂着 PT/BT 服务，以在闲暇时刻消耗家里的网络带宽，顺便做一波公益行为。</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh/PT%E4%B8%8B%E8%BC%89">PT 下载 Wiki</a></p>
+</blockquote>
+<h2 id="为什么吾辈要选择树莓派"><a href="#为什么吾辈要选择树莓派" class="headerlink" title="为什么吾辈要选择树莓派"></a>为什么吾辈要选择树莓派</h2><p>一言以蔽之：树莓派宣传的很厉害。</p>
+<p><img src="https://img.rxliuli.com/20190903143806.png" alt="树莓派官方图"></p>
+<p>让我们看看网络上对树莓派的相关内容</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.iplaysoft.com/raspberrypi.html">异次元软件: 树莓派 4 代 - 全球最流行的 Linux 小型迷你电脑，性能大幅飙升！(支持 4K / USB3.0)</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/20859055">知乎: 「树莓派」是什么以及普通人怎么玩？</a></li>
+</ul>
+<p>树莓派<a target="_blank" rel="noopener" href="https://www.raspberrypi.org/">官网</a>也自称是小型、双显示器的台式电脑，而且提供了一个树莓派专用的 Linux Debian 的定制发行版。</p>
+<p>下面放一张吾辈买的树莓派 4 的照片，体积之小可见一斑。<br><img src="https://img.rxliuli.com/20190903081924.png" alt="树莓派"></p>
+<p>讲真第一次看到这么小的时候吾辈真的被惊艳到了，从来没想过一个电脑能这么小，而且居然还能安装可视化的操作系统。</p>
+<h2 id="以及为何最终它还是吃灰了"><a href="#以及为何最终它还是吃灰了" class="headerlink" title="以及为何最终它还是吃灰了"></a>以及为何最终它还是吃灰了</h2><p>之后吾辈便开始安装了官方的操作系统，首先，官方提供了两个选项</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.raspberrypi.org/downloads/noobs/">NOOBS</a>: 全新开箱即用的软件 - 适合初学者的操作系统安装引导程序。</li>
+<li><a target="_blank" rel="noopener" href="https://www.raspberrypi.org/downloads/raspbian/">Raspbian</a>: 官方支持的树莓派操作系统 - 基于 Debian Buster。</li>
+</ul>
+<p>然而事实上，两者皆有不足之处。首先，前者需要屏幕、键盘和鼠标进行安装，对于吾辈这种只是想把它作为本地服务器的用户而言，这是不可接受的。而使用官方的烧录工具将 Raspbian 刻录到 SD 卡之后，启动命令行倒是没有什么问题，但在启动桌面时却遇到的 bug – <a target="_blank" rel="noopener" href="https://segmentfault.com/q/1010000020144913">树莓派 4 VNC 远程连接桌面错误</a>。当时似乎互联网上并没有多少人遇到这个问题，而吾辈恰好遇到了，所以费了一番功夫之后才成功开启了桌面。<br>进入桌面之后，又是换源又是更新，之后才在命令行安装了 qBittorrent（是的，即使已经有了桌面仍然需要从命令行安装程序）。嘛，不谈遇到了多少麻烦，qBittorrent 终于启动了 BT 服务，吾辈把 RSS 挂上了之后使其自动更新和下载最新种子，也便是大功告成了。</p>
+<p><img src="https://img.rxliuli.com/20190903150304.png" alt="qBittorrent"></p>
+<p>然后发现种子的 RSS 服务器有时会更新失败，吾辈猜想是没有代理的问题，于是便去网络上找到了一个 Linux 下的 SSR 可视化客户端 – <a target="_blank" rel="noopener" href="https://github.com/shadowsocksrr/electron-ssr">electron-ssr</a>，然而下载完之后安装直接提示安装错误。</p>
+<blockquote>
+<p>注: electron-ssr 项目作者已经被请喝茶了，真真是风声鹤唳。</p>
+</blockquote>
+<p>然后向他人询问的时候甚至说出了 <strong>“咱也回答你了 ，需要找 arm 的 debian 包”</strong>，我的天，难道 Linux 下安装程序这么麻烦的么？不仅发行版要区分，现在连 CPU 架构也要区分了？用户体验老实说糟糕透顶，吾辈最终直接使用了本地的 SSR 局域网代理，笔记本开着的时候有代理，关了就没了，也便只能是暂且用着。</p>
+<p>后来吾辈在几次偶尔使用 VNC 连接时发现 qBittorrent 关了，吾辈以为是 Linux 会默认杀掉不活跃的程序，没有在意，就手动重启了。直到昨天，吾辈在启动 qBittorrent 后直接闪退了。。。在观察了任务管理器之后，吾辈发现是启动时 CPU 的使用率暴增，然后就 GG 了。</p>
+<p><img src="https://img.rxliuli.com/20190903150520.gif" alt="GIF 动图"></p>
+<p>好了，还是放它在角落里吃灰吧。既然吾辈这个唯一的需求都无法实现，那留它何用，拉出去斩了吧！这或许是 qBittorrent 的问题，或许是 Raspbian 的问题，但吾辈已然不想关心，深究之下终究就得不偿失。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>目前就吾辈使用的体验而言，树莓派不可能真正的普及开来，只能作为一个极客的玩具罢了 – 没错，就是玩具，而非工具。<br>这时候一定会有人反对吾辈说 <strong>“永远不要（把自己遇到的问题）归因于（他人的）恶意，这恰恰说明了（你自己的）无能”</strong>，这点 Linux 桌面的社区也有很多开发者喜欢这样说，然而现在的结果是 Linux 无法在桌面领域立足，究其原因还是对用户不友好，难道开发者就不算是用户了？记得有人说过 <strong>“我是开发者，但同时也是用户。你的产品因为各种原因让我不爽，我就不会选你，我才不会管究竟是谁的锅”</strong>，用户中心论在这里可以说是体现的淋漓尽致。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/12/30/859bf7609f884a4a891123feac4db809/" data-id="ckmcqox40005t0kuv2nosc2ne" data-title="树莓派入坑体会" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-1912191534384d65bc1976a9c143b725" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/12/30/1912191534384d65bc1976a9c143b725/" class="article-date">
+  <time class="dt-published" datetime="2020-12-30T04:37:32.000Z" itemprop="datePublished">2020-12-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/12/30/1912191534384d65bc1976a9c143b725/">在现代前端项目中使用 Worker</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>由于需要在 Browser 进行大量的（音频转解码）计算，所以吾辈开始尝试使用 webworker 分离 CPU 密集型的计算操作，最终找到了 comlink 这个库，但之前在 vue 中使用时发生了错误，目前看起来已经得到了解决，所以在此记录一下。</p>
+<h2 id="调研方案"><a href="#调研方案" class="headerlink" title="调研方案"></a>调研方案</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/satya164/web-worker-proxy">web-worker-proxy</a>：结合了 proxy/promise/webworker 的强大工具库，但如何在 ts 中使用却是个问题</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/miozzz/sandbox/tree/master/orc">Orc.js</a>：一个简单的 worker 封装</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/israelss/vue-worker">VueWorker</a>：结合 vue 的 worker 封装，无法理解，难道真的会有人在 vue 组件中进行大量计算么？</li>
+<li>comlink：Chrome 的一个基于 proxy/promise/webworker 的封装库</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/GoogleChromeLabs/worker-plugin">worker-plugin</a>：和上面的同属 chrome 实验室的一个 webpack 插件</li>
+</ul>
+<p>最后决定使用 comlink 结合 worker-plugin 实现简单的 worker 使用。</p>
+<h2 id="安装与配置"><a href="#安装与配置" class="headerlink" title="安装与配置"></a>安装与配置</h2><blockquote>
+<p>在 GitHub 上有 <a target="_blank" rel="noopener" href="https://github.com/rxliuli/example/tree/master/react_worker_example">可运行示例 demo</a><br>相关问题：<a target="_blank" rel="noopener" href="https://segmentfault.com/q/1010000022359546">comlink-loader 工作不正常</a></p>
+</blockquote>
+<h3 id="添加相关依赖"><a href="#添加相关依赖" class="headerlink" title="添加相关依赖"></a>添加相关依赖</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yarn add comlink</span><br><span class="line">yarn add -D worker-plugin</span><br></pre></td></tr></table></figure>
+<h3 id="在-webpack-配置中添加插件"><a href="#在-webpack-配置中添加插件" class="headerlink" title="在 webpack 配置中添加插件"></a>在 webpack 配置中添加插件</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  plugins: [<span class="keyword">new</span> WorkerPlugin()];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里一般不需要特殊参数配置，如果需要，可以参考：<a target="_blank" rel="noopener" href="https://github.com/GoogleChromeLabs/worker-plugin">worker-plugin</a></p>
+</blockquote>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><h3 id="基本示例"><a href="#基本示例" class="headerlink" title="基本示例"></a>基本示例</h3><p>添加一个简单的 <em>hello.worker.ts</em></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; expose &#125; <span class="keyword">from</span> <span class="string">&quot;comlink&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">  counter: <span class="number">0</span>,</span><br><span class="line">  <span class="function"><span class="title">inc</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.counter++;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">expose(obj);</span><br></pre></td></tr></table></figure>
+<p>在 <code>main.ts</code> 中使用</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> obj = wrap(<span class="keyword">new</span> Worker(<span class="string">&quot;./hello.worker.ts&quot;</span>, &#123; <span class="attr">type</span>: <span class="string">&quot;module&quot;</span> &#125;)) <span class="keyword">as</span> <span class="built_in">any</span>;</span><br><span class="line">alert(<span class="string">`Counter: <span class="subst">$&#123;<span class="keyword">await</span> obj.counter&#125;</span>`</span>);</span><br><span class="line"><span class="keyword">await</span> obj.inc();</span><br><span class="line">alert(<span class="string">`Counter: <span class="subst">$&#123;<span class="keyword">await</span> obj.counter&#125;</span>`</span>);</span><br></pre></td></tr></table></figure>
+<p>但这里并不是类型安全的，所以我们可以实现正确的类型。</p>
+<p>添加一个 <em>hello.worker.ts</em> 暴露出来的类型 <code>HelloWorkerType</code></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">interface</span> HelloWorkerType &#123;</span><br><span class="line">  counter: <span class="built_in">number</span>;</span><br><span class="line">  inc(): <span class="built_in">void</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同时为了支持在 <em>main.ts</em> 中使用正确的类型，需要使用泛型</p>
+<p><em>main.ts</em> 修改如下</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> obj = wrap&lt;HelloWorkerType&gt;(</span><br><span class="line">  <span class="keyword">new</span> Worker(<span class="string">&quot;./hello.worker.ts&quot;</span>, &#123; <span class="attr">type</span>: <span class="string">&quot;module&quot;</span> &#125;)</span><br><span class="line">);</span><br><span class="line">alert(<span class="string">`Counter: <span class="subst">$&#123;<span class="keyword">await</span> obj.counter&#125;</span>`</span>);</span><br><span class="line"><span class="keyword">await</span> obj.inc();</span><br><span class="line">alert(<span class="string">`Counter: <span class="subst">$&#123;<span class="keyword">await</span> obj.counter&#125;</span>`</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="纯函数"><a href="#纯函数" class="headerlink" title="纯函数"></a>纯函数</h3><p>声明函数的类型 <em>HelloCallback.worker.type.d.ts</em></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> ListItem&lt;T <span class="keyword">extends</span> <span class="built_in">any</span>[]&gt; = T <span class="keyword">extends</span> (infer U)[] ? U : <span class="built_in">never</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">type</span> MapWorkerType = <span class="xml"><span class="tag">&lt;<span class="name">List</span> <span class="attr">extends</span> <span class="attr">any</span>[], <span class="attr">U</span>&gt;</span>(</span></span><br><span class="line"><span class="xml">  arr: List,</span></span><br><span class="line">  cb: (val: ListItem&lt;List&gt;) =&gt; U | Promise&lt;U&gt;</span><br><span class="line">) =&gt; Promise&lt;U[]&gt;;</span><br></pre></td></tr></table></figure>
+<p>声明一个纯函数 <em>HelloCallback.worker.ts</em></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; MapWorkerType &#125; <span class="keyword">from</span> <span class="string">&quot;./HelloCallback.worker.type&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; expose &#125; <span class="keyword">from</span> <span class="string">&quot;comlink&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> map: MapWorkerType = <span class="function">(<span class="params">arr, cb</span>) =&gt;</span> <span class="built_in">Promise</span>.all(arr.map(cb));</span><br><span class="line"></span><br><span class="line">expose(map);</span><br></pre></td></tr></table></figure>
+<p>注：此处最好使用变量的形式，主要是为了方便将函数类型剥离出去。</p>
+<p>在 <em>main.ts</em> 中使用</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> map = wrap&lt;MapWorkerType&gt;(</span><br><span class="line">  <span class="keyword">new</span> Worker(<span class="string">&quot;./HelloCallback.worker.ts&quot;</span>, &#123;</span><br><span class="line">    <span class="keyword">type</span>: <span class="string">&quot;module&quot;</span>,</span><br><span class="line">  &#125;)</span><br><span class="line">);</span><br><span class="line"><span class="keyword">const</span> list = <span class="keyword">await</span> map(</span><br><span class="line">  [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">  proxy(<span class="function">(<span class="params">i</span>) =&gt;</span> i * <span class="number">2</span>)</span><br><span class="line">);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&quot;list: &quot;</span>, list);</span><br></pre></td></tr></table></figure>
+<h3 id="使用-class-的形式"><a href="#使用-class-的形式" class="headerlink" title="使用 class 的形式"></a>使用 class 的形式</h3><p>声明接口 <em>HelloClass.worker.type.d.ts</em></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloClassWorker</span> </span>&#123;</span><br><span class="line">  sum(...args: <span class="built_in">number</span>[]): <span class="built_in">number</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>worker 文件 <em>HelloClass.worker.ts</em></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; HelloClassWorker &#125; <span class="keyword">from</span> <span class="string">&quot;./HelloClass.worker.type&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; expose &#125; <span class="keyword">from</span> <span class="string">&quot;comlink&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HelloClassWorkerImpl</span> <span class="title">implements</span> <span class="title">HelloClassWorker</span> </span>&#123;</span><br><span class="line">  sum(...args: <span class="built_in">number</span>[]): <span class="built_in">number</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> args.reduce(<span class="function">(<span class="params">res, i</span>) =&gt;</span> res + i, <span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">expose(HelloClassWorkerImpl);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>关于此处 <code>implements class</code> 的问题，吾辈偶然一试之下没报错也很奇怪，所以找到了相关问题 <a target="_blank" rel="noopener" href="https://stackoverflow.com/a/26961710">Typescript: How to extend two classes?</a>，官方文档也同样说明了这个特性 <a target="_blank" rel="noopener" href="https://www.typescriptlang.org/docs/handbook/mixins.html">Mixins</a>。</p>
+</blockquote>
+<p>在 <em>main.ts</em> 中使用</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> HelloClassWorkerClazz = wrap&lt;<span class="keyword">typeof</span> HelloClassWorker&gt;(</span><br><span class="line">  <span class="keyword">new</span> Worker(<span class="string">&quot;./HelloClass.worker.ts&quot;</span>, &#123;</span><br><span class="line">    <span class="keyword">type</span>: <span class="string">&quot;module&quot;</span>,</span><br><span class="line">  &#125;)</span><br><span class="line">);</span><br><span class="line"><span class="keyword">const</span> instance = <span class="keyword">await</span> <span class="keyword">new</span> HelloClassWorkerClazz();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">await</span> instance.sum(<span class="number">1</span>, <span class="number">2</span>));</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>总的来说，使用 worker 的基本分三步</p>
+<ol>
+<li> 编写需要放在 worker 里内容的类型定义</li>
+<li> 根据类型定义实现它</li>
+<li> 在主进程的代码中使用它</li>
+</ol>
+<blockquote>
+<p>注：当然，如果是复杂的东西，可以直接在单独的文件中实现，然后声明一个 <em>.worker.ts</em> 暴露出去，不在 <em>.worker.ts</em> 中包含任何</p>
+</blockquote>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://blog.logrocket.com/integrating-web-workers-in-a-react-app-with-comlink/">Integrating web workers in a React app with Comlink</a></li>
+<li><a target="_blank" rel="noopener" href="https://lorefnon.tech/2019/03/24/using-comlink-with-typescript-and-worker-loader/">Using comlink with typescript and worker-loader</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/lacolaco-blog/an-issue-around-angular-cli-comlink-workerplugin-585be1c8d087">An issue around Angular CLI + Comlink + WorkerPlugin</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/12/30/1912191534384d65bc1976a9c143b725/" data-id="ckmcqox2f001a0kuvgqze41mz" data-title="在现代前端项目中使用 Worker" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-b1b219edef7648938999d7944ff6157d" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/12/30/b1b219edef7648938999d7944ff6157d/" class="article-date">
+  <time class="dt-published" datetime="2020-12-30T04:36:38.000Z" itemprop="datePublished">2020-12-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/12/30/b1b219edef7648938999d7944ff6157d/">偶遇 HTML 中的奇妙字符</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>虽然名字听起来就像是<strong>一本正经的胡说八道</strong>，但吾辈确实遇到了一个奇怪的问题，于此分享给大家。</p>
+<p>事情的起始如下</p>
+<p><em>下班回家 =&gt; 想要看动画 =&gt; 去动漫花园下载 BT 种子 =&gt; 动漫花园一片空白 =&gt; Why？</em></p>
+<p><img src="https://raw.githubusercontent.com/rxliuli/img-bed/master/20200429010151.png" alt="默认 uBlock 屏蔽页面"></p>
+<p>于是吾辈<strong>偷偷的</strong>的打开了控制台看了一下，发现是页面中的内容元素不见了。经过深思熟虑（好吧其实也就是稍微想了一下）首先把 uBlock 禁用，毕竟这个最容易被网站检测出来并且<strong>对抗</strong>嘛！果不其然，页面恢复了正常，但。。。同时广告也出现在了页面上。</p>
+<p><img src="https://img.rxliuli.com/20200429010420.png" alt="默认 uBlock 不屏蔽页面"></p>
+<p>这可不行，重新启用了 uBlock 看了一下分析，很显然，内容不存在大概率是被 uBlock 的<strong>元素过滤</strong>功能隐藏掉了，查看被隐藏的内容元素，发现 id 为 <code>1280_adv</code>，但同时又包含了广告与主体内容，所以只要关掉 uBlock 的<strong>元素过滤</strong>就可以避免正常内容被误杀了。</p>
+<blockquote>
+<p>之所以不在该网站整个禁用掉 uBlock 的原因在于 uBlock 并不只有<strong>元素过滤</strong>，它还阻止了一些广告资源的加载，仅在动漫花园就包括但不限于 _baidu.com, bebi.com, histats.com_。显而易见，禁用它们还能提高加载速度。</p>
+</blockquote>
+<p><img src="https://img.rxliuli.com/20200429010547.png" alt="uBlock 屏蔽的脚本"></p>
+<p>既然无法使用 uBlock 的元素屏蔽了，那么吾辈便需要使用一个新的方式去阻止广告了，幸运的是吾辈安装了 Stylus 和 Tampermonkey 插件。</p>
+<blockquote>
+<p>Stylus 能够使用被称为 <code>user.css</code> 的技术，能够在本地修改任意网站的样式 – 即自定义 UI 显示。<br>而 Tampermonkey 则更强大，支持 <code>user.js</code> – 可以在本地打开任意网站时载入自定义的 JavaScript 脚本，不再局限于修改 UI，几乎与插件无异（事实上它也确实被认为是更轻量的插件）。</p>
+</blockquote>
+<p>原以为就几句 css 的事情，找到了广告的 id，于是吾辈写下了下面这些 css</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*屏蔽动漫花园的广告*/</span></span><br><span class="line"><span class="selector-class">.ad</span>,</span><br><span class="line"><span class="selector-id">#1280_adv</span>,</span><br><span class="line"><span class="selector-id">#1280_ad</span> &gt; <span class="selector-tag">a</span>,</span><br><span class="line"><span class="selector-id">#bebiv3_ad</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: none;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但结果却是。。。只生效了一半！</p>
+<p><img src="https://img.rxliuli.com/20200429010717.png" alt="屏蔽一半"></p>
+<p>可以看到，上面两个广告确实被隐藏了，但下面一个却并没有，而且吾辈在控制台直接使用 <code>document.querySelector(&#39;#1280_adv&#39;)</code> 也获取 dom 会抛出错误 <code>SyntaxError: Document.querySelector: &#39;#1280_adv&#39; is not a valid selector</code>。吾辈是直接复制的 id，<strong>理论上</strong>来说不会有错才是。</p>
+<p>仔细想想，吾辈或许是漏掉了什么。。。于是，吾辈使用 <strong>Copy =&gt; Copy Selector</strong> 功能，有趣的东西出现了，复制出来的内容竟然是 <code>&#39;\31 280_adv&#39;</code>，wtf？</p>
+<p>嗯，或许吾辈需要冷静一下，尝试使用 <code>document.querySelector(&quot;#\\31 280_adv&quot;)</code> 获取一下</p>
+<blockquote>
+<p>注意：这里 JS 里面去查询 DOM Selector 的字符串又进行了转义。</p>
+</blockquote>
+<p><img src="https://img.rxliuli.com/20200429010811.png" alt="Console 获取"></p>
+<p>OK，确实能够正常拿到。由于这些奇怪的字符在 css 中存在语法错误，那么接下来便用 <code>user.js</code> 去屏蔽掉它们吧！</p>
+<p>基本实现如下</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  <span class="built_in">document</span>.querySelector(<span class="string">&quot;#\\31 280_adv&quot;</span>),</span><br><span class="line">  <span class="built_in">document</span>.querySelector(<span class="string">&quot;.ad&quot;</span>),</span><br><span class="line">  <span class="built_in">document</span>.querySelector(<span class="string">&quot;#\\31 280_ad &gt; a&quot;</span>),</span><br><span class="line">].forEach(<span class="function">(<span class="params">ad</span>) =&gt;</span> ad.remove());</span><br></pre></td></tr></table></figure>
+<p>甚至吾辈都发到了 <a target="_blank" rel="noopener" href="https://github.com/rxliuli/userjs/tree/master/src/dmhy">GitHub</a> 与 <a target="_blank" rel="noopener" href="https://greasyfork.org/zh-CN/scripts/402206">GreasyFork</a> 上了。</p>
+<p>然后，有个（万能的）网友就提出，可以转换思路，既然 <code>#\\31 280_adv</code> 在 css 中存在语法错误，那么使用属性选择器过滤 id 将值包裹在 <code>&#39;&#39;</code> 之中不就好了么？此话真是九言劝醒迷途仕，一语惊醒梦中人，吾辈瞬间 GET 到了这个点。</p>
+<p>于是吾辈编写出了下面这段 <code>user.css</code> 样式</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*屏蔽动漫花园的广告*/</span></span><br><span class="line"><span class="selector-class">.ad</span>,</span><br><span class="line"><span class="selector-tag">div</span><span class="selector-attr">[id=<span class="string">&quot;\31 280_adv&quot;</span>]</span>,</span><br><span class="line"><span class="selector-tag">div</span><span class="selector-attr">[id=<span class="string">&quot;\31 280_ad&quot;</span>]</span> &gt; <span class="selector-tag">a</span>,</span><br><span class="line"><span class="selector-tag">div</span><span class="selector-attr">[id=<span class="string">&quot;bebiv3_ad&quot;</span>]</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: none;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用后效果如下</p>
+<p><img src="https://img.rxliuli.com/20200429010852.png" alt="屏蔽后干净的网页"></p>
+<p>现在，初始目的达成了，吾辈开始有点好奇它是怎么实现这个功能，于是下载了它的源码，id 那里并未发现什么奇怪的东西，但吾辈却也无法复现一个 demo！</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;test&quot;</span>&gt;</span>2<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">window</span>.addEventListener(<span class="string">&quot;load&quot;</span>, <span class="function">() =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">document</span>.querySelector(<span class="string">&quot;#test&quot;</span>).setAttribute(<span class="string">&quot;id&quot;</span>, <span class="string">&quot;\\31 280_adv&quot;</span>);</span></span><br><span class="line">      &#125;);</span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>demo 效果</p>
+<p><img src="https://img.rxliuli.com/20200429011004.png" alt="demo 效果"></p>
+<p>如果有人知道原因的话，请务必不吝赐教！</p>
+<blockquote>
+<p>参考：<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/ASCII">ASCII Wiki</a></p>
+</blockquote>
+<hr>
+<blockquote>
+<p>后续，万能的网友 <a target="_blank" rel="noopener" href="https://disqus.com/by/niamori/">NiaMori</a> 又来说明啦，实际上是 id 以数字开头的原因，具体问题参考：<br>是 id 以数字开头的原因，简单的 <code>&lt;div id=&quot;1&quot;&gt;test&lt;div&gt;</code> 就能复现这个效果。<br><code>document.getElementById(&#39;1&#39;)</code> 能够选中，但 <code>document.querySelector(&#39;#1&#39;)</code> 不能，因为 HTML5 允许 id 以数字开头而 CSS 不允许<br>0x31 是 ‘1’ 的 Unicode 编码值，Copy selector 的时候 Chrome 做了一个智能的 escape<br>参考：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://disq.us/url?url=https://stackoverflow.com/questions/20306204/using-queryselector-with-ids-that-are-numbers:ywx_Ldt8DYLp36vWCEZDC-CT6pM&cuid=5534903">Using querySelector with IDs that are numbers</a></li>
+<li><a target="_blank" rel="noopener" href="https://disq.us/url?url=https://www.w3.org/TR/CSS21/syndata.html%23characters:YR69gjoR28vxgXneZXGYH3k8gFM&cuid=5534903">Css Spec</a></li>
+<li><a target="_blank" rel="noopener" href="https://disq.us/url?url=https://developer.mozilla.org/en-US/docs/Web/API/CSS/escape:5uLuEmiEmKi4BAwjvTU8OFFY6OQ&cuid=5534903">CSS.escape</a></li>
+</ul>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/12/30/b1b219edef7648938999d7944ff6157d/" data-id="ckmcqox4h007l0kuv0xb15sjt" data-title="偶遇 HTML 中的奇妙字符" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-b7e38466a8df4e0aa80641480baa98b3" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/12/30/b7e38466a8df4e0aa80641480baa98b3/" class="article-date">
+  <time class="dt-published" datetime="2020-12-30T04:35:46.000Z" itemprop="datePublished">2020-12-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/12/30/b7e38466a8df4e0aa80641480baa98b3/">FireFox [附加组件管理器] 标签页使用 Chrome 的 favIconUrl</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>吾辈最近开发了一个 <a target="_blank" rel="noopener" href="https://github.com/rxliuli/tabs_panel">标签页快速切换插件</a>，原本准备在 Chrome Store 先行上架的，不过由于 Chrome 的 <a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/devconsole/register?hl=zh-CN">开发者注册</a> 需要 Visa 信用卡付费，所以不得已暂缓了下来。<br>于是，去看了一下 Firefox 的插件开发者中心，发现其并不需要收费，所以便想要兼容一下 Firefox，但吾辈却由此发现了奇怪的事情。</p>
+<p>首先是 firefox 报的一个错误</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全错误：位于 moz-extension:<span class="comment">//b0d38f9f-eca1-4163-870e-64aedabf5f20/popup.html 的内容不可以载入或者链接至 chrome://mozapps/skin/extensions/extension.svg。</span></span><br></pre></td></tr></table></figure>
+<p>当然，吾辈看到这个错误的第一时间是很懵逼的，因为吾辈未曾引用过 <em>chrome://mozapps/skin/extensions/extension.svg</em> 这个 svg 图片啊，为什么会提示不可以载入呢？</p>
+<h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>于是吾辈去看了 <code>browser.tabs.query</code> 所查询到的数据，结果。。。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">arr = <span class="keyword">await</span> browser.tabs.query(&#123;&#125;);</span><br><span class="line">arr.find(</span><br><span class="line">  (tab) =&gt; (tab.favIconUrl = <span class="string">&quot;chrome://mozapps/skin/extensions/extension.svg&quot;</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p><img src="https://img.rxliuli.com/20200508234243.png" alt="查询到的 tab"></p>
+<p>为什么 Firefox 的<strong>附加组件管理器</strong>标签页会使用 Chrome 的图标啊？难道是 Firefox 的开发团队复制 Chrome 源码的时候忘记替换了么？<br>抱着好玩的想法，吾辈将这个错误分享到了某个 Telegram 前端群中，有人提出了完全不同的解释：这是 Firefox 历史的遗产 – 遠古的 XUL 留下來的 scheme，甚至在 Chrome 浏览器出现之前就已经存在了。</p>
+<blockquote>
+<p>参考:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Archive/Mozilla/XUL/Tutorial/The_Chrome_URL">遠古的 XUL 留下來的 scheme</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-TW/docs/Mozilla/Chrome_Registration">2004 年 Firefox 1.0 的介面層就叫做 chrome 惹</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-TW/docs/XUL_%E6%95%99%E5%AD%B8">XUL 教学</a></li>
+</ul>
+</blockquote>
+<h2 id="复现步骤"><a href="#复现步骤" class="headerlink" title="复现步骤"></a>复现步骤</h2><p>如果有人想要复现这个问题玩一下的话，具体流程如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">graph TB;</span><br><span class="line">打开附加组件管理器 --&gt; 调试附加组件 --&gt; 选择一个扩展点击检查按钮 --&gt; 输入上面的代码</span><br></pre></td></tr></table></figure>
+<p><img src="https://img.rxliuli.com/20200509001909.gif" alt="流程示意图"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>真相只有一个：Firefox 58 之后虽然号称重构了这个浏览器，但 UI 层并未抛弃掉老旧的 XUL，同时 Firefox 主要推动的 web extension api 则并未注意到这个问题（这里或许能从侧面说明 Firefox 的插件生态并不繁荣，这种问题都没有人遇到过。。。），导致了这种 <strong>自相冲突</strong> 的奇葩问题。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/12/30/b7e38466a8df4e0aa80641480baa98b3/" data-id="ckmcqox4l007v0kuv6ly07t9l" data-title="FireFox [附加组件管理器] 标签页使用 Chrome 的 favIconUrl" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-04d4a0f974b4406fb34531036632ff5f" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/12/30/04d4a0f974b4406fb34531036632ff5f/" class="article-date">
+  <time class="dt-published" datetime="2020-12-30T04:34:37.000Z" itemprop="datePublished">2020-12-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/12/30/04d4a0f974b4406fb34531036632ff5f/">博客已添加离线支持</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>博客已使用 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Service_Worker_API/Using_Service_Workers">service-worker</a> 技术对网站添加离线支持功能，具体实现不过是使用了 <a target="_blank" rel="noopener" href="https://github.com/JLHwung/hexo-offline">hexo-offline</a> 插件，之后所有第一次访问过的页面之后便离线可用了，同时即便在线浏览仍然能更快的展示页面。<br>想要使用它的主要原因是吾辈的博客是静态的，意味着几乎所有的资源都可以通过 service-worker 缓存，以此提高网站的可用性。</p>
+<blockquote>
+<p>注: <a target="_blank" rel="noopener" href="https://vuejs.org/">Vue 官网</a> 使用 hexo 构建，同时使用了该插件实现离线支持。</p>
+</blockquote>
+<p><img src="https://img.rxliuli.com/20200517111759.png" alt="ServiceWorker"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/12/30/04d4a0f974b4406fb34531036632ff5f/" data-id="ckmcqox1z00050kuv55pcbqe2" data-title="博客已添加离线支持" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%A3%E5%91%8A/" rel="tag">宣告</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-b95ad81959a440fa9c3f2df0cafd3773" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/12/30/b95ad81959a440fa9c3f2df0cafd3773/" class="article-date">
+  <time class="dt-published" datetime="2020-12-30T04:33:22.000Z" itemprop="datePublished">2020-12-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/12/30/b95ad81959a440fa9c3f2df0cafd3773/">使用插件还是油猴脚本</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>最近吾辈写了一个 chrome 插件，之前也有写过许多 user.js 脚本，所以便想在此谈一下它们的区别，以及如何选择。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://greasyfork.org/zh-CN/users/84714">吾辈写过的 user.js 脚本</a></li>
+<li><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/search/rxliuli">吾辈写过的 chrome 插件</a></li>
+</ul>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-hk/Greasemonkey">user.js wiki</a>, <a target="_blank" rel="noopener" href="https://developer.chrome.com/extensions/devguide">chrome plugin dev doc</a></p>
+</blockquote>
+<p>user.js 是一个开放的的标准，最早由 Firefox 的一个插件提出，后来在 chrome 得到原生支持。实际上，user.js 只是在用户的浏览器上访问一些网站时，向网站注入一些 JavaScript 脚本，除了顶部的声明信息以及一些 <code>GM_*</code> 的特殊 api 之外，它与普通的 JavaScript 没有什么不同。同时，目前支持 user.js 的浏览器插件很多，最流行的大概就是 <a target="_blank" rel="noopener" href="https://www.tampermonkey.net/">TamperMonkey</a>，同时支持非常多的浏览器，在不同浏览器之间实现了 <strong>跨平台</strong>。当然，为网页注入一段 JavaScript 脚本可以改变网页本身，但普通 JavaScript 做不到的事情，user.js 也基本没法实现。例如 <strong>获取所有的浏览器标签页</strong> 这种涉及到浏览器本身的操作。</p>
+<p>而插件则不同，它是浏览器提供的一种附加功能，借用官方介绍：<strong>扩展程序是可定制浏览体验的小型软件程序。它们使用户可以根据个人需要或偏好来定制 Chrome 功能和行为。它们基于 Web 技术（例如 HTML，JavaScript 和 CSS）构建。</strong>，它们能访问浏览器众多的扩展 API，实现对浏览器级别的功能定制 – 而非仅限于网站。例如上面 user.js 做不到的事情 <strong>获取所有的浏览器标签页</strong> 浏览器插件可以轻易实现。</p>
+<h2 id="能力-API"><a href="#能力-API" class="headerlink" title="能力/API"></a>能力/API</h2><p>相关 API 链接如下，此处就不贴了（太多了）</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.tampermonkey.net/documentation.php">user.js api</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.chrome.com/extensions/devguide">chrome plugin api</a></li>
+</ul>
+<h2 id="工程化"><a href="#工程化" class="headerlink" title="工程化"></a>工程化</h2><p>在工程化上，user.js 几乎没有工程化的最佳实践，直到目前为止，仍然没有简单可用的打包工具对 user.js 进行专门支持，例如通过 react 编写一些 UI 相关的内容并最终打包成一个 <code>*.user.js</code> 脚本文件是比较困难的。<br>看看目前的主流打包工具吧</p>
+<ul>
+<li>rollup: JavaScript SDK 打包工具</li>
+<li>Webpack: 最强大的打包工具</li>
+<li>parcel: 开箱可用的打包工具</li>
+</ul>
+<p>是的，打包工具有不少，但这三者都对 user.js 没有太好的支持，主要有两点</p>
+<ol>
+<li> 保证打包后顶部信息说明注释仍然在最顶部</li>
+<li> 支持多入口打包</li>
+<li> 支持 TypeScript</li>
+<li> 支持 vue/react 现代前端框架</li>
+</ol>
+<p>目前最合适的是 parcel，但仍然没有默认解决第一个问题。</p>
+<p>与之相比，chrome 插件的工程化就要好上不少，parcel 甚至官方支持了 <code>WebManifest</code> 类型的资源，这对浏览器插件的开发有着极大的方便 – 可以使用现代前端的一切！</p>
+<h2 id="发布"><a href="#发布" class="headerlink" title="发布"></a>发布</h2><p>user.js 可以发布在任何静态托管服务里，一般可以放在 <a target="_blank" rel="noopener" href="https://greasyfork.org/">GreasyFork</a> 上，供需要的用户通过脚本管理其安装。GreasyFork 甚至可以直接导入 GitHub 上的源码和 README 发布一个脚本，同时在后续过程中自动更新。<br>而 chrome 插件则只能通过 <a target="_blank" rel="noopener" href="https://chrome.google.com/webstore">chrome web store</a> 进行分发，而且每次更新或上架都需要被审核，这其实是比较花时间的，并非是即时性的。同时 web store 也有注册费用，必须使用 Visa 等国外信用卡支付 $5，而这对于国内开发者而言是一件比较麻烦的事情。</p>
+<blockquote>
+<p>吾辈知道可以使用开发者模式打开解压缩的插件，但这终究不是一个好的分发策略，不能要求每个用户都执行这种麻烦的操作，同时，每次重新打开浏览器都会进行提示也不厌其烦。</p>
+</blockquote>
+<h2 id="对于使用者"><a href="#对于使用者" class="headerlink" title="对于使用者"></a>对于使用者</h2><ul>
+<li>安装难度：chrome 插件安装事实上只能从 chrome store 就意味着国内用户几乎用不了，嗯，这点是一个相当的减分项。而油猴脚本则不太相同，只要支持 user.js 的插件即可添加任意多的 user.js 脚本，事实上，插件只是一个管理工具，chrome 原生支持它！</li>
+<li>需求： 如果只是为网站诸如一段脚本修改一些网站的内容，则优先考虑使用 user.js，如果涉及到操作浏览器相关功能，则只能选择插件，本质上 user.js 在插件中就是 <a target="_blank" rel="noopener" href="https://developer.chrome.com/extensions/content_scripts">content script</a> 功能。</li>
+<li>性能：对于一般用户而言，安装一个 chrome 插件会一直在后台开启一个线程，而脚本不会 – 只会在需要生效的网站上应用。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/12/30/b95ad81959a440fa9c3f2df0cafd3773/" data-id="ckmcqox4n00810kuv4hgiaykp" data-title="使用插件还是油猴脚本" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-9b07ff8ce6dd4eb08896f6b8191d7181" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/12/30/9b07ff8ce6dd4eb08896f6b8191d7181/" class="article-date">
+  <time class="dt-published" datetime="2020-12-30T04:32:34.000Z" itemprop="datePublished">2020-12-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/12/30/9b07ff8ce6dd4eb08896f6b8191d7181/">react 通用列表组件封装</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/rxliuli/example/tree/master/basic_list">GitHub 源码</a></p>
+</blockquote>
+<p>在后台项目中，即便使用了 antd，仍然存在太多太多的列表页面。这些列表页面大多数又是非常相似的，所以吾辈需要解决重复的简单列表的编写，避免每次都手动控制过滤器/分页之类的东西，将之抽象成配置项，然后通过配置生成列表页面。或许已经有很多人做过了这件事情，但于吾辈而言，这仍然是全新的体验，所以也便于此记录，并供之以他人参考。</p>
+<h2 id="理念"><a href="#理念" class="headerlink" title="理念"></a>理念</h2><p>使用逐级递进的方式进行封装，使用者可以根据需求停留在一个合适的封装层次，使用不同封装层次的组件。</p>
+<ul>
+<li><code>BasicList</code>：高层列表封装组件<ul>
+<li><code>ListHeader</code>：列表页顶部工具栏组件<ul>
+<li><code>CommonHeader</code>: 通用的顶部工具栏组件</li>
+</ul>
+</li>
+<li><code>ListFilter</code>：过滤器组件<ul>
+<li><code>FilterSelect</code>：单选过滤器</li>
+<li><code>FilterTimeRange</code>：时间区间过滤器</li>
+<li><code>FilterSlot</code>：自定义过滤器</li>
+</ul>
+</li>
+<li><code>ListTable</code>：列表封装组件</li>
+</ul>
+</li>
+</ul>
+<p>BasicList 使用步骤</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">graph TD;</span><br><span class="line">A[添加 api class 实现 BasicListApi] --&gt; B[添加配置项]</span><br><span class="line">B --&gt; C&#123;是否需要动态修改&#125;;</span><br><span class="line">C --&gt; |是| C1[使用 useMemo 声明]</span><br><span class="line">C --&gt; |否| C2[将之抽离到组件外部声明为常量]</span><br><span class="line">C1 --&gt; D</span><br><span class="line">C2 --&gt; D</span><br><span class="line">D&#123;是否有非通用 Filter&#125;</span><br><span class="line">D --&gt; |是| D1[自定义 slot filter]</span><br><span class="line">D --&gt; |否| D2[使用 select&#x2F;time filter]</span><br><span class="line">D1 --&gt; E</span><br><span class="line">D2 --&gt; E</span><br><span class="line">E&#123;是否需要自定义表格相关功能&#125;</span><br><span class="line">E --&gt; |是| E1[使用 filterOperate 配置]</span><br><span class="line">E --&gt; |否| E2[不声明 filter 配置]</span><br><span class="line">E1 --&gt; F</span><br><span class="line">E2 --&gt; F</span><br><span class="line">F[列表渲染]</span><br></pre></td></tr></table></figure>
+<p>BasicList 渲染流程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">graph TB</span><br><span class="line">A[从 props 拿到配置项列表] --&gt; B&#123;header 是否为 ReactElement&#125;</span><br><span class="line">B --&gt; |是| B1[直接渲染]</span><br><span class="line">B --&gt; |否| B2[使用 ListHeader 渲染 header 配置项]</span><br><span class="line">B1 --&gt; C</span><br><span class="line">B2 --&gt; C</span><br><span class="line">C&#123;filters 是否存在&#125;</span><br><span class="line">C --&gt; |是| C1&#123;filters 是否为 ReactElement&#125;</span><br><span class="line">  C1 --&gt; |是| C1A[直接渲染]</span><br><span class="line">  C1 --&gt; |否| C1B[使用 ListFilter 渲染 filters 配置项] --&gt; C1C[监听 initialParams 变化, 以随时修改 form]</span><br><span class="line">C --&gt; |否| C2[不渲染]</span><br><span class="line">C1A --&gt; D</span><br><span class="line">C1B --&gt; D</span><br><span class="line">C2 --&gt; D</span><br><span class="line">D[渲染列表]</span><br></pre></td></tr></table></figure>
+<h2 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h2><h3 id="使用基本-API"><a href="#使用基本-API" class="headerlink" title="使用基本 API"></a>使用基本 API</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/rxliuli/example/blob/master/basic_list/src/pages/example/BasicListExample.tsx">GitHub 代码示例</a></p>
+</blockquote>
+<p>如下所示，我们想要构造下面这样一个简单的列表页面，包含一个面包屑导航列表、搜索框、过滤条件选择器和一个表格。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">import * as React from &quot;react&quot;;</span><br><span class="line">import &#123; Button &#125; from &quot;antd&quot;;</span><br><span class="line">import &#123; Link &#125; from &quot;react-router-dom&quot;;</span><br><span class="line">import &#123; Moment &#125; from &quot;moment&quot;;</span><br><span class="line">import &#123; LabeledValue &#125; from &quot;antd&#x2F;es&#x2F;select&quot;;</span><br><span class="line">import &#123; userApi &#125; from &quot;.&#x2F;api&#x2F;UserApi&quot;;</span><br><span class="line">import &#123;</span><br><span class="line">  BasicList,</span><br><span class="line">  BasicListPropsType,</span><br><span class="line">  FilterFieldTypeEnum,</span><br><span class="line">&#125; from &quot;..&#x2F;..&#x2F;components&#x2F;list&quot;;</span><br><span class="line"></span><br><span class="line">type PropsType &#x3D; &#123;&#125;;</span><br><span class="line"></span><br><span class="line">type Config &#x3D; Omit&lt;BasicListPropsType, &quot;params&quot;&gt; &amp; &#123;</span><br><span class="line">  params?: &#123;</span><br><span class="line">    keyword?: string;</span><br><span class="line">    test?: number;</span><br><span class="line">    birthdayTimeRange?: [Moment, Moment];</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line">const testOptionList: LabeledValue[] &#x3D; [</span><br><span class="line">  &#123; value: 0, label: &quot;测试 0&quot; &#125;,</span><br><span class="line">  &#123; value: 1, label: &quot;测试 1&quot; &#125;,</span><br><span class="line">  &#123; value: 2, label: &quot;测试 2&quot; &#125;,</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;列表配置项</span><br><span class="line">const config: Config &#x3D; &#123;</span><br><span class="line">  header: &#123;</span><br><span class="line">    placeholder: &quot;用户名&#x2F;住址&quot;,</span><br><span class="line">    list: [&quot;用户&quot;, &quot;列表&quot;],</span><br><span class="line">  &#125;,</span><br><span class="line">  filters: [</span><br><span class="line">    &#123;</span><br><span class="line">      type: FilterFieldTypeEnum.Select,</span><br><span class="line">      label: &quot;测试字段&quot;,</span><br><span class="line">      field: &quot;test&quot;,</span><br><span class="line">      options: testOptionList,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      type: FilterFieldTypeEnum.TimeRange,</span><br><span class="line">      label: &quot;生日&quot;,</span><br><span class="line">      field: &quot;birthdayTimeRange&quot;,</span><br><span class="line">    &#125;,</span><br><span class="line">  ],</span><br><span class="line">  columns: [</span><br><span class="line">    &#123; field: &quot;id&quot;, title: &quot;ID&quot; &#125;,</span><br><span class="line">    &#123; field: &quot;name&quot;, title: &quot;姓名&quot; &#125;,</span><br><span class="line">    &#123; field: &quot;birthday&quot;, title: &quot;生日&quot; &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      field: &quot;operate&quot;,</span><br><span class="line">      title: &quot;操作&quot;,</span><br><span class="line">      slot: (param) &#x3D;&gt; &lt;Link to&#x3D;&#123;&#96;&#x2F;system&#x2F;user&#x2F;$&#123;param.record.id&#125;&#96;&#125;&gt;详情&lt;&#x2F;Link&gt;,</span><br><span class="line">    &#125;,</span><br><span class="line">  ],</span><br><span class="line">  api: userApi,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> * 一个基本的列表页面</span><br><span class="line"> * @constructor</span><br><span class="line"> *&#x2F;</span><br><span class="line">const BasicListExample: React.FC&lt;PropsType&gt; &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  return &lt;BasicList &#123;...config&#125; &#x2F;&gt;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">export default BasicListExample;</span><br></pre></td></tr></table></figure>
+<h3 id="使用自定义过滤器组件"><a href="#使用自定义过滤器组件" class="headerlink" title="使用自定义过滤器组件"></a>使用自定义过滤器组件</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/rxliuli/example/blob/master/basic_list/src/pages/example/CustomFilterListExample.tsx">GitHub 代码示例</a></p>
+</blockquote>
+<p>事实上，总有各种奇怪的过滤器无法满足，这时候就需要添加一个自定义的过滤器了。<br>例如下面这个过滤器，包含了年龄的值和单位，是不是感觉很奇怪</p>
+<p>关键代码配置如下</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> config: Config = &#123;</span><br><span class="line">  filters: [</span><br><span class="line">    &#123;</span><br><span class="line">      type: FilterFieldTypeEnum.Slot,</span><br><span class="line">      label: <span class="string">&quot;年龄&quot;</span>,</span><br><span class="line">      field: <span class="string">&quot;age&quot;</span>,</span><br><span class="line">      children: (</span><br><span class="line">        &lt;Input.Group compact&gt;</span><br><span class="line">          &lt;Form.Item name=&#123;[<span class="string">&quot;age&quot;</span>, <span class="string">&quot;value&quot;</span>]&#125; noStyle&gt;</span><br><span class="line">            &lt;InputNumber style=&#123;&#123; <span class="attr">width</span>: <span class="string">&quot;calc(100% - 64px)&quot;</span> &#125;&#125; /&gt;</span><br><span class="line">          &lt;/Form.Item&gt;</span><br><span class="line">          &lt;Form.Item name=&#123;[<span class="string">&quot;age&quot;</span>, <span class="string">&quot;unit&quot;</span>]&#125; noStyle&gt;</span><br><span class="line">            &lt;Select style=&#123;&#123; <span class="attr">width</span>: <span class="number">64</span> &#125;&#125; options=&#123;ageUnitOptionList&#125; /&gt;</span><br><span class="line">          &lt;/Form.Item&gt;</span><br><span class="line">        &lt;/Input.Group&gt;</span><br><span class="line">      ),</span><br><span class="line">    &#125;,</span><br><span class="line">  ],</span><br><span class="line">  <span class="comment">// 此处是为了添加过滤器的默认值</span></span><br><span class="line">  params: &#123;</span><br><span class="line">    age: &#123;</span><br><span class="line">      unit: <span class="number">0</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="添加表格的额外操作"><a href="#添加表格的额外操作" class="headerlink" title="添加表格的额外操作"></a>添加表格的额外操作</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/rxliuli/example/blob/master/basic_list/src/pages/example/TableOperationListExample.tsx">GitHub 代码示例</a></p>
+</blockquote>
+<p>有时候，我们需要添加一个额外的表格操作，例如导出/导入数据/删除选中数据。</p>
+<p>关键代码如下</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">handleBatchDelete</span>(<span class="params">&#123;</span></span></span><br><span class="line"><span class="function"><span class="params">  selectedRowKeys,</span></span></span><br><span class="line"><span class="function"><span class="params">  setSelectedRowKeys,</span></span></span><br><span class="line"><span class="function"><span class="params">  searchPage,</span></span></span><br><span class="line"><span class="function"><span class="params">&#125;: ListTableOperateParam</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (selectedRowKeys.length === <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">await</span> userApi.batchDelete(selectedRowKeys)</span><br><span class="line">  setSelectedRowKeys([])</span><br><span class="line">  <span class="keyword">await</span> searchPage()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> config = useMemo&lt;Config&gt;(</span><br><span class="line">  () =&gt; (&#123;</span><br><span class="line">    tableOperate: <span class="function">(<span class="params">params</span>) =&gt;</span> (</span><br><span class="line">      &lt;Button onClick=&#123;<span class="function">() =&gt;</span> handleBatchDelete(params)&#125;&gt;删除选中&lt;/Button&gt;</span><br><span class="line">    ),</span><br><span class="line">  &#125;),</span><br><span class="line">  [],</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="过滤器的下拉框数据来源是异步的"><a href="#过滤器的下拉框数据来源是异步的" class="headerlink" title="过滤器的下拉框数据来源是异步的"></a>过滤器的下拉框数据来源是异步的</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/rxliuli/example/blob/master/basic_list/src/pages/example/AsyncSelectOptionsListExample.tsx">GitHub 代码示例</a></p>
+</blockquote>
+<p>很多时候，我们的数据来源并不是由前端写死，而是从后台获取的，这就要求我们传入的值是 react 的一个 State 而非一个固定值。</p>
+<p>关键代码如下</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> testOptionList = useAsyncMemo([], dictApi.list)</span><br><span class="line"><span class="keyword">const</span> config = useMemo&lt;Config&gt;(</span><br><span class="line">  () =&gt; (&#123;</span><br><span class="line">    filters: [</span><br><span class="line">      &#123;</span><br><span class="line">        type: FilterFieldTypeEnum.Select,</span><br><span class="line">        label: <span class="string">&#x27;测试字段&#x27;</span>,</span><br><span class="line">        field: <span class="string">&#x27;test&#x27;</span>,</span><br><span class="line">        options: testOptionList,</span><br><span class="line">      &#125;,</span><br><span class="line">    ],</span><br><span class="line">  &#125;),</span><br><span class="line">  [testOptionList],</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h2 id="组件-API"><a href="#组件-API" class="headerlink" title="组件 API"></a>组件 API</h2><h3 id="BasicList"><a href="#BasicList" class="headerlink" title="BasicList"></a>BasicList</h3><p>参考 <em>src/components/common/table/js/BasicListOptions.d.ts</em></p>
+<table>
+<thead>
+<tr>
+<th><code>prop</code></th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>header</code></td>
+<td><code>BasicList.Header</code></td>
+<td>标题栏相关配置</td>
+</tr>
+<tr>
+<td><code>[filters]</code></td>
+<td><code>BaseFilterField[]</code></td>
+<td>过滤器列表</td>
+</tr>
+<tr>
+<td></td>
+<td><code>((params: any, onChange: (params: any) =&gt; void) =&gt; ReactElement)</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>[params]</code></td>
+<td><code>Params</code></td>
+<td>查询参数</td>
+</tr>
+<tr>
+<td><code>columns</code></td>
+<td><code>TableColumn[]</code></td>
+<td>列字段列表</td>
+</tr>
+<tr>
+<td><code>api</code></td>
+<td><code>BaseListApi</code></td>
+<td>api 对象</td>
+</tr>
+<tr>
+<td><code>[tableOptions]</code></td>
+<td><code>TableOptions</code></td>
+<td>一些其他选项</td>
+</tr>
+<tr>
+<td><code>[tableOperate]</code></td>
+<td><code>ListTableOperate</code></td>
+<td>一些其他操作</td>
+</tr>
+</tbody></table>
+<h3 id="ListFilter"><a href="#ListFilter" class="headerlink" title="ListFilter"></a>ListFilter</h3><p>| <code>prop</code>           | 类型                 | 说明                     |<br>| —————- | ——————– | ———————— | —————— | ———- |<br>| <code>[initialValue]</code> | <code>any</code>                | 查询参数                 |<br>| <code>filters</code>        | <code>(FilterSelectType   | FilterTimeRangeType      | FilterSlotType)[]</code> | 过滤器列表 |<br>| <code>onChange</code>       | <code>(value: T) =&gt; void</code> | 当过滤器的参数发生改变时 |</p>
+<h3 id="ListTable"><a href="#ListTable" class="headerlink" title="ListTable"></a>ListTable</h3><table>
+<thead>
+<tr>
+<th><code>prop</code></th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>columns</code></td>
+<td><code>TableColumn[]</code></td>
+<td>列字段列表</td>
+</tr>
+<tr>
+<td><code>api</code></td>
+<td><code>BaseListApi</code></td>
+<td>api 对象</td>
+</tr>
+<tr>
+<td><code>params</code></td>
+<td><code>Params</code></td>
+<td>查询参数</td>
+</tr>
+<tr>
+<td><code>[tableOptions]</code></td>
+<td><code>TableOptions</code></td>
+<td>一些其他选项</td>
+</tr>
+<tr>
+<td><code>[tableOperate]</code></td>
+<td><code>ListTableOperate</code></td>
+<td>一些其他选项</td>
+</tr>
+</tbody></table>
+<h2 id="其他类型定义"><a href="#其他类型定义" class="headerlink" title="其他类型定义"></a>其他类型定义</h2><p>下面是类型定义，所有的类型定义都有对应的 <code>.d.ts</code> 文件，请使用 <code>C-N</code> 搜索 <code>class</code>。</p>
+<table>
+<thead>
+<tr>
+<th><code>HeaderNavItem</code></th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>string</code></td>
+<td></td>
+<td>导航的名字</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>导航的名字</td>
+</tr>
+<tr>
+<td><code>[link]</code></td>
+<td><code>string</code></td>
+<td>如果是 route 的话必须有值</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th><code>Header</code></th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>list</code></td>
+<td><code>HeaderNavItem[]</code></td>
+<td>导航元素列表</td>
+</tr>
+<tr>
+<td><code>placeholder</code></td>
+<td><code>string</code></td>
+<td>搜索框的提示文本</td>
+</tr>
+</tbody></table>
+<h3 id="过滤器相关"><a href="#过滤器相关" class="headerlink" title="过滤器相关"></a>过滤器相关</h3><table>
+<thead>
+<tr>
+<th><code>FilterFieldTypeEnum</code></th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Slot</code></td>
+<td><code>1</code></td>
+<td>自定义 slot</td>
+</tr>
+<tr>
+<td><code>Select</code></td>
+<td><code>2</code></td>
+<td>普通选择框</td>
+</tr>
+<tr>
+<td><code>TimeRange</code></td>
+<td><code>3</code></td>
+<td>日期区间选择器</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th><code>FilterFieldBase</code></th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>type</code></td>
+<td><code>FilterFieldTypeEnum</code></td>
+<td>过滤器元素类型</td>
+</tr>
+<tr>
+<td><code>label</code></td>
+<td><code>string</code></td>
+<td>显示的标题</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th><code>FilterSelectType</code></th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>extends</code></td>
+<td><code>FilterFieldBase</code></td>
+<td>继承基本过滤器配置</td>
+</tr>
+<tr>
+<td><code>field</code></td>
+<td><code>string</code></td>
+<td>字段名</td>
+</tr>
+<tr>
+<td><code>options</code></td>
+<td><code>LabeledValue[]</code></td>
+<td>值列表</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th><code>FilterTimeRangeType</code></th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>extends</code></td>
+<td><code>FilterFieldBase</code></td>
+<td>继承基本过滤器配置</td>
+</tr>
+<tr>
+<td><code>field</code></td>
+<td><code>string</code></td>
+<td>字段名</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th><code>FilterSlotType</code></th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>extends</code></td>
+<td><code>FilterFieldBase</code></td>
+<td>继承基本过滤器配置</td>
+</tr>
+<tr>
+<td><code>field</code></td>
+<td><code>string</code></td>
+<td>字段名</td>
+</tr>
+<tr>
+<td><code>children</code></td>
+<td><code>ReactElement</code></td>
+<td><code>Form.Item</code> 的子元素</td>
+</tr>
+<tr>
+<td><code>[computed]</code></td>
+<td><code>(res: Record&lt;string, any&gt;, value: any) =&gt; Record&lt;string, any&gt;</code></td>
+<td>自定义计算方法</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th><code>Params</code></th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>keyword</code></td>
+<td><code>string</code></td>
+<td>查询关键字</td>
+</tr>
+<tr>
+<td><code>...args</code></td>
+<td><code>any[]</code></td>
+<td>其他查询参数</td>
+</tr>
+</tbody></table>
+<h3 id="表格相关"><a href="#表格相关" class="headerlink" title="表格相关"></a>表格相关</h3><table>
+<thead>
+<tr>
+<th><code>TableColumn</code></th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>field</code></td>
+<td><code>string</code></td>
+<td>在数据项中对应的字段名</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>列标题</td>
+</tr>
+<tr>
+<td><code>[formatter]</code></td>
+<td><code>(v: any, record: any) =&gt; any</code></td>
+<td>自定义字段格式化函数</td>
+</tr>
+<tr>
+<td><code>[slot]</code></td>
+<td><code>(param: &#123; text: string; record: any; i: number &#125;) =&gt; ReactNode</code></td>
+<td>自定义 <code>slot</code></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th><code>BaseListApi</code></th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>pageList</code></td>
+<td><code>(params: any) =&gt; Promise&lt;PageRes&lt;any&gt;&gt;</code></td>
+<td>所有 ListTable 中的 api 对象必须实现该类型</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th><code>ListTableOperateParam</code></th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>searchPage</code></td>
+<td><code>(page?: PageParam) =&gt; Promise&lt;void&gt;</code></td>
+<td>导航元素列表</td>
+</tr>
+<tr>
+<td><code>selectedRowKeys</code></td>
+<td><code>string[]</code></td>
+<td>当前选中行的主键</td>
+</tr>
+<tr>
+<td><code>setSelectedRowKeys</code></td>
+<td><code>(selectedRowKeys: string[]) =&gt; void</code></td>
+<td>设置当前选中行的主键</td>
+</tr>
+<tr>
+<td><code>page</code></td>
+<td><code>PageData&lt;any&gt;</code></td>
+<td>分页数据信息</td>
+</tr>
+<tr>
+<td><code>params</code></td>
+<td><code>Params</code></td>
+<td>过滤器及搜索参数</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th><code>TableOptions</code></th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>[isSelect]</code></td>
+<td><code>boolean</code></td>
+<td>是否可选，默认为 false</td>
+</tr>
+<tr>
+<td><code>[rowKey]</code></td>
+<td><code>string</code></td>
+<td>行的唯一键，默认为 id</td>
+</tr>
+</tbody></table>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>相比于之前吾辈 <a target="_blank" rel="noopener" href="https://blog.rxliuli.com/p/aa3fd9e1/">vue 的初版 List 封装</a>，嗯，差距非常明显！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/12/30/9b07ff8ce6dd4eb08896f6b8191d7181/" data-id="ckmcqox47006m0kuv7yke7x5d" data-title="react 通用列表组件封装" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/" rel="tag">react</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-386f3414997f4517a4c071a1ec230182" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/12/30/386f3414997f4517a4c071a1ec230182/" class="article-date">
+  <time class="dt-published" datetime="2020-12-30T04:28:23.000Z" itemprop="datePublished">2020-12-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/12/30/386f3414997f4517a4c071a1ec230182/">近期博客变化</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>近期吾辈的博客会发生一些变化，可能会出现一些奇怪的问题</p>
+<p>重要的变更只有以下两点</p>
+<ul>
+<li>hexo 主题由 <a target="_blank" rel="noopener" href="https://github.com/blinkfox/hexo-theme-matery/">matery</a> 迁移至 <a target="_blank" rel="noopener" href="https://github.com/fluid-dev/hexo-theme-fluid">fluid</a></li>
+<li>评论系统由 <a target="_blank" rel="noopener" href="https://blog.disqus.com/">disqus</a> 迁移至 <a target="_blank" rel="noopener" href="https://utteranc.es/">utterances</a></li>
+</ul>
+<p>以下是细节变动</p>
+<ul>
+<li>更简洁的 material design 风格</li>
+<li>评论系统以更新为以 github 为基础 utterances</li>
+<li>代码高亮插件 <code>highlight.js</code> 更新以支持 <code>jsx/tsx</code></li>
+<li>更新 hexo 至最新版 <code>4.2.1</code></li>
+<li>更新封面由东方 Project 系列图片为穹妹</li>
+<li>清理了一些无用的 hexo 插件</li>
+<li>使用 git submodule 的形式管理主题</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/12/30/386f3414997f4517a4c071a1ec230182/" data-id="ckmcqox2z002v0kuvdm4igtm5" data-title="近期博客变化" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA/" rel="tag">个人</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-da25fbc33fa248b196ea573b661dbe14" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/12/30/da25fbc33fa248b196ea573b661dbe14/" class="article-date">
+  <time class="dt-published" datetime="2020-12-30T02:34:54.000Z" itemprop="datePublished">2020-12-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/12/30/da25fbc33fa248b196ea573b661dbe14/">electron 开发经验之谈系列-简介</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>注: 该系列博客存在前后顺序依赖，请尽量从前往后通读一遍。<br><a target="_blank" rel="noopener" href="https://github.com/rxliuli/electron_example">GitHub 项目</a></p>
+</blockquote>
+<p>这是一个关于如何使用 React + Electron 开发桌面应用的一些经验之谈，可能包含一些主观意见，但或许仍然能对你有所帮助。</p>
+<h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><p>那么，吾辈到底是想写一些什么呢？前端工程化？electron 项目的怪癖？还是其他什么？<br>吾辈想完成一个使用 electron 开发的的系列文章，说明开发 electron 的基本流程、各种选择、以及涉及到的工程化的内容，并在说明这些的过程中完成一个桌面应用程序。</p>
+<p><a href="/images/f7ddb35dc9a349a78f598309e04e3328.km">Electron 开发</a></p>
+<blockquote>
+<p>在这个系列中，会使用到一些额外的技术，如果你不了解可能也没太大问题，但了解之后才能更顺畅的阅读，参考: <a href="/p/74b1ec3c598940c2afbd17cdd50e31cb">技术栈简介及选择</a></p>
+</blockquote>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="/p/da25fbc33fa248b196ea573b661dbe14">简介</a></li>
+<li><a href="/p/74b1ec3c598940c2afbd17cdd50e31cb">技术栈简介及选择</a></li>
+<li><a href="/p/475d21afd2404d5ba1f71f600c44da09">基本项目搭建</a></li>
+<li><a href="/p/63f0a26fdd3743668b11410a10625c1b">使用 electron-builder 打包</a></li>
+<li><a href="/p/6e778ce220e042a0902e7a85976e7e47">渲染、主进程通信</a></li>
+<li><a href="/p/db74e6e5d2444bc3b6e185a7b338bbf6">在渲染、主进程间共享数据</a></li>
+<li><a href="/p/9d55c013167a4e6d802fde969291c34b">自定义窗口顶栏</a></li>
+<li><a href="/p/0f342a17caae4f1e845a543770008e35">自动更新</a></li>
+<li><a href="/p/76072311817b4c1985ab5746e8f91d87">常见问题</a></li>
+<li><a href="/p/ff86c5343d38460a8e78a62617f9eace">自定义协议</a></li>
+<li><a href="/p/1527b67fbd78494cb716e2db4b8fb688">开发环境优化</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/12/30/da25fbc33fa248b196ea573b661dbe14/" data-id="ckmcqox51009d0kuv8hlg23jl" data-title="electron 开发经验之谈系列-简介" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/electron/" rel="tag">electron</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/electron/" rel="tag">electron</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grid/" rel="tag">grid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jetbrains/" rel="tag">jetbrains</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webstorm/" rel="tag">webstorm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/" rel="tag">windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA/" rel="tag">个人</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%AC%E5%8F%B8/" rel="tag">公司</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%A8%E6%8A%A5/" rel="tag">周报</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%A3%E5%91%8A/" rel="tag">宣告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" rel="tag">工程化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90/" rel="tag">开源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%82%E6%AD%A5/" rel="tag">异步</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" rel="tag">待更新</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%8F%E9%AA%8C/" rel="tag">经验</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6/" rel="tag">读书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/css/" style="font-size: 12.14px;">css</a> <a href="/tags/electron/" style="font-size: 15.71px;">electron</a> <a href="/tags/git/" style="font-size: 12.86px;">git</a> <a href="/tags/grid/" style="font-size: 10.71px;">grid</a> <a href="/tags/java/" style="font-size: 19.29px;">java</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/jetbrains/" style="font-size: 12.14px;">jetbrains</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 10.71px;">markdown</a> <a href="/tags/react/" style="font-size: 14.29px;">react</a> <a href="/tags/sql/" style="font-size: 14.29px;">sql</a> <a href="/tags/typescript/" style="font-size: 12.14px;">typescript</a> <a href="/tags/vscode/" style="font-size: 12.86px;">vscode</a> <a href="/tags/vue/" style="font-size: 16.43px;">vue</a> <a href="/tags/webstorm/" style="font-size: 10px;">webstorm</a> <a href="/tags/windows/" style="font-size: 17.14px;">windows</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 12.86px;">个人</a> <a href="/tags/%E5%85%AC%E5%8F%B8/" style="font-size: 10px;">公司</a> <a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 10px;">周报</a> <a href="/tags/%E5%AE%A3%E5%91%8A/" style="font-size: 10px;">宣告</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.57px;">工具</a> <a href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" style="font-size: 17.86px;">工程化</a> <a href="/tags/%E5%BC%80%E6%BA%90/" style="font-size: 10px;">开源</a> <a href="/tags/%E5%BC%82%E6%AD%A5/" style="font-size: 15px;">异步</a> <a href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" style="font-size: 10.71px;">待更新</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 18.57px;">杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BB%8F%E9%AA%8C/" style="font-size: 11.43px;">经验</a> <a href="/tags/%E8%AF%BB%E4%B9%A6/" style="font-size: 12.14px;">读书</a> <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 11.43px;">转载</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/14/8fb2d58463ae4191ac064a76e15bffbd/">2021 第十周</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/12/7e7131c07c984d928ba3fefa7a9cef06/">读书-[颓废与沉默：透视犬儒文化]</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/02/db74e6e5d2444bc3b6e185a7b338bbf6/">electron 开发经验之谈系列-在渲染、主进程间共享数据</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/27/06cb464179cf45c598208534705aae3c/">2020 吾辈在公司推动的前端技术演进</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/23/cd66150d2b86448590fcc9bb2419c0b2/">实践 lerna monorepo</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

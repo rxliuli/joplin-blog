@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>关于前端组件通信的一些理解 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="场景 吾辈同时是 vue&#x2F;react 的使用者。  在使用现代前端框架时，我们经常要要面对的问题之一就是组件之间的通信，目前我们有着很多选择，包括但不限于以下这些。  Super Component Props: 将状态或操作放在父组件，然后传递到子组件。该特性在 vue&#x2F;react 都存在 Context&#x2F;Provider Pattern: 将状态放在父组件，然后所有的子组件都可以获取到。例如">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于前端组件通信的一些理解">
+<meta property="og:url" content="http://example.com/2020/08/02/a4ea45dd6ba445e1b307ef4e1fd3233e/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="场景 吾辈同时是 vue&#x2F;react 的使用者。  在使用现代前端框架时，我们经常要要面对的问题之一就是组件之间的通信，目前我们有着很多选择，包括但不限于以下这些。  Super Component Props: 将状态或操作放在父组件，然后传递到子组件。该特性在 vue&#x2F;react 都存在 Context&#x2F;Provider Pattern: 将状态放在父组件，然后所有的子组件都可以获取到。例如">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://img.rxliuli.com/20200818203510.png">
+<meta property="article:published_time" content="2020-08-01T18:43:40.000Z">
+<meta property="article:modified_time" content="2021-01-20T04:06:28.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="工程化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.rxliuli.com/20200818203510.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-a4ea45dd6ba445e1b307ef4e1fd3233e" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/08/02/a4ea45dd6ba445e1b307ef4e1fd3233e/" class="article-date">
+  <time class="dt-published" datetime="2020-08-01T18:43:40.000Z" itemprop="datePublished">2020-08-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      关于前端组件通信的一些理解
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><blockquote>
+<p>吾辈同时是 vue/react 的使用者。</p>
+</blockquote>
+<p>在使用现代前端框架时，我们经常要要面对的问题之一就是组件之间的通信，目前我们有着很多选择，包括但不限于以下这些。</p>
+<ul>
+<li><code>Super Component Props</code>: 将状态或操作放在父组件，然后传递到子组件。该特性在 vue/react 都存在</li>
+<li><code>Context/Provider Pattern</code>: 将状态放在父组件，然后所有的子组件都可以获取到。例如 react 中的 context 或 vue 中的 <code>provide/inject</code></li>
+<li><code>Global State</code>: 全局状态管理器。包含 redux/vuex/mobx/xstate 等一系列状态管理器。</li>
+<li><code>EventEmitter</code>: 全局事件触发器。包含 nodejs 和一些第三方实现。</li>
+</ul>
+<p>然而，有了如此多的解决方案，到底该在那些场景下使用那些解决方案呢？</p>
+<h2 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h2><p>首先，我们将以上组件通信的解决方案分为两类</p>
+<table>
+<thead>
+<tr>
+<th>解决方案</th>
+<th>是否在 react 生命周期中</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Super Component Props</code></td>
+<td>√</td>
+</tr>
+<tr>
+<td><code>Context/Provider Pattern</code></td>
+<td>√</td>
+</tr>
+<tr>
+<td><code>Global Store</code></td>
+<td>×</td>
+</tr>
+<tr>
+<td><code>EventEmitter</code></td>
+<td>×</td>
+</tr>
+</tbody></table>
+<p>选择树</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">graph LR;</span><br><span class="line">start[开始选择]</span><br><span class="line">isSimpleProps&#123;是否为简单的父子组件&#125;</span><br><span class="line">isComponentInnerUse&#123;是否仅在组件内部使用&#125;</span><br><span class="line">isUseNotice&#123;是否只需要通知而非状态共享&#125;</span><br><span class="line">favoriteStyle&#123;喜欢的风格&#125;</span><br><span class="line"></span><br><span class="line">start --&gt; isSimpleProps</span><br><span class="line">isSimpleProps --&gt; |是| props</span><br><span class="line">isSimpleProps --&gt; |否| isComponentInnerUse</span><br><span class="line">isComponentInnerUse --&gt; |是| context&#x2F;provider</span><br><span class="line">isComponentInnerUse --&gt; |否| isUseNotice</span><br><span class="line">isUseNotice --&gt; |是| emitter</span><br><span class="line">isUseNotice --&gt; |否| favoriteStyle</span><br><span class="line">favoriteStyle --&gt; |可变| mobx_跨框架</span><br><span class="line">favoriteStyle --&gt; |flux不可变| redux&#x2F;vuex</span><br><span class="line">favoriteStyle --&gt; |状态机| xstate_跨框架</span><br></pre></td></tr></table></figure>
+<h3 id="Super-Component-Props"><a href="#Super-Component-Props" class="headerlink" title="Super Component Props"></a><code>Super Component Props</code></h3><blockquote>
+<p>适合简单的父子组件通信。参考: <a target="_blank" rel="noopener" href="https://zh-hans.reactjs.org/docs/components-and-props.html">组件 &amp; Props</a></p>
+</blockquote>
+<p>为什么 <code>props</code> 适合简单的父子通信呢？因为 <code>props</code> 是框架中基础的父子组件通信方式，模板代码也是最少的。</p>
+<p>下面是一个简单的示例：将一个组件内输入框的值渲染到另一个组件中。</p>
+<p><img src="https://img.rxliuli.com/20200818203510.png" alt="最终效果"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">const Hello: React.FC&lt;&#123; name: string &#125;&gt; &#x3D; (props) &#x3D;&gt; &#123;</span><br><span class="line">  return (</span><br><span class="line">    &lt;section&gt;</span><br><span class="line">      &lt;h3&gt;hello &#123;props.name&#125;&lt;&#x2F;h3&gt;</span><br><span class="line">    &lt;&#x2F;section&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const InputName: React.FC&lt;</span><br><span class="line">  Pick&lt;InputHTMLAttributes&lt;HTMLInputElement&gt;, &quot;value&quot; | &quot;onChange&quot;&gt;</span><br><span class="line">&gt; &#x3D; (props) &#x3D;&gt; &#123;</span><br><span class="line">  return &lt;input &#123;...props&#125; &#x2F;&gt;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const App &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  const [name, setName] &#x3D; useState(&quot;&quot;);</span><br><span class="line">  return (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;InputName value&#x3D;&#123;name&#125; onChange&#x3D;&#123;(e) &#x3D;&gt; setName(e.target.value)&#125; &#x2F;&gt;</span><br><span class="line">      &lt;Hello name&#x3D;&#123;name&#125; &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>如题，对于这种简单的父子组件传值，使用 props 是最简单合适的。</p>
+<p>下面演示使用其他几种方式的实现</p>
+<hr>
+<p>使用 context</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">const HelloContext &#x3D; React.createContext&lt;&#123;</span><br><span class="line">  name: string;</span><br><span class="line">  setName: (name: string) &#x3D;&gt; void;</span><br><span class="line">&#125;&gt;(&#123;</span><br><span class="line">  name: &quot;&quot;,</span><br><span class="line">  setName: () &#x3D;&gt; &#123;&#125;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">const Hello: React.FC &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  &#x2F;&#x2F; 模板代码</span><br><span class="line">  const context &#x3D; useContext(HelloContext);</span><br><span class="line">  return (</span><br><span class="line">    &lt;section&gt;</span><br><span class="line">      &lt;h3&gt;hello &#123;context.name&#125;&lt;&#x2F;h3&gt;</span><br><span class="line">    &lt;&#x2F;section&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const InputName: React.FC &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  &#x2F;&#x2F; 模板代码</span><br><span class="line">  const context &#x3D; useContext(HelloContext);</span><br><span class="line">  return (</span><br><span class="line">    &lt;input</span><br><span class="line">      name&#x3D;&#123;context.name&#125;</span><br><span class="line">      onChange&#x3D;&#123;(e) &#x3D;&gt; context.setName(e.target.value)&#125;</span><br><span class="line">    &#x2F;&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const App &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  const [name, setName] &#x3D; useState(&quot;&quot;);</span><br><span class="line">  return (</span><br><span class="line">    &lt;HelloContext.Provider value&#x3D;&#123;&#123; name, setName &#125;&#125;&gt;</span><br><span class="line">      &lt;InputName &#x2F;&gt;</span><br><span class="line">      &lt;Hello &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;HelloContext.Provider&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>可以看到，加的 context 能被深层子组件读取的优势并未体现出来，反而多了一些模板代码。</p>
+<hr>
+<p>使用 global state，此处使用 mobx 进行演示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 模板代码</span><br><span class="line">class HelloStore &#123;</span><br><span class="line">  @observable</span><br><span class="line">  name &#x3D; &quot;&quot;;</span><br><span class="line">  @action</span><br><span class="line">  setName(name: string) &#123;</span><br><span class="line">    this.name &#x3D; name;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const helloStore &#x3D; new HelloStore();</span><br><span class="line"></span><br><span class="line">const Hello: React.FC &#x3D; observer(() &#x3D;&gt; &#123;</span><br><span class="line">  return (</span><br><span class="line">    &lt;section&gt;</span><br><span class="line">      &lt;h3&gt;hello &#123;helloStore.name&#125;&lt;&#x2F;h3&gt;</span><br><span class="line">    &lt;&#x2F;section&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">const InputName: React.FC &#x3D; observer(() &#x3D;&gt; &#123;</span><br><span class="line">  return (</span><br><span class="line">    &lt;input</span><br><span class="line">      name&#x3D;&#123;helloStore.name&#125;</span><br><span class="line">      onChange&#x3D;&#123;(e) &#x3D;&gt; helloStore.setName(e.target.value)&#125;</span><br><span class="line">    &#x2F;&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">const App &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  &#x2F;&#x2F; 模板代码</span><br><span class="line">  useMount(() &#x3D;&gt; &#123;</span><br><span class="line">    helloStore.setName(&quot;&quot;);</span><br><span class="line">  &#125;);</span><br><span class="line">  return (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;InputName &#x2F;&gt;</span><br><span class="line">      &lt;Hello &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>可以看到，store 是全局可用的，但也需要在相应组件内做初始化动作，而非像 props/context 那样受组件生命周期控制，自动的初始化和销毁状态。</p>
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">const em &#x3D; new EventEmitter&lt;&#123;</span><br><span class="line">  update: [string];</span><br><span class="line">&#125;&gt;();</span><br><span class="line"></span><br><span class="line">const Hello: React.FC &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  &#x2F;&#x2F; 模板代码</span><br><span class="line">  const [name, setName] &#x3D; useState(&quot;&quot;);</span><br><span class="line">  &#x2F;&#x2F; 模板代码</span><br><span class="line">  useEffectOnce(() &#x3D;&gt; &#123;</span><br><span class="line">    em.add(&quot;update&quot;, setName);</span><br><span class="line">    return () &#x3D;&gt; &#123;</span><br><span class="line">      em.remove(&quot;update&quot;, setName);</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;);</span><br><span class="line">  return (</span><br><span class="line">    &lt;section&gt;</span><br><span class="line">      &lt;h3&gt;hello &#123;name&#125;&lt;&#x2F;h3&gt;</span><br><span class="line">    &lt;&#x2F;section&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const InputName: React.FC &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  &#x2F;&#x2F; 模板代码</span><br><span class="line">  const [name, setName] &#x3D; useState(&quot;&quot;);</span><br><span class="line">  function handleChange(e: ChangeEvent&lt;HTMLInputElement&gt;) &#123;</span><br><span class="line">    const value &#x3D; e.target.value;</span><br><span class="line">    setName(value);</span><br><span class="line">    &#x2F;&#x2F; 模板代码</span><br><span class="line">    em.emit(&quot;update&quot;, value);</span><br><span class="line">  &#125;</span><br><span class="line">  return &lt;input name&#x3D;&#123;name&#125; onChange&#x3D;&#123;handleChange&#125; &#x2F;&gt;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const App &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  return (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;InputName &#x2F;&gt;</span><br><span class="line">      &lt;Hello &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>可以看到，emitter 可以在不改变原有组件(<code>InputName</code>)的情况下在新的组件添加相关的逻辑，但确实会多一些模板代码，且需要维护两次状态。</p>
+<h3 id="Context-Provider-Pattern"><a href="#Context-Provider-Pattern" class="headerlink" title="Context/Provider Pattern"></a><code>Context/Provider Pattern</code></h3><blockquote>
+<p>适合深层的父组件共享状态给多个子组件，有时候会结合 <code>EventEmitter</code> 一起使用。</p>
+</blockquote>
+<p>为什么我们有了 props，甚至有了更强大的 <code>render props</code>（vue 中被称为 <code>slot</code>），却还是需要 context 呢？</p>
+<p>考虑以下场景，我们想要为一颗组件树的所有组件添加一些全局特性，例如 <code>theme</code>、<code>local</code>、<code>全局配色</code>，而你使用这些状态的组件又分散在各个地方时，便可以考虑使用 context。相比于全局状态，context 仅与框架而非状态管理库绑定，这对于第三方库（尤其是 UI 组件库）是大有益处的，例如 <a target="_blank" rel="noopener" href="https://github.com/react-component/field-form">rc-field-form</a> 和 <a target="_blank" rel="noopener" href="https://github.com/ReactTraining/react-router">react-router</a> 均有如此实现。理论上，当我们需要状态共享但 props 又不需要在组件外操作状态时，就应该首先选择 context。</p>
+<p>下面是一个简单的示例来说明使用 context 实现全局的 theme 控制。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">type ThemeContextType &#x3D; &#123;</span><br><span class="line">  color: &quot;light&quot; | &quot;black&quot;;</span><br><span class="line">&#125;;</span><br><span class="line">const ThemeContext &#x3D; React.createContext&lt;ThemeContextType&gt;(&#123;</span><br><span class="line">  color: &quot;light&quot;,</span><br><span class="line">&#125;);</span><br><span class="line">const Theme &#x3D; ThemeContext.Provider;</span><br><span class="line"></span><br><span class="line">const Button: React.FC &#x3D; (props) &#x3D;&gt; &#123;</span><br><span class="line">  const context &#x3D; useContext(ThemeContext);</span><br><span class="line">  return (</span><br><span class="line">    &lt;button className&#x3D;&#123;context.color !&#x3D;&#x3D; &quot;black&quot; ? &quot;light&quot; : &quot;black&quot;&#125;&gt;</span><br><span class="line">      &#123;props.children&#125;</span><br><span class="line">    &lt;&#x2F;button&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line">const Tag: React.FC &#x3D; (props) &#x3D;&gt; &#123;</span><br><span class="line">  const context &#x3D; useContext(ThemeContext);</span><br><span class="line">  return (</span><br><span class="line">    &lt;span className&#x3D;&#123;context.color !&#x3D;&#x3D; &quot;black&quot; ? &quot;light&quot; : &quot;black&quot;&#125;&gt;</span><br><span class="line">      &#123;props.children&#125;</span><br><span class="line">    &lt;&#x2F;span&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line">const App &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  return (</span><br><span class="line">    &lt;Theme value&#x3D;&#123;&#123; color: &quot;black&quot; &#125;&#125;&gt;</span><br><span class="line">      &lt;Button&gt;按钮&lt;&#x2F;Button&gt;</span><br><span class="line">      &lt;Tag&gt;标签&lt;&#x2F;Tag&gt;</span><br><span class="line">    &lt;&#x2F;Theme&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>问题</p>
+<ul>
+<li>仅限于同一个父组件树下的两个子组件共享状态，当然你也可以说所有的组件都只有<strong>单根</strong>。</li>
+<li>无法在组件外部使用，这点是致命的，例如路由 <code>history</code> 对象弹窗无法在逻辑层使用是不可接受的（需要在请求接口报 404 时跳转登录页面）。</li>
+<li>使用时的模板代码要稍微更多一点，相比与 mobx 的话。</li>
+</ul>
+<h3 id="Global-Store"><a href="#Global-Store" class="headerlink" title="Global Store"></a><code>Global Store</code></h3><blockquote>
+<p>适合在组件树上相隔较远的组件/组件外共享状态和逻辑使用。</p>
+</blockquote>
+<p>那么，继续来看以下场景，当我们需要在多个组件/组件外共享状态时，例如当前登录的用户信息，便应该优先考虑使用状态管理器。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line">interface UserInfo &#123;</span><br><span class="line">  id: string;</span><br><span class="line">  username: string;</span><br><span class="line">  nickname: string;</span><br><span class="line">&#125;</span><br><span class="line">class UserStore &#123;</span><br><span class="line">  @observable</span><br><span class="line">  userInfo?: UserInfo;</span><br><span class="line">  refresh(userInfo: UserInfo) &#123;</span><br><span class="line">    this.userInfo &#x3D; userInfo;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const userStore &#x3D; new UserStore();</span><br><span class="line"></span><br><span class="line">async function post&lt;T&gt;(url: string, data: object) &#123;</span><br><span class="line">  const response &#x3D; await fetch(url, &#123;</span><br><span class="line">    method: &quot;post&quot;,</span><br><span class="line">    headers: &#123;</span><br><span class="line">      &quot;Content-Type&quot;: &quot;application&#x2F;json&quot;,</span><br><span class="line">    &#125;,</span><br><span class="line">    body: JSON.stringify(&#123;</span><br><span class="line">      client: &#123;</span><br><span class="line">        &#x2F;&#x2F;在组件外使用用户信息</span><br><span class="line">        uid: userStore.userInfo?.id,</span><br><span class="line">      &#125;,</span><br><span class="line">      data: data,</span><br><span class="line">    &#125;),</span><br><span class="line">  &#125;);</span><br><span class="line">  return (await response.json()) as T;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type UserInfoForm &#x3D; &#123; username: string; password: string &#125;;</span><br><span class="line">const Login: React.FC &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  const [form, dispatchForm] &#x3D; useReducer&lt;</span><br><span class="line">    Reducer&lt;UserInfoForm, &#123; name: keyof UserInfoForm; value: string &#125;&gt;</span><br><span class="line">  &gt;(</span><br><span class="line">    (state, action) &#x3D;&gt; &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        ...state,</span><br><span class="line">        [action.name]: action.value,</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123; username: &quot;&quot;, password: &quot;&quot; &#125;</span><br><span class="line">  );</span><br><span class="line">  async function handleSubmit(e: FormEvent&lt;HTMLFormElement&gt;) &#123;</span><br><span class="line">    e.preventDefault();</span><br><span class="line">    console.log(&quot;handleSubmit: &quot;, form);</span><br><span class="line">    &#x2F;&#x2F;登录时刷新用户信息</span><br><span class="line">    const userInfo &#x3D; await post&lt;UserInfo&gt;(&quot;&#x2F;login&quot;, form);</span><br><span class="line">    userStore.refresh(userInfo);</span><br><span class="line">  &#125;</span><br><span class="line">  return (</span><br><span class="line">    &lt;form onSubmit&#x3D;&#123;handleSubmit&#125;&gt;</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;label htmlFor&#x3D;&#123;&quot;username&quot;&#125;&gt;用户名：&lt;&#x2F;label&gt;</span><br><span class="line">        &lt;input</span><br><span class="line">          name&#x3D;&#123;&quot;username&quot;&#125;</span><br><span class="line">          value&#x3D;&#123;form.username&#125;</span><br><span class="line">          onChange&#x3D;&#123;(e) &#x3D;&gt;</span><br><span class="line">            dispatchForm(&#123;</span><br><span class="line">              name: &quot;username&quot;,</span><br><span class="line">              value: e.target.value,</span><br><span class="line">            &#125;)</span><br><span class="line">          &#125;</span><br><span class="line">        &#x2F;&gt;</span><br><span class="line">      &lt;&#x2F;div&gt;</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;label htmlFor&#x3D;&#123;&quot;password&quot;&#125;&gt;密码：&lt;&#x2F;label&gt;</span><br><span class="line">        &lt;input</span><br><span class="line">          name&#x3D;&#123;&quot;password&quot;&#125;</span><br><span class="line">          type&#x3D;&#123;&quot;password&quot;&#125;</span><br><span class="line">          value&#x3D;&#123;form.password&#125;</span><br><span class="line">          onChange&#x3D;&#123;(e) &#x3D;&gt;</span><br><span class="line">            dispatchForm(&#123;</span><br><span class="line">              name: &quot;password&quot;,</span><br><span class="line">              value: e.target.value,</span><br><span class="line">            &#125;)</span><br><span class="line">          &#125;</span><br><span class="line">        &#x2F;&gt;</span><br><span class="line">      &lt;&#x2F;div&gt;</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;button type&#x3D;&#123;&quot;submit&quot;&#125;&gt;提交&lt;&#x2F;button&gt;</span><br><span class="line">      &lt;&#x2F;div&gt;</span><br><span class="line">    &lt;&#x2F;form&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line">const App &#x3D; observer(() &#x3D;&gt; &#123;</span><br><span class="line">  return (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &#123;&#x2F;*在组件中使用 store 的值*&#x2F;&#125;</span><br><span class="line">      &lt;header&gt;&#123;userStore.userInfo?.nickname&#125;&lt;&#x2F;header&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>问题</p>
+<ul>
+<li>需要自己管理状态的初始化与清理，不跟随组件的生命周期进行变化。</li>
+<li>全局状态是混乱的根源，过度使用害人害己</li>
+<li>无论何时都存在，占用额外的内存资源</li>
+</ul>
+<h3 id="EventEmitter"><a href="#EventEmitter" class="headerlink" title="EventEmitter"></a><code>EventEmitter</code></h3><blockquote>
+<p>适合用于逻辑层的状态通信或是组件之间的监听/通知操作，不修改组件状态存储的结构，无法复用状态。</p>
+</blockquote>
+<p>在不想改变组件状态/操作的代码结构而仅仅只是想要简单的通信时，EventEmitter 是一种合适的方式。设想以下场景，当你已经写完了一个复杂的组件，而突然 UI/UX 又在另一个相隔很远的地方添加了另一个相关的组件并且需要通信时，在你不想对原组件大刀阔斧的改动时，那么 EventEmitter 是一个合适的选择。</p>
+<p>例如下面这段代码，假设你已经写完了复杂的 MainContent 组件（当然下面代码中的 MainContent 并不算复杂），但后来需求变化，想在 Header 组件中添加一个刷新按钮，而不希望变更代码状态结构的时候，便可以尝试使用 EventEmitter 了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * 随机数生成器（从 0 开始，不包含最大值）</span><br><span class="line"> * 线性同余生成器</span><br><span class="line"> * @link 网上常能见到的一段 JS 随机数生成算法如下，为什么用 9301, 49297, 233280 这三个数字做基数？ - 猫杀的回答 - 知乎</span><br><span class="line"> https:&#x2F;&#x2F;www.zhihu.com&#x2F;question&#x2F;22818104&#x2F;answer&#x2F;22744803</span><br><span class="line"> *&#x2F;</span><br><span class="line">export const rand &#x3D; (function () &#123;</span><br><span class="line">  let seed &#x3D; Date.now();</span><br><span class="line">  function rnd() &#123;</span><br><span class="line">    seed &#x3D; (seed * 9301 + 49297) % 233280.0;</span><br><span class="line">    return seed &#x2F; 233280.0;</span><br><span class="line">  &#125;</span><br><span class="line">  return function rand(num: number) &#123;</span><br><span class="line">    return Math.floor(rnd() * num);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line">const Header: React.FC &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  return (</span><br><span class="line">    &lt;header&gt;</span><br><span class="line">      &lt;h2&gt;标题&lt;&#x2F;h2&gt;</span><br><span class="line">    &lt;&#x2F;header&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line">const MainContent: React.FC &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  const [list, setList] &#x3D; useState&lt;number[]&gt;([]);</span><br><span class="line">  function load() &#123;</span><br><span class="line">    setList(</span><br><span class="line">      Array(10)</span><br><span class="line">        .fill(0)</span><br><span class="line">        .map(() &#x3D;&gt; rand(100))</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">  useMount(() &#x3D;&gt; &#123;</span><br><span class="line">    load();</span><br><span class="line">  &#125;);</span><br><span class="line">  return (</span><br><span class="line">    &lt;section&gt;</span><br><span class="line">      &lt;ul&gt;</span><br><span class="line">        &#123;list.map((i) &#x3D;&gt; (</span><br><span class="line">          &lt;li key&#x3D;&#123;i&#125;&gt;&#123;i&#125;&lt;&#x2F;li&gt;</span><br><span class="line">        ))&#125;</span><br><span class="line">      &lt;&#x2F;ul&gt;</span><br><span class="line">    &lt;&#x2F;section&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line">const App &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  return (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;Header &#x2F;&gt;</span><br><span class="line">      &lt;MainContent &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>使用 EventEmitter 进行通知，其中的 useEventEmitter hooks 来源于 <a target="_blank" rel="noopener" href="https://blog.rxliuli.com/p/4358e813/">使用 React Hooks 结合 EventEmitter</a>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">type RefreshEmitterType &#x3D; &#123; refresh: [] &#125;;</span><br><span class="line">const Header: React.FC &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  const &#123; emit &#125; &#x3D; useEventEmitter&lt;RefreshEmitterType&gt;();</span><br><span class="line">  return (</span><br><span class="line">    &lt;header&gt;</span><br><span class="line">      &lt;h2&gt;标题&lt;&#x2F;h2&gt;</span><br><span class="line">      &#123;&#x2F;*不同，添加触发操作*&#x2F;&#125;</span><br><span class="line">      &lt;button onClick&#x3D;&#123;() &#x3D;&gt; emit(&quot;refresh&quot;)&#125;&gt;刷新&lt;&#x2F;button&gt;</span><br><span class="line">    &lt;&#x2F;header&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line">const MainContent: React.FC &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  const [list, setList] &#x3D; useState&lt;number[]&gt;([]);</span><br><span class="line">  const load &#x3D; useCallback(() &#x3D;&gt; &#123;</span><br><span class="line">    setList(</span><br><span class="line">      Array(10)</span><br><span class="line">        .fill(0)</span><br><span class="line">        .map(() &#x3D;&gt; rand(100))</span><br><span class="line">    );</span><br><span class="line">  &#125;, []);</span><br><span class="line">  useMount(load);</span><br><span class="line">  &#x2F;&#x2F;不同，添加监听</span><br><span class="line">  const &#123; useListener &#125; &#x3D; useEventEmitter&lt;RefreshEmitterType&gt;();</span><br><span class="line">  useListener(&quot;refresh&quot;, load);</span><br><span class="line">  return (</span><br><span class="line">    &lt;section&gt;</span><br><span class="line">      &lt;ul&gt;</span><br><span class="line">        &#123;list.map((v, i) &#x3D;&gt; (</span><br><span class="line">          &lt;li key&#x3D;&#123;i&#125;&gt;&#123;v&#125;&lt;&#x2F;li&gt;</span><br><span class="line">        ))&#125;</span><br><span class="line">      &lt;&#x2F;ul&gt;</span><br><span class="line">    &lt;&#x2F;section&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line">const App &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">  return (</span><br><span class="line">    &#x2F;&#x2F;不同</span><br><span class="line">    &lt;EventEmitterRC&gt;</span><br><span class="line">      &lt;Header &#x2F;&gt;</span><br><span class="line">      &lt;MainContent &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;EventEmitterRC&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>问题</p>
+<ul>
+<li>需要自己管理事件的注册和清理，不跟随特定组件的生命周期变化。</li>
+<li>无论何时都存在，占用额外的内存资源（但相比于全局状态占用的仍然是非常低的）</li>
+<li>使用不当可能导致多个组件由重复的状态</li>
+</ul>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>一种解决方案的劣势可能是另一种方案的优势，总是要选择合适的方案才是最好的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/08/02/a4ea45dd6ba445e1b307ef4e1fd3233e/" data-id="ckmcqox4a006u0kuvazdr7foq" data-title="关于前端组件通信的一些理解" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" rel="tag">工程化</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/08/02/46a28ca74c22482d832b7d15ea2e1ec3/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          使用 React Context 结合 EventEmitter
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/07/31/d55f430907ed4972be823c4979b67fb7/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">React 根据状态动态化功能的一些思考</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/electron/" rel="tag">electron</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grid/" rel="tag">grid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jetbrains/" rel="tag">jetbrains</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webstorm/" rel="tag">webstorm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/" rel="tag">windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA/" rel="tag">个人</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%AC%E5%8F%B8/" rel="tag">公司</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%A8%E6%8A%A5/" rel="tag">周报</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%A3%E5%91%8A/" rel="tag">宣告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" rel="tag">工程化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90/" rel="tag">开源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%82%E6%AD%A5/" rel="tag">异步</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" rel="tag">待更新</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%8F%E9%AA%8C/" rel="tag">经验</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6/" rel="tag">读书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/css/" style="font-size: 12.14px;">css</a> <a href="/tags/electron/" style="font-size: 15.71px;">electron</a> <a href="/tags/git/" style="font-size: 12.86px;">git</a> <a href="/tags/grid/" style="font-size: 10.71px;">grid</a> <a href="/tags/java/" style="font-size: 19.29px;">java</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/jetbrains/" style="font-size: 12.14px;">jetbrains</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 10.71px;">markdown</a> <a href="/tags/react/" style="font-size: 14.29px;">react</a> <a href="/tags/sql/" style="font-size: 14.29px;">sql</a> <a href="/tags/typescript/" style="font-size: 12.14px;">typescript</a> <a href="/tags/vscode/" style="font-size: 12.86px;">vscode</a> <a href="/tags/vue/" style="font-size: 16.43px;">vue</a> <a href="/tags/webstorm/" style="font-size: 10px;">webstorm</a> <a href="/tags/windows/" style="font-size: 17.14px;">windows</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 12.86px;">个人</a> <a href="/tags/%E5%85%AC%E5%8F%B8/" style="font-size: 10px;">公司</a> <a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 10px;">周报</a> <a href="/tags/%E5%AE%A3%E5%91%8A/" style="font-size: 10px;">宣告</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.57px;">工具</a> <a href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" style="font-size: 17.86px;">工程化</a> <a href="/tags/%E5%BC%80%E6%BA%90/" style="font-size: 10px;">开源</a> <a href="/tags/%E5%BC%82%E6%AD%A5/" style="font-size: 15px;">异步</a> <a href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" style="font-size: 10.71px;">待更新</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 18.57px;">杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BB%8F%E9%AA%8C/" style="font-size: 11.43px;">经验</a> <a href="/tags/%E8%AF%BB%E4%B9%A6/" style="font-size: 12.14px;">读书</a> <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 11.43px;">转载</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/14/8fb2d58463ae4191ac064a76e15bffbd/">2021 第十周</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/12/7e7131c07c984d928ba3fefa7a9cef06/">读书-[颓废与沉默：透视犬儒文化]</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/02/db74e6e5d2444bc3b6e185a7b338bbf6/">electron 开发经验之谈系列-在渲染、主进程间共享数据</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/27/06cb464179cf45c598208534705aae3c/">2020 吾辈在公司推动的前端技术演进</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/23/cd66150d2b86448590fcc9bb2419c0b2/">实践 lerna monorepo</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
