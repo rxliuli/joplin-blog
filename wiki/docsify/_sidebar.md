@@ -1,7 +1,3 @@
-  - test
-    - test-sub
-      - [test sub note](/p/c2352daf56804756ac1b9d9b606e06c1)
-    - [test parent note](/p/fc5aec9c44f74dd1bd97f78f8a33f644)
   - Welcome! (Desktop)
     - [1. Welcome to Joplin! 🗒️](/p/947da6a714854075af6e07835de4a719)
     - [2. Importing and exporting notes ↔️](/p/c16050a5f0b047129ffd5f407596b1c1)
