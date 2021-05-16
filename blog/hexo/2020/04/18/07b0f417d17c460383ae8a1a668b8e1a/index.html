@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>MySQL 无法插入中文数据 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="刚刚在 Linux Centos 装完 MySQL 后，想试一下是否能正常使用，但在插入中文数据时发生了下面的这个错误。 1[HY000][1366] Incorrect string value: &amp;#x27;\xE7\x90\x89\xE7\x92\x83&amp;#x27; for column &amp;#x27;name&amp;#x27; at row 1 感觉是 MySQL 编码问题，查看一下编码格式 1s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL 无法插入中文数据">
+<meta property="og:url" content="http://example.com/2020/04/18/07b0f417d17c460383ae8a1a668b8e1a/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="刚刚在 Linux Centos 装完 MySQL 后，想试一下是否能正常使用，但在插入中文数据时发生了下面的这个错误。 1[HY000][1366] Incorrect string value: &amp;#x27;\xE7\x90\x89\xE7\x92\x83&amp;#x27; for column &amp;#x27;name&amp;#x27; at row 1 感觉是 MySQL 编码问题，查看一下编码格式 1s">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-04-18T02:14:09.000Z">
+<meta property="article:modified_time" content="2020-12-29T17:18:52.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="sql">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-07b0f417d17c460383ae8a1a668b8e1a" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/04/18/07b0f417d17c460383ae8a1a668b8e1a/" class="article-date">
+  <time class="dt-published" datetime="2020-04-18T02:14:09.000Z" itemprop="datePublished">2020-04-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      MySQL 无法插入中文数据
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>刚刚在 Linux Centos 装完 MySQL 后，想试一下是否能正常使用，但在插入中文数据时发生了下面的这个错误。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[HY000][<span class="number">1366</span>] Incorrect string <span class="keyword">value</span>: <span class="string">&#x27;\xE7\x90\x89\xE7\x92\x83&#x27;</span> <span class="keyword">for</span> <span class="keyword">column</span> <span class="string">&#x27;name&#x27;</span> <span class="keyword">at</span> <span class="type">row</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>感觉是 MySQL 编码问题，查看一下编码格式</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> variables <span class="keyword">like</span> <span class="string">&#x27;%char%&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>结果</p>
+<table>
+<thead>
+<tr>
+<th>Variable_name</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>character_set_client</td>
+<td>utf8</td>
+</tr>
+<tr>
+<td>character_set_connection</td>
+<td>utf8</td>
+</tr>
+<tr>
+<td>character_set_database</td>
+<td>latin1</td>
+</tr>
+<tr>
+<td>character_set_filesystem</td>
+<td>latin1</td>
+</tr>
+<tr>
+<td>character_set_results</td>
+<td>utf8</td>
+</tr>
+<tr>
+<td>character_set_server</td>
+<td>latin1</td>
+</tr>
+<tr>
+<td>character_set_system</td>
+<td>utf8</td>
+</tr>
+<tr>
+<td>character_sets_dir</td>
+<td>/usr/share/mysql/charsets/</td>
+</tr>
+<tr>
+<td>validate_password_special_char_count</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<p>果然有几个编码是不支持中文的，所以将 <code>latin1</code> 编码修改为 <code>utf8mb4</code>/<code>utf8</code> 就好啦</p>
+<blockquote>
+<p>有关编码格式请参考：<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/ISO/IEC_8859-1">latin1</a>, <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/UTF-8">utf8</a>, <code>utf8mb4</code> 与 <code>utf8</code> 区别可以参考 <a target="_blank" rel="noopener" href="https://my.oschina.net/xsh1208/blog/1052781">https://my.oschina.net/xsh1208/blog/1052781</a></p>
+</blockquote>
+<p>修改它们</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> character_set_client <span class="operator">=</span> utf8mb4;</span><br><span class="line"><span class="keyword">set</span> character_set_connection <span class="operator">=</span> utf8mb4;</span><br><span class="line"><span class="keyword">set</span> character_set_database <span class="operator">=</span> utf8mb4;</span><br><span class="line"><span class="keyword">set</span> character_set_filesystem <span class="operator">=</span> utf8mb4;</span><br><span class="line"><span class="keyword">set</span> character_set_results <span class="operator">=</span> utf8mb4;</span><br><span class="line"><span class="keyword">set</span> character_set_server <span class="operator">=</span> utf8mb4;</span><br></pre></td></tr></table></figure>
+<p>然后再次尝试插入中文数据，好像还是不行呀，怎么办呢？实际上上面修改的是数据库默认的编码格式，对于已经存在的表和列并未生效</p>
+<p>查看一下数据表编码</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">create</span> <span class="keyword">table</span> <span class="keyword">user</span>;</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>Table</th>
+<th>Crate Table</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>user</td>
+<td><code>CREATE TABLE user ( id bigint(20) NOT NULL COMMENT &#39;编号&#39;, name varchar(20) NOT NULL COMMENT &#39;名字&#39;, sex tinyint(1) DEFAULT NULL COMMENT &#39;性别&#39;, age int(11) DEFAULT NULL COMMENT &#39;年龄&#39; ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT=&#39;用户&#39;</code></td>
+</tr>
+</tbody></table>
+<p>查看全部列编码</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">full</span> columns <span class="keyword">from</span> <span class="keyword">user</span>;</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Collation</th>
+<th>Null</th>
+<th>Key</th>
+<th>Default</th>
+<th>Extra Privileges</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>bigint(20)</td>
+<td>null</td>
+<td>NO</td>
+<td>“”</td>
+<td>“”</td>
+<td>select,insert,update,references</td>
+<td>编号</td>
+</tr>
+<tr>
+<td>name</td>
+<td>varchar(20)</td>
+<td>utf8_general_ci</td>
+<td>NO</td>
+<td>“”</td>
+<td>“”</td>
+<td>select,insert,update,references</td>
+<td>名字</td>
+</tr>
+<tr>
+<td>sex</td>
+<td>tinyint(1)</td>
+<td>null</td>
+<td>YES</td>
+<td>“”</td>
+<td>“”</td>
+<td>select,insert,update,references</td>
+<td>性别</td>
+</tr>
+<tr>
+<td>age</td>
+<td>int(11)</td>
+<td>null</td>
+<td>YES</td>
+<td>“”</td>
+<td>“”</td>
+<td>select,insert,update,references</td>
+<td>年龄</td>
+</tr>
+</tbody></table>
+<p>现在有两个选择</p>
+<ul>
+<li>删除数据库重新建一个，数据库的编码格式就默认是 utf8mb4 了</li>
+<li>手动修改数据库，数据表，字段的编码方式</li>
+</ul>
+<ol>
+<li> 删除重建数据库的话只需要将数据库导出 sql 脚本，然后重新执行即可（如果存在很多数据/数据库正在使用则此方法不适用）</li>
+<li>手动修改编码<ol>
+<li>修改数据库编码 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> database <span class="operator">&lt;</span>db_name<span class="operator">&gt;</span> <span class="type">character</span> <span class="keyword">set</span> utf8mb4;</span><br></pre></td></tr></table></figure></li>
+<li>修改数据表编码 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> <span class="operator">&lt;</span>table_name<span class="operator">&gt;</span> <span class="type">character</span> <span class="keyword">set</span> utf8mb4;</span><br></pre></td></tr></table></figure></li>
+<li>修改字段编码 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> <span class="operator">&lt;</span>table_name<span class="operator">&gt;</span> MODIFY <span class="keyword">COLUMN</span> <span class="operator">&lt;</span>field_name<span class="operator">&gt;</span> <span class="operator">&lt;</span>field_type<span class="operator">&gt;</span> <span class="type">CHARACTER</span> <span class="keyword">SET</span> utf8mb4 <span class="keyword">COLLATE</span> utf8mb4_unicode_ci;</span><br></pre></td></tr></table></figure>
+那么，关于 MySQL 不能插入中文数据的问题就到这里啦</li>
+</ol>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/04/18/07b0f417d17c460383ae8a1a668b8e1a/" data-id="ckmcqox24000f0kuvh38l1g62" data-title="MySQL 无法插入中文数据" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql/" rel="tag">sql</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/04/18/0540dc0bb40e41c58e19c3b827aba1cd/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          MySQL 获取随机条数据
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/04/18/09d35ae510984c72bdc5a745c2c3f473/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Java8 函数式功能速查</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/electron/" rel="tag">electron</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grid/" rel="tag">grid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jetbrains/" rel="tag">jetbrains</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webstorm/" rel="tag">webstorm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/" rel="tag">windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA/" rel="tag">个人</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%AC%E5%8F%B8/" rel="tag">公司</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%A8%E6%8A%A5/" rel="tag">周报</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%A3%E5%91%8A/" rel="tag">宣告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" rel="tag">工程化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90/" rel="tag">开源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%82%E6%AD%A5/" rel="tag">异步</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" rel="tag">待更新</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%8F%E9%AA%8C/" rel="tag">经验</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6/" rel="tag">读书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/css/" style="font-size: 12.14px;">css</a> <a href="/tags/electron/" style="font-size: 15.71px;">electron</a> <a href="/tags/git/" style="font-size: 12.86px;">git</a> <a href="/tags/grid/" style="font-size: 10.71px;">grid</a> <a href="/tags/java/" style="font-size: 19.29px;">java</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/jetbrains/" style="font-size: 12.14px;">jetbrains</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 10.71px;">markdown</a> <a href="/tags/react/" style="font-size: 14.29px;">react</a> <a href="/tags/sql/" style="font-size: 14.29px;">sql</a> <a href="/tags/typescript/" style="font-size: 12.14px;">typescript</a> <a href="/tags/vscode/" style="font-size: 12.86px;">vscode</a> <a href="/tags/vue/" style="font-size: 16.43px;">vue</a> <a href="/tags/webstorm/" style="font-size: 10px;">webstorm</a> <a href="/tags/windows/" style="font-size: 17.14px;">windows</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 12.86px;">个人</a> <a href="/tags/%E5%85%AC%E5%8F%B8/" style="font-size: 10px;">公司</a> <a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 10px;">周报</a> <a href="/tags/%E5%AE%A3%E5%91%8A/" style="font-size: 10px;">宣告</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.57px;">工具</a> <a href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" style="font-size: 17.86px;">工程化</a> <a href="/tags/%E5%BC%80%E6%BA%90/" style="font-size: 10px;">开源</a> <a href="/tags/%E5%BC%82%E6%AD%A5/" style="font-size: 15px;">异步</a> <a href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" style="font-size: 10.71px;">待更新</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 18.57px;">杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BB%8F%E9%AA%8C/" style="font-size: 11.43px;">经验</a> <a href="/tags/%E8%AF%BB%E4%B9%A6/" style="font-size: 12.14px;">读书</a> <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 11.43px;">转载</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/14/8fb2d58463ae4191ac064a76e15bffbd/">2021 第十周</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/12/7e7131c07c984d928ba3fefa7a9cef06/">读书-[颓废与沉默：透视犬儒文化]</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/02/db74e6e5d2444bc3b6e185a7b338bbf6/">electron 开发经验之谈系列-在渲染、主进程间共享数据</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/27/06cb464179cf45c598208534705aae3c/">2020 吾辈在公司推动的前端技术演进</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/23/cd66150d2b86448590fcc9bb2419c0b2/">实践 lerna monorepo</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>在 Windows 上使用 FTP/SFTP 服务端 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="场景最近在做 WebService 项目时遇到了定时上传统计报表的需求。协议是 FTP&#x2F;SFTP，然而第三方服务暂时无法集成，所以只能在本地使用软件模拟出 FTP&#x2F;SFTP 服务端，然后在代码中进行测试。 前言吾辈并未使用 Windows 上大名鼎鼎的 FileZilla。谜之音：FileZilla 开源免费，而且 FTP&#x2F;SFTP&#x2F;FTPS 都能支持岂不美滋滋？吾辈：然而安装完成直接启动就报错了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 Windows 上使用 FTP&#x2F;SFTP 服务端">
+<meta property="og:url" content="http://example.com/2020/02/02/3240627e8e6745dbbde569c1df169c32/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="场景最近在做 WebService 项目时遇到了定时上传统计报表的需求。协议是 FTP&#x2F;SFTP，然而第三方服务暂时无法集成，所以只能在本地使用软件模拟出 FTP&#x2F;SFTP 服务端，然后在代码中进行测试。 前言吾辈并未使用 Windows 上大名鼎鼎的 FileZilla。谜之音：FileZilla 开源免费，而且 FTP&#x2F;SFTP&#x2F;FTPS 都能支持岂不美滋滋？吾辈：然而安装完成直接启动就报错了">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190217213152.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190217213700.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190217214421.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190217214719.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190217214843.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190217214951.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190217220138.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190217220648.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190217220940.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190217221138.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190217221321.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190217221633.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190217221801.png">
+<meta property="article:published_time" content="2020-02-02T02:15:38.000Z">
+<meta property="article:modified_time" content="2020-12-29T17:12:58.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="windows">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190217213152.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-3240627e8e6745dbbde569c1df169c32" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/02/02/3240627e8e6745dbbde569c1df169c32/" class="article-date">
+  <time class="dt-published" datetime="2020-02-02T02:15:38.000Z" itemprop="datePublished">2020-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      在 Windows 上使用 FTP/SFTP 服务端
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>最近在做 <code>WebService</code> 项目时遇到了定时上传统计报表的需求。协议是 <code>FTP/SFTP</code>，然而第三方服务暂时无法集成，所以只能在本地使用软件模拟出 <code>FTP/SFTP</code> 服务端，然后在代码中进行测试。</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>吾辈并未使用 Windows 上大名鼎鼎的 <a target="_blank" rel="noopener" href="https://filezilla-project.org/">FileZilla</a>。<br>谜之音：<strong>FileZilla 开源免费，而且 <code>FTP/SFTP/FTPS</code> 都能支持岂不美滋滋？</strong><br>吾辈：然而安装完成直接启动就报错了<br>谜之音：<strong>报错就去查一下，这都觉得麻烦却是没办法了呢！</strong></p>
+<p>事实上这是很多开发者，尤其是 Linux 下的开发者，习惯了使用软件可能报错、可能有问题，对使用体验毫不在意。<br>所以吾辈滚了，滚去使用其他的软件了。</p>
+<h2 id="使用-freeFTPd"><a href="#使用-freeFTPd" class="headerlink" title="使用 freeFTPd"></a>使用 freeFTPd</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="http://www.freesshd.com/">freeFTPd 官网</a></p>
+</blockquote>
+<p>点击 <a target="_blank" rel="noopener" href="http://www.freesshd.com/freeFTPd.exe">下载链接</a> 下载 freeFTPd，然后点击安装。第一次运行时会询问你 <strong>是否创建/使用私钥</strong> 和 <strong>是否运行系统服务</strong>，全部选择 <strong>是</strong> 即可。</p>
+<ol>
+<li>打开程序<br> 可以看到默认在 <code>Status</code> 标签，显示者 FTP 和 SFTP 服务都是关闭状态。<br> <img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190217213152.png" alt="首页"></li>
+<li>添加用户<br> 首先，我们需要添加一个用户，可以连接 FTP/SFTP 服务端的用户。<ol>
+<li>点击 Users 标签，然后点击 Add 添加用户<br> <img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190217213700.png" alt="Users 标签"></li>
+<li>设置用户信息<br> <img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190217214421.png" alt="添加用户信息"><br> 依次<ol>
+<li> 输入用户名</li>
+<li> 选择使用密码认证</li>
+<li> 输入密码</li>
+<li> 选择用户的服务端根目录</li>
+<li> 同时选择允许 FTP/SFTP 连接（默认选中）</li>
+<li> 点击 Apply 完成添加</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>启动 FTP 服务端<br> <img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190217214719.png" alt="启动 FTP"></li>
+<li>启动 SFTP 服务端<br> <img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190217214843.png" alt="启动 SFTP"></li>
+<li>查看 Status 状态页<br> <img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190217214951.png" alt="Status 选项页"></li>
+</ol>
+<h2 id="测试-FTP-SFTP"><a href="#测试-FTP-SFTP" class="headerlink" title="测试 FTP/SFTP"></a>测试 FTP/SFTP</h2><p>如果仅仅是连接 FTP/SFTP 的话，我们确实可以使用 <a target="_blank" rel="noopener" href="https://winscp.net/">WinSCP</a> 作为 FTP/SFTP 客户端。然而，作为开发者，连接 Linux 服务器也是家常便饭，所以我们选择 <a target="_blank" rel="noopener" href="https://mobaxterm.mobatek.net/">MobaXterm</a>。</p>
+<p>在 <a target="_blank" rel="noopener" href="https://mobaxterm.mobatek.net/download-home-edition.html">下载页面</a> 选择 <strong>MobaXterm Home Edition v11.1 (Portable edition)</strong> 下载免费便携版。下载完成得到一个压缩包，解压之，点击 <strong>MobaXterm_Personal_11.1.exe</strong> 运行程序。</p>
+<p>MobaXterm 首页<br><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190217220138.png" alt="MobaXterm 首页"></p>
+<ol>
+<li>点击 <strong>Session</strong> 添加会话<br> <img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190217220648.png" alt="连接 FTP"></li>
+<li>设置用户认证信息<br> <img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190217220940.png" alt="设置用户认证信息"></li>
+<li>选择用户认证信息<br> <img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190217221138.png" alt="选择用户认证信息"></li>
+<li>连接 FTP 成功<br> <img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190217221321.png" alt="连接 FTP 成功"></li>
+<li>同理添加 SFTP 连接<br> <img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190217221633.png" alt="同理添加 SFTP 连接"></li>
+<li>连接 SFTP 成功<br> <img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190217221801.png" alt="连接 SFTP 成功"></li>
+</ol>
+<hr>
+<p>最后，虽然概率很低，但如果在你的 PC 上按照该教程搭建失败，可以在文章底部进行评论告诉吾辈哦 （ｖ＾＿＾）ｖ</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/02/02/3240627e8e6745dbbde569c1df169c32/" data-id="ckmcqox2t002d0kuv0gj3h4mq" data-title="在 Windows 上使用 FTP/SFTP 服务端" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/windows/" rel="tag">windows</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/02/02/29f2a48fdf1d4d8c996d14b02768af1d/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          IDEA 设置 Git-Bash 为默认 Terminal
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/02/02/35f7849269eb442a89896fec0660415a/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">IDEA 创建和运行一个简单的 maven web 项目</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/electron/" rel="tag">electron</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grid/" rel="tag">grid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jetbrains/" rel="tag">jetbrains</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webstorm/" rel="tag">webstorm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/" rel="tag">windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA/" rel="tag">个人</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%AC%E5%8F%B8/" rel="tag">公司</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%A8%E6%8A%A5/" rel="tag">周报</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%A3%E5%91%8A/" rel="tag">宣告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" rel="tag">工程化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90/" rel="tag">开源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%82%E6%AD%A5/" rel="tag">异步</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" rel="tag">待更新</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%8F%E9%AA%8C/" rel="tag">经验</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6/" rel="tag">读书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/css/" style="font-size: 12.14px;">css</a> <a href="/tags/electron/" style="font-size: 15.71px;">electron</a> <a href="/tags/git/" style="font-size: 12.86px;">git</a> <a href="/tags/grid/" style="font-size: 10.71px;">grid</a> <a href="/tags/java/" style="font-size: 19.29px;">java</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/jetbrains/" style="font-size: 12.14px;">jetbrains</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 10.71px;">markdown</a> <a href="/tags/react/" style="font-size: 14.29px;">react</a> <a href="/tags/sql/" style="font-size: 14.29px;">sql</a> <a href="/tags/typescript/" style="font-size: 12.14px;">typescript</a> <a href="/tags/vscode/" style="font-size: 12.86px;">vscode</a> <a href="/tags/vue/" style="font-size: 16.43px;">vue</a> <a href="/tags/webstorm/" style="font-size: 10px;">webstorm</a> <a href="/tags/windows/" style="font-size: 17.14px;">windows</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 12.86px;">个人</a> <a href="/tags/%E5%85%AC%E5%8F%B8/" style="font-size: 10px;">公司</a> <a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 10px;">周报</a> <a href="/tags/%E5%AE%A3%E5%91%8A/" style="font-size: 10px;">宣告</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.57px;">工具</a> <a href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" style="font-size: 17.86px;">工程化</a> <a href="/tags/%E5%BC%80%E6%BA%90/" style="font-size: 10px;">开源</a> <a href="/tags/%E5%BC%82%E6%AD%A5/" style="font-size: 15px;">异步</a> <a href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" style="font-size: 10.71px;">待更新</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 18.57px;">杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BB%8F%E9%AA%8C/" style="font-size: 11.43px;">经验</a> <a href="/tags/%E8%AF%BB%E4%B9%A6/" style="font-size: 12.14px;">读书</a> <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 11.43px;">转载</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/14/8fb2d58463ae4191ac064a76e15bffbd/">2021 第十周</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/12/7e7131c07c984d928ba3fefa7a9cef06/">读书-[颓废与沉默：透视犬儒文化]</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/02/db74e6e5d2444bc3b6e185a7b338bbf6/">electron 开发经验之谈系列-在渲染、主进程间共享数据</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/27/06cb464179cf45c598208534705aae3c/">2020 吾辈在公司推动的前端技术演进</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/23/cd66150d2b86448590fcc9bb2419c0b2/">实践 lerna monorepo</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

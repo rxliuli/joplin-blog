@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>3. Synchronising your notes 🔄 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Synchronising your notes 🔄One of the goals of Joplin was to avoid being tied to any particular company or service, whether it is Evernote, Google or Microsoft. As such the synchronisation is designed">
+<meta property="og:type" content="article">
+<meta property="og:title" content="3. Synchronising your notes 🔄">
+<meta property="og:url" content="http://example.com/2020/11/15/d8652e9df7dd4f60b808ec18500f6882/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Synchronising your notes 🔄One of the goals of Joplin was to avoid being tied to any particular company or service, whether it is Evernote, Google or Microsoft. As such the synchronisation is designed">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-11-15T03:10:00.000Z">
+<meta property="article:modified_time" content="2020-11-15T03:10:00.000Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/public/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/public/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/public/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/public/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/public/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/public/">Home</a>
+        
+          <a class="main-nav-link" href="/public/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/public/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-d8652e9df7dd4f60b808ec18500f6882" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/public/2020/11/15/d8652e9df7dd4f60b808ec18500f6882/" class="article-date">
+  <time class="dt-published" datetime="2020-11-15T03:10:00.000Z" itemprop="datePublished">2020-11-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      3. Synchronising your notes 🔄
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Synchronising-your-notes-🔄"><a href="#Synchronising-your-notes-🔄" class="headerlink" title="Synchronising your notes 🔄"></a>Synchronising your notes 🔄</h1><p>One of the goals of Joplin was to avoid being tied to any particular company or service, whether it is Evernote, Google or Microsoft. As such the synchronisation is designed without any hard dependency to any particular service. You basically choose the service you prefer among those supported, setup the configuration, and the app will be able to sync between your computers or mobile devices.</p>
+<p>The supported cloud services are the following:</p>
+<h2 id="Setting-up-Dropbox-synchronisation"><a href="#Setting-up-Dropbox-synchronisation" class="headerlink" title="Setting up Dropbox synchronisation"></a>Setting up Dropbox synchronisation</h2><p>Select “Dropbox” as the synchronisation target in the config screen (it is selected by default). Then, to initiate the synchronisation process, click on the “Synchronise” button in the sidebar and follow the instructions.</p>
+<h2 id="Setting-up-Nextcloud-synchronisation"><a href="#Setting-up-Nextcloud-synchronisation" class="headerlink" title="Setting up Nextcloud synchronisation"></a>Setting up Nextcloud synchronisation</h2><p>Nextcloud is a self-hosted, private cloud solution. It can store documents, images and videos but also calendars, passwords and countless other things and can sync them to your laptop or phone. As you can host your own Nextcloud server, you own both the data on your device and infrastructure used for synchronisation. As such it is a good fit for Joplin.</p>
+<p>To set it up, go to the config screen and select Nextcloud as the synchronisation target. Then input the WebDAV URL (to get it, go to your Nextcloud page, click on Settings in the bottom left corner of the page and copy the URL). Note that it has to be the <strong>full URL</strong>, so for example if you want the notes to be under <code>/Joplin</code>, the URL would be something like <code>https://example.com/remote.php/webdav/Joplin</code> (note that “/Joplin” part). And <strong>make sure to create the “/Joplin” directory in Nextcloud</strong>. Finally set the username and password. If it does not work, please <a target="_blank" rel="noopener" href="https://github.com/laurent22/joplin/issues/61#issuecomment-373282608">see this explanation</a> for more details.</p>
+<h2 id="Setting-up-OneDrive-or-WebDAV-synchronisation"><a href="#Setting-up-OneDrive-or-WebDAV-synchronisation" class="headerlink" title="Setting up OneDrive or WebDAV synchronisation"></a>Setting up OneDrive or WebDAV synchronisation</h2><p>OneDrive and WebDAV are also supported as synchronisation services. Please see <a target="_blank" rel="noopener" href="https://github.com/laurent22/joplin#exporting">the export documentation</a> for more information.</p>
+<h2 id="Using-End-To-End-Encryption"><a href="#Using-End-To-End-Encryption" class="headerlink" title="Using End-To-End Encryption"></a>Using End-To-End Encryption</h2><p>Joplin supports end-to-end encryption (E2EE) on all the applications. E2EE is a system where only the owner of the data can read it. It prevents potential eavesdroppers - including telecom providers, internet providers, and even the developers of Joplin from being able to access the data. Please see the <a target="_blank" rel="noopener" href="https://joplinapp.org/e2ee/">End-To-End Encryption Tutorial</a> for more information about this feature and how to enable it.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/11/15/d8652e9df7dd4f60b808ec18500f6882/" data-id="cknlz9q9i0002zo764gqpao45" data-title="3. Synchronising your notes 🔄" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/public/2020/11/15/6aaa878735a7446298827161ef1e6816/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          2. Importing and exporting notes ↔️
+        
+      </div>
+    </a>
+  
+  
+    <a href="/public/2020/11/15/6eda570b83ac4aae9fac207662a7d10d/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">5. Privacy</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/public/archives/2020/11/">November 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/public/2020/11/15/88e1ce92b2cd4bcfa3f21b23d086828a/">1. Welcome to Joplin! 🗒️</a>
+          </li>
+        
+          <li>
+            <a href="/public/2020/11/15/3a1f13859925455882d4afd39345059f/">4. Tips 💡</a>
+          </li>
+        
+          <li>
+            <a href="/public/2020/11/15/6aaa878735a7446298827161ef1e6816/">2. Importing and exporting notes ↔️</a>
+          </li>
+        
+          <li>
+            <a href="/public/2020/11/15/d8652e9df7dd4f60b808ec18500f6882/">3. Synchronising your notes 🔄</a>
+          </li>
+        
+          <li>
+            <a href="/public/2020/11/15/6eda570b83ac4aae9fac207662a7d10d/">5. Privacy</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/public/" class="mobile-nav-link">Home</a>
+  
+    <a href="/public/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/public/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/public/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/public/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

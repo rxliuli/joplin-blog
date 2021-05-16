@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/8/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-aff1cf51e02c43a28fe6c5c006bad2cd" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/04/18/aff1cf51e02c43a28fe6c5c006bad2cd/" class="article-date">
+  <time class="dt-published" datetime="2020-04-18T02:14:09.000Z" itemprop="datePublished">2020-04-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/04/18/aff1cf51e02c43a28fe6c5c006bad2cd/">SpringBoot 集成 Thymeleaf 模板引擎</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>最近开始了一个新的项目，后端使用了 SpringBoot。因为没有进行前后端分离，所以还需要模板引擎。经过调查，我们放弃 <code>JSP/JSTL</code> 而选择了 SpringBoot 默认推荐的 <code>Thymeleaf</code>。</p>
+<blockquote>
+<p>附：不要吐槽 <code>JSP/JSTL</code> 很老，吾辈自己都觉得很老，然而公司不允许前后端分离，无解。。。（或许有？）</p>
+</blockquote>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h3><p>使用 <a target="_blank" rel="noopener" href="https://start.spring.io/">springboot.io</a> 创建项目，选择 <code>Web</code> 和 <code>Thymeleaf</code> 依赖，生成的 <code>build.gradle</code> 配置如下</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">plugins &#123;</span><br><span class="line">    id <span class="string">&#x27;org.springframework.boot&#x27;</span> version <span class="string">&#x27;2.1.3.RELEASE&#x27;</span></span><br><span class="line">    id <span class="string">&#x27;java&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">apply <span class="attr">plugin:</span> <span class="string">&#x27;io.spring.dependency-management&#x27;</span></span><br><span class="line"></span><br><span class="line">group = <span class="string">&#x27;com.rxliuli.example&#x27;</span></span><br><span class="line">version = <span class="string">&#x27;0.0.1-SNAPSHOT&#x27;</span></span><br><span class="line">sourceCompatibility = <span class="string">&#x27;1.8&#x27;</span></span><br><span class="line"></span><br><span class="line">repositories &#123;</span><br><span class="line">    mavenCentral()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dependencies &#123;</span><br><span class="line">    implementation <span class="string">&#x27;org.springframework.boot:spring-boot-starter-thymeleaf&#x27;</span></span><br><span class="line">    implementation <span class="string">&#x27;org.springframework.boot:spring-boot-starter-web&#x27;</span></span><br><span class="line">    testImplementation <span class="string">&#x27;org.springframework.boot:spring-boot-starter-test&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="添加公共-js-依赖管理"><a href="#添加公共-js-依赖管理" class="headerlink" title="添加公共 js 依赖管理"></a>添加公共 js 依赖管理</h3><p>公共 <code>JavaScript</code> 依赖: <em>templates/common/common-lib-js.html</em></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;zh-CN&quot;</span> <span class="attr">xmlns:th</span>=<span class="string">&quot;http://www.thymeleaf.org&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">th:fragment</span>=<span class="string">&quot;common-lib-js&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="添加公共顶部"><a href="#添加公共顶部" class="headerlink" title="添加公共顶部"></a>添加公共顶部</h3><p>公共的顶部: <em>templates/common/common-header.html</em></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;zh-CN&quot;</span> <span class="attr">xmlns:th</span>=<span class="string">&quot;http://www.thymeleaf.org&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">header</span> <span class="attr">th:fragment</span>=<span class="string">&quot;common-header&quot;</span> <span class="attr">id</span>=<span class="string">&quot;common-header&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">        <span class="selector-id">#common-header</span> &#123;</span></span><br><span class="line">          height: 100px;</span><br><span class="line">          width: 100%;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"><span class="css">        <span class="selector-id">#common-header</span> <span class="selector-class">.text-center</span> &#123;</span></span><br><span class="line">          text-align: center;</span><br><span class="line">        &#125;</span><br><span class="line">      <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">h1</span> <span class="attr">class</span>=<span class="string">&quot;text-center&quot;</span>&gt;</span>这里是公共顶部<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">header</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="添加公共底部"><a href="#添加公共底部" class="headerlink" title="添加公共底部"></a>添加公共底部</h3><p>公共的底部: <em>templates/common/common-footer.html</em></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;zh-CN&quot;</span> <span class="attr">xmlns:th</span>=<span class="string">&quot;http://www.thymeleaf.org&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">header</span> <span class="attr">th:fragment</span>=<span class="string">&quot;common-footer&quot;</span> <span class="attr">id</span>=<span class="string">&quot;common-footer&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">        <span class="selector-id">#common-footer</span> &#123;</span></span><br><span class="line">          height: 100px;</span><br><span class="line">          width: 100%;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"><span class="css">        <span class="selector-id">#common-footer</span> <span class="selector-class">.text-center</span> &#123;</span></span><br><span class="line">          text-align: center;</span><br><span class="line">        &#125;</span><br><span class="line">      <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">h1</span> <span class="attr">class</span>=<span class="string">&quot;text-center&quot;</span>&gt;</span>这里是公共底部<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">header</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="在页面中引入"><a href="#在页面中引入" class="headerlink" title="在页面中引入"></a>在页面中引入</h3><p>下面在页面中引入看看效果</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;zh-CN&quot;</span> <span class="attr">xmlns:th</span>=<span class="string">&quot;http://www.thymeleaf.org&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span> /&gt;</span></span><br><span class="line">    &lt;meta</span><br><span class="line">      name=&quot;viewport&quot;</span><br><span class="line">      content=&quot;width=device-width, initial-scale=1, shrink-to-fit=no&quot;</span><br><span class="line">    /&gt;</span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;x-ua-compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;ie=edge&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">      <span class="selector-class">.text-center</span> &#123;</span></span><br><span class="line">        text-align: center;</span><br><span class="line">      &#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>首页<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">th:replace</span>=<span class="string">&quot;common/common-header::common-header&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">main</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">&quot;text-center&quot;</span>&gt;</span>这里是页面单独的内容部分<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">main</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">th:replace</span>=<span class="string">&quot;common/common-footer::common-footer&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">th:replace</span>=<span class="string">&quot;common/common-lib-js::common-lib-js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">console</span>.log($);</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>效果图</p>
+<p><img src="https://img.rxliuli.com/20190309095422.png" alt="效果图"></p>
+<p>可以看到 <code>common-lib-js</code>, <code>common-header</code>, <code>common-footer</code> 都已经引入成功</p>
+<p>注意，我们在页面中引入的顺序是</p>
+<ol>
+<li> <code>common-header</code>: 公共头部</li>
+<li> 页面自定义 HTML 内容</li>
+<li> <code>common-footer</code>: 公共底部</li>
+<li> <code>common-lib-js</code>: 公共 JavaScript 依赖</li>
+<li> 页面自定义 JavaScript 脚本</li>
+</ol>
+<p>主要遵循下面几个原则</p>
+<ul>
+<li>JavaScript 必须在 HTML body 结尾处引入，避免加载的速度问题</li>
+<li>自定义的 JavaScript 必须在公共的 JavaScript 之后引入，避免依赖找不到</li>
+</ul>
+<h2 id="更进一步"><a href="#更进一步" class="headerlink" title="更进一步"></a>更进一步</h2><p>难道每个页面我们都需要引入这些公共的文件么？有什么更好的方法么？例如每个页面只要写单独的部分，在渲染的时候 <strong>自动</strong> 将页面中的单独部分渲染到某个布局页面中。<br>很遗憾的是，<code>Thymeleaf</code> 本身并未提供这个功能。然而，<code>Thymeleaf</code> 已经有人做出了第三方的库以提供此功能。</p>
+<p>1.添加依赖项</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">implementation <span class="string">&#x27;nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.3.0&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>2.添加布局文件</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line">&lt;html</span><br><span class="line">  lang=&quot;zh-CN&quot;</span><br><span class="line">  xmlns:th=&quot;http://www.thymeleaf.org&quot;</span><br><span class="line">  xmlns:layout=&quot;http://www.ultraq.net.nz/thymeleaf/layout&quot;</span><br><span class="line">&gt;</span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span> /&gt;</span></span><br><span class="line">    &lt;meta</span><br><span class="line">      name=&quot;viewport&quot;</span><br><span class="line">      content=&quot;width=device-width, initial-scale=1, shrink-to-fit=no&quot;</span><br><span class="line">    /&gt;</span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;x-ua-compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;ie=edge&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>layout<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--公共的头部--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">th:replace</span>=<span class="string">&quot;common/common-header::common-header&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--页面自定义的 HTML--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">layout:fragment</span>=<span class="string">&quot;html&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--公共的尾部--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">th:replace</span>=<span class="string">&quot;common/common-footer::common-footer&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--公共的 js 依赖--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">th:replace</span>=<span class="string">&quot;common/common-lib-js::common-lib-js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--页面的 js 依赖--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">layout:fragment</span>=<span class="string">&quot;js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>3.使用布局文件</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line">&lt;html</span><br><span class="line">  lang=&quot;zh-CN&quot;</span><br><span class="line">  xmlns:layout=&quot;http://www.ultraq.net.nz/thymeleaf/layout&quot;</span><br><span class="line">  layout:decorator=&quot;common/layout&quot;</span><br><span class="line">&gt;</span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    &lt;meta</span><br><span class="line">      name=&quot;viewport&quot;</span><br><span class="line">      content=&quot;width=device-width, initial-scale=1, shrink-to-fit=no&quot;</span><br><span class="line">    /&gt;</span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;x-ua-compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;ie=edge&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">      <span class="selector-class">.text-center</span> &#123;</span></span><br><span class="line">        text-align: center;</span><br><span class="line">      &#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>首页<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">main</span> <span class="attr">layout:fragment</span>=<span class="string">&quot;html&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">&quot;text-center&quot;</span>&gt;</span>这里是页面单独的内容部分<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">main</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">layout:fragment</span>=<span class="string">&quot;js&quot;</span>&gt;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">console</span>.log($);</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>再次刷新，将看到与直接引入有着相同的效果！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/04/18/aff1cf51e02c43a28fe6c5c006bad2cd/" data-id="ckmcqox4g007j0kuvg47l0nj9" data-title="SpringBoot 集成 Thymeleaf 模板引擎" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-b542563af92a47e1bb8d1e564fd110fd" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/04/18/b542563af92a47e1bb8d1e564fd110fd/" class="article-date">
+  <time class="dt-published" datetime="2020-04-18T02:14:09.000Z" itemprop="datePublished">2020-04-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/04/18/b542563af92a47e1bb8d1e564fd110fd/">Spring 配置静态资源访问后结果发生 404 了？</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>这两天使用 SpringMVC 时突然发现了一个问题，在 <code>spring-mvc.xml</code> 中配置静态资源访问以后，突然发现访问什么 <code>Controller</code> 控制的页面都 404 了。<br>如果把这个配置删除后，就能正常访问了，后来在与曾经的项目配置文件对比时发现是缺少了配置 <code>&lt;mvc:annotation-driven/&gt;</code>。<br>然而，在没有添加静态资源访问时，没有这个配置也能够使用 <code>Controller</code> 控制器。吾辈好奇的去网络上查询了一下 <code>&lt;mvc:annotation-driven/&gt;</code> 相关的信息，在此记录到 blogger 中，以供日后查阅。</p>
+<p>吾辈的 <code>spring-mvc.xml</code> 中的静态资源访问配置：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--扫描静态资源文件--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mvc:default-servlet-handler</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mvc:resources</span> <span class="attr">mapping</span>=<span class="string">&quot;/statics/**&quot;</span> <span class="attr">location</span>=<span class="string">&quot;/statics/&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p>那么，下面就说一下 <code>&lt;mvc:annotation-driven/&gt;</code> 具体有什么作用好啦！<br><code>&lt;mvc:annotation-driven&gt;</code> 相当于注册了 <code>Spring MVC</code> 分发请求到控制器所必须 <code>DefaultAnnotationHandlerMapping</code> 和 <code>AnnotationMethodHandlerAdapter</code> 两个 Bean，配置一些 messageconvert。即解决了 <code>@Controller</code> 注解的使用前提配置。</p>
+<p>配置中如果没有 <code>&lt;mvc:annotation-driven/&gt;</code>，那么所有的 <code>Controller</code> 可能就没有解析，所有当有请求时候都没有匹配的处理请求类，就都去 <code>&lt;mvc:default-servlet-handler/&gt;</code> 即 <code>default servlet</code> 处理了。添加上 <code>&lt;mvc:annotation-driven/&gt;</code> 后，相应的请求被 <code>Controller</code> 处理，而静态资源因为没有相应的 <code>Controller</code> 就会被 <code>default servlet</code> 处理。总之没有相应的 <code>Controller</code> 就会被 <code>default servlet</code> 处理就 ok 了。</p>
+<p>然后，<code>&lt;mvc:annotation-driven/&gt;</code> 标签配置的这 2 个 Bean 可以根据 classpath 中的内容默认提供以下功能：</p>
+<ol>
+<li>Support for Spring 3’s Type ConversionService in addition to JavaBeans PropertyEditors during Data Binding.A ConversionService instance produced by the org.springframework.format.support.FormattingConversionServiceFactoryBean is used by default.This can be overriden by setting the conversion-service attribute.<br> 支持 spring3 的 javaBeans 属性编辑器数据绑定时的类型转换服务。<br> 类型转换服务实例默认为 org.springframework.format.support.FormattingConversionServiceFactoryBean。<br> 可以覆盖 conversion-service 属性来指定类型转换服务实例类。</li>
+<li>Support for formatting Number fields using the @NumberFormat annotation.<br> 支持 @NumberFormat 注解格式化数字类型字段。</li>
+<li>Support for formatting Date, Calendar, Long, and Joda Time fields using the @DateTimeFormat annotation, if Joda Time 1.3 or higher is present on the classpath.<br> @DateTimeFormat 注解格式化 Date, Calendar, Long 和 Joda Time（如 classpath 下存在 Joda Time 1.3 或更高版本）字段</li>
+<li>Support for validating @Controller inputs with @Valid, if a JSR-303 Provider is present on the classpath.The validation system can be explicitly configured by setting the validator attribute.<br> 支持 @Valid 注解验证控制器数据，classpath 中需 JSR-303 的 **。可以使用 setting 明确的配置</li>
+<li>Support for reading and writing XML, if JAXB is present on the classpath.<br> 支持读写 xml，classpath 中需 JAXB 。</li>
+<li>Support for reading and writing JSON, if Jackson is present on the classpath.<br> 支持读写 json，classpath 中需 Jackson 。</li>
+</ol>
+<p>嗯，这篇 blogger 就这么多啦(其实大部分都是借鉴网络上诸位大佬的啦)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/04/18/b542563af92a47e1bb8d1e564fd110fd/" data-id="ckmcqox4k007p0kuv80wnfsxs" data-title="Spring 配置静态资源访问后结果发生 404 了？" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-c620ae8543be423cad220c0ae09d6be2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/04/18/c620ae8543be423cad220c0ae09d6be2/" class="article-date">
+  <time class="dt-published" datetime="2020-04-18T02:14:09.000Z" itemprop="datePublished">2020-04-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/04/18/c620ae8543be423cad220c0ae09d6be2/">Java 跨域问题处理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>在页面上要使用 <code>Ajax</code> 请求去获取另外一个服务的数据，由于浏览器的 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/Security/Same-origin_policy">同源策略</a>，所以直接请求会得到一个 <code>Error</code>。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Failed to load https://www.baidu.com/: No &#x27;Access-Control-Allow-Origin&#x27; header is present on the requested resource. Origin &#x27;http://localhost:3000&#x27; is therefore not allowed access. If an opaque response serves your needs, set the request&#x27;s mode to &#x27;no-cors&#x27; to fetch the resource with CORS disabled.</span><br></pre></td></tr></table></figure>
+<p>大概就是这样的一个错误，关键词是 <strong>Access-Control-Allow-Origin</strong>，一般出现这个都是跨域问题。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>解决跨域问题的方式有很多，但这里之说 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS">Cors</a> 的方案。</p>
+<p>在后台添加一个 <code>Filter</code> 过滤器</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 使用自定义的 Filter 拦截器实现跨域请求、</span></span><br><span class="line"><span class="comment"> * 适用于所有的 Java Web 项目并且不局限于某个框架</span></span><br><span class="line"><span class="comment"> * 注：此处的 <span class="doctag">@Component</span> 仅为让 Spring 知道这个 Bean, 不然拦截器不会加载</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> rxliuli</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomCorsFilterConfig</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(FilterConfig filterConfig)</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)</span> <span class="keyword">throws</span> IOException, ServletException </span>&#123;</span><br><span class="line">        <span class="comment">//允许所有来源</span></span><br><span class="line">        String allowOrigin = <span class="string">&quot;*&quot;</span>;</span><br><span class="line">        <span class="comment">//允许以下请求方法</span></span><br><span class="line">        String allowMethods = <span class="string">&quot;GET,POST,PUT,DELETE,OPTIONS&quot;</span>;</span><br><span class="line">        <span class="comment">//允许以下请求头</span></span><br><span class="line">        String allowHeaders = <span class="string">&quot;Content-Type,X-Token,Authorization&quot;</span>;</span><br><span class="line">        <span class="comment">//允许有认证信息（cookie）</span></span><br><span class="line">        String allowCredentials = <span class="string">&quot;true&quot;</span>;</span><br><span class="line"></span><br><span class="line">        String origin = request.getHeader(<span class="string">&quot;Origin&quot;</span>);</span><br><span class="line">        <span class="comment">//此处是为了兼容需要认证信息(cookie)的时候不能设置为 * 的问题</span></span><br><span class="line">        response.setHeader(<span class="string">&quot;Access-Control-Allow-Origin&quot;</span>, origin == <span class="keyword">null</span> ? allowOrigin : origin);</span><br><span class="line">        response.setHeader(<span class="string">&quot;Access-Control-Allow-Methods&quot;</span>, allowMethods);</span><br><span class="line">        response.setHeader(<span class="string">&quot;Access-Control-Allow-Credentials&quot;</span>, allowCredentials);</span><br><span class="line">        response.setHeader(<span class="string">&quot;Access-Control-Allow-Headers&quot;</span>, allowHeaders);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//处理 OPTIONS 的请求</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="string">&quot;OPTIONS&quot;</span>.equals(request.getMethod())) &#123;</span><br><span class="line">            response.setStatus(HttpServletResponse.SC_OK);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        filterChain.doFilter(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 <code>web.xml</code> 文件中添加拦截器配置（注：如果可能就配置成第一个 <code>Filter</code>）</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--cors 跨域访问--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>customCorsFilterConfig<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>CustomCorsFilterConfig<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>customCorsFilterConfig<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="Spring-Web-的解决方案"><a href="#Spring-Web-的解决方案" class="headerlink" title="Spring Web 的解决方案"></a>Spring Web 的解决方案</h2><p>配置一个每次请求都过滤一次的 <code>Filter</code> 就好了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CorsConfig</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> OncePerRequestFilter <span class="title">corsFilter</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> OncePerRequestFilter() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doFilterInternal</span><span class="params">(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">                <span class="comment">//允许所有来源</span></span><br><span class="line">                String allowOrigin = <span class="string">&quot;*&quot;</span>;</span><br><span class="line">                <span class="comment">//允许以下请求方法</span></span><br><span class="line">                String allowMethods = <span class="string">&quot;GET,POST,PUT,DELETE,OPTIONS&quot;</span>;</span><br><span class="line">                <span class="comment">//允许以下请求头</span></span><br><span class="line">                String allowHeaders = <span class="string">&quot;Content-Type,X-Token,Authorization&quot;</span>;</span><br><span class="line">                <span class="comment">//允许有认证信息（cookie）</span></span><br><span class="line">                String allowCredentials = <span class="string">&quot;true&quot;</span>;</span><br><span class="line"></span><br><span class="line">                String origin = request.getHeader(<span class="string">&quot;Origin&quot;</span>);</span><br><span class="line">                <span class="comment">//此处是为了兼容需要认证信息(cookie)的时候不能设置为 * 的问题</span></span><br><span class="line">                response.setHeader(<span class="string">&quot;Access-Control-Allow-Origin&quot;</span>, origin == <span class="keyword">null</span> ? allowOrigin : origin);</span><br><span class="line">                response.setHeader(<span class="string">&quot;Access-Control-Allow-Methods&quot;</span>, allowMethods);</span><br><span class="line">                response.setHeader(<span class="string">&quot;Access-Control-Allow-Credentials&quot;</span>, allowCredentials);</span><br><span class="line">                response.setHeader(<span class="string">&quot;Access-Control-Allow-Headers&quot;</span>, allowHeaders);</span><br><span class="line"></span><br><span class="line">                <span class="comment">//处理 OPTIONS 的请求</span></span><br><span class="line">                <span class="keyword">if</span> (<span class="string">&quot;OPTIONS&quot;</span>.equals(request.getMethod())) &#123;</span><br><span class="line">                    response.setStatus(HttpServletResponse.SC_OK);</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                filterChain.doFilter(request, response);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h2><p>下面是一些简单的使用 <code>fetch</code> 进行跨域请求的示例：</p>
+<ul>
+<li><p>简单 fetch 请求，和正常使用 fetch 并无区别</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fetch(url)</span><br><span class="line">  .then(<span class="function">(<span class="params">res</span>) =&gt;</span> res.json())</span><br><span class="line">  .then(<span class="function">(<span class="params">json</span>) =&gt;</span> <span class="built_in">console</span>.log(json));</span><br></pre></td></tr></table></figure></li>
+<li><p>表单请求</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fd = <span class="keyword">new</span> FormData();</span><br><span class="line">fd.append(<span class="string">&quot;username&quot;</span>, <span class="string">&quot;rx&quot;</span>);</span><br><span class="line">fd.append(<span class="string">&quot;password&quot;</span>, <span class="string">&quot;rx&quot;</span>);</span><br><span class="line"></span><br><span class="line">fetch(url, &#123;</span><br><span class="line">  method: <span class="string">&quot;POST&quot;</span>,</span><br><span class="line">  body: fd,</span><br><span class="line">&#125;)</span><br><span class="line">  .then(<span class="function">(<span class="params">res</span>) =&gt;</span> res.json())</span><br><span class="line">  .then(<span class="function">(<span class="params">json</span>) =&gt;</span> <span class="built_in">console</span>.log(json));</span><br></pre></td></tr></table></figure></li>
+<li><p>需要认证的请求</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">fetch(url, &#123;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 关键就在这里，代表用户是否应该在跨域的情况下发送 cookies 和 HTTP Basic authentication 等验信息以及服务端能否返回 Set-Cookie（服务端 Session 需要使用这个向 cookie 中设置 sessionId）。</span></span><br><span class="line"><span class="comment">   * 包含三个可选值：omit(从不发送), same-origin(同源才发送), include(总会发送)</span></span><br><span class="line"><span class="comment">   * 参考链接：&lt;https://developer.mozilla.org/zh-CN/docs/Web/API/Request/credentials&gt;</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  credentials: <span class="string">&quot;include&quot;</span>,</span><br><span class="line">&#125;)</span><br><span class="line">  .then(<span class="function">(<span class="params">res</span>) =&gt;</span> res.json())</span><br><span class="line">  .then(<span class="function">(<span class="params">json</span>) =&gt;</span> <span class="built_in">console</span>.log(json));</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注：如果想要服务端返回 <code>Set-Cookie</code>（<code>SessionId</code> 也需要通过这个响应属性去设置） 就必须设置这个请求参数！</p>
+</blockquote>
+</li>
+</ul>
+<p>那么，之后在前端跨域请求的时候就可以愉快地玩耍啦（ｖ＾＿＾）ｖ</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/04/18/c620ae8543be423cad220c0ae09d6be2/" data-id="ckmcqox4t008h0kuv92mf4xrq" data-title="Java 跨域问题处理" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-d5cd688875914bbbb7afdf0b801c54c3" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/04/18/d5cd688875914bbbb7afdf0b801c54c3/" class="article-date">
+  <time class="dt-published" datetime="2020-04-18T02:14:09.000Z" itemprop="datePublished">2020-04-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/04/18/d5cd688875914bbbb7afdf0b801c54c3/">使用 GitHub 作为 Maven 仓库</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/rxliuli/maven-repository-example">GitHub 示例</a></p>
+</blockquote>
+<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>吾辈在日常工具中也有一些公共的代码库，一直想分离成单独的类库却没有机会，看到使用 github 就能部署 maven 仓库就尝试了一下。</p>
+<blockquote>
+<p>这里吐槽一下 maven 中央仓库的发布流程，不知道为什么不能像 npm 一样一个简单的命令就能发布多好！</p>
+</blockquote>
+<h2 id="创建一个-maven-项目上传到-github"><a href="#创建一个-maven-项目上传到-github" class="headerlink" title="创建一个 maven 项目上传到 github"></a>创建一个 maven 项目上传到 github</h2><p>这是初始的 <code>pom.xml</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- pom.xml --&gt;</span></span><br><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 项目的组织名，如果没有域名或组织的话就是用 com.github.[你的用户名] --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.rxliuli<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 项目的名字 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-repository-example<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 版本号，默认是 1.0-SNAPSHOT --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>添加一个忽略配置 <em>.gitignore</em> 就可以上传到 GitHub 了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">target&#x2F;</span><br><span class="line">pom.xml.tag</span><br><span class="line">pom.xml.releaseBackup</span><br><span class="line">pom.xml.versionsBackup</span><br><span class="line">pom.xml.next</span><br><span class="line">release.properties</span><br><span class="line">dependency-reduced-pom.xml</span><br><span class="line">buildNumber.properties</span><br><span class="line">.mvn&#x2F;timing.properties</span><br><span class="line">.mvn&#x2F;wrapper&#x2F;maven-wrapper.jar</span><br><span class="line"></span><br><span class="line"># 忽略 IDEA 配置文件</span><br><span class="line">*.iml</span><br><span class="line">.idea&#x2F;</span><br><span class="line">rebel.xml</span><br></pre></td></tr></table></figure>
+<h2 id="修改-maven-deploy-plugin-插件"><a href="#修改-maven-deploy-plugin-插件" class="headerlink" title="修改 maven-deploy-plugin 插件"></a>修改 <code>maven-deploy-plugin</code> 插件</h2><p>主要是设置部署目录</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 其他内容。。。 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-deploy-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.8.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--设置部署目录--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">altDeploymentRepository</span>&gt;</span></span><br><span class="line">          internal.repo::default::file://$&#123;project.build.directory&#125;/mvn-repo</span><br><span class="line">        <span class="tag">&lt;/<span class="name">altDeploymentRepository</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 其他内容。。。 --&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="在-settings-xml-中添加-github-用户信息"><a href="#在-settings-xml-中添加-github-用户信息" class="headerlink" title="在 settings.xml 中添加 github 用户信息"></a>在 settings.xml 中添加 github 用户信息</h2><p>找到 maven 用户配置文件，默认位置在 _~/.m2/settings.xml_。如果不存在，则从 maven 安装目录复制一份过来，具体位置在 _MAVEN_HOME/conf/settings.xml_。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 其他内容。。。 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">servers</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">server</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- id，这只是一个标识名，根据它找到用户名和密码 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">id</span>&gt;</span>github<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- github 用户名 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">username</span>&gt;</span>rxliuli<span class="tag">&lt;/<span class="name">username</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- github 密码 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">password</span>&gt;</span>123456<span class="tag">&lt;/<span class="name">password</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">server</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">servers</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 其他内容。。。 --&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="添加插件-com-github-github"><a href="#添加插件-com-github-github" class="headerlink" title="添加插件 com.github.github"></a>添加插件 com.github.github</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 其他内容。。。 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 设置 github 服务器使用的配置，在 ~/.m2/settings.xml 中定义 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">github.global.server</span>&gt;</span>github<span class="tag">&lt;/<span class="name">github.global.server</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.github.github<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>site-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">        这里需要使用 0.12, 0.9 部署时会出错，具体查看</span></span><br><span class="line"><span class="comment">        https://github.com/github/maven-plugins/issues/105</span></span><br><span class="line"><span class="comment">      --&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.12<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--git 提交的消息--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">message</span>&gt;</span>Maven artifacts for $&#123;project.version&#125;<span class="tag">&lt;/<span class="name">message</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--禁用网页处理--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">noJekyll</span>&gt;</span>true<span class="tag">&lt;/<span class="name">noJekyll</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--部署的目录，这里是和上面的 maven-deploy-plugin 的 configuration.altDeploymentRepository 对应--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">outputDirectory</span>&gt;</span>$&#123;project.build.directory&#125;/mvn-repo</span><br><span class="line">        <span class="tag">&lt;/<span class="name">outputDirectory</span>&gt;</span> <span class="comment">&lt;!-- matches distribution management repository url above --&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--远程分支名--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">branch</span>&gt;</span>refs/heads/mvn-repo<span class="tag">&lt;/<span class="name">branch</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">includes</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">includes</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--github 仓库的名字--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">repositoryName</span>&gt;</span>maven-repository-example<span class="tag">&lt;/<span class="name">repositoryName</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--github 用户名--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">repositoryOwner</span>&gt;</span>rxliuli<span class="tag">&lt;/<span class="name">repositoryOwner</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">executions</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">execution</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">goals</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!--suppress MybatisMapperXmlInspection --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">goal</span>&gt;</span>site<span class="tag">&lt;/<span class="name">goal</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">goals</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">phase</span>&gt;</span>deploy<span class="tag">&lt;/<span class="name">phase</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">execution</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">executions</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 其他内容。。。 --&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="进行部署"><a href="#进行部署" class="headerlink" title="进行部署"></a>进行部署</h2><p>使用命令进行部署</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn clean deploy</span><br></pre></td></tr></table></figure>
+<p>查看 github 项目库，可以看到已经自动创建了一个分支 <code>mvn-repo</code> 并存放了部署后的文件。</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>添加仓库地址</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">repositories</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">repository</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">id</span>&gt;</span>maven-repository-example<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 格式是 https://raw.githubusercontent.com/[github 用户名]/[github 仓库名]/[分支名]/repository --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">url</span>&gt;</span></span><br><span class="line">      https://raw.githubusercontent.com/rxliuli/maven-repository-example/mvn-repo/repository</span><br><span class="line">    <span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">repository</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">repositories</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>就像其他 maven 仓库一样，我们知道 <code>groupId</code>, <code>artifactId</code> 与 <code>version</code>，自然可以直接使用啦</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.rxliuli<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-repository-example<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注: 这种使用 github 部署的 maven 仓库，在 <a target="_blank" rel="noopener" href="https://mvnrepository.com/">maven 中央仓库</a> 中并不能搜索到的哦</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/04/18/d5cd688875914bbbb7afdf0b801c54c3/" data-id="ckmcqox4y00910kuvgwnahzsh" data-title="使用 GitHub 作为 Maven 仓库" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-d7509104a7f64b8da88c89b66722eac6" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/04/18/d7509104a7f64b8da88c89b66722eac6/" class="article-date">
+  <time class="dt-published" datetime="2020-04-18T02:14:09.000Z" itemprop="datePublished">2020-04-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/04/18/d7509104a7f64b8da88c89b66722eac6/">MySQL 创建用户及授权</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h2><h3 id="创建用户"><a href="#创建用户" class="headerlink" title="创建用户"></a>创建用户</h3><p>使用 <code>root</code> 用户登录到 MySQL</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> rxliuli</span><br><span class="line">  IDENTIFIED <span class="keyword">BY</span> <span class="string">&#x27;123456&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="删除用户"><a href="#删除用户" class="headerlink" title="删除用户"></a>删除用户</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">USER</span> rxliuli;</span><br></pre></td></tr></table></figure>
+<h2 id="授权"><a href="#授权" class="headerlink" title="授权"></a>授权</h2><h3 id="添加授权"><a href="#添加授权" class="headerlink" title="添加授权"></a>添加授权</h3><p>命令格式：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GRANT</span> privilegesCode <span class="keyword">ON</span> dbName.tableName <span class="keyword">TO</span> username<span class="variable">@host</span> IDENTIFIED <span class="keyword">BY</span> &quot;password&quot;;</span><br></pre></td></tr></table></figure>
+<p>例如下面就是为 rxliuli 用户赋予了 mytimelinedb 数据库所有表的所有操作权限</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GRANT</span> <span class="keyword">ALL</span> PRIVILEGES <span class="keyword">ON</span> mytimelinedb.<span class="operator">*</span> <span class="keyword">TO</span> rxliuli</span><br><span class="line">IDENTIFIED <span class="keyword">BY</span> <span class="string">&#x27;123456&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p><code>privilegesCode</code> 代表权限，常用选项如下：</p>
+<ul>
+<li>ALL PRIVILEGES ：所有权限</li>
+<li>SELECT：读取权限</li>
+<li>DELETE ：删除权限</li>
+<li>UPDATE ：更新权限</li>
+<li>CREATE ：创建权限</li>
+<li>DROP ：删除数据库、数据表权限</li>
+</ul>
+<p><code>dbName.tableName</code> 代表数据库.数据表，常用选项如下：</p>
+<ul>
+<li>.：所有数据库的所有表的权限</li>
+<li>dbName.*：指定数据库的所有表的权限</li>
+<li>dbName.tableName：指定数据库下指定数据表的权限</li>
+</ul>
+<p><code>username@host</code> 表示授予的用户及允许该用户登录的 IP 地址。host 常用选项是：</p>
+<ul>
+<li>不填：允许任意 IP 地址登录</li>
+<li>localhost：只允许本地登录</li>
+<li>%：只允许远程登录</li>
+<li>192.168.2.100：只允许指定 IP 地址登录</li>
+</ul>
+<p><code>password</code> 代表该用户的登录密码<br><code>FLUSH PRIVILEGES</code> 代表刷新权限</p>
+<h3 id="查看授权"><a href="#查看授权" class="headerlink" title="查看授权"></a>查看授权</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> GRANTS <span class="keyword">FOR</span> rxliuli;</span><br></pre></td></tr></table></figure>
+<h3 id="删除授权"><a href="#删除授权" class="headerlink" title="删除授权"></a>删除授权</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">revoke</span> <span class="keyword">select</span> <span class="keyword">on</span> <span class="operator">*</span>.<span class="operator">*</span> <span class="keyword">from</span> rxliuli;</span><br></pre></td></tr></table></figure>
+<h3 id="刷新权限"><a href="#刷新权限" class="headerlink" title="刷新权限"></a>刷新权限</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/04/18/d7509104a7f64b8da88c89b66722eac6/" data-id="ckmcqox4z00950kuvbytz98o0" data-title="MySQL 创建用户及授权" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql/" rel="tag">sql</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-d980de2022714005b329c0ba9580959a" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/04/18/d980de2022714005b329c0ba9580959a/" class="article-date">
+  <time class="dt-published" datetime="2020-04-18T02:14:09.000Z" itemprop="datePublished">2020-04-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/04/18/d980de2022714005b329c0ba9580959a/">使用 Java 实现 setTimeout/setInterval</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>之前想把 Java 代码中使用回调函数的方法改成 <code>Promise</code> 风格，苦思冥想而不得其解。然而突发奇想之下，吾辈尝试在 Java 中实现 JavaScript 的 <code>setTimeout/setInterval</code>，并在之后想到了如何封装回调为 <code>Promise</code>，所以便先在此将这个想法的写出来以供参考。</p>
+<blockquote>
+<p><code>Promise</code> 是 ES6 添加的一个重要的元素，它将回调函数压平为了一级调用，并在 ES7 的 <code>async/await</code> 中彻底改变了异步的使用方式！</p>
+</blockquote>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AsyncUtil</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger log = LoggerFactory.getLogger(AsyncUtil.class);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 将当前线程休眠指定的时间</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> millis 毫秒</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sleep</span><span class="params">(<span class="keyword">long</span> millis)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(millis);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 实现 JavaScript 中的 setTimeout</span></span><br><span class="line"><span class="comment">     * 注：由于 &#123;<span class="doctag">@link</span> CompletableFuture#cancel(boolean)&#125; 方法的限制，该定时器无法强制取消</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> ms 等待时间</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 异步对象</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> CompletableFuture&lt;Void&gt; <span class="title">setTimeout</span><span class="params">(<span class="keyword">long</span> ms)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> CompletableFuture.runAsync(() -&gt; sleep(ms));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 实现等待指定资源加载完成</span></span><br><span class="line"><span class="comment">     * 注：由于 &#123;<span class="doctag">@link</span> CompletableFuture#cancel(boolean)&#125; 方法的限制，该定时器无法强制取消</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> condition 临界条件</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 异步对象</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> CompletableFuture&lt;Void&gt; <span class="title">waitResource</span><span class="params">(Supplier&lt;Boolean&gt; condition)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> CompletableFuture.runAsync(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">while</span> (!condition.get()) &#123;</span><br><span class="line">                sleep(<span class="number">100</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 实现 JavaScript 中的 setInterval 周期函数</span></span><br><span class="line"><span class="comment">     * 该方法并不是非常精确的定时器，仅适用于一般场景，如有需要请使用 &#123;<span class="doctag">@link</span> ScheduledExecutorService&#125; 类</span></span><br><span class="line"><span class="comment">     * 注：由于 &#123;<span class="doctag">@link</span> CompletableFuture#cancel(boolean)&#125; 方法的限制，该定时器无法强制取消</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> ms       间隔毫秒数</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> runnable 回调函数</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 永远不会完成的异步对象</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> CompletableFuture&lt;Void&gt; <span class="title">setInterval</span><span class="params">(<span class="keyword">long</span> ms, Runnable runnable)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> CompletableFuture.runAsync(() -&gt; &#123;</span><br><span class="line">            <span class="comment">//noinspection InfiniteLoopStatement</span></span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    runnable.run();</span><br><span class="line">                    sleep(ms);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                    log.error(<span class="string">&quot;使用 setInterval 发生异常: &quot;</span>, e);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AsyncUtilTest</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Logger log = LoggerFactory.getLogger(getClass());</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> AsyncUtilTest asyncUtilTest = <span class="keyword">new</span> AsyncUtilTest();</span><br><span class="line">        asyncUtilTest.setTimeout();</span><br><span class="line">        asyncUtilTest.waitResource();</span><br><span class="line">        asyncUtilTest.setInterval();</span><br><span class="line">        AsyncUtil.sleep(<span class="number">4000</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setTimeout</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        log.info(<span class="string">&quot;setTimeout completed before time: &#123;&#125;&quot;</span>, LocalDateTime.now());</span><br><span class="line">        AsyncUtil.setTimeout(<span class="number">1000</span>)</span><br><span class="line">                .thenRunAsync(() -&gt; log.info(<span class="string">&quot;setTimeout completed after time: &#123;&#125;&quot;</span>, LocalDateTime.now()));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">waitResource</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        log.info(<span class="string">&quot;waitResource completed before time: &#123;&#125;&quot;</span>, LocalDateTime.now());</span><br><span class="line">        <span class="keyword">final</span> AtomicInteger i = <span class="keyword">new</span> AtomicInteger(<span class="number">1</span>);</span><br><span class="line">        AsyncUtil.waitResource(() -&gt; i.get() == <span class="number">3</span>)</span><br><span class="line">                .thenRunAsync(() -&gt; log.info(<span class="string">&quot;waitResource completed after time: &#123;&#125;&quot;</span>, LocalDateTime.now()));</span><br><span class="line">        AsyncUtil.sleep(<span class="number">2</span>);</span><br><span class="line">        i.set(<span class="number">3</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setInterval</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        log.info(<span class="string">&quot;setInterval completed before time: &#123;&#125;&quot;</span>, LocalDateTime.now());</span><br><span class="line">        <span class="keyword">final</span> CompletableFuture&lt;Void&gt; future = AsyncUtil.setInterval(<span class="number">100</span>, () -&gt; log.info(<span class="string">&quot;setInterval in the loop, current time: &#123;&#125;&quot;</span>, LocalDateTime.now()));</span><br><span class="line">        AsyncUtil.sleep(<span class="number">500</span>);</span><br><span class="line">        future.complete(<span class="keyword">null</span>);</span><br><span class="line">        AsyncUtil.sleep(<span class="number">1000</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/04/18/d980de2022714005b329c0ba9580959a/" data-id="ckmcqox5000990kuveogkfd7v" data-title="使用 Java 实现 setTimeout/setInterval" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-e830e32fa0164e87885c45920912da24" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/04/18/e830e32fa0164e87885c45920912da24/" class="article-date">
+  <time class="dt-published" datetime="2020-04-18T02:14:09.000Z" itemprop="datePublished">2020-04-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/04/18/e830e32fa0164e87885c45920912da24/">Windows 下 MongoDB 便携版安装与初始化</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.mongodb.org/">官网</a></p>
+</blockquote>
+<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.mongodb.org/dl/win32/x86_64-2008plus-ssl">下载位置</a></p>
+</blockquote>
+<p>选择一个便携版本下载（<code>.zip</code> 结尾），例如吾辈选择的就是 <a target="_blank" rel="noopener" href="http://downloads.mongodb.org/win32/mongodb-win32-x86_64-2008plus-ssl-4.0.1.zip">win32/mongodb-win32-x86_64-2008plus-ssl-4.0.1.zip</a></p>
+<h2 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><p>下载完成后解压到本地，将 <code>/bin/</code> 目录添加环境变量 <code>Path</code> 中以方便使用 <code>mongodb</code> 的命令。</p>
+<p>配置完成后验证一下</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongo -version</span><br></pre></td></tr></table></figure>
+<p>如果环境变量配置正确的话会有类似于下面的这种输出</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MongoDB shell version v4.0.1</span><br></pre></td></tr></table></figure>
+<h2 id="配置日志文件与数据目录"><a href="#配置日志文件与数据目录" class="headerlink" title="配置日志文件与数据目录"></a>配置日志文件与数据目录</h2><p>吾辈的 <code>mongodb</code> 的安装目录是 <code>D:\Program\mongodb-win32-x86_64-2008plus-ssl-4.0.1</code>，所以就在安装目录下创建数据与日志目录了。</p>
+<p>目录列表如下：</p>
+<ul>
+<li>mongodb_data<ul>
+<li>log<ul>
+<li>mongodb.log</li>
+</ul>
+</li>
+<li>data</li>
+</ul>
+</li>
+</ul>
+<p>指定日志文件的位置</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongod --logpath <span class="string">&quot;D:\Program\mongodb-win32-x86_64-2008plus-ssl-4.0.1\mongodb_data\log\mongodb.log&quot;</span></span><br></pre></td></tr></table></figure>
+<p>指定数据存放的目录</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongod --dbpath <span class="string">&quot;D:\Program\mongodb-win32-x86_64-2008plus-ssl-4.0.1\mongodb_data\data&quot;</span></span><br></pre></td></tr></table></figure>
+<p>输出</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2018-08-08T22:26:35.411+0800 I CONTROL  [main] Automatically disabling TLS 1.0, to force-enable TLS 1.0 specify --sslDisabledProtocols <span class="string">&#x27;none&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>然后，就停住了，其实这里并未发生错误，仔细看最后一行 <code>NETWORK [listener] connection accepted from 127.0.0.1:12598</code>，指的是正在监听连接 <code>127.0.0.1:12598</code>。所以这个时候在开一个新的 <code>cmd</code> 标签输入 <code>mongo</code> 命令就进入到 <code>mongo shell</code> 里面玩耍啦</p>
+<h2 id="安装服务"><a href="#安装服务" class="headerlink" title="安装服务"></a>安装服务</h2><p>每次打开都要手动输入命令指定数据目录并启动 <code>mongod</code> 未免麻烦，我们可以将之添加到系统服务中，以后需要的时候只要启动服务就好了，也能设置自动启动什么的了呢</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongod --dbpath <span class="string">&quot;D:\Program\mongodb-win32-x86_64-2008plus-ssl-4.0.1\mongodb_data\data&quot;</span> --logpath <span class="string">&quot;D:\Program\mongodb-win32-x86_64-2008plus-ssl-4.0.1\mongodb_data\log\mongodb.log&quot;</span> --auth --install --serviceName <span class="string">&quot;MongoDB&quot;</span></span><br></pre></td></tr></table></figure>
+<p>检查一下系统服务里面是否有 <code>MongoDB</code>，如果没有的话使用管理员权限打开 <code>cmd</code> 再执行一次上面的命令就好了，如果服务没有启动的话就启动它。</p>
+<p>这样便安装完成了，在命令行输入 <code>mongo</code> 就可以啦</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/04/18/e830e32fa0164e87885c45920912da24/" data-id="ckmcqox54009p0kuvbwlp89it" data-title="Windows 下 MongoDB 便携版安装与初始化" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql/" rel="tag">sql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/windows/" rel="tag">windows</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-eb05b67ae4bc44e6a7542ebfc3e8e762" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/04/18/eb05b67ae4bc44e6a7542ebfc3e8e762/" class="article-date">
+  <time class="dt-published" datetime="2020-04-18T02:14:09.000Z" itemprop="datePublished">2020-04-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/04/18/eb05b67ae4bc44e6a7542ebfc3e8e762/">Windows 下安装 Gradle</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p><a target="_blank" rel="noopener" href="https://gradle.org/">官网</a>, <a target="_blank" rel="noopener" href="https://github.com/gradle/gradle">GitHub</a></p>
+</blockquote>
+<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>吾辈需要在 Windows 下 build Android 的项目，作为 Android 官方推荐的构建工具，Gradle 也却是不得不用呀</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>在官网的版本 <a target="_blank" rel="noopener" href="https://gradle.org/releases/">发布页面</a> 找到 Download 的 <strong>binary-only</strong> 链接，点击即可下载了（后面的 <strong>complete</strong> 指的是完整版，我们只是使用的话并不需要下载那个）。<br><img src="https://img.rxliuli.com/20181116203320.png" alt="版本发布"><br><img src="https://img.rxliuli.com/20181116203612.png" alt="下载详情"></p>
+<h2 id="设置环境变量"><a href="#设置环境变量" class="headerlink" title="设置环境变量"></a>设置环境变量</h2><p>下载完成后，将文件解压出来，解压出来的文件夹内大概是这个样子</p>
+<p><img src="https://img.rxliuli.com/20181116203858.png" alt="Gradle 解压目录"></p>
+<p>现在，我们需要设置环境变量了</p>
+<p>在 <em>控制面板 &gt; 系统和安全 &gt; 系统</em> 中找到 <em>高级系统设置</em> 项<br><img src="https://img.rxliuli.com/20181116204013.png" alt="系统"></p>
+<p>点击 _环境变量_<br><img src="https://img.rxliuli.com/20181116204130.png" alt="系统属性"></p>
+<p>双击 _系统变量 &gt; Path_<br><img src="https://img.rxliuli.com/20181116204344.png" alt="Path"></p>
+<p>点击 <strong>新建</strong> 创建一个环境变量，随便输入点什么，然后点击 <strong>浏览</strong><br><img src="https://img.rxliuli.com/20181116204638.png" alt="新建环境变量"></p>
+<p>选择 gradle 解压后的文件夹位置，之后点击确定<br><img src="https://img.rxliuli.com/20181116205022.png" alt="选择解压后的文件夹位置"></p>
+<p>然后一路点击确认关闭这 3 个窗口<br><img src="https://img.rxliuli.com/20181116205528.png" alt="关闭窗口"></p>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>打开 Cmd，下面是从菜单中找到 _Windows 系统 &gt; 命令提示符_<br><img src="https://img.rxliuli.com/20181116205716.png" alt="打开 Cmd"></p>
+<p>在 Cmd 中输入 <code>gradle -v</code> 验证一下，如果得到的是类似于下面的输出，那么 gradle 便是安装成功了<br><img src="https://img.rxliuli.com/20181116210006.png" alt="在 Cmd 下验证 Gradle"></p>
+<p>那么，Gradle 的安装到这里便是基本结束了呢 (★^O^★)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/04/18/eb05b67ae4bc44e6a7542ebfc3e8e762/" data-id="ckmcqox55009r0kuvdji673uc" data-title="Windows 下安装 Gradle" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/windows/" rel="tag">windows</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-ee25fb473e3c4a7aafd558d7f70a277e" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/04/18/ee25fb473e3c4a7aafd558d7f70a277e/" class="article-date">
+  <time class="dt-published" datetime="2020-04-18T02:14:09.000Z" itemprop="datePublished">2020-04-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/04/18/ee25fb473e3c4a7aafd558d7f70a277e/">SpringBoot 使用阿里云的短信服务出现问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Exception in thread <span class="string">&quot;main&quot;</span> java.lang.NoSuchMethodError: org.json.JSONArray.iterator()Ljava/util/Iterator;</span><br><span class="line">	at com.aliyuncs.regions.LocalEndpointResolver.&lt;init&gt;(LocalEndpointResolver.java:<span class="number">39</span>)</span><br><span class="line">	at com.aliyuncs.profile.DefaultProfile.&lt;init&gt;(DefaultProfile.java:<span class="number">72</span>)</span><br><span class="line">	at com.aliyuncs.profile.DefaultProfile.getProfile(DefaultProfile.java:<span class="number">209</span>)</span><br><span class="line">	at com.rx.f3d.common.util.SmsSendUtil.main(SmsSendUtil.java:<span class="number">28</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p><code>NoSuchMethodError</code> 不能找到方法，吾辈第一感觉就是包冲突了。去网络找了一圈，大概有下面这几种说法</p>
+<ul>
+<li>从 <code>spring-boot-*-starter</code> 中排除掉 <code>andriod-json</code> 包，避免与 <code>aliyun-java-sdk-core</code> 依赖的 <code>json</code> 包冲突<br>链接：<a target="_blank" rel="noopener" href="https://github.com/qcloudsms/qcloudsms_java/wiki/maven%E8%A7%A3%E5%86%B3org.json%E5%86%B2%E7%AA%81%E7%A4%BA%E4%BE%8B">https://github.com/qcloudsms/qcloudsms_java/wiki/maven%E8%A7%A3%E5%86%B3org.json%E5%86%B2%E7%AA%81%E7%A4%BA%E4%BE%8B</a></li>
+<li>不使用 <code>Maven</code>，手动引入 <code>Jar</code> 到项目中<br>链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/liuxiaochang_2011/article/details/80468746">https://blog.csdn.net/liuxiaochang_2011/article/details/80468746</a></li>
+<li>修改 <code>aliyun-java-sdk-core</code> 的版本<br>链接：<a target="_blank" rel="noopener" href="http://www.mamicode.com/info-detail-2396491.html">http://www.mamicode.com/info-detail-2396491.html</a></li>
+</ul>
+<p>对于吾辈而言，只有最后一种方法是有效的。当然，吾辈修改的版本是 <code>3.3.1</code> 才行的呢</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.aliyun<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>aliyun-java-sdk-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.3.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.aliyun<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>aliyun-java-sdk-dysmsapi<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>修改完后记得清空缓存并重启 <code>IDE</code> ，然后删除 <code>maven</code> 本地仓库下的 <code>aliyun-java-sdk-core</code> 包以避免缓存问题。</p>
+<blockquote>
+<p>注：吾辈使用的 <code>SpringBoot</code> 版本是 <code>1.5.12.RELEASE</code>，可能和这个也有关系呢</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/04/18/ee25fb473e3c4a7aafd558d7f70a277e/" data-id="ckmcqox58009x0kuvb1rohz8e" data-title="SpringBoot 使用阿里云的短信服务出现问题" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-efcb3337ccc54b1b971bd5ffdc806f68" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/04/18/efcb3337ccc54b1b971bd5ffdc806f68/" class="article-date">
+  <time class="dt-published" datetime="2020-04-18T02:14:09.000Z" itemprop="datePublished">2020-04-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/04/18/efcb3337ccc54b1b971bd5ffdc806f68/">MySQL 字符串数字比较大小的问题以及解决方案</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>为什么要写这篇文章呢？因为吾辈碰到了 MySQL 中字符串数字比较起来的坑。</p>
+<blockquote>
+<p>字符串数字：明明是数字却在数据库中使用 varchar 等类型进行存储的数字。</p>
+</blockquote>
+<p>例如以下的表结构：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> test_table (</span><br><span class="line">  id      <span class="type">BIGINT</span>       <span class="keyword">NOT</span> <span class="keyword">NULL</span></span><br><span class="line">  COMMENT <span class="string">&#x27;id&#x27;</span>,</span><br><span class="line">  int_str <span class="type">VARCHAR</span>(<span class="number">200</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span></span><br><span class="line">  COMMENT <span class="string">&#x27;使用 varchar 保存数字的列&#x27;</span></span><br><span class="line">)</span><br><span class="line">  COMMENT <span class="string">&#x27;测试用的数据表&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>当吾辈想要查询 <code>big_int_column</code> 大于某个值的数据时，最初是这样写的：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> test_table</span><br><span class="line"><span class="keyword">WHERE</span> int_str <span class="operator">&gt;</span> ?;</span><br></pre></td></tr></table></figure>
+<p>但后来发现一个问题。。。</p>
+<p>其实很简单，因为字符串的比较规则和数字并不一样，虽然很多时候看起来好像没什么不同。</p>
+<p>例如下面的 SQL 语句：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="number">2</span> <span class="operator">&gt;</span> <span class="number">12</span>; #结果为 <span class="number">0</span>(<span class="literal">false</span>)</span><br><span class="line"><span class="keyword">SELECT</span> <span class="string">&#x27;2&#x27;</span> <span class="operator">&gt;</span> <span class="string">&#x27;12&#x27;</span>; #结果为 <span class="number">1</span>(<span class="literal">true</span>)</span><br></pre></td></tr></table></figure>
+<p>只是类型变化了，但结果却截然相反，因为字符串是按照字符依次进行对比，而数字则是按照大小直接比较。</p>
+<blockquote>
+<p>按照字母依次进行对比的意思是：<br>例如上面的 ‘2’ 和 ‘12’，首先会比较字符 ‘2’ 和 ‘1’ 的大小，如果不是相等，就立刻得出结果，否则继续比较下一位，直到得到结果或没有可以继续比较的情况为止，所以就会得到看似荒谬的 1(true)。</p>
+</blockquote>
+<p>所以后来去稍微查询了一下，发现了 MySQL 中的两个函数：</p>
+<ul>
+<li><p>cast()<br>标准语法：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cast</span>(<span class="keyword">value</span> <span class="keyword">as</span> type)</span><br></pre></td></tr></table></figure>
+<p>或者（不是重点）</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cast</span>(<span class="keyword">value</span> <span class="keyword">AS</span> <span class="type">CHAR</span> <span class="type">CHARACTER</span> <span class="keyword">SET</span> encoding)</span><br></pre></td></tr></table></figure>
+<p>使用示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 转换为整数(值区间 [<span class="number">-9223372036854775808</span> <span class="operator">~</span> <span class="number">9223372036854775807</span>])</span><br><span class="line"><span class="built_in">cast</span>(<span class="string">&#x27;12&#x27;</span> <span class="keyword">AS</span> SIGNED)</span><br><span class="line"># 或者转换为无符号整数(值区间 [<span class="number">0</span> <span class="operator">~</span> <span class="number">18446744073709551615</span>])</span><br><span class="line"><span class="built_in">cast</span>(<span class="string">&#x27;12&#x27;</span> <span class="keyword">AS</span> UNSIGNED)</span><br></pre></td></tr></table></figure></li>
+<li><p>convert()</p>
+<p>标准语法：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">convert</span>(<span class="keyword">value</span>, type)</span><br></pre></td></tr></table></figure>
+<p>或者（不是重点）</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">convert</span>(<span class="keyword">value</span> <span class="keyword">using</span> charset)</span><br></pre></td></tr></table></figure>
+<p>使用示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 转换为整数</span><br><span class="line"><span class="keyword">convert</span>(<span class="string">&#x27;12&#x27;</span>, SIGNED)</span><br><span class="line"># 或者转换为无符号整数</span><br><span class="line"><span class="keyword">convert</span>(<span class="string">&#x27;12&#x27;</span>, UNSIGNED)</span><br></pre></td></tr></table></figure>
+<p>所以吾辈将查询的 SQL 语句修改成如下样子：</p>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> test_table</span><br><span class="line"><span class="keyword">WHERE</span> int_str <span class="operator">&gt;</span> <span class="built_in">cast</span>(? <span class="keyword">AS</span> UNSIGNED);</span><br></pre></td></tr></table></figure>
+<p>算是解决了一些问题，然而如果 <code>int_str</code> 的值大于 <code>UNSIGNED</code> 类型的最大值又会发生问题。。。</p>
+<p>然后从网络上看到了一种推荐的 SQL 的写法：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="string">&#x27;12&#x27;</span> <span class="operator">+</span> <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+<p>但经过了测试，甚至比上面的 <code>cast()</code> 和 <code>convert()</code> 表现更糟。</p>
+<p>例如下面的 SQL：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="string">&#x27;9223372036854775807&#x27;</span> <span class="operator">+</span> <span class="number">0</span>; #结果是：<span class="number">9223372036854776000</span></span><br></pre></td></tr></table></figure>
+<p>所以说，还是直接直接用数字存储数字最好啦！（＿´ω ｀）</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/04/18/efcb3337ccc54b1b971bd5ffdc806f68/" data-id="ckmcqox59009z0kuv96bm8lji" data-title="MySQL 字符串数字比较大小的问题以及解决方案" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql/" rel="tag">sql</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/7/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" href="/page/9/">Next &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/electron/" rel="tag">electron</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grid/" rel="tag">grid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jetbrains/" rel="tag">jetbrains</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webstorm/" rel="tag">webstorm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/" rel="tag">windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA/" rel="tag">个人</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%AC%E5%8F%B8/" rel="tag">公司</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%A8%E6%8A%A5/" rel="tag">周报</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%A3%E5%91%8A/" rel="tag">宣告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" rel="tag">工程化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90/" rel="tag">开源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%82%E6%AD%A5/" rel="tag">异步</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" rel="tag">待更新</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%8F%E9%AA%8C/" rel="tag">经验</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6/" rel="tag">读书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/css/" style="font-size: 12.14px;">css</a> <a href="/tags/electron/" style="font-size: 15.71px;">electron</a> <a href="/tags/git/" style="font-size: 12.86px;">git</a> <a href="/tags/grid/" style="font-size: 10.71px;">grid</a> <a href="/tags/java/" style="font-size: 19.29px;">java</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/jetbrains/" style="font-size: 12.14px;">jetbrains</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 10.71px;">markdown</a> <a href="/tags/react/" style="font-size: 14.29px;">react</a> <a href="/tags/sql/" style="font-size: 14.29px;">sql</a> <a href="/tags/typescript/" style="font-size: 12.14px;">typescript</a> <a href="/tags/vscode/" style="font-size: 12.86px;">vscode</a> <a href="/tags/vue/" style="font-size: 16.43px;">vue</a> <a href="/tags/webstorm/" style="font-size: 10px;">webstorm</a> <a href="/tags/windows/" style="font-size: 17.14px;">windows</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 12.86px;">个人</a> <a href="/tags/%E5%85%AC%E5%8F%B8/" style="font-size: 10px;">公司</a> <a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 10px;">周报</a> <a href="/tags/%E5%AE%A3%E5%91%8A/" style="font-size: 10px;">宣告</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.57px;">工具</a> <a href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" style="font-size: 17.86px;">工程化</a> <a href="/tags/%E5%BC%80%E6%BA%90/" style="font-size: 10px;">开源</a> <a href="/tags/%E5%BC%82%E6%AD%A5/" style="font-size: 15px;">异步</a> <a href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" style="font-size: 10.71px;">待更新</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 18.57px;">杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BB%8F%E9%AA%8C/" style="font-size: 11.43px;">经验</a> <a href="/tags/%E8%AF%BB%E4%B9%A6/" style="font-size: 12.14px;">读书</a> <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 11.43px;">转载</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/14/8fb2d58463ae4191ac064a76e15bffbd/">2021 第十周</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/12/7e7131c07c984d928ba3fefa7a9cef06/">读书-[颓废与沉默：透视犬儒文化]</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/02/db74e6e5d2444bc3b6e185a7b338bbf6/">electron 开发经验之谈系列-在渲染、主进程间共享数据</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/27/06cb464179cf45c598208534705aae3c/">2020 吾辈在公司推动的前端技术演进</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/23/cd66150d2b86448590fcc9bb2419c0b2/">实践 lerna monorepo</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

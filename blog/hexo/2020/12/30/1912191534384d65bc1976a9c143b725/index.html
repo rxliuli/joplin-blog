@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>在现代前端项目中使用 Worker | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="场景由于需要在 Browser 进行大量的（音频转解码）计算，所以吾辈开始尝试使用 webworker 分离 CPU 密集型的计算操作，最终找到了 comlink 这个库，但之前在 vue 中使用时发生了错误，目前看起来已经得到了解决，所以在此记录一下。 调研方案 web-worker-proxy：结合了 proxy&#x2F;promise&#x2F;webworker 的强大工具库，但如何在 ts 中使用却是个问">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在现代前端项目中使用 Worker">
+<meta property="og:url" content="http://example.com/2020/12/30/1912191534384d65bc1976a9c143b725/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="场景由于需要在 Browser 进行大量的（音频转解码）计算，所以吾辈开始尝试使用 webworker 分离 CPU 密集型的计算操作，最终找到了 comlink 这个库，但之前在 vue 中使用时发生了错误，目前看起来已经得到了解决，所以在此记录一下。 调研方案 web-worker-proxy：结合了 proxy&#x2F;promise&#x2F;webworker 的强大工具库，但如何在 ts 中使用却是个问">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-12-30T04:37:32.000Z">
+<meta property="article:modified_time" content="2021-01-26T00:06:30.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="typescript">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-1912191534384d65bc1976a9c143b725" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/12/30/1912191534384d65bc1976a9c143b725/" class="article-date">
+  <time class="dt-published" datetime="2020-12-30T04:37:32.000Z" itemprop="datePublished">2020-12-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      在现代前端项目中使用 Worker
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>由于需要在 Browser 进行大量的（音频转解码）计算，所以吾辈开始尝试使用 webworker 分离 CPU 密集型的计算操作，最终找到了 comlink 这个库，但之前在 vue 中使用时发生了错误，目前看起来已经得到了解决，所以在此记录一下。</p>
+<h2 id="调研方案"><a href="#调研方案" class="headerlink" title="调研方案"></a>调研方案</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/satya164/web-worker-proxy">web-worker-proxy</a>：结合了 proxy/promise/webworker 的强大工具库，但如何在 ts 中使用却是个问题</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/miozzz/sandbox/tree/master/orc">Orc.js</a>：一个简单的 worker 封装</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/israelss/vue-worker">VueWorker</a>：结合 vue 的 worker 封装，无法理解，难道真的会有人在 vue 组件中进行大量计算么？</li>
+<li>comlink：Chrome 的一个基于 proxy/promise/webworker 的封装库</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/GoogleChromeLabs/worker-plugin">worker-plugin</a>：和上面的同属 chrome 实验室的一个 webpack 插件</li>
+</ul>
+<p>最后决定使用 comlink 结合 worker-plugin 实现简单的 worker 使用。</p>
+<h2 id="安装与配置"><a href="#安装与配置" class="headerlink" title="安装与配置"></a>安装与配置</h2><blockquote>
+<p>在 GitHub 上有 <a target="_blank" rel="noopener" href="https://github.com/rxliuli/example/tree/master/react_worker_example">可运行示例 demo</a><br>相关问题：<a target="_blank" rel="noopener" href="https://segmentfault.com/q/1010000022359546">comlink-loader 工作不正常</a></p>
+</blockquote>
+<h3 id="添加相关依赖"><a href="#添加相关依赖" class="headerlink" title="添加相关依赖"></a>添加相关依赖</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yarn add comlink</span><br><span class="line">yarn add -D worker-plugin</span><br></pre></td></tr></table></figure>
+<h3 id="在-webpack-配置中添加插件"><a href="#在-webpack-配置中添加插件" class="headerlink" title="在 webpack 配置中添加插件"></a>在 webpack 配置中添加插件</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  plugins: [<span class="keyword">new</span> WorkerPlugin()];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里一般不需要特殊参数配置，如果需要，可以参考：<a target="_blank" rel="noopener" href="https://github.com/GoogleChromeLabs/worker-plugin">worker-plugin</a></p>
+</blockquote>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><h3 id="基本示例"><a href="#基本示例" class="headerlink" title="基本示例"></a>基本示例</h3><p>添加一个简单的 <em>hello.worker.ts</em></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; expose &#125; <span class="keyword">from</span> <span class="string">&quot;comlink&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">  counter: <span class="number">0</span>,</span><br><span class="line">  <span class="function"><span class="title">inc</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.counter++;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">expose(obj);</span><br></pre></td></tr></table></figure>
+<p>在 <code>main.ts</code> 中使用</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> obj = wrap(<span class="keyword">new</span> Worker(<span class="string">&quot;./hello.worker.ts&quot;</span>, &#123; <span class="attr">type</span>: <span class="string">&quot;module&quot;</span> &#125;)) <span class="keyword">as</span> <span class="built_in">any</span>;</span><br><span class="line">alert(<span class="string">`Counter: <span class="subst">$&#123;<span class="keyword">await</span> obj.counter&#125;</span>`</span>);</span><br><span class="line"><span class="keyword">await</span> obj.inc();</span><br><span class="line">alert(<span class="string">`Counter: <span class="subst">$&#123;<span class="keyword">await</span> obj.counter&#125;</span>`</span>);</span><br></pre></td></tr></table></figure>
+<p>但这里并不是类型安全的，所以我们可以实现正确的类型。</p>
+<p>添加一个 <em>hello.worker.ts</em> 暴露出来的类型 <code>HelloWorkerType</code></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">interface</span> HelloWorkerType &#123;</span><br><span class="line">  counter: <span class="built_in">number</span>;</span><br><span class="line">  inc(): <span class="built_in">void</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同时为了支持在 <em>main.ts</em> 中使用正确的类型，需要使用泛型</p>
+<p><em>main.ts</em> 修改如下</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> obj = wrap&lt;HelloWorkerType&gt;(</span><br><span class="line">  <span class="keyword">new</span> Worker(<span class="string">&quot;./hello.worker.ts&quot;</span>, &#123; <span class="attr">type</span>: <span class="string">&quot;module&quot;</span> &#125;)</span><br><span class="line">);</span><br><span class="line">alert(<span class="string">`Counter: <span class="subst">$&#123;<span class="keyword">await</span> obj.counter&#125;</span>`</span>);</span><br><span class="line"><span class="keyword">await</span> obj.inc();</span><br><span class="line">alert(<span class="string">`Counter: <span class="subst">$&#123;<span class="keyword">await</span> obj.counter&#125;</span>`</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="纯函数"><a href="#纯函数" class="headerlink" title="纯函数"></a>纯函数</h3><p>声明函数的类型 <em>HelloCallback.worker.type.d.ts</em></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> ListItem&lt;T <span class="keyword">extends</span> <span class="built_in">any</span>[]&gt; = T <span class="keyword">extends</span> (infer U)[] ? U : <span class="built_in">never</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">type</span> MapWorkerType = <span class="xml"><span class="tag">&lt;<span class="name">List</span> <span class="attr">extends</span> <span class="attr">any</span>[], <span class="attr">U</span>&gt;</span>(</span></span><br><span class="line"><span class="xml">  arr: List,</span></span><br><span class="line">  cb: (val: ListItem&lt;List&gt;) =&gt; U | Promise&lt;U&gt;</span><br><span class="line">) =&gt; Promise&lt;U[]&gt;;</span><br></pre></td></tr></table></figure>
+<p>声明一个纯函数 <em>HelloCallback.worker.ts</em></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; MapWorkerType &#125; <span class="keyword">from</span> <span class="string">&quot;./HelloCallback.worker.type&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; expose &#125; <span class="keyword">from</span> <span class="string">&quot;comlink&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> map: MapWorkerType = <span class="function">(<span class="params">arr, cb</span>) =&gt;</span> <span class="built_in">Promise</span>.all(arr.map(cb));</span><br><span class="line"></span><br><span class="line">expose(map);</span><br></pre></td></tr></table></figure>
+<p>注：此处最好使用变量的形式，主要是为了方便将函数类型剥离出去。</p>
+<p>在 <em>main.ts</em> 中使用</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> map = wrap&lt;MapWorkerType&gt;(</span><br><span class="line">  <span class="keyword">new</span> Worker(<span class="string">&quot;./HelloCallback.worker.ts&quot;</span>, &#123;</span><br><span class="line">    <span class="keyword">type</span>: <span class="string">&quot;module&quot;</span>,</span><br><span class="line">  &#125;)</span><br><span class="line">);</span><br><span class="line"><span class="keyword">const</span> list = <span class="keyword">await</span> map(</span><br><span class="line">  [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">  proxy(<span class="function">(<span class="params">i</span>) =&gt;</span> i * <span class="number">2</span>)</span><br><span class="line">);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&quot;list: &quot;</span>, list);</span><br></pre></td></tr></table></figure>
+<h3 id="使用-class-的形式"><a href="#使用-class-的形式" class="headerlink" title="使用 class 的形式"></a>使用 class 的形式</h3><p>声明接口 <em>HelloClass.worker.type.d.ts</em></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloClassWorker</span> </span>&#123;</span><br><span class="line">  sum(...args: <span class="built_in">number</span>[]): <span class="built_in">number</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>worker 文件 <em>HelloClass.worker.ts</em></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; HelloClassWorker &#125; <span class="keyword">from</span> <span class="string">&quot;./HelloClass.worker.type&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; expose &#125; <span class="keyword">from</span> <span class="string">&quot;comlink&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HelloClassWorkerImpl</span> <span class="title">implements</span> <span class="title">HelloClassWorker</span> </span>&#123;</span><br><span class="line">  sum(...args: <span class="built_in">number</span>[]): <span class="built_in">number</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> args.reduce(<span class="function">(<span class="params">res, i</span>) =&gt;</span> res + i, <span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">expose(HelloClassWorkerImpl);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>关于此处 <code>implements class</code> 的问题，吾辈偶然一试之下没报错也很奇怪，所以找到了相关问题 <a target="_blank" rel="noopener" href="https://stackoverflow.com/a/26961710">Typescript: How to extend two classes?</a>，官方文档也同样说明了这个特性 <a target="_blank" rel="noopener" href="https://www.typescriptlang.org/docs/handbook/mixins.html">Mixins</a>。</p>
+</blockquote>
+<p>在 <em>main.ts</em> 中使用</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> HelloClassWorkerClazz = wrap&lt;<span class="keyword">typeof</span> HelloClassWorker&gt;(</span><br><span class="line">  <span class="keyword">new</span> Worker(<span class="string">&quot;./HelloClass.worker.ts&quot;</span>, &#123;</span><br><span class="line">    <span class="keyword">type</span>: <span class="string">&quot;module&quot;</span>,</span><br><span class="line">  &#125;)</span><br><span class="line">);</span><br><span class="line"><span class="keyword">const</span> instance = <span class="keyword">await</span> <span class="keyword">new</span> HelloClassWorkerClazz();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">await</span> instance.sum(<span class="number">1</span>, <span class="number">2</span>));</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>总的来说，使用 worker 的基本分三步</p>
+<ol>
+<li> 编写需要放在 worker 里内容的类型定义</li>
+<li> 根据类型定义实现它</li>
+<li> 在主进程的代码中使用它</li>
+</ol>
+<blockquote>
+<p>注：当然，如果是复杂的东西，可以直接在单独的文件中实现，然后声明一个 <em>.worker.ts</em> 暴露出去，不在 <em>.worker.ts</em> 中包含任何</p>
+</blockquote>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://blog.logrocket.com/integrating-web-workers-in-a-react-app-with-comlink/">Integrating web workers in a React app with Comlink</a></li>
+<li><a target="_blank" rel="noopener" href="https://lorefnon.tech/2019/03/24/using-comlink-with-typescript-and-worker-loader/">Using comlink with typescript and worker-loader</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/lacolaco-blog/an-issue-around-angular-cli-comlink-workerplugin-585be1c8d087">An issue around Angular CLI + Comlink + WorkerPlugin</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/12/30/1912191534384d65bc1976a9c143b725/" data-id="ckmcqox2f001a0kuvgqze41mz" data-title="在现代前端项目中使用 Worker" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/12/30/859bf7609f884a4a891123feac4db809/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          树莓派入坑体会
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/12/30/b1b219edef7648938999d7944ff6157d/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">偶遇 HTML 中的奇妙字符</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/electron/" rel="tag">electron</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grid/" rel="tag">grid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jetbrains/" rel="tag">jetbrains</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webstorm/" rel="tag">webstorm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/" rel="tag">windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA/" rel="tag">个人</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%AC%E5%8F%B8/" rel="tag">公司</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%A8%E6%8A%A5/" rel="tag">周报</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%A3%E5%91%8A/" rel="tag">宣告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" rel="tag">工程化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90/" rel="tag">开源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%82%E6%AD%A5/" rel="tag">异步</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" rel="tag">待更新</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%8F%E9%AA%8C/" rel="tag">经验</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6/" rel="tag">读书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/css/" style="font-size: 12.14px;">css</a> <a href="/tags/electron/" style="font-size: 15.71px;">electron</a> <a href="/tags/git/" style="font-size: 12.86px;">git</a> <a href="/tags/grid/" style="font-size: 10.71px;">grid</a> <a href="/tags/java/" style="font-size: 19.29px;">java</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/jetbrains/" style="font-size: 12.14px;">jetbrains</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 10.71px;">markdown</a> <a href="/tags/react/" style="font-size: 14.29px;">react</a> <a href="/tags/sql/" style="font-size: 14.29px;">sql</a> <a href="/tags/typescript/" style="font-size: 12.14px;">typescript</a> <a href="/tags/vscode/" style="font-size: 12.86px;">vscode</a> <a href="/tags/vue/" style="font-size: 16.43px;">vue</a> <a href="/tags/webstorm/" style="font-size: 10px;">webstorm</a> <a href="/tags/windows/" style="font-size: 17.14px;">windows</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 12.86px;">个人</a> <a href="/tags/%E5%85%AC%E5%8F%B8/" style="font-size: 10px;">公司</a> <a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 10px;">周报</a> <a href="/tags/%E5%AE%A3%E5%91%8A/" style="font-size: 10px;">宣告</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.57px;">工具</a> <a href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" style="font-size: 17.86px;">工程化</a> <a href="/tags/%E5%BC%80%E6%BA%90/" style="font-size: 10px;">开源</a> <a href="/tags/%E5%BC%82%E6%AD%A5/" style="font-size: 15px;">异步</a> <a href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" style="font-size: 10.71px;">待更新</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 18.57px;">杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BB%8F%E9%AA%8C/" style="font-size: 11.43px;">经验</a> <a href="/tags/%E8%AF%BB%E4%B9%A6/" style="font-size: 12.14px;">读书</a> <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 11.43px;">转载</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/14/8fb2d58463ae4191ac064a76e15bffbd/">2021 第十周</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/12/7e7131c07c984d928ba3fefa7a9cef06/">读书-[颓废与沉默：透视犬儒文化]</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/02/db74e6e5d2444bc3b6e185a7b338bbf6/">electron 开发经验之谈系列-在渲染、主进程间共享数据</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/27/06cb464179cf45c598208534705aae3c/">2020 吾辈在公司推动的前端技术演进</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/23/cd66150d2b86448590fcc9bb2419c0b2/">实践 lerna monorepo</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

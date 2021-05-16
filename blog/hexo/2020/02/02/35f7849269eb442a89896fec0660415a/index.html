@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>IDEA 创建和运行一个简单的 maven web 项目 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="场景本文是为了帮助刚接触 IDEA 的萌新快速了解如何创建与运行一个 Maven Web 项目，但由于 知识的诅咒（#笑），如果有什么不太明白或者发现了什么问题，欢迎在最下方进行留言哦 创建首先打开 IDEA，进入到了 IDEA 欢迎页，点击 Create New Project 来到项目创建面板   选择 Maven  勾选上 Create from archetype（根据原型创建） 选择 o">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IDEA 创建和运行一个简单的 maven web 项目">
+<meta property="og:url" content="http://example.com/2020/02/02/35f7849269eb442a89896fec0660415a/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="场景本文是为了帮助刚接触 IDEA 的萌新快速了解如何创建与运行一个 Maven Web 项目，但由于 知识的诅咒（#笑），如果有什么不太明白或者发现了什么问题，欢迎在最下方进行留言哦 创建首先打开 IDEA，进入到了 IDEA 欢迎页，点击 Create New Project 来到项目创建面板   选择 Maven  勾选上 Create from archetype（根据原型创建） 选择 o">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204181531.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204182057.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204183441.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204183409.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204183707.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204184028.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204185414.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204185728.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204190023.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204190127.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204190459.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204191042.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204191242.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204200454.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204184248.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204194615.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204194742.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204195327.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204202042.png">
+<meta property="article:published_time" content="2020-02-02T02:15:38.000Z">
+<meta property="article:modified_time" content="2020-12-24T23:24:07.000Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204181531.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-35f7849269eb442a89896fec0660415a" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/02/02/35f7849269eb442a89896fec0660415a/" class="article-date">
+  <time class="dt-published" datetime="2020-02-02T02:15:38.000Z" itemprop="datePublished">2020-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      IDEA 创建和运行一个简单的 maven web 项目
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>本文是为了帮助刚接触 IDEA 的萌新快速了解如何创建与运行一个 Maven Web 项目，但由于 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Curse_of_knowledge">知识的诅咒</a>（#笑），如果有什么不太明白或者发现了什么问题，欢迎在最下方进行留言哦</p>
+<h2 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h2><p>首先打开 IDEA，进入到了 IDEA 欢迎页，点击 <strong>Create New Project</strong><br><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204181531.png" alt="IDEA 欢迎页"></p>
+<p>来到项目创建面板</p>
+<ol>
+<li> 选择 Maven</li>
+<li> 勾选上 <strong>Create from archetype</strong>（根据原型创建）</li>
+<li>选择 <code>org.apche.maven.archetypes:maven-archetype-webapp</code> 原型<blockquote>
+<p>这里可以输入 webapp，就可以通过 Top/Bottom 键来快速找到原型了</p>
+</blockquote>
+</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204182057.png" alt="创建面板"></p>
+<p>接下来设定一下 Maven 的基本配置</p>
+<ul>
+<li>GroupId：代表该项目的实体或组织。例如 <code>com.rxliuli.example</code> 就是一个组织 id。<blockquote>
+<p>如果你对 maven 没有任何基础，可以直接使用 <code>com.&#123;你的英文名&#125;</code> 作为组织 id</p>
+</blockquote>
+</li>
+<li>ArtifactId：实际的工件名称。例如 <code>idea-maven-webapp-example</code> 就指明了该项目就是一个 idea 创建的 maven webapp 案例项目</li>
+<li>Version：该项目的版本号，没什么好说的。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204183441.png" alt="Maven 基本配置"></p>
+<p>然后是使用的 Maven 程序，IDEA 内置了 Maven，所以如果你不怎么了解 Maven 可以直接 Next 过去<br><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204183409.png" alt="使用的 Maven 程序"></p>
+<p>最后一步是创建 IDEA 项目，基本上不需要修改什么，直接 FINISH 即可<br><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204183707.png" alt="创建 IDEA 项目"></p>
+<h2 id="配置项目"><a href="#配置项目" class="headerlink" title="配置项目"></a>配置项目</h2><h3 id="项目初始配置"><a href="#项目初始配置" class="headerlink" title="项目初始配置"></a>项目初始配置</h3><p>创建完成后会提示是否选择自动引入依赖，这里选择 <strong>Enable Auto import</strong>。当然，另一个要我们去配置 Web 框架的提示就不用管了，IDEA 已经自动完成了这一切。<br><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204184028.png" alt="创建完成提示"></p>
+<h3 id="配置-Tomcat-容器"><a href="#配置-Tomcat-容器" class="headerlink" title="配置 Tomcat 容器"></a>配置 Tomcat 容器</h3><p>项目搭建好了，然而我们还需要一个 Web 容器，这里以 Tomcat 作为演示</p>
+<ol>
+<li> 使用快捷键 <code>CS-A</code> 打开 IDEA 结构化设置搜索</li>
+<li> 输入 <code>edit config</code>，找到 <code>edit configurations...</code> 项</li>
+<li>回车打开 IDEA 运行配置面板<br> <img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204185414.png" alt="IDEA 结构化设置搜索"></li>
+<li>添加一个新的 Tomcat 容器运行配置项<br> <img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204185728.png" alt="Tomcat 容器运行配置"></li>
+<li>配置 Application server，点击 CONFIGURETION 按钮<br> <img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204190023.png" alt="配置 Application server"></li>
+<li>选择本地 Tomcat 的目录并确定<br> <img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204190127.png" alt="选择本地 Tomcat 的目录"></li>
+<li>选择要运行的 war 包<br> 配置完成会发现下面多了一条警告 <code>Warning:No artifacts marked for deployment</code>，意思是没有 jar/war 包需要被部署，这里我们只要点一下 Fix，并且选择 <code>war exploded</code>，之后 IDEA 会自动完成剩余的事<br> <img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204190459.png" alt="部署 war 项目"><blockquote>
+<p>注：有人觉得每次都要配置 Tomcat 真的挺麻烦的，这里吾辈坚决声明这是误解，只有第一次才需要配置各种环境，后面 IDEA 是能够<strong>记住</strong>的。</p>
+</blockquote>
+</li>
+<li>最后，修改一下运行配置的名字，然后点击 OK 按钮<br> <img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204191042.png" alt="修改运行配置的名字"></li>
+<li>在右上角的运行配置里应该已经显示出刚才添加的运行配置项 Tomcat 了，这是点击右边的 Debug 按钮，一切就开始了<br> <img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204191242.png" alt="Debug 开始"></li>
+<li>运行完成后会自动打开浏览器 <a target="_blank" rel="noopener" href="http://localhost:8080/">http://localhost:8080/</a>，显示出这个项目的首页了呢<br> <img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204200454.png" alt="浏览器"></li>
+</ol>
+<p>至此，我们已经使用 IDEA 运行起来了一个基本的 Web 项目了呢！</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="配置项目目录结构"><a href="#配置项目目录结构" class="headerlink" title="配置项目目录结构"></a>配置项目目录结构</h3><p>项目的文件菜单树大概长这样，初始只有这么几个文件，稍微解释一下用途</p>
+<ul>
+<li><code>pom.xml</code>：Maven 的配置文件，所有 Maven 搭建的项目都会有，记录着项目所有的依赖</li>
+<li><code>web.xml</code>：Web 项目所需要的一个配置文件。主要用来配置 <code>Servlet</code>, <code>Filter</code>, <code>Listene</code>。</li>
+<li><code>index.jsp</code>：Maven webapp 原型自带的一个初始的 jsp 首页</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204184248.png" alt="项目文件结构"></p>
+<h3 id="配置-java-resources-目录"><a href="#配置-java-resources-目录" class="headerlink" title="配置 java/resources 目录"></a>配置 java/resources 目录</h3><p>现在，我们已经可以写 jsp 了，那么 <code>Servlet</code> 之类的 java 文件应该写到哪里呢？</p>
+<ol>
+<li><p>在 <em>src/main</em> 新建 <em>java</em> 和 <em>resources</em> 目录<br> <img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204194615.png" alt="新建 java/resources 目录"></p>
+</li>
+<li><p>点击 <em>File &gt; Project Structure</em> 打开项目结构配置面板（或者使用快捷键 <code>CSA-S</code>）<br> <img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204194742.png" alt="Project Structure"></p>
+</li>
+<li><p>标识目录</p>
+<ol>
+<li><p> 点击 Module 项</p>
+</li>
+<li><p> 选择需要的项目</p>
+</li>
+<li><p> 选中 java 文件夹</p>
+</li>
+<li><p> 点击 Source 使 java 目录变为蓝色</p>
+</li>
+<li><p> 选中 resources 目录</p>
+</li>
+<li><p> 点击 Resources 使 resources 目录变为紫色</p>
+</li>
+<li><p>完成后点击下方的 OK</p>
+<p><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204195327.png" alt="标识目录"></p>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="修改-web-xml-的-servlet-版本为-3-1"><a href="#修改-web-xml-的-servlet-版本为-3-1" class="headerlink" title="修改 web.xml 的 servlet 版本为 3.1"></a>修改 web.xml 的 servlet 版本为 3.1</h3><p>其实就是把 <code>web.xml</code> 的内容修改为下面这样</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">web-app</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://xmlns.jcp.org/xml/ns/javaee&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">version</span>=<span class="string">&quot;3.1&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">web-app</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="添加-servlet-jsp-依赖"><a href="#添加-servlet-jsp-依赖" class="headerlink" title="添加 servlet/jsp 依赖"></a>添加 servlet/jsp 依赖</h3><p>虽然 tomcat 本身就有 servlet/jsp 的实现，但那是在项目运行时才会有的，而我们需要在代码中使用 Servlet 的类时，则需要添加对应的依赖。</p>
+<p>找到 <code>pom.xml</code> maven 配置文件，在 dependencies 中添加 <code>javax.servlet</code> 和 <code>javax.servlet.jsp</code> 两项依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span> <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 其他内容 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.servlet<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>javax.servlet-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.servlet.jsp<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>javax.servlet.jsp-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 其他依赖 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 其他内容 --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="创建-Servlet"><a href="#创建-Servlet" class="headerlink" title="创建 Servlet"></a>创建 Servlet</h3><p>接下来，我们的 Java 源码就全部放到 <em>/src/main/java</em> 下即可</p>
+<p>新建一个简单的 Servlet 类 <code>HomeServlet</code> (path: <code>com.rxliuli.example.ideamavenwebappexample.HomeServlet</code>)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.rxliuli.example.ideamavenwebappexample;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.servlet.ServletException;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.annotation.WebServlet;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServlet;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletResponse;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.PrintWriter;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> rxliuli</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@WebServlet(name = &quot;HomeServlet&quot;, urlPatterns = &quot;/home&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HomeServlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        doPost(req, resp);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        resp.setCharacterEncoding(<span class="string">&quot;utf-8&quot;</span>);</span><br><span class="line">        resp.setContentType(<span class="string">&quot;text/html;charset=utf-8&quot;</span>);</span><br><span class="line">        <span class="keyword">final</span> PrintWriter out = resp.getWriter();</span><br><span class="line">        out.println(<span class="string">&quot;这里是首页哦&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后，再次点击 Debug 按钮重新运行项目，在浏览器中访问 <a target="_blank" rel="noopener" href="http://localhost:8080/home">http://localhost:8080/home</a>，可以看到我们的 Servlet 已经生效了呢<br><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20181204202042.png" alt="访问 home Servlet"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>这个演示项目吾辈也放到了 <a target="_blank" rel="noopener" href="https://github.com/rxliuli/idea-maven-webapp-example">GitHub</a> 上，如果需要可以随便下载</li>
+<li>如果你还不了解 maven 的话强烈建议稍微了解一下 maven 的基本概念。可以参照吾辈 blog 上的教程 <a target="_blank" rel="noopener" href="https://blog.rxliuli.com/p/82700e2a/">Windows 上 Maven 安装与使用</a> 进行安装</li>
+<li>如果你还不了解 IDEA（废话，这不是当然的嘛！#打），推荐阅读 <a target="_blank" rel="noopener" href="https://github.com/judasn/IntelliJ-IDEA-Tutorial">IntelliJ IDEA 简体中文专题教程</a> 进行入门</li>
+</ul>
+<p>那么，这篇教程到这里便结束啦，希望我们都能愉快地使用 IDEA 呢 o(〃＾ ▽ ＾〃)o</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/02/02/35f7849269eb442a89896fec0660415a/" data-id="ckmcqox2y002s0kuvh53odcau" data-title="IDEA 创建和运行一个简单的 maven web 项目" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/02/02/3240627e8e6745dbbde569c1df169c32/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          在 Windows 上使用 FTP/SFTP 服务端
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/02/02/3ecd3d18192d40779258639b68d838f5/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">使用 VSCode + Joplin 作为笔记工具</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/electron/" rel="tag">electron</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grid/" rel="tag">grid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jetbrains/" rel="tag">jetbrains</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webstorm/" rel="tag">webstorm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/" rel="tag">windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA/" rel="tag">个人</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%AC%E5%8F%B8/" rel="tag">公司</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%A8%E6%8A%A5/" rel="tag">周报</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%A3%E5%91%8A/" rel="tag">宣告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" rel="tag">工程化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90/" rel="tag">开源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%82%E6%AD%A5/" rel="tag">异步</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" rel="tag">待更新</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%8F%E9%AA%8C/" rel="tag">经验</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6/" rel="tag">读书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/css/" style="font-size: 12.14px;">css</a> <a href="/tags/electron/" style="font-size: 15.71px;">electron</a> <a href="/tags/git/" style="font-size: 12.86px;">git</a> <a href="/tags/grid/" style="font-size: 10.71px;">grid</a> <a href="/tags/java/" style="font-size: 19.29px;">java</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/jetbrains/" style="font-size: 12.14px;">jetbrains</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 10.71px;">markdown</a> <a href="/tags/react/" style="font-size: 14.29px;">react</a> <a href="/tags/sql/" style="font-size: 14.29px;">sql</a> <a href="/tags/typescript/" style="font-size: 12.14px;">typescript</a> <a href="/tags/vscode/" style="font-size: 12.86px;">vscode</a> <a href="/tags/vue/" style="font-size: 16.43px;">vue</a> <a href="/tags/webstorm/" style="font-size: 10px;">webstorm</a> <a href="/tags/windows/" style="font-size: 17.14px;">windows</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 12.86px;">个人</a> <a href="/tags/%E5%85%AC%E5%8F%B8/" style="font-size: 10px;">公司</a> <a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 10px;">周报</a> <a href="/tags/%E5%AE%A3%E5%91%8A/" style="font-size: 10px;">宣告</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.57px;">工具</a> <a href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" style="font-size: 17.86px;">工程化</a> <a href="/tags/%E5%BC%80%E6%BA%90/" style="font-size: 10px;">开源</a> <a href="/tags/%E5%BC%82%E6%AD%A5/" style="font-size: 15px;">异步</a> <a href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" style="font-size: 10.71px;">待更新</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 18.57px;">杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BB%8F%E9%AA%8C/" style="font-size: 11.43px;">经验</a> <a href="/tags/%E8%AF%BB%E4%B9%A6/" style="font-size: 12.14px;">读书</a> <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 11.43px;">转载</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/14/8fb2d58463ae4191ac064a76e15bffbd/">2021 第十周</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/12/7e7131c07c984d928ba3fefa7a9cef06/">读书-[颓废与沉默：透视犬儒文化]</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/02/db74e6e5d2444bc3b6e185a7b338bbf6/">electron 开发经验之谈系列-在渲染、主进程间共享数据</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/27/06cb464179cf45c598208534705aae3c/">2020 吾辈在公司推动的前端技术演进</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/23/cd66150d2b86448590fcc9bb2419c0b2/">实践 lerna monorepo</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

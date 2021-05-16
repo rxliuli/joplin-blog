@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Java8 函数式功能速查 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="场景有时候使用 lambda 参数的时候忘记应该接口的名字，所以便在此写一下 Java8function 包下原生的相关接口，方便快速查找。 lambda 接口   class 参数 返回值 Stream 示例 应用场景    Function &lt;T&gt; &lt;R&gt; map&#x2F;flatMap 映射   Consumer &lt;T&gt; void forEach&#x2F;peek 迭代">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java8 函数式功能速查">
+<meta property="og:url" content="http://example.com/2020/04/18/09d35ae510984c72bdc5a745c2c3f473/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="场景有时候使用 lambda 参数的时候忘记应该接口的名字，所以便在此写一下 Java8function 包下原生的相关接口，方便快速查找。 lambda 接口   class 参数 返回值 Stream 示例 应用场景    Function &lt;T&gt; &lt;R&gt; map&#x2F;flatMap 映射   Consumer &lt;T&gt; void forEach&#x2F;peek 迭代">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-04-18T02:14:09.000Z">
+<meta property="article:modified_time" content="2020-12-29T17:10:44.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-09d35ae510984c72bdc5a745c2c3f473" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/04/18/09d35ae510984c72bdc5a745c2c3f473/" class="article-date">
+  <time class="dt-published" datetime="2020-04-18T02:14:09.000Z" itemprop="datePublished">2020-04-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Java8 函数式功能速查
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>有时候使用 <code>lambda</code> 参数的时候忘记应该接口的名字，所以便在此写一下 Java8<br><code>function</code> 包下原生的相关接口，方便快速查找。</p>
+<h2 id="lambda-接口"><a href="#lambda-接口" class="headerlink" title="lambda 接口"></a>lambda 接口</h2><table>
+<thead>
+<tr>
+<th>class</th>
+<th>参数</th>
+<th>返回值</th>
+<th><code>Stream</code> 示例</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Function</code></td>
+<td><code>&lt;T&gt;</code></td>
+<td><code>&lt;R&gt;</code></td>
+<td><code>map/flatMap</code></td>
+<td>映射</td>
+</tr>
+<tr>
+<td><code>Consumer</code></td>
+<td><code>&lt;T&gt;</code></td>
+<td><code>void</code></td>
+<td><code>forEach/peek</code></td>
+<td>迭代</td>
+</tr>
+<tr>
+<td><code>Predicate</code></td>
+<td><code>&lt;T&gt;</code></td>
+<td><code>boolean</code></td>
+<td><code>filter/anyMatch</code></td>
+<td>过滤</td>
+</tr>
+<tr>
+<td><code>Supplier</code></td>
+<td></td>
+<td><code>&lt;R&gt;</code></td>
+<td><code>generate</code></td>
+<td>生成</td>
+</tr>
+<tr>
+<td><code>BiFunction</code></td>
+<td><code>&lt;U,T&gt;</code></td>
+<td><code>&lt;T&gt;</code></td>
+<td><code>reduce</code></td>
+<td>归纳</td>
+</tr>
+<tr>
+<td><code>UnaryOperator</code></td>
+<td><code>&lt;T&gt;</code></td>
+<td><code>&lt;T&gt;</code></td>
+<td><code>iterate</code></td>
+<td>映射相同类型</td>
+</tr>
+<tr>
+<td><code>BinaryOperator</code></td>
+<td><code>&lt;T,T&gt;</code></td>
+<td><code>&lt;T&gt;</code></td>
+<td><code>reduce</code></td>
+<td>归纳相同类型</td>
+</tr>
+<tr>
+<td><code>Comparator</code></td>
+<td><code>&lt;T,T&gt;</code></td>
+<td><code>&lt;U&gt;</code></td>
+<td><code>sort</code></td>
+<td>比较</td>
+</tr>
+</tbody></table>
+<h2 id="Stream-流"><a href="#Stream-流" class="headerlink" title="Stream 流"></a>Stream 流</h2><p>Stream 流为我们提供了一种简单的操作集合的方式，每个操作都具有原子性。</p>
+<table>
+<thead>
+<tr>
+<th>function</th>
+<th>参数</th>
+<th>返回值</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>filter</code></td>
+<td><code>Predicate&lt;T&gt;</code></td>
+<td><code>Stream&lt;T&gt;</code></td>
+<td>过滤</td>
+</tr>
+<tr>
+<td><code>map</code></td>
+<td><code>Function&lt;T,T&gt;</code></td>
+<td><code>Stream&lt;T&gt;</code></td>
+<td>映射</td>
+</tr>
+<tr>
+<td><code>flatMap</code></td>
+<td><code>Function&lt;T,Stream&lt;T&gt;&gt;</code></td>
+<td><code>Stream&lt;T&gt;</code></td>
+<td>压平映射</td>
+</tr>
+<tr>
+<td><code>distinct</code></td>
+<td></td>
+<td><code>Stream&lt;T&gt;</code></td>
+<td>去重</td>
+</tr>
+<tr>
+<td><code>sorted</code></td>
+<td></td>
+<td><code>Stream&lt;T&gt;</code></td>
+<td>排序, 要求 <code>T</code> 实现 <code>Closeable</code></td>
+</tr>
+<tr>
+<td><code>sorted</code></td>
+<td><code>Comparator&lt;T&gt;</code></td>
+<td><code>Stream&lt;T&gt;</code></td>
+<td>排序</td>
+</tr>
+<tr>
+<td><code>peek</code></td>
+<td><code>Consumer&lt;T&gt;</code></td>
+<td><code>Stream&lt;T&gt;</code></td>
+<td>迭代，但有返回值</td>
+</tr>
+<tr>
+<td><code>limit</code></td>
+<td><code>long</code></td>
+<td><code>Stream&lt;T&gt;</code></td>
+<td>限制数量</td>
+</tr>
+<tr>
+<td><code>skip</code></td>
+<td><code>long</code></td>
+<td><code>Stream&lt;T&gt;</code></td>
+<td>从开头丢弃指定数量的元素</td>
+</tr>
+<tr>
+<td><code>forEach</code></td>
+<td><code>Consumer&lt;T&gt;</code></td>
+<td><code>void</code></td>
+<td>迭代</td>
+</tr>
+<tr>
+<td><code>forEachOrdered</code></td>
+<td><code>Consumer&lt;T&gt;</code></td>
+<td><code>void</code></td>
+<td>保证顺序的迭代</td>
+</tr>
+<tr>
+<td><code>toArray</code></td>
+<td></td>
+<td><code>Object[]</code></td>
+<td>转换为数组</td>
+</tr>
+<tr>
+<td><code>toArray</code></td>
+<td><code>IntFunction&lt;T[]&gt;</code></td>
+<td><code>T[]</code></td>
+<td>转换为指定类型的数组</td>
+</tr>
+<tr>
+<td><code>reduce</code></td>
+<td><code>BinaryOperator&lt;T&gt;</code></td>
+<td><code>Optional&lt;T&gt;</code></td>
+<td>归纳为一个元素</td>
+</tr>
+<tr>
+<td><code>collect</code></td>
+<td><code>Collector&lt;T,A,R&gt;</code></td>
+<td><code>R</code></td>
+<td>将结果归集</td>
+</tr>
+<tr>
+<td><code>min</code></td>
+<td><code>Comparator&lt;T&gt;</code></td>
+<td><code>Optional&lt;T&gt;</code></td>
+<td>最小值</td>
+</tr>
+<tr>
+<td><code>max</code></td>
+<td><code>Comparator&lt;T&gt;</code></td>
+<td><code>Optional&lt;T&gt;</code></td>
+<td>最大值</td>
+</tr>
+<tr>
+<td><code>count</code></td>
+<td></td>
+<td><code>long</code></td>
+<td>长度</td>
+</tr>
+<tr>
+<td><code>anyMatch</code></td>
+<td><code>Predicate&lt;T&gt;</code></td>
+<td><code>boolean</code></td>
+<td>是否存在匹配的元素</td>
+</tr>
+<tr>
+<td><code>allMatch</code></td>
+<td><code>Predicate&lt;T&gt;</code></td>
+<td><code>boolean</code></td>
+<td>是否所有元素都匹配</td>
+</tr>
+<tr>
+<td><code>noneMatch</code></td>
+<td><code>Predicate&lt;T&gt;</code></td>
+<td><code>boolean</code></td>
+<td>是否所有元素都不匹配</td>
+</tr>
+<tr>
+<td><code>findFirst</code></td>
+<td></td>
+<td><code>Optional&lt;T&gt;</code></td>
+<td>查找第一个元素</td>
+</tr>
+<tr>
+<td><code>findAny</code></td>
+<td></td>
+<td><code>Optional&lt;T&gt;</code></td>
+<td>查找任意一个元素</td>
+</tr>
+<tr>
+<td><code>empty</code></td>
+<td></td>
+<td><code>Stream&lt;T&gt;</code></td>
+<td>获取一个空的流</td>
+</tr>
+<tr>
+<td><code>of</code></td>
+<td><code>T...</code></td>
+<td><code>Stream&lt;T&gt;</code></td>
+<td>将多个元素构造为流</td>
+</tr>
+<tr>
+<td><code>iterate</code></td>
+<td><code>T,UnaryOperator&lt;T&gt;</code></td>
+<td><code>Stream&lt;T&gt;</code></td>
+<td>构造无限有序流</td>
+</tr>
+<tr>
+<td><code>generate</code></td>
+<td><code>Supplier</code></td>
+<td><code>Stream&lt;T&gt;</code></td>
+<td>构造无限无序流</td>
+</tr>
+<tr>
+<td><code>concat</code></td>
+<td><code>Stream&lt;T&gt;,Stream&lt;T&gt;</code></td>
+<td><code>Stream&lt;T&gt;</code></td>
+<td>连接两个流</td>
+</tr>
+<tr>
+<td><code>parallel</code></td>
+<td></td>
+<td><code>Stream&lt;T&gt;</code></td>
+<td>将流转换为并行模式（多线程）</td>
+</tr>
+</tbody></table>
+<h2 id="Collectors"><a href="#Collectors" class="headerlink" title="Collectors"></a>Collectors</h2><p>Collectors 是一个 Java8 增加的一个工具类，用于简单的构造 <code>Collector</code> 接口的实现，主要用于 <code>Stream.collect()</code> 中的参数。<code>Stream.collect()</code> 用于将流转换为其他的数据结构，包括但不限于 <code>Collection</code>, <code>Map</code>, <code>String</code>, <code>Long</code> 等等，并以此衍生出了许多有用的操作：分组，转换为 <code>Map</code>，归约（<code>reduce</code> 的另一种使用方式），连接（归约的特化形式）</p>
+<table>
+<thead>
+<tr>
+<th>function</th>
+<th>功能</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>toList</code></td>
+<td>转换为 <code>List</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>toSet</code></td>
+<td>转换为 <code>Set</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>toMap</code></td>
+<td>转换为 <code>Map</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>toCollection</code></td>
+<td>转换为 <code>Collection</code> 的子类</td>
+<td></td>
+</tr>
+<tr>
+<td><code>joining</code></td>
+<td>所有元素连接为 <code>String</code>, 可以指定<strong>分隔符/开头/结尾</strong></td>
+<td></td>
+</tr>
+<tr>
+<td><code>mapping</code></td>
+<td>在转换之前对每个元素进行映射，常用于分组</td>
+<td></td>
+</tr>
+<tr>
+<td><code>collectingAndThen</code></td>
+<td>在转为之前对结果进行一些操作，例如构造不可变集合</td>
+<td></td>
+</tr>
+<tr>
+<td><code>counting</code></td>
+<td>计算元素总数</td>
+<td></td>
+</tr>
+<tr>
+<td><code>minBy</code></td>
+<td>最小值</td>
+<td></td>
+</tr>
+<tr>
+<td><code>maxBy</code></td>
+<td>最大值</td>
+<td></td>
+</tr>
+<tr>
+<td><code>summingInt</code></td>
+<td>计算总和（结果为 <code>Integer</code>）</td>
+<td></td>
+</tr>
+<tr>
+<td><code>summingLong</code></td>
+<td>计算总和（结果为 <code>Long</code>）</td>
+<td></td>
+</tr>
+<tr>
+<td><code>summingDouble</code></td>
+<td>计算总和（结果为 <code>Double</code>）</td>
+<td></td>
+</tr>
+<tr>
+<td><code>averagingInt</code></td>
+<td>计算平均值（结果为 <code>Integer</code>）</td>
+<td></td>
+</tr>
+<tr>
+<td><code>averagingLong</code></td>
+<td>计算平均值（结果为 <code>Long</code>）</td>
+<td></td>
+</tr>
+<tr>
+<td><code>averagingDouble</code></td>
+<td>计算平均值（结果为 <code>Double</code>）</td>
+<td></td>
+</tr>
+<tr>
+<td><code>reducing</code></td>
+<td>归纳, 与 <code>Stream.reduce()</code> 功能相同</td>
+<td></td>
+</tr>
+<tr>
+<td><code>groupingBy</code></td>
+<td>分组, <code>Collectors</code> 独有</td>
+<td></td>
+</tr>
+<tr>
+<td><code>groupingByConcurrent</code></td>
+<td>并发分组</td>
+<td></td>
+</tr>
+<tr>
+<td><code>partitioningBy</code></td>
+<td>特化分组, 分成 <code>true</code> 和 <code>false</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>toMap</code></td>
+<td>转换为 <code>Map</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>toConcurrentMap</code></td>
+<td>转换为并发 <code>Map</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>summarizingInt</code></td>
+<td>汇总信息并尽可能返回 <code>Integer</code>。注: <code>summarizing*</code> 的方法汇总的信息都是 <strong>数量/求和/平均值/最小值/最大值</strong></td>
+<td></td>
+</tr>
+<tr>
+<td><code>summarizingLong</code></td>
+<td>汇总信息并尽可能返回 <code>Long</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>summarizingDouble</code></td>
+<td>汇总信息并尽可能返回 <code>Double</code></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="一些示例"><a href="#一些示例" class="headerlink" title="一些示例"></a>一些示例</h2><h3 id="常见-Stream-操作"><a href="#常见-Stream-操作" class="headerlink" title="常见 Stream 操作"></a>常见 Stream 操作</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> List&lt;String&gt; collect = Stream.of(<span class="string">&quot;1&quot;</span>, <span class="string">&quot;12&quot;</span>, <span class="string">&quot;&quot;</span>, <span class="string">&quot;123&quot;</span>, <span class="string">&quot;2&quot;</span>, <span class="string">&quot;12&quot;</span>, <span class="string">&quot;321&quot;</span>, <span class="string">&quot;&quot;</span>)</span><br><span class="line">                <span class="comment">//过滤</span></span><br><span class="line">                .filter(s -&gt; !s.isEmpty())</span><br><span class="line">                <span class="comment">//提取出组成字符串的字符</span></span><br><span class="line">                .flatMap(s -&gt; Arrays.stream(s.split(<span class="string">&quot;&quot;</span>)))</span><br><span class="line">                <span class="comment">//去重</span></span><br><span class="line">                .distinct()</span><br><span class="line">                <span class="comment">//转换为集合</span></span><br><span class="line">                .collect(Collectors.toList());</span><br><span class="line">System.out.println(collect); <span class="comment">//结果是 [1, 2, 3]</span></span><br></pre></td></tr></table></figure>
+<h3 id="常见-Collectors-操作"><a href="#常见-Collectors-操作" class="headerlink" title="常见 Collectors 操作"></a>常见 Collectors 操作</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> Map&lt;Integer, List&lt;List&lt;String&gt;&gt;&gt; collect = Stream.of(<span class="string">&quot;1&quot;</span>, <span class="string">&quot;12&quot;</span>, <span class="string">&quot;&quot;</span>, <span class="string">&quot;123&quot;</span>, <span class="string">&quot;2&quot;</span>, <span class="string">&quot;13&quot;</span>, <span class="string">&quot;321&quot;</span>, <span class="string">&quot;&quot;</span>)</span><br><span class="line">        .collect(</span><br><span class="line">                <span class="comment">//分组</span></span><br><span class="line">                Collectors.groupingBy(</span><br><span class="line">                        <span class="comment">//分组条件</span></span><br><span class="line">                        String::length,</span><br><span class="line">                        <span class="comment">//分组之前对每个元素进行映射</span></span><br><span class="line">                        Collectors.mapping(</span><br><span class="line">                                <span class="comment">//映射函数</span></span><br><span class="line">                                s -&gt; Arrays.asList(s.split(<span class="string">&quot;&quot;</span>)),</span><br><span class="line">                                <span class="comment">//最后将 Stream 转换为 List</span></span><br><span class="line">                                Collectors.toList()</span><br><span class="line">                        )</span><br><span class="line">                )</span><br><span class="line">        );</span><br><span class="line">System.out.println(collect); <span class="comment">//结果是 &#123;0=[[], []], 1=[[1], [2]], 2=[[1, 2], [1, 3]], 3=[[1, 2, 3], [3, 2, 1]]&#125;</span></span><br></pre></td></tr></table></figure>
+<hr>
+<p>最后，Java8 有很多有趣的功能，或许我们所使用的不过是其中一个很小的子集，然而了解的越多越是觉得 Java8 的改进很多呢</p>
+<blockquote>
+<p>注：本文并非 <code>API</code> 列表，并未包含<strong>全部</strong>的功能，所以如果找不到所需要的函数可以查看 <a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/8/">JDK8 Oracle Documentation</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/04/18/09d35ae510984c72bdc5a745c2c3f473/" data-id="ckmcqox25000h0kuv4c0tgtws" data-title="Java8 函数式功能速查" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/04/18/07b0f417d17c460383ae8a1a668b8e1a/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          MySQL 无法插入中文数据
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/04/18/12d510588aee423d8bd1ac24ecc6925a/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">使用 Java8 新的时间 API</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/electron/" rel="tag">electron</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grid/" rel="tag">grid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jetbrains/" rel="tag">jetbrains</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webstorm/" rel="tag">webstorm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/" rel="tag">windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA/" rel="tag">个人</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%AC%E5%8F%B8/" rel="tag">公司</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%A8%E6%8A%A5/" rel="tag">周报</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%A3%E5%91%8A/" rel="tag">宣告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" rel="tag">工程化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90/" rel="tag">开源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%82%E6%AD%A5/" rel="tag">异步</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" rel="tag">待更新</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%8F%E9%AA%8C/" rel="tag">经验</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6/" rel="tag">读书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/css/" style="font-size: 12.14px;">css</a> <a href="/tags/electron/" style="font-size: 15.71px;">electron</a> <a href="/tags/git/" style="font-size: 12.86px;">git</a> <a href="/tags/grid/" style="font-size: 10.71px;">grid</a> <a href="/tags/java/" style="font-size: 19.29px;">java</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/jetbrains/" style="font-size: 12.14px;">jetbrains</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 10.71px;">markdown</a> <a href="/tags/react/" style="font-size: 14.29px;">react</a> <a href="/tags/sql/" style="font-size: 14.29px;">sql</a> <a href="/tags/typescript/" style="font-size: 12.14px;">typescript</a> <a href="/tags/vscode/" style="font-size: 12.86px;">vscode</a> <a href="/tags/vue/" style="font-size: 16.43px;">vue</a> <a href="/tags/webstorm/" style="font-size: 10px;">webstorm</a> <a href="/tags/windows/" style="font-size: 17.14px;">windows</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 12.86px;">个人</a> <a href="/tags/%E5%85%AC%E5%8F%B8/" style="font-size: 10px;">公司</a> <a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 10px;">周报</a> <a href="/tags/%E5%AE%A3%E5%91%8A/" style="font-size: 10px;">宣告</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.57px;">工具</a> <a href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" style="font-size: 17.86px;">工程化</a> <a href="/tags/%E5%BC%80%E6%BA%90/" style="font-size: 10px;">开源</a> <a href="/tags/%E5%BC%82%E6%AD%A5/" style="font-size: 15px;">异步</a> <a href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" style="font-size: 10.71px;">待更新</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 18.57px;">杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BB%8F%E9%AA%8C/" style="font-size: 11.43px;">经验</a> <a href="/tags/%E8%AF%BB%E4%B9%A6/" style="font-size: 12.14px;">读书</a> <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 11.43px;">转载</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/14/8fb2d58463ae4191ac064a76e15bffbd/">2021 第十周</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/12/7e7131c07c984d928ba3fefa7a9cef06/">读书-[颓废与沉默：透视犬儒文化]</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/02/db74e6e5d2444bc3b6e185a7b338bbf6/">electron 开发经验之谈系列-在渲染、主进程间共享数据</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/27/06cb464179cf45c598208534705aae3c/">2020 吾辈在公司推动的前端技术演进</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/23/cd66150d2b86448590fcc9bb2419c0b2/">实践 lerna monorepo</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>react 入坑思考 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="场景吾辈为什么要学 react 呢？难道 HTML+CSS+JavaScript 已经满足不了了？是的，传统前端确实满足不了吾辈了，前端在快速发展，而后端手中（甚至眼中）的前端仍然是只有 HTML+CSS+JavaScript+JQuery 的世界。吾辈不想就这样下去，所以想要了解、学习、使用现代前端的内容。谜之音：难道 vuejs 还不够么？vuejs 既是国产（阿里），所以文档（中文）相对而言">
+<meta property="og:type" content="article">
+<meta property="og:title" content="react 入坑思考">
+<meta property="og:url" content="http://example.com/2020/02/02/bf496d4b660f4226a03f2b8a04baee04/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="场景吾辈为什么要学 react 呢？难道 HTML+CSS+JavaScript 已经满足不了了？是的，传统前端确实满足不了吾辈了，前端在快速发展，而后端手中（甚至眼中）的前端仍然是只有 HTML+CSS+JavaScript+JQuery 的世界。吾辈不想就这样下去，所以想要了解、学习、使用现代前端的内容。谜之音：难道 vuejs 还不够么？vuejs 既是国产（阿里），所以文档（中文）相对而言">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-02-02T02:15:37.000Z">
+<meta property="article:modified_time" content="2020-12-24T23:18:13.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="react">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-bf496d4b660f4226a03f2b8a04baee04" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/02/02/bf496d4b660f4226a03f2b8a04baee04/" class="article-date">
+  <time class="dt-published" datetime="2020-02-02T02:15:37.000Z" itemprop="datePublished">2020-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      react 入坑思考
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>吾辈为什么要学 <code>react</code> 呢？难道 <code>HTML+CSS+JavaScript</code> 已经满足不了了？是的，传统前端确实满足不了吾辈了，前端在快速发展，而后端手中（甚至眼中）的前端仍然是只有 <code>HTML+CSS+JavaScript+JQuery</code> 的世界。吾辈不想就这样下去，所以想要了解、学习、使用现代前端的内容。<br>谜之音：难道 <code>vuejs</code> 还不够么？<br><code>vuejs</code> 既是国产（阿里），所以文档（中文）相对而言应该是最好的。而且相比于 <code>react</code>，<code>vuejs</code> 的门槛相对而言还是比较低的。至少，不用一开始就接触 <code>webpack</code>（天坑），在不用 <code>webpack</code> 的情况下使用 <code>react</code> 将是很困难的。<br>或许有人说，<code>react</code> 不是有 <code>create-react-app</code> 可以快速创建 <code>web app</code> 么？然而使用 <code>create-react-app</code> 之后，一大波僵尸（概念）将会袭来。</p>
+<h2 id="对白"><a href="#对白" class="headerlink" title="对白"></a>对白</h2><p>让我们先来看一段对白</p>
+<p>问：<code>react</code> 好像不推荐在浏览器中直接使用 <code>&lt;script&gt;</code> 标签引入呢？<br>答：是呀，你需要 <code>npm/yarn</code> 这类工具呢<br>问：<code>npm</code> 是什么？<br>答：<code>npm</code> 能帮助我们管理依赖的库 只要 <code>install</code> 一下就可以啦<br>问：那么安装的包要怎么引用呢？<br>答：你需要用 <code>commonjs/es2016</code> 之类的方式引入呢？<br>问：等等，<code>commonjs</code>？<code>es2016</code>？这都是什么呀？<br>答：哦，这是一种 js 模块化的规范而已，我们只要知道 <code>import</code> 和 <code>export</code> 就好啦？<br>问：嗯，那么我应该在哪里写 <code>HTML</code>？<br>答：不不不，<code>react</code> 里面没有 <code>HTML</code>，只有 <code>jsx</code>。<br>问：OMG，<code>jsx</code> 又是什么？<br>答：一种 <code>js + xml</code> 的 <code>dsl</code>，语法上很像 <code>HTML</code>，no problem！<br>问：那写完的的 <code>jsx</code> 组件怎么在浏览器中查看啊？<br>答：你需要使用打包工具，例如 <code>webpack</code>，将 <code>jsx</code> 打包成 <code>HTML+JavaScript</code> 才行<br>问：额，不是没有 <code>HTML</code> 了么？<br>答：写的时候没有，但浏览器只认识 <code>HTML/CSS/JavaScript</code>，所以最终还是要变成这些才行呀<br>问：嗯，那么 <code>webpack</code> 是什么呢？<br>答：现代前端的一个打包工具<br>问：好的，那我去看看文档<br>一段时间后。。。<br>问：我看了 <code>webpack</code> 官网的文档，但还是不明白应该怎么打包<br>答：额，不行的话就用 <code>create-react-app</code> 吧。它会自动帮你生成一个完整配置的项目的，你只要懂得配置的意思并且会修改就好了。<br>问：于是，我开始了愉快的 <code>react</code> 之旅。。。个鬼呀！<strong>idea</strong> 怎么没提示？<br>答：额，你需要插件，不过更推荐 <strong>vscode</strong>，毕竟已经是事实上的前端标准编辑器了。<br>问：也就是说，我又要用一个新的 <code>IDE</code> 了？<br>答：不是啦，<strong>vscode</strong> 只是一个编辑器，比 <strong>idea</strong> 轻量太多了。而且，<strong>vscode</strong> 对前端生态支持很好哦<br>一段时间后。。。<br>问：我写了几个组件，但不知道应该怎么控制页面跳转？我好像并不能在后端映射到组件呀<br>答：<code>react</code> 需要使用 <code>react router</code> 之类的前端路由，现在前端的跳转由前端来控制就好了<br>问：所以说，不能使用 <code>java</code> 来控制么？≥﹏≤<br>答：额，可能真不行，为什么不用 <code>react router</code> 呢？<br>问：好吧，我先去看看。。。<br>问：唉，组件之间的交互好麻烦呀，每次都要依赖传递 <code>props</code> 啊<br>答：哦，你可以尝试一下状态管理。例如 <code>redux</code><br>问：<code>redux</code>？那是什么？<br>答：<code>react</code> 中的一个状态管理，可以不用一层层的传递 <code>props</code> 了呢<br>问：听起来很不错，我现在就去看一下！<br>问：两天后，woc，<code>redux</code> 去死吧？就想改个状态怎么这么麻烦，而且异步那里什么鬼？(ノ =Д=) ノ ┻━┻<br>答：看来你不适合 <code>react</code>，或许你可以看看 <code>vuejs</code>，更简单一点。国产，中文文档齐全，门槛很低的呢！</p>
+<p>诚然，以上的问题不一定是指 <code>react</code> 本身，但依赖于如此之多的工具，本就造成了 <code>react</code> 的复杂性。</p>
+<h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><p>看完以上对话，或许吾辈看起来很讨厌 <code>react</code> 的样子？<br>事实上，吾辈第一次学习现代前端的时候，就是从 <code>react</code> 开始的，然后基本上就像上面的对话所述，直接败退了，然后滚去学了一段时间的 <code>vuejs</code>。<br>然而，直到最近，吾辈发现 <code>vuejs</code> 的生态实在太小了。最开始吾辈就了解过这两个框架，也知道 <code>vuejs</code> 的生态很小，然而确实没想到会这么小。。。<br>深层次来讲，<code>vuejs</code> 毕竟是国产，毕竟是阿里，所以还是慎用。想想 <strong>Dubbo 放弃维护</strong> 和 <strong>Ant Design 圣诞彩蛋</strong>，一切皆是不言自明的！</p>
+<p>现在再看 <code>react</code>，感觉简单了一些。一方面，由于 <code>vuejs</code> 的原因，接触到了 <code>es6/npm/yarn/webpack/babel/vscode</code> 这些前端工具链，对现代前端有了基本的概念与认知。不再因为某些代码看不懂而卡住，也不会面对各种工具一脸懵逼了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/02/02/bf496d4b660f4226a03f2b8a04baee04/" data-id="ckmcqox4p00890kuvg0zgf07z" data-title="react 入坑思考" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/" rel="tag">react</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/02/02/bd842060067c45708d8c08f89c9fcf4c/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          使用 rollup 打包 JavaScript SDK
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/02/02/c2faf4d93d52495b90518b8a61d72f9e/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">vue 使用 git-rev-sync 确定线上发布版本号</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/electron/" rel="tag">electron</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grid/" rel="tag">grid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jetbrains/" rel="tag">jetbrains</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webstorm/" rel="tag">webstorm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/" rel="tag">windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA/" rel="tag">个人</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%AC%E5%8F%B8/" rel="tag">公司</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%A8%E6%8A%A5/" rel="tag">周报</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%A3%E5%91%8A/" rel="tag">宣告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" rel="tag">工程化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90/" rel="tag">开源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%82%E6%AD%A5/" rel="tag">异步</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" rel="tag">待更新</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%8F%E9%AA%8C/" rel="tag">经验</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6/" rel="tag">读书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/css/" style="font-size: 12.14px;">css</a> <a href="/tags/electron/" style="font-size: 15.71px;">electron</a> <a href="/tags/git/" style="font-size: 12.86px;">git</a> <a href="/tags/grid/" style="font-size: 10.71px;">grid</a> <a href="/tags/java/" style="font-size: 19.29px;">java</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/jetbrains/" style="font-size: 12.14px;">jetbrains</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 10.71px;">markdown</a> <a href="/tags/react/" style="font-size: 14.29px;">react</a> <a href="/tags/sql/" style="font-size: 14.29px;">sql</a> <a href="/tags/typescript/" style="font-size: 12.14px;">typescript</a> <a href="/tags/vscode/" style="font-size: 12.86px;">vscode</a> <a href="/tags/vue/" style="font-size: 16.43px;">vue</a> <a href="/tags/webstorm/" style="font-size: 10px;">webstorm</a> <a href="/tags/windows/" style="font-size: 17.14px;">windows</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 12.86px;">个人</a> <a href="/tags/%E5%85%AC%E5%8F%B8/" style="font-size: 10px;">公司</a> <a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 10px;">周报</a> <a href="/tags/%E5%AE%A3%E5%91%8A/" style="font-size: 10px;">宣告</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.57px;">工具</a> <a href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" style="font-size: 17.86px;">工程化</a> <a href="/tags/%E5%BC%80%E6%BA%90/" style="font-size: 10px;">开源</a> <a href="/tags/%E5%BC%82%E6%AD%A5/" style="font-size: 15px;">异步</a> <a href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" style="font-size: 10.71px;">待更新</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 18.57px;">杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BB%8F%E9%AA%8C/" style="font-size: 11.43px;">经验</a> <a href="/tags/%E8%AF%BB%E4%B9%A6/" style="font-size: 12.14px;">读书</a> <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 11.43px;">转载</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/14/8fb2d58463ae4191ac064a76e15bffbd/">2021 第十周</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/12/7e7131c07c984d928ba3fefa7a9cef06/">读书-[颓废与沉默：透视犬儒文化]</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/02/db74e6e5d2444bc3b6e185a7b338bbf6/">electron 开发经验之谈系列-在渲染、主进程间共享数据</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/27/06cb464179cf45c598208534705aae3c/">2020 吾辈在公司推动的前端技术演进</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/23/cd66150d2b86448590fcc9bb2419c0b2/">实践 lerna monorepo</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

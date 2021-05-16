@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/2/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-e6718c0c7fba4b84a6d3a712a6b1910b" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/08/e6718c0c7fba4b84a6d3a712a6b1910b/" class="article-date">
+  <time class="dt-published" datetime="2021-01-08T04:14:10.000Z" itemprop="datePublished">2021-01-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/08/e6718c0c7fba4b84a6d3a712a6b1910b/">前端与后端的选择（个人理解）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>吾辈就是一个从 Java Web 后端转到前端的人。</p>
+</blockquote>
+<p>吾辈今天又在看到人说 <strong>前端很简单，而且还比后端工资高</strong>，这里吾辈还是想做一些澄清的。</p>
+<h2 id="对话"><a href="#对话" class="headerlink" title="对话"></a>对话</h2><ul>
+<li>后端 A: 我发现这两年前端的工作特别好找，而且工资很高</li>
+<li>后端 A：后端内卷太严重了。</li>
+<li>后端 B: #无语</li>
+<li>后端 B: 前端要会啥啊到底才能称得上前端</li>
+<li>后端 A: 我们这边。H5+小程序 就行了</li>
+<li>后端 A: 主要是 CSS 要能处理好。。。</li>
+<li>后端 A: 设计做出来的东西要不能有折扣的做出来。。而不是向组件找不到妥协。。。。</li>
+<li>后端 B：我感觉我很合适唉，虽然我没怎么做过小程序</li>
+<li>后端 B: 有没有 Java 转前端的啊</li>
+<li>吾辈：吾辈就是 @后端 B</li>
+<li>吾辈：可能泥萌那是 2c 的业务，像吾辈这边偏向于 2b 的，业务和架构的复杂度相当高，事实上，吾辈这边的前端架构都已经需要微服务化了（即所谓的微前端）</li>
+<li>后端 C：微前端</li>
+<li>后端 A：不知道是不是后端的错觉。。感觉前端好简单啊，为啥还要比后端工资高。。</li>
+<li>吾辈: 这其实有个错觉就是，前端开发岗位多，开发人员多，就一定好找工作。Java 还不是有很多培训班为市场注入了许多后端，而 web 其实也很糟糕，因为似乎所有人都开始觉得前端只要会 vuejs 加点 html/css/js 就可以开始工作了，恰好市场这两年的缺口还很大，所以培训班其实也为市场注入了相当的人员，导致招聘很难招，工作很难找。（不过不吹不黑，吾辈确实因为转到前端发生了发生了很多变化，尤其是在开源项目方面，之前基本不做，现在嘛，有时间就会做一些 #本质原因可能还是因为前端还不够成熟吧）</li>
+<li>后端 A：不知道是不是后端的错觉。。感觉前端好简单啊，为啥还要比后端工资高。。。@吾辈</li>
+<li>后端 D: 不是说前端比较抗骂嘛</li>
+<li>吾辈：你什么时候产生了前端比后端工资高的错觉，就那吾辈的公司来说，前端 10-20，后端 golang 15-20，Java 18-35 (´-ι_-｀)</li>
+<li>吾辈：另外前端技术栈迭代非常快，前后端的边界正在后移，想想之前后端还要负责模板引擎，路由，状态管理，逻辑代码，工程化方面的任务，现在，这些都成为了前端的任务，而且之前的任务 ui 还原还没少，而后端在吾辈看来的一个主要问题在于用户量不够的情况下基本没得折腾，意味着许多 idea 无法在生产环境落地，后端技术栈迭代也很慢（主要是由于风险更高以及成熟度），现在还是 Java 8，而前端，基本都是跟着版本跑（当然这会带来 js 疲劳暂且不说），生产环境吾辈已经上了 ts 4（半年之前更新的大版本）。还有一点我不确定是否是常事，一般后端似乎没有自己维护的开源项目，这很显然是没法在生产之外尝鲜新技术的，一年经验用十年，不外如是。</li>
+<li>吾辈：另外觉得前端简单的可以看一下这一系列谈话（前后端之间的，2016 年的，现在前端更加复杂化了）<a href="/p/9970e725452b49e496324842a7e283dd">2016 年里做前端是怎样一种体验
+</a></li>
+</ul>
+<h2 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h2><p>就吾辈个人的感觉而言，似乎许多后端还不清楚前端领域到底发生了什么，觉得前端还仅仅是 <strong>切图</strong>，而这显然是个错误。</p>
+<p>前端近几年发展迅速，几乎可以说是日新月异，尽管可能大部分都会被扫进历史的垃圾堆，但至少能够切身参与到发展的历史进程中。而且，现在前端要解决的问题域也在发生变化，在传统前端眼里，CSS（UI 还原）和兼容性问题是最重要的，但现在，已然天翻地覆，前端本身的知识领域也在发生割裂，参考: <a target="_blank" rel="noopener" href="https://css-tricks.com/the-great-divide/">大分裂</a>。</p>
+<blockquote>
+<p>当然在很久以前，前端也有独特的「复杂问题」，比如我刚工作那会需要掌握的精确到 1px 的兼容到 IE6 的高保真切图技巧，但这类问题更偏向「手艺人」的工作，而非工程师的技术价值体现，更重要的是，它无法被沉淀为技术人的长期价值。</p>
+</blockquote>
+<p>而后端，经过几十年的长足发展，已经非常完善，似乎没有太大的变化了。当然，就像 <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/375448022">前端为什么会越来越复杂？</a> 所言，<strong>「后端是在业务方面革自己的命，使劲在平台化、中台化发展，然后把具体业务这块解放给前端」</strong>。</p>
+<table>
+<thead>
+<tr>
+<th>分类</th>
+<th>前端</th>
+<th>后端</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>发展速度</td>
+<td>迅速</td>
+<td>缓慢</td>
+</tr>
+<tr>
+<td>发展程度</td>
+<td>发展中</td>
+<td>成熟</td>
+</tr>
+<tr>
+<td>试错成本</td>
+<td>低</td>
+<td>高（后台服务炸掉是很难被接受的）</td>
+</tr>
+<tr>
+<td>知识价值</td>
+<td>低（发展迅速带来的疲劳）</td>
+<td>高</td>
+</tr>
+<tr>
+<td>入门难度</td>
+<td>低（学会三大件就能写）</td>
+<td>高</td>
+</tr>
+<tr>
+<td>个人成长机会</td>
+<td>一般</td>
+<td>低（很难有机会应用自己的轮子）</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>注：以上均为吾辈在小公司的一些体会，并不一定意味着<strong>正确</strong>。而且，前端并不一定意味着简单，也有可能是根本没有接触过复杂的应用场景。例如前端工程化、智能化、编辑器、富文本、可视化图表之类的。当然，前后端其实面临着相似的问题：在小公司很多东西并没有使用场景，低层次的工作重复十年也做不出来一个 <a target="_blank" rel="noopener" href="https://juejin.cn/post/6924591257452806152/">设计稿智能生成代码 imgcook</a><br>注 2：但同时，吾辈也不得不承认两者确实在天花板上有着差异，尤其而且是在大型互联网公司（例如阿里），参考：<a target="_blank" rel="noopener" href="https://blog.alswl.com/2019/07/frontend-backend-ceiling/">漫谈前后端天花板</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/08/e6718c0c7fba4b84a6d3a712a6b1910b/" data-id="ckmcqox54009n0kuvhsc7htbt" data-title="前端与后端的选择（个人理解）" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-9d55c013167a4e6d802fde969291c34b" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/07/9d55c013167a4e6d802fde969291c34b/" class="article-date">
+  <time class="dt-published" datetime="2021-01-07T00:12:44.000Z" itemprop="datePublished">2021-01-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/07/9d55c013167a4e6d802fde969291c34b/">electron 开发经验之谈系列-自定义窗口顶栏</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>在很多生产项目中，我们希望自定义 electron 窗口顶栏，因为它确实非常简陋。</p>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><h3 id="在渲染层实现自定义顶栏"><a href="#在渲染层实现自定义顶栏" class="headerlink" title="在渲染层实现自定义顶栏"></a>在渲染层实现自定义顶栏</h3><p>实际上，核心的代码就是添加一个为顶栏的元素添加 css 样式。在 electron 环境，有 <code>-webkit-app-region: drag;</code> 属性的元素可以拖动整个窗口。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.toolbar</span> &#123;</span><br><span class="line">  <span class="attribute">-webkit-app-region</span>: drag;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.toolbar</span> &gt; * &#123;</span><br><span class="line">  <span class="attribute">-webkit-app-region</span>: no-drag;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的 css 看起来有点奇怪，但这是为了避免子元素（例如关闭按钮）也可以拖动的错误。</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.electronjs.org/docs/api/browser-window#event-system-context-menu-windows">参考文档</a>, <a target="_blank" rel="noopener" href="https://github.com/rxliuli/electron_example/blob/18a1a756e5c82e87ef1c8755a0be036b6765f04b/apps/renderer/src/components/router/component/BasicLayout.module.css#L13">参考代码</a></p>
+</blockquote>
+<h3 id="使用-electron-通信实现窗口的三个操作"><a href="#使用-electron-通信实现窗口的三个操作" class="headerlink" title="使用 electron 通信实现窗口的三个操作"></a>使用 electron 通信实现窗口的三个操作</h3><p>其实，electron 本身支持在渲染层暴露 <code>remote</code> 模块，但这里我们选择使用 <code>ipcRenderer/ipcMain</code> 手动实现，remote 模块因为安全原因默认被禁用了。</p>
+<p>下面的步骤基本和 <a href="/p/6e778ce220e042a0902e7a85976e7e47">渲染、主进程通信</a> 所属一样，下面贴一些关键代码</p>
+<p>共享类型</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// WindowDefine.ts</span></span><br><span class="line"><span class="keyword">import</span> &#123; BaseDefine &#125; <span class="keyword">from</span> <span class="string">&quot;electron_ipc_type&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">interface</span> WindowDefine <span class="keyword">extends</span> BaseDefine&lt;&quot;WindowApi&quot;&gt; &#123;</span><br><span class="line">  action(<span class="keyword">type</span>: <span class="string">&quot;min&quot;</span> | <span class="string">&quot;max&quot;</span> | <span class="string">&quot;close&quot;</span>): <span class="built_in">void</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>主进程</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main.ts</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WindowApi</span> </span>&#123;</span><br><span class="line">  <span class="keyword">async</span> <span class="function"><span class="title">action</span>(<span class="params">e: IpcMainInvokeEvent, <span class="keyword">type</span>: <span class="string">&quot;min&quot;</span> | <span class="string">&quot;max&quot;</span> | <span class="string">&quot;close&quot;</span></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> win = BrowserWindow.fromWebContents(e.sender);</span><br><span class="line">    <span class="keyword">switch</span> (<span class="keyword">type</span>) &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">&quot;min&quot;</span>:</span><br><span class="line">        win.minimize();</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">&quot;max&quot;</span>:</span><br><span class="line">        win.isMaximized() ? win.unmaximize() : win.maximize();</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">&quot;close&quot;</span>:</span><br><span class="line">        win.close();</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>渲染进程</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// BasicLayout.tsx</span></span><br><span class="line"><span class="keyword">const</span> windowApi = IpcRendererClient.gen&lt;WindowDefine&gt;(<span class="string">&quot;WindowApi&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 封装 electron 的窗口控制 hooks</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">useElectronWindowControl</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    handleMin: <span class="function">() =&gt;</span> windowApi.action(<span class="string">&quot;min&quot;</span>),</span><br><span class="line">    handleMax: <span class="function">() =&gt;</span> windowApi.action(<span class="string">&quot;max&quot;</span>),</span><br><span class="line">    handleClose: <span class="function">() =&gt;</span> windowApi.action(<span class="string">&quot;close&quot;</span>),</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/rxliuli/electron_example/tree/3aea837b0c7661e030406a0c20d306694402a26f">参考代码</a></p>
+</blockquote>
+<h3 id="隐藏掉默认的顶栏"><a href="#隐藏掉默认的顶栏" class="headerlink" title="隐藏掉默认的顶栏"></a>隐藏掉默认的顶栏</h3><p>实际上，只要在创建 electron 的 <code>BrowserWindow</code> 实例时配置即可</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> BrowserWindow(&#123;</span><br><span class="line">  webPreferences: &#123;</span><br><span class="line">    nodeIntegration: <span class="literal">true</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  frame: <span class="literal">false</span>,</span><br><span class="line">  autoHideMenuBar: <span class="literal">true</span>,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>现在，electron 程序就有自定义顶栏啦</p>
+<p><img src="/images/14a1d8bbb1ca452092c384ca7cbec4c4.png" alt="1611134001681.png"></p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>虽然自定义窗口顶栏有很多优点，但也并非尽善尽美，已知缺点如下</p>
+<ul>
+<li>占有了一定高度，导致一些 UI 组件的位置很奇怪，例如顶部的消息提示框和侧边抽屉，会遮挡住窗口顶栏的一部分。</li>
+<li>可能随着系统升级与系统风格不搭，早有人吐槽过 Windows 所有程序的自定义顶栏都是不一样的高度和大小，非常丑</li>
+<li>需要重新实现窗口菜单相关的快捷键，例如 <code>ctrl+shift+i</code> 打开开发者工具</li>
+<li>在 mac 上需要进行特别的兼容，否则和其他程序会显得格格不入</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/07/9d55c013167a4e6d802fde969291c34b/" data-id="ckmcqox48006q0kuvaqkrd0b8" data-title="electron 开发经验之谈系列-自定义窗口顶栏" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/electron/" rel="tag">electron</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-1527b67fbd78494cb716e2db4b8fb688" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/07/1527b67fbd78494cb716e2db4b8fb688/" class="article-date">
+  <time class="dt-published" datetime="2021-01-06T23:59:34.000Z" itemprop="datePublished">2021-01-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/07/1527b67fbd78494cb716e2db4b8fb688/">electron 开发经验之谈系列-开发环境优化</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="使用-react-devtool-插件调试"><a href="#使用-react-devtool-插件调试" class="headerlink" title="使用 react devtool 插件调试"></a>使用 react devtool 插件调试</h2><!-- TODO 需要将这两个函数抽离成静态工具类 -->
+
+<p>前言</p>
+<p>虽然绝大多数时候，我们都可以也应该在浏览器调试渲染层的功能，但确实也会有需要在 electron 程序中调试的需求，这里就说明一下 electron 如何安装 chrome 插件 react devtool 调试项目。</p>
+<blockquote>
+<p>核心依赖: <a target="_blank" rel="noopener" href="https://www.npmjs.com/package/electron-devtools-installer">electron-devtools-installer</a></p>
+</blockquote>
+<p>步骤</p>
+<p>1、安装依赖</p>
+<p>cd 到 <em>apps/main</em> 目录</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add -D electron-devtools-installer @types/electron-devtools-installer</span><br></pre></td></tr></table></figure>
+<p>2、添加环境变量 <code>&quot;NODE_ENV&quot;: &quot;development&quot;</code> 标识为开发环境</p>
+<p>修改 <em>.env-cmdrc.json</em> 配置文件</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;dev&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;NODE_ENV&quot;</span>: <span class="string">&quot;development&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;ELECTRON_START_URL&quot;</span>: <span class="string">&quot;http://localhost:3000/&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3、修改 <code>main</code> 函数</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main.ts</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">main</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  app.addListener(<span class="string">&quot;ready&quot;</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (process.env.NODE_ENV === <span class="string">&quot;development&quot;</span>) &#123;</span><br><span class="line">      <span class="comment">// 安装 devtool 扩展</span></span><br><span class="line">      <span class="keyword">await</span> installExtension(REACT_DEVELOPER_TOOLS);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">await</span> createMainWindow();</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>4、修改 <code>createMainWindow</code> 函数</p>
+<p>一般，我们在开发环境还习惯打开控制台，这里也可以在创建窗口后自动打开它。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main.ts</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">createMainWindow</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 创建新的 electron 窗口</span></span><br><span class="line">  <span class="keyword">const</span> mainWindow = <span class="keyword">new</span> BrowserWindow();</span><br><span class="line">  <span class="comment">// 载入生产环境的 url</span></span><br><span class="line">  <span class="keyword">await</span> mainWindow.loadURL(</span><br><span class="line">    process.env.ELECTRON_START_URL || path.join(__dirname, <span class="string">&quot;./build/index.html&quot;</span>)</span><br><span class="line">  );</span><br><span class="line">  <span class="keyword">if</span> (process.env.NODE_ENV === <span class="string">&quot;development&quot;</span>) &#123;</span><br><span class="line">    mainWindow.webContents.openDevTools();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>可能的错误参考: <a href="/p/76072311817b4c1985ab5746e8f91d87">常见问题</a> <strong>安装浏览器扩展报错</strong></p>
+</blockquote>
+<p>5、启动 electron 开发环境</p>
+<p>启动后可以看到自动打开了控制台，然后可以看到 react devtool</p>
+<p><img src="/images/46612cfedc3643d98e11b1b6a4e99e1a.png" alt="实际效果"></p>
+<h2 id="让主进程的代码也能热更新"><a href="#让主进程的代码也能热更新" class="headerlink" title="让主进程的代码也能热更新"></a>让主进程的代码也能热更新</h2><p>前言</p>
+<p>可能你也发现了，渲染层使用 cra 创建的项目默认包含了热更新，这都要得益于 webpack HMR 技术，但主进程并非如此，即便使用 <code>tsc -w</code> 监听并编译 ts 代码，但想要生效仍然需要重启 electron，不厌其烦。幸运的是，有人已经实现了这个需求。</p>
+<blockquote>
+<p>核心依赖: <a target="_blank" rel="noopener" href="https://www.npmjs.com/package/electron-reloader">electron-reloader</a></p>
+</blockquote>
+<p>1、安装依赖</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add -D electron-reloader</span><br></pre></td></tr></table></figure>
+<p>2、在主进程入口文件载入 electron-reloader</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//添加热更新功能</span></span><br><span class="line"><span class="keyword">if</span> (process.env.NODE_ENV === <span class="string">&quot;development&quot;</span>) &#123;</span><br><span class="line">  <span class="built_in">require</span>(<span class="string">&quot;electron-reloader&quot;</span>)(<span class="built_in">module</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3、启动 electron 开发环境</p>
+<p><img src="/images/2cdd0ecc96ec46e095bd132c32675521.gif" alt="效果"></p>
+<blockquote>
+<p>注 2: 当修改代码时，重启 electron 应用是由 electron-reloader 负责，即它不在 WebStorm 的控制之下了。<br>注 2: 目前另一个 <a target="_blank" rel="noopener" href="https://www.npmjs.com/package/electron-reload">electron-reload</a> 还存在一些小问题。</p>
+</blockquote>
+<h2 id="使用-esbuild-优化渲染层打包性能"><a href="#使用-esbuild-优化渲染层打包性能" class="headerlink" title="使用 esbuild 优化渲染层打包性能"></a>使用 esbuild 优化渲染层打包性能</h2><blockquote>
+<p>如果你还没有感觉到 cra 打包很慢，可以跳过这一节。</p>
+</blockquote>
+<h3 id="禁止-ts-babel-将代码编译为-ES5"><a href="#禁止-ts-babel-将代码编译为-ES5" class="headerlink" title="禁止 ts/babel 将代码编译为 ES5"></a>禁止 ts/babel 将代码编译为 ES5</h3><p>由于 electron 捆绑的浏览器和 nodejs 版本都比较新，所以实际上渲染层我们基本不需要 babel 转义，可以优化一些配置项。</p>
+<ul>
+<li><p>将 <code>browserslist</code> 设置为仅支持最后一个 chrome 版本</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;browserslist&quot;</span>: [<span class="string">&quot;last 1 chrome version&quot;</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>修改 <em>tsconfig.json</em> 中的配置，将编译目标修改为 <code>ESNext</code></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;compilerOptions&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;target&quot;</span>: <span class="string">&quot;ESNext&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="使用-esbuild-编译-typescript-代码"><a href="#使用-esbuild-编译-typescript-代码" class="headerlink" title="使用 esbuild 编译 typescript 代码"></a>使用 esbuild 编译 typescript 代码</h3></li>
+</ul>
+<blockquote>
+<p>核心依赖: <a target="_blank" rel="noopener" href="https://github.com/evanw/esbuild">esbuild</a>, <a target="_blank" rel="noopener" href="https://github.com/gsoft-inc/craco">craco</a></p>
+</blockquote>
+<p>esbuild 是一个使用 golang 编写前端打包工具，官方在性能测试中提出比现有工具快 10-100 倍。</p>
+<p>在 cra 创建的项目中，我们可以通过 craco 将 esbuild 仅用作 ts 编译之用（不会检查类型）。</p>
+<p>1、安装依赖</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add -D @craco/craco craco-esbuild</span><br></pre></td></tr></table></figure>
+<p>2、修改 npm script，使用 <code>craco</code> 替换 <code>react-scripts</code></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;scripts&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;start&quot;</span>: <span class="string">&quot;craco start&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;build:cra&quot;</span>: <span class="string">&quot;react-scripts build&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;build&quot;</span>: <span class="string">&quot;craco build&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;test&quot;</span>: <span class="string">&quot;craco test&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>生产项目中的对比测试结果（6000+ 行 ts 代码）</p>
+<table>
+<thead>
+<tr>
+<th>分类</th>
+<th>ESBuild</th>
+<th>tsc</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>无缓存</td>
+<td>17.61</td>
+<td>36.57</td>
+</tr>
+<tr>
+<td>有缓存（运行 5 次）</td>
+<td>15252.8</td>
+<td>17095.2</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/07/1527b67fbd78494cb716e2db4b8fb688/" data-id="ckmcqox2b000z0kuvchw9dmg1" data-title="electron 开发经验之谈系列-开发环境优化" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/electron/" rel="tag">electron</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-63f0a26fdd3743668b11410a10625c1b" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/07/63f0a26fdd3743668b11410a10625c1b/" class="article-date">
+  <time class="dt-published" datetime="2021-01-06T23:55:42.000Z" itemprop="datePublished">2021-01-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/07/63f0a26fdd3743668b11410a10625c1b/">electron 开发经验之谈系列-使用 electron-builder 打包</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在 <a href="/p/475d21afd2404d5ba1f71f600c44da09">基本项目搭建</a> 中，我们已经能够启动一个 electron 应用程序了（开发环境），现在来看如何将之打包为二进制程序便于分发给最终用户。</p>
+<h2 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.electron.build/">electron-builder</a>: 打包的主要工具库，负责这个 electron 的跨平台打包工作<blockquote>
+<p>事实上，还有一些其它的打包工具，但目前还没有比它更好的，参考: <a target="_blank" rel="noopener" href="https://npmcompare.com/compare/electron-builder,electron-forge,electron-packager">https://npmcompare.com/compare/electron-builder,electron-forge,electron-packager</a></p>
+</blockquote>
+</li>
+</ul>
+<h2 id="渲染层打包"><a href="#渲染层打包" class="headerlink" title="渲染层打包"></a>渲染层打包</h2><p>直接使用 cra 的打包工具即可，没什么大不了的，但确实存在一些注意事项</p>
+<ul>
+<li>因为 electron 在生产环境会从文件系统中加载静态资源，所以打包出来的静态资源必须支持相对路径，下面是常见的两个设置。<ul>
+<li>必须在 <em>apps/renderer/package.json</em> 中声明 <code>&quot;homepage&quot;: &quot;.&quot;</code>，参考: <a target="_blank" rel="noopener" href="https://create-react-app.dev/docs/deployment/#building-for-relative-paths">Building for Relative Paths</a></li>
+<li>路由必须是 <code>hash</code> 模式</li>
+</ul>
+</li>
+</ul>
+<h2 id="主进程打包"><a href="#主进程打包" class="headerlink" title="主进程打包"></a>主进程打包</h2><p>electron-builder 打包需要以下几个步骤</p>
+<h3 id="更新-package-json-的一些配置"><a href="#更新-package-json-的一些配置" class="headerlink" title="更新 package.json 的一些配置"></a>更新 package.json 的一些配置</h3><ol>
+<li> 使用 package.json 中的 <code>build</code> 字段作为配置项，参考: <a target="_blank" rel="noopener" href="https://www.electron.build/">https://www.electron.build/</a></li>
+<li> electron-builder 使用 <code>main</code> 字段作为启动脚本文件</li>
+<li> electron-builder 要求必须使用固定的版本号，意味着 electron 依赖需要指定为 <code>&quot;electron&quot;: &quot;10.2.0&quot;</code></li>
+</ol>
+<p>下面是一个基本的配置示例</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;main&quot;</span>: <span class="string">&quot;dist/main.js&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;scripts&quot;</span>: &#123;</span><br><span class="line">    <span class="comment">// 一个非常基本的打包脚本</span></span><br><span class="line">    <span class="attr">&quot;pkg&quot;</span>: <span class="string">&quot;electron-builder&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;devDependencies&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;electron&quot;</span>: <span class="string">&quot;10.2.0&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;electron-builder&quot;</span>: <span class="string">&quot;^22.9.1&quot;</span>,</span><br><span class="line">    <span class="comment">// electron 主进程实际上是 nodejs 环境，所以为了更好的开发体验，安装 nodejs 的类型定义</span></span><br><span class="line">    <span class="attr">&quot;@types/node&quot;</span>: <span class="string">&quot;^12.19.12&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;build&quot;</span>: &#123;</span><br><span class="line">    <span class="comment">// 程序的唯一标识符</span></span><br><span class="line">    <span class="attr">&quot;appId&quot;</span>: <span class="string">&quot;com.rxliuli.electron_example&quot;</span>,</span><br><span class="line">    <span class="comment">// 打包出来的 exe 名字</span></span><br><span class="line">    <span class="attr">&quot;productName&quot;</span>: <span class="string">&quot;electron 示例应用&quot;</span>,</span><br><span class="line">    <span class="comment">// 打包的目录</span></span><br><span class="line">    <span class="attr">&quot;directories&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;output&quot;</span>: <span class="string">&quot;release&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">&quot;win&quot;</span>: &#123;</span><br><span class="line">      <span class="comment">// 打包目标，参考: https://www.electron.build/</span></span><br><span class="line">      <span class="attr">&quot;target&quot;</span>: [<span class="string">&quot;nsis&quot;</span>]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="复制静态资源"><a href="#复制静态资源" class="headerlink" title="复制静态资源"></a>复制静态资源</h3><p>现在，我们需要打包静态资源并复制到主进程模块里面</p>
+<ol>
+<li> <code>cd apps/renderer</code> 目录</li>
+<li> <code>yarn build</code> 打包静态资源</li>
+<li> 将静态资源复制到 <code>build/dist</code> 目录下</li>
+</ol>
+<h3 id="修改主进程入口文件-main-ts"><a href="#修改主进程入口文件-main-ts" class="headerlink" title="修改主进程入口文件 main.ts"></a>修改主进程入口文件 main.ts</h3><p>还需要修改 <em>src/main.ts</em> 代码，主要修改 BrowserWindow 对象载入的 <code>url</code> 地址</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; app, BrowserWindow &#125; <span class="keyword">from</span> <span class="string">&quot;electron&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> path = <span class="built_in">require</span>(<span class="string">&quot;path&quot;</span>);</span><br><span class="line"><span class="keyword">import</span> &#123; URL &#125; <span class="keyword">from</span> <span class="string">&quot;url&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">createMainWindow</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 创建新的 electron 窗口</span></span><br><span class="line">  <span class="keyword">const</span> mainWindow = <span class="keyword">new</span> BrowserWindow();</span><br><span class="line">  <span class="comment">// 载入生产环境的 url</span></span><br><span class="line">  <span class="keyword">await</span> mainWindow.loadURL(</span><br><span class="line">    <span class="keyword">new</span> URL(path.join(__dirname, <span class="string">&quot;./build/index.html&quot;</span>)).href</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 其他代码...</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意，这个 url 路径是相对于打包后的 <code>dist/main.js</code> 而言的，因为最终打包的程序运行时的相对路径也是这样。</p>
+</blockquote>
+<h3 id="打包主进程的-exe-程序"><a href="#打包主进程的-exe-程序" class="headerlink" title="打包主进程的 exe 程序"></a>打包主进程的 exe 程序</h3><blockquote>
+<p>因为 electron-builder 需要下载基本的 electron 程序，所以请提前设置好透明代理，如果不知道它是什么，参考: <a target="_blank" rel="noopener" href="https://github.com/rxliuli/haoel.github.io#7-%E9%80%8F%E6%98%8E%E7%BD%91%E5%85%B3">透明网关</a>，<a target="_blank" rel="noopener" href="http://www.proxifier.com/">Proxifier</a></p>
+</blockquote>
+<ol>
+<li> 使用 <code>yarn compile</code> 编译 ts 代码</li>
+<li> 使用 <code>yarn pkg</code> 打包 electron 应用</li>
+</ol>
+<p>现在，我们应该可以在 <em>apps/main/release/win-unpacked</em> 下看到 exe 程序，双击它即可看到之前在开发环境的首页了。</p>
+<blockquote>
+<p>参考: <a target="_blank" rel="noopener" href="https://github.com/rxliuli/electron_example/tree/85d398fc2c6ba6c918ad9641dbb5d8bae2d4216b/apps/main">https://github.com/rxliuli/electron_example/tree/85d398fc2c6ba6c918ad9641dbb5d8bae2d4216b/apps/main</a></p>
+</blockquote>
+<h2 id="优化打包"><a href="#优化打包" class="headerlink" title="优化打包"></a>优化打包</h2><p>虽然打包已经实现，但确实还存在一些问题</p>
+<ul>
+<li>打包脚本仍然不是一键的</li>
+<li>不能兼容开发、生产环境</li>
+</ul>
+<p>下面我们来解决这两个问题</p>
+<h3 id="实现一键打包二进制程序"><a href="#实现一键打包二进制程序" class="headerlink" title="实现一键打包二进制程序"></a>实现一键打包二进制程序</h3><p>使用 gulp 复制渲染层的静态资源</p>
+<p>1、添加 gulp 相关依赖 <code>yarn add -D gulp ts-node @types/gulp fs-extra @types/fs-extra</code></p>
+<ul>
+<li><code>gulp @types/gulp</code>: gulp 核心依赖</li>
+<li><code>ts-node</code>: 使用 ts 编写 gulp 脚本必须的依赖</li>
+<li><code>fs-extra @types/fs-extra</code>: fs 的扩展增强，使用 Promise 包装异步 api</li>
+</ul>
+<p>2、添加 gulp 脚本文件</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; copy, remove &#125; <span class="keyword">from</span> <span class="string">&quot;fs-extra&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> path <span class="keyword">from</span> <span class="string">&quot;path&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">copyByMap</span>(<span class="params">copyMap: [<span class="built_in">string</span>, <span class="built_in">string</span>][]</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">await</span> <span class="built_in">Promise</span>.all(</span><br><span class="line">    copyMap.map(<span class="keyword">async</span> ([src, destDir]) =&gt; &#123;</span><br><span class="line">      <span class="keyword">const</span> srcPath = path.resolve(__dirname, src);</span><br><span class="line">      <span class="keyword">const</span> destPath = path.resolve(__dirname, destDir, path.basename(srcPath));</span><br><span class="line">      <span class="keyword">await</span> copy(srcPath, destPath);</span><br><span class="line">    &#125;)</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 清理最终生成目录</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">clean</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">await</span> remove(path.resolve(__dirname, <span class="string">&quot;dist&quot;</span>));</span><br><span class="line">  <span class="keyword">await</span> remove(path.resolve(__dirname, <span class="string">&quot;release&quot;</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 复制一些资源到 dist 目录中</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">copyStatic</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">await</span> copyByMap([[<span class="string">&quot;../renderer/build&quot;</span>, <span class="string">&quot;dist/&quot;</span>]]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3、添加 npm script</p>
+<blockquote>
+<p>注: lerna 的好处之一就是可以运行其它模块的 npm script。</p>
+</blockquote>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;scripts&quot;</span>: &#123;</span><br><span class="line">    <span class="comment">// 打包渲染层的静态资源</span></span><br><span class="line">    <span class="attr">&quot;build:web&quot;</span>: <span class="string">&quot;lerna run --scope renderer build&quot;</span>,</span><br><span class="line">    <span class="comment">// 打包渲染层的静态资源之后复制然后使用 electron-builder 打包 exe 程序</span></span><br><span class="line">    <span class="attr">&quot;pkg&quot;</span>: <span class="string">&quot;gulp clean &amp;&amp; yarn compile &amp;&amp; yarn build:web &amp;&amp; gulp copyStatic &amp;&amp; electron-builder&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>4、修改 tsconfig.json</p>
+<p>此时在 <em>apps/main</em> 模块根目录下也有 ts 文件了，所以 tsc 翻译代码会将它们也包含进去，但实际上不需要。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;include&quot;</span>: [<span class="string">&quot;src&quot;</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在，我们可以使用一个命令打包 exe 程序了。</p>
+<blockquote>
+<p>参考: <a target="_blank" rel="noopener" href="https://github.com/rxliuli/electron_example/blob/3dacff5dc0/apps/main/package.json">https://github.com/rxliuli/electron_example/blob/3dacff5dc0/apps/main/package.json</a></p>
+</blockquote>
+<h3 id="使用环境变量来兼容开发、生产环境"><a href="#使用环境变量来兼容开发、生产环境" class="headerlink" title="使用环境变量来兼容开发、生产环境"></a>使用环境变量来兼容开发、生产环境</h3><p>解决方案简单来说就一句话：使用环境变量指定开发环境的 URL。<br>这里使用 <a target="_blank" rel="noopener" href="https://github.com/toddbluhm/env-cmd">env-cmd</a> 来跨平台写入环境变量（不使用 <a target="_blank" rel="noopener" href="https://github.com/motdotla/dotenv">dotenv</a> 的原因在于自定义环境使用起来有点麻烦，不像 env-cmd 那么直观），而另一个 <a target="_blank" rel="noopener" href="https://github.com/kentcdodds/cross-env">cross-env</a> 并未提供管理环境变量的解决方案。下面说一下使用 env-cmd 的步骤</p>
+<ol>
+<li><p> 安装依赖 <code>yarn add -D env-cmd</code></p>
+</li>
+<li><p>添加配置文件 <em>.env-cmdrc.json</em><br> 基本上是一个键值映射文件，键是环境，值对象是环境变量</p>
+ <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;dev&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;ELECTRON_START_URL&quot;</span>: <span class="string">&quot;http://localhost:3000/&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p> 在 <code>dev:electron</code> 命令之前设定环境变量 <code>env-cmd -e dev electron ./dist/main.js</code></p>
+</li>
+<li><p>修改 <em>src/main.ts</em> 读取环境变量</p>
+ <figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">await</span> mainWindow.loadURL(</span><br><span class="line">  process.env.ELECTRON_START_URL ||</span><br><span class="line">    path.join(__dirname, <span class="string">&quot;./build/index.html&quot;</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>现在，像 <a href="/p/475d21afd2404d5ba1f71f600c44da09">基本项目搭建</a> 中 <strong>更新 <em>package.json</em> 添加几个 npm script</strong> 说的那样启动开发环境就会显示开发环境的页面，打包后显示的则是打包后的静态资源。</p>
+</li>
+</ol>
+<p><img src="/images/addf49c903f840bfa59ebaa1513ec689.png" alt="效果"></p>
+<blockquote>
+<p>参考: <a target="_blank" rel="noopener" href="https://github.com/rxliuli/electron_example/blob/f8b4f94435/apps/main/.env-cmdrc.json">https://github.com/rxliuli/electron_example/blob/f8b4f94435/apps/main/.env-cmdrc.json</a></p>
+</blockquote>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>虽然 electron-builder 已经足够好用了，但它仍然不能解决 electron 项目工程上的问题，所以这里结合了 <code>lerna/gulp/env-cmd</code> 打包。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/07/63f0a26fdd3743668b11410a10625c1b/" data-id="ckmcqox3m004g0kuv4ev1hkhw" data-title="electron 开发经验之谈系列-使用 electron-builder 打包" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/electron/" rel="tag">electron</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-0f342a17caae4f1e845a543770008e35" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/05/0f342a17caae4f1e845a543770008e35/" class="article-date">
+  <time class="dt-published" datetime="2021-01-05T00:46:44.000Z" itemprop="datePublished">2021-01-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/05/0f342a17caae4f1e845a543770008e35/">electron 开发经验之谈系列-自动更新</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>由于生产应用希望在有新版本时，自动为用户推送更新，所以此处便写一下如何让 electron 程序自动更新。</p>
+<h2 id="安装-npm-包"><a href="#安装-npm-包" class="headerlink" title="安装 npm 包"></a>安装 npm 包</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> apps/main/ &amp;&amp; yarn add electron-updater</span><br></pre></td></tr></table></figure>
+<h2 id="配置-electron-builder"><a href="#配置-electron-builder" class="headerlink" title="配置 electron-builder"></a>配置 electron-builder</h2><blockquote>
+<p>参考: <a target="_blank" rel="noopener" href="https://www.electron.build/auto-update">https://www.electron.build/auto-update</a></p>
+</blockquote>
+<p>其实本质上就是配置一个网络可以访问到的静态资源目录，这里使用了一个本地的静态资源服务器，指向目录是 _apps/main/release_（即打包而进程程序的目录）</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;build&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;publish&quot;</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">&quot;provider&quot;</span>: <span class="string">&quot;generic&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;url&quot;</span>: <span class="string">&quot;http://localhost:8080/&quot;</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="启动时检查更新"><a href="#启动时检查更新" class="headerlink" title="启动时检查更新"></a>启动时检查更新</h2><p>在主进程添加检查更新的代码，并自定义提示文案。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">await</span> autoUpdater.checkForUpdates();</span><br><span class="line">autoUpdater.addListener(<span class="string">&quot;update-downloaded&quot;</span>, <span class="function">(<span class="params">info</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">new</span> Notification(&#123;</span><br><span class="line">    title: <span class="string">&quot;更新提醒&quot;</span>,</span><br><span class="line">    body: <span class="string">`新版本 <span class="subst">$&#123;info.version&#125;</span> 已经准备好，点击立刻更新！`</span>,</span><br><span class="line">  &#125;)</span><br><span class="line">    .addListener(<span class="string">&quot;click&quot;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      autoUpdater.quitAndInstall();</span><br><span class="line">    &#125;)</span><br><span class="line">    .show();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p>现在，你可以启动一个本地静态服务器指向 _apps/main/release_，例如 <a target="_blank" rel="noopener" href="https://www.npmjs.com/package/live-server">live-server</a>，然后打包一个新版本，再启动旧的程序就可以了。</p>
+<p><img src="/images/2c95743b50f445758d6cb8ef5db5a838.gif" alt="效果"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/05/0f342a17caae4f1e845a543770008e35/" data-id="ckmcqox28000p0kuv1vtt1xyh" data-title="electron 开发经验之谈系列-自动更新" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/electron/" rel="tag">electron</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-6e778ce220e042a0902e7a85976e7e47" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/05/6e778ce220e042a0902e7a85976e7e47/" class="article-date">
+  <time class="dt-published" datetime="2021-01-05T00:46:26.000Z" itemprop="datePublished">2021-01-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/05/6e778ce220e042a0902e7a85976e7e47/">electron 开发经验之谈系列-渲染、主进程通信</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>由于 electron 应用分为主进程、渲染进程，所以它们之间需要通信。而 electron 本身实现了一个简单的 event emitter 通信模型，虽然能用，但并不足够好。</p>
+<blockquote>
+<p>参考: <a target="_blank" rel="noopener" href="https://www.electronjs.org/docs/api/ipc-renderer">https://www.electronjs.org/docs/api/ipc-renderer</a></p>
+</blockquote>
+<p>问题</p>
+<ul>
+<li>基于字符串和约定进行通信本质上和当下前后端通信差不多，没有利用同构优势</li>
+<li>使用起来没有任何限制，意味着很难维护（非强制性的约定基本上都很难生效）</li>
+</ul>
+<h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><p>那么一共 electron 进程通信有哪些情况呢？</p>
+<ul>
+<li>渲染进程 =&gt; 主进程</li>
+<li>主进程 =&gt; 渲染进程</li>
+<li>渲染进程 =&gt; 渲染进程</li>
+</ul>
+<p>而其中最常用的便是 <code>渲染进程 =&gt; 主进程</code></p>
+<blockquote>
+<p>其实吾辈也看过许多 electron 进程通信的 <a target="_blank" rel="noopener" href="https://www.npmjs.com/package/electron-rpc-api">封装库</a> 或者类似场景的 rpc 实现 <a target="_blank" rel="noopener" href="https://www.npmjs.com/package/comlink">comlink</a>，但最终还是决定使用接口 + 主进程实现 + 渲染层根据接口生成 Client 的方式实现。</p>
+</blockquote>
+<p>最终，吾辈选择了接口 + 实现类的基本模式</p>
+<p><a href="/images/5639a097671248d2a674f8524b050b81.drawio">设计图.drawio</a></p>
+<h2 id="实现渲染进程-gt-主进程"><a href="#实现渲染进程-gt-主进程" class="headerlink" title="实现渲染进程 =&gt; 主进程"></a>实现渲染进程 =&gt; 主进程</h2><p>首先在创建 <em>libs</em> 目录用以存放通用模块（非业务），然后创建三个模块</p>
+<ul>
+<li><code>electron_ipc_type</code>: 一些需要引入的类型</li>
+<li><code>electron_ipc_main</code>: 主进程封装</li>
+<li><code>electron_ipc_renderer</code>: 渲染层封装</li>
+</ul>
+<blockquote>
+<p>此处使用 rollup 进行打包</p>
+</blockquote>
+<p>大致实现</p>
+<p>electron_ipc_type: 通用的基本接口定义，必须包含一个 <code>namespace</code> 属性</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">interface</span> BaseDefine&lt;T <span class="keyword">extends</span> string&gt; &#123;</span><br><span class="line">  <span class="keyword">namespace</span>: T;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>electron_ipc_main: 封装主进程实现相关代码，主要保证类型安全</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> FilteredKeys&lt;T, U&gt; = &#123;</span><br><span class="line">  [P <span class="keyword">in</span> keyof T]: T[P] <span class="keyword">extends</span> U ? P : <span class="built_in">never</span>;</span><br><span class="line">&#125;[keyof T];</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 转换为一个主进程可以实现的接口</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">type</span> IpcMainDefine&lt;T&gt; = &#123;</span><br><span class="line">  [P <span class="keyword">in</span> FilteredKeys&lt;T, <span class="function">(<span class="params">...args: <span class="built_in">any</span>[]</span>) =&gt;</span> <span class="built_in">void</span>&gt;]: (</span><br><span class="line">    e: IpcMainInvokeEvent,</span><br><span class="line">    ...args: Parameters&lt;T[P]&gt;</span><br><span class="line">  ) =&gt; <span class="built_in">Promise</span>&lt;ReturnType&lt;T[P]&gt;&gt;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">IpcMainProvider</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">readonly</span> clazzMap = <span class="keyword">new</span> <span class="built_in">Map</span>&lt;<span class="built_in">string</span>, <span class="built_in">object</span>&gt;();</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 计算主进程监听的 key</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param <span class="variable">namespace</span></span></span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param <span class="variable">method</span></span></span></span><br><span class="line"><span class="comment">   * <span class="doctag">@private</span></span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> getKey&lt;T&gt;(<span class="keyword">namespace</span>: string, method: PropertyKey) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">namespace</span> + &quot;.&quot; + method.toString();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  register&lt;T extends BaseDefine&lt;string&gt;&gt;(</span><br><span class="line">    <span class="keyword">namespace</span>: T[&quot;<span class="keyword">namespace</span>&quot;],</span><br><span class="line">    api: IpcMainDefine&lt;T&gt;</span><br><span class="line">  ): IpcMainDefine&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> instance = ClassUtil.bindMethodThis(api);</span><br><span class="line">    <span class="keyword">const</span> methods = ClassUtil.scan(instance);</span><br><span class="line">    methods.forEach(<span class="function">(<span class="params">method</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> key = IpcMainProvider.getKey(<span class="keyword">namespace</span>, method);</span><br><span class="line">      ipcMain.handle(key, instance[method] as any);</span><br><span class="line">      console.log(&quot;Register ipcMain.handle: &quot;, key);</span><br><span class="line">    &#125;);</span><br><span class="line">    this.clazzMap.set(<span class="keyword">namespace</span>, instance);</span><br><span class="line">    return instance;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  unregister&lt;T extends BaseDefine&lt;string&gt;&gt;(</span><br><span class="line">    <span class="keyword">namespace</span>: T[&quot;<span class="keyword">namespace</span>&quot;],</span><br><span class="line">    api: IpcMainDefine&lt;T&gt;</span><br><span class="line">  ): void &#123;</span><br><span class="line">    <span class="keyword">const</span> methods = ClassUtil.scan(api);</span><br><span class="line">    methods.forEach(<span class="function">(<span class="params">method</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> key = IpcMainProvider.getKey(<span class="keyword">namespace</span>, method);</span><br><span class="line">      ipcMain.removeHandler(key);</span><br><span class="line">    &#125;);</span><br><span class="line">    this.clazzMap.delete(<span class="keyword">namespace</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>electron_ipc_renderer: 渲染进程</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">type</span> FilteredKeys&lt;T, U&gt; = &#123;</span><br><span class="line">  [P <span class="keyword">in</span> keyof T]: T[P] <span class="keyword">extends</span> U ? P : <span class="built_in">never</span>;</span><br><span class="line">&#125;[keyof T];</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 转换为一个渲染进程可以调用的 Proxy 对象</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">type</span> IpcRendererDefine&lt;T&gt; = &#123;</span><br><span class="line">  [P <span class="keyword">in</span> FilteredKeys&lt;T, <span class="function">(<span class="params">...args: <span class="built_in">any</span>[]</span>) =&gt;</span> <span class="built_in">void</span>&gt;]: (</span><br><span class="line">    ...args: Parameters&lt;T[P]&gt;</span><br><span class="line">  ) =&gt; <span class="built_in">Promise</span>&lt;ReturnType&lt;T[P]&gt;&gt;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">NotElectronEnvError</span> <span class="keyword">extends</span> <span class="title">Error</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">IpcRendererClient</span> </span>&#123;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 生成一个客户端实例</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param <span class="variable">namespace</span></span></span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">static</span> gen&lt;T <span class="keyword">extends</span> BaseDefine&lt;<span class="built_in">string</span>&gt;&gt;(</span><br><span class="line">    <span class="keyword">namespace</span>: T[&quot;<span class="keyword">namespace</span>&quot;]</span><br><span class="line">  ): IpcRendererDefine&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Proxy</span>(<span class="built_in">Object</span>.create(<span class="literal">null</span>), &#123;</span><br><span class="line">      get(target: <span class="built_in">any</span>, <span class="attr">api</span>: <span class="built_in">string</span>): <span class="built_in">any</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> key = <span class="keyword">namespace</span> + &quot;.&quot; + api;</span><br><span class="line">        return function (...args: any[]) &#123;</span><br><span class="line">          <span class="keyword">const</span> ipcRenderer = IpcRendererClient.getRenderer();</span><br><span class="line">          <span class="keyword">if</span> (!ipcRenderer) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NotElectronEnvError(<span class="string">&quot;当前你不在 electron 进程中&quot;</span>);</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">return</span> ipcRenderer.invoke(key, ...args);</span><br><span class="line">        &#125;;</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 获取 electron ipc renderer 实例</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">static</span> getRenderer(): IpcRenderer | <span class="literal">null</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (!isElectron()) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">window</span>.require(<span class="string">&quot;electron&quot;</span>).ipcRenderer <span class="keyword">as</span> IpcRenderer;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>使用</p>
+<p>在 apps 下创建一个模块 <code>shared_type</code>，里面包含一些渲染进程与主进程之间共享的类型，下面是一个简单的示例</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// HelloDefine.ts</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">interface</span> HelloDefine <span class="keyword">extends</span> BaseDefine&lt;&quot;HelloApi&quot;&gt; &#123;</span><br><span class="line">  hello(name: <span class="built_in">string</span>): <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在主进程中使用 class 实现它并注册</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main.ts</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HelloApi</span> </span>&#123;</span><br><span class="line">  <span class="keyword">async</span> <span class="function"><span class="title">hello</span>(<span class="params">e: IpcMainInvokeEvent, name: <span class="built_in">string</span></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`hello <span class="subst">$&#123;name&#125;</span>`</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> ipcMainProvider = <span class="keyword">new</span> IpcMainProvider();</span><br><span class="line"></span><br><span class="line">ipcMainProvider.register&lt;HelloDefine&gt;(<span class="string">&quot;HelloApi&quot;</span>, <span class="keyword">new</span> HelloApi());</span><br></pre></td></tr></table></figure>
+<p>在渲染进程中创建客户端对象并使用</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> helloApi = IpcRendererClient.gen&lt;HelloDefine&gt;(<span class="string">&quot;HelloApi&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> str = <span class="keyword">await</span> helloApi.hello(<span class="string">&quot;liuli&quot;</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="实现主进程-gt-渲染进程"><a href="#实现主进程-gt-渲染进程" class="headerlink" title="实现主进程 =&gt; 渲染进程"></a>实现主进程 =&gt; 渲染进程</h2><p>由于吾辈的 ui 层框架使用了 react，所以基于 class 的模式在此并不适用，需要使用某种变通的方式（吾辈仍然不愿意放弃将 class 作为命名空间的想法）。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> IpcRendererProviderDefine&lt;</span><br><span class="line">  T <span class="keyword">extends</span> BaseDefine&lt;<span class="built_in">string</span>&gt;,</span><br><span class="line">  P <span class="keyword">extends</span> FunctionKeys&lt;T&gt; = FunctionKeys&lt;T&gt;</span><br><span class="line">&gt; = [</span><br><span class="line">  <span class="keyword">type</span>: P,</span><br><span class="line">  callback: <span class="function">(<span class="params">e: <span class="built_in">any</span>, ...args: Parameters&lt;T[P]&gt;</span>) =&gt;</span> <span class="built_in">Promise</span>&lt;ReturnType&lt;T[P]&gt;&gt;</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> IpcRendererProviderHooksDefine&lt;</span><br><span class="line">  T <span class="keyword">extends</span> BaseDefine&lt;<span class="built_in">string</span>&gt;,</span><br><span class="line">  P <span class="keyword">extends</span> FunctionKeys&lt;T&gt; = FunctionKeys&lt;T&gt;</span><br><span class="line">&gt; = [</span><br><span class="line">  <span class="keyword">type</span>: P,</span><br><span class="line">  callback: <span class="function">(<span class="params">e: <span class="built_in">any</span>, ...args: Parameters&lt;T[P]&gt;</span>) =&gt;</span> <span class="built_in">Promise</span>&lt;ReturnType&lt;T[P]&gt;&gt;,</span><br><span class="line">  deps?: DependencyList</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 在渲染层管理提供者</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">IpcRendererProvider</span>&lt;<span class="title">T</span> <span class="keyword">extends</span> <span class="title">BaseDefine</span>&lt;<span class="title">any</span>&gt;&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> apiMap = <span class="keyword">new</span> <span class="built_in">Map</span>&lt;<span class="built_in">string</span>, <span class="function">(<span class="params">...args: <span class="built_in">any</span>[]</span>) =&gt;</span> <span class="built_in">any</span>&gt;();</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">constructor</span>(<span class="params"><span class="keyword">private</span> <span class="keyword">namespace</span>: T[<span class="string">&quot;namespace&quot;</span>]</span>)</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">register</span>(<span class="params">...[<span class="keyword">type</span>, callback]: IpcRendererProviderDefine&lt;T&gt;</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> ipcRenderer = IpcRendererClient.getRenderer();</span><br><span class="line">    <span class="keyword">if</span> (ipcRenderer === <span class="literal">null</span>) &#123;</span><br><span class="line">      <span class="built_in">console</span>.warn(<span class="string">&quot;不在 electron 环境，取消注册: &quot;</span>, <span class="keyword">type</span>);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> key = <span class="built_in">this</span>.namespace + <span class="string">&quot;.&quot;</span> + <span class="keyword">type</span>;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;IpcRendererProvider.register: &quot;</span>, key);</span><br><span class="line">    <span class="keyword">const</span> listener = <span class="keyword">async</span> (event: <span class="built_in">any</span>, <span class="attr">id</span>: <span class="built_in">string</span>, ...args: <span class="built_in">any</span>[]) =&gt; &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&quot;IpcRendererProvider.listener: &quot;</span>, event, id, args);</span><br><span class="line">        <span class="keyword">const</span> res = <span class="keyword">await</span> callback(event, ...(args <span class="keyword">as</span> <span class="built_in">any</span>));</span><br><span class="line">        <span class="keyword">await</span> ipcRenderer.send(id, <span class="literal">null</span>, res);</span><br><span class="line">      &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        <span class="keyword">await</span> ipcRenderer.send(id, e);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    ipcRenderer.on(key, listener);</span><br><span class="line">    <span class="built_in">this</span>.apiMap.set(key, listener);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">unregister</span>(<span class="params"><span class="keyword">type</span>: IpcRendererProviderDefine&lt;T&gt;[<span class="number">0</span>]</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> ipcRenderer = IpcRendererClient.getRenderer();</span><br><span class="line">    <span class="keyword">if</span> (ipcRenderer === <span class="literal">null</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> key = <span class="built_in">this</span>.namespace + <span class="string">&quot;.&quot;</span> + <span class="keyword">type</span>;</span><br><span class="line">    ipcRenderer.off(key, <span class="built_in">this</span>.apiMap.get(key)!);</span><br><span class="line">    <span class="built_in">this</span>.apiMap.delete(key);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * react 中的注册钩子，自动管理清理的操作</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param <span class="variable">type</span></span></span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param <span class="variable">callback</span></span></span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param <span class="variable">deps</span></span></span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  useIpcProvider(</span><br><span class="line">    ...[<span class="keyword">type</span>, callback, deps = []]: IpcRendererProviderHooksDefine&lt;T&gt;</span><br><span class="line">  ) &#123;</span><br><span class="line">    useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">this</span>.register(<span class="keyword">type</span>, callback);</span><br><span class="line">      <span class="keyword">return</span> <span class="function">() =&gt;</span> <span class="built_in">this</span>.unregister(<span class="keyword">type</span>);</span><br><span class="line">    &#125;, deps);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 转换为一个渲染进程可以调用的 Proxy 对象</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">type</span> IpcClientDefine&lt;T <span class="keyword">extends</span> <span class="built_in">object</span>&gt; = &#123;</span><br><span class="line">  [P <span class="keyword">in</span> FunctionKeys&lt;T&gt;]: (</span><br><span class="line">    ...args: Parameters&lt;T[P]&gt;</span><br><span class="line">  ) =&gt; <span class="built_in">Promise</span>&lt;ReturnType&lt;T[P]&gt;&gt;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 客户端</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">IpcMainClient</span> </span>&#123;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 生成一个客户端实例</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param <span class="variable">namespace</span></span></span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param <span class="variable">win</span></span></span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">static</span> gen&lt;T <span class="keyword">extends</span> BaseDefine&lt;<span class="built_in">string</span>&gt;&gt;(</span><br><span class="line">    <span class="keyword">namespace</span>: T[&quot;<span class="keyword">namespace</span>&quot;],</span><br><span class="line">    win: BrowserWindow</span><br><span class="line">  ): IpcClientDefine&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Proxy</span>(<span class="built_in">Object</span>.create(<span class="literal">null</span>), &#123;</span><br><span class="line">      get&lt;K <span class="keyword">extends</span> FunctionKeys&lt;T&gt;&gt;(target: <span class="built_in">any</span>, <span class="attr">api</span>: K): <span class="built_in">any</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> key = <span class="keyword">namespace</span> + &quot;.&quot; + api;</span><br><span class="line">        return function (...args: any[]) &#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>&lt;ReturnType&lt;T[K]&gt;&gt;(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">const</span> id = <span class="built_in">Date</span>.now() + <span class="string">&quot;-&quot;</span> + <span class="built_in">Math</span>.random();</span><br><span class="line">            ipcMain.once(id, <span class="function">(<span class="params">event, err, res</span>) =&gt;</span> &#123;</span><br><span class="line">              <span class="built_in">console</span>.log(<span class="string">&quot;callback: &quot;</span>, err, res);</span><br><span class="line">              <span class="keyword">if</span> (err) &#123;</span><br><span class="line">                reject(err);</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">              &#125;</span><br><span class="line">              resolve(res);</span><br><span class="line">            &#125;);</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">&quot;send: &quot;</span>, key, id, args);</span><br><span class="line">            win.webContents.send(key, id, ...(args <span class="keyword">as</span> <span class="built_in">any</span>));</span><br><span class="line">          &#125;);</span><br><span class="line">        &#125;;</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>使用</p>
+<p>在渲染进程使用 hooks 注册它</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> ipcRendererProvider = <span class="keyword">new</span> IpcRendererProvider&lt;HelloApiDefine&gt;(<span class="string">&quot;HelloApi&quot;</span>);</span><br><span class="line"></span><br><span class="line">ipcRendererProvider.useIpcProvider(<span class="string">&quot;hello&quot;</span>, <span class="keyword">async</span> (e, name) =&gt; &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`hello <span class="subst">$&#123;name&#125;</span>`</span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>在主进程生成客户端实例调用它</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> helloApi = IpcMainClient.gen&lt;HelloApiDefine&gt;(</span><br><span class="line">  <span class="string">&quot;HelloApi&quot;</span>,</span><br><span class="line">  <span class="keyword">new</span> BrowserWindow()</span><br><span class="line">);</span><br><span class="line"><span class="keyword">const</span> str = <span class="keyword">await</span> helloApi.hello(<span class="string">&quot;liuli&quot;</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="约定俗成"><a href="#约定俗成" class="headerlink" title="约定俗成"></a>约定俗成</h2><ul>
+<li>在 <code>shared_type</code> 模块中的接口定义总是 <code>*Define</code> 形式，且实现的 <code>BaseDefine&lt;T&gt;</code> 泛型参数是 <code>*Api</code> 形式</li>
+<li>在 <code>main</code> 模块中实现的 class 总是 <code>*Api</code> 形式</li>
+<li>在 <code>renderer</code> 模块中获取的 client 实例总是 <code>*Api</code> 小写驼峰形式</li>
+<li>实现 <code>BaseDefine&lt;T&gt;</code> 传入的命名空间参数不应该重复</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>electron 本身的进程通信 api 在逐渐发展，但目前仍然没有足够好用，所以吾辈不得不进行了封装。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/05/6e778ce220e042a0902e7a85976e7e47/" data-id="ckmcqox3o004p0kuvdmpubql5" data-title="electron 开发经验之谈系列-渲染、主进程通信" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/electron/" rel="tag">electron</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-475d21afd2404d5ba1f71f600c44da09" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/05/475d21afd2404d5ba1f71f600c44da09/" class="article-date">
+  <time class="dt-published" datetime="2021-01-05T00:46:18.000Z" itemprop="datePublished">2021-01-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/05/475d21afd2404d5ba1f71f600c44da09/">electron 开发经验之谈系列-基本项目搭建</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><ul>
+<li>Windows 10</li>
+<li>NodeJS 12</li>
+<li>WebStorm</li>
+<li>VSCode（编写 markdown 文档）</li>
+</ul>
+<h2 id="创建-lerna-项目"><a href="#创建-lerna-项目" class="headerlink" title="创建 lerna 项目"></a>创建 lerna 项目</h2><p>创建目录 _electron_example_，然后使用 yarn 初始化</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir electron_example &amp;&amp; <span class="built_in">cd</span> electron_example</span><br><span class="line">yarn init -y</span><br></pre></td></tr></table></figure>
+<p>修改 <em>package.json</em></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;electron_example&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;version&quot;</span>: <span class="string">&quot;1.0.0&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;private&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">&quot;license&quot;</span>: <span class="string">&quot;MIT&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;workspaces&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;packages&quot;</span>: [<span class="string">&quot;apps/*&quot;</span>]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>随后创建 <em>lerna.json</em> 配置文件</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;packages&quot;</span>: [<span class="string">&quot;apps/*&quot;</span>],</span><br><span class="line">  <span class="attr">&quot;version&quot;</span>: <span class="string">&quot;independent&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;npmClient&quot;</span>: <span class="string">&quot;yarn&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;useWorkspaces&quot;</span>: <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>初始化目录如下</p>
+<ul>
+<li><em>apps</em><ul>
+<li><em>main</em>: 主进程</li>
+<li><em>renderer</em>: 渲染进程</li>
+</ul>
+</li>
+<li>_node_modules_</li>
+<li><em>lerna.json</em></li>
+<li><em>package.json</em></li>
+<li><em>yarn.lock</em></li>
+</ul>
+<blockquote>
+<p>参考: <a target="_blank" rel="noopener" href="https://github.com/rxliuli/electron_example/tree/b9628e1fd16bb5b6807e55e9ca72fdf2daf5bfde">https://github.com/rxliuli/electron_example/tree/b9628e1fd16bb5b6807e55e9ca72fdf2daf5bfde</a></p>
+</blockquote>
+<h2 id="初始化渲染层模块"><a href="#初始化渲染层模块" class="headerlink" title="初始化渲染层模块"></a>初始化渲染层模块</h2><p>在 renderer 目录中使用 create-react-app 创建一个 react 项目，并添加</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx create-react-app apps/renderer/ --template typescript</span><br></pre></td></tr></table></figure>
+<p>不过还需要修改其中部分配置，主要包含</p>
+<ul>
+<li>删除 <em>yarn.lock</em> 或 <em>package-lock.json</em> 文件</li>
+</ul>
+<blockquote>
+<p>参考: <a target="_blank" rel="noopener" href="https://github.com/rxliuli/electron_example/tree/8e0920af985e1201fc05ca36302e094532843c2d">https://github.com/rxliuli/electron_example/tree/8e0920af985e1201fc05ca36302e094532843c2d</a></p>
+</blockquote>
+<p>尝试再 yarn 安装依赖，接着再使用 <code>yarn start</code> 启动开发环境，应该可以在浏览器中看到默认的页面。</p>
+<p><img src="/images/08869afb99594ede8c00d65ad4b65c19.png" alt="20210106194304.png"></p>
+<h2 id="初始化主进程模块"><a href="#初始化主进程模块" class="headerlink" title="初始化主进程模块"></a>初始化主进程模块</h2><blockquote>
+<p>参考: <a target="_blank" rel="noopener" href="https://github.com/rxliuli/electron_example/tree/a78885b76de9322dfdac82e2c220b7c6e0a9617f">https://github.com/rxliuli/electron_example/tree/a78885b76de9322dfdac82e2c220b7c6e0a9617f</a><br>注：electron 版本选择双数，生命周期更长。</p>
+</blockquote>
+<p>初始化主进程模块，主要包括</p>
+<h3 id="为主进程创建-package-json"><a href="#为主进程创建-package-json" class="headerlink" title="为主进程创建 package.json"></a>为主进程创建 package.json</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;main&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;version&quot;</span>: <span class="string">&quot;0.1.0&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="添加依赖-yarn-add-electron-electron-builder-typescript"><a href="#添加依赖-yarn-add-electron-electron-builder-typescript" class="headerlink" title="添加依赖 yarn add electron electron-builder typescript"></a>添加依赖 <code>yarn add electron electron-builder typescript</code></h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// package.json</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;devDependencies&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;electron&quot;</span>: <span class="string">&quot;^10.2.0&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;electron-builder&quot;</span>: <span class="string">&quot;^22.9.1&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;typescript&quot;</span>: <span class="string">&quot;^4.1.3&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="添加-tsconfig-json-配置文件"><a href="#添加-tsconfig-json-配置文件" class="headerlink" title="添加 tsconfig.json 配置文件"></a>添加 <em>tsconfig.json</em> 配置文件</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// tsconfig.json</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;compilerOptions&quot;</span>: &#123;</span><br><span class="line">    <span class="comment">// nodejs 生态大多数都支持这种模块</span></span><br><span class="line">    <span class="attr">&quot;module&quot;</span>: <span class="string">&quot;commonjs&quot;</span>,</span><br><span class="line">    <span class="comment">// 优先考虑输出 es5</span></span><br><span class="line">    <span class="attr">&quot;target&quot;</span>: <span class="string">&quot;es5&quot;</span>,</span><br><span class="line">    <span class="comment">// 但不要自缚手脚，仍然使用最新的 es 特性</span></span><br><span class="line">    <span class="attr">&quot;lib&quot;</span>: [<span class="string">&quot;ESNext&quot;</span>],</span><br><span class="line">    <span class="comment">// 定义源目录与输出目录</span></span><br><span class="line">    <span class="attr">&quot;rootDir&quot;</span>: <span class="string">&quot;src&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;outDir&quot;</span>: <span class="string">&quot;dist&quot;</span>,</span><br><span class="line">    <span class="comment">// 生成 sourceMap 方便 IDE 本地调试</span></span><br><span class="line">    <span class="attr">&quot;sourceMap&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="comment">// 禁止 ts 检查 npm 依赖的类型定义（例如 electron 的类型定义就很容易被 ts 检查出错误，毕竟这个项目实在太大了）</span></span><br><span class="line">    <span class="attr">&quot;skipLibCheck&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;skipDefaultLibCheck&quot;</span>: <span class="literal">true</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">// 排除依赖目录与输出目录</span></span><br><span class="line">  <span class="attr">&quot;exclude&quot;</span>: [<span class="string">&quot;node_modules&quot;</span>, <span class="string">&quot;dist&quot;</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="添加-src-main-ts-基本的启动文件"><a href="#添加-src-main-ts-基本的启动文件" class="headerlink" title="添加 src/main.ts 基本的启动文件"></a>添加 <em>src/main.ts</em> 基本的启动文件</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/main.ts</span></span><br><span class="line"><span class="keyword">import</span> &#123; app, BrowserWindow &#125; <span class="keyword">from</span> <span class="string">&quot;electron&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">createMainWindow</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 创建新的 electron 窗口</span></span><br><span class="line">  <span class="keyword">const</span> mainWindow = <span class="keyword">new</span> BrowserWindow();</span><br><span class="line">  <span class="comment">// 载入开发环境的 url</span></span><br><span class="line">  <span class="keyword">await</span> mainWindow.loadURL(<span class="string">&quot;http://localhost:3000/&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * main 函数</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">main</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  app.on(<span class="string">&quot;ready&quot;</span>, createMainWindow);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">main();</span><br></pre></td></tr></table></figure>
+<h3 id="更新-package-json-添加几个-npm-script"><a href="#更新-package-json-添加几个-npm-script" class="headerlink" title="更新 package.json 添加几个 npm script"></a>更新 <em>package.json</em> 添加几个 npm script</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// package.json</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;scripts&quot;</span>: &#123;</span><br><span class="line">    <span class="comment">// 编译 ts 代码</span></span><br><span class="line">    <span class="attr">&quot;compile&quot;</span>: <span class="string">&quot;tsc&quot;</span>,</span><br><span class="line">    <span class="comment">// 编译 tsc 代码且启动监听模式</span></span><br><span class="line">    <span class="attr">&quot;watch&quot;</span>: <span class="string">&quot;yarn compile -w&quot;</span>,</span><br><span class="line">    <span class="comment">// 在主进程通过 lerna 启动渲染进程模块的开发环境</span></span><br><span class="line">    <span class="attr">&quot;dev:web&quot;</span>: <span class="string">&quot;lerna run --scope renderer start&quot;</span>,</span><br><span class="line">    <span class="comment">// 启动主进程的开发环境</span></span><br><span class="line">    <span class="attr">&quot;dev:electron&quot;</span>: <span class="string">&quot;electron ./dist/main.js&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来，我们通过这些 npm script 启动 electron 开发环境</p>
+<ol>
+<li> 运行 <code>yarn watch</code></li>
+<li> 运行 <code>dev:web</code></li>
+<li> 等待以上两条命令都运行完成，再继续运行 <code>dev:electron</code></li>
+</ol>
+<p>现在，你应该可以看到一个 electron 窗口，其中显示着。</p>
+<p><img src="/images/8f2afb0c085a4d3c8c678c71bc128412.png" alt="20210106194102.png"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>目前，使用 lerna monorepo 似乎还看不出来明显的优点，不过实际上在后面逐步完善 Electron 程序的过程中我们会发现它的强大之处。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/05/475d21afd2404d5ba1f71f600c44da09/" data-id="ckmcqox37003e0kuvbuif5qj6" data-title="electron 开发经验之谈系列-基本项目搭建" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/electron/" rel="tag">electron</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-74b1ec3c598940c2afbd17cdd50e31cb" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/05/74b1ec3c598940c2afbd17cdd50e31cb/" class="article-date">
+  <time class="dt-published" datetime="2021-01-05T00:46:08.000Z" itemprop="datePublished">2021-01-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/05/74b1ec3c598940c2afbd17cdd50e31cb/">electron 开发经验之谈系列-技术栈简介及选择</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="技术栈"><a href="#技术栈" class="headerlink" title="技术栈"></a>技术栈</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://electronjs.org/">electron</a>: 跨平台桌面开发</li>
+<li><a target="_blank" rel="noopener" href="https://reactjs.org/">react</a>: 视图层框架</li>
+<li><a target="_blank" rel="noopener" href="https://www.typescriptlang.org/">typescript</a>: 强类型的 js</li>
+<li><a target="_blank" rel="noopener" href="https://lerna.js.org/">lerna</a>: 前端 monorepo 管理工具</li>
+<li><a target="_blank" rel="noopener" href="https://classic.yarnpkg.com/">yarn</a>: 包管理器，workspace 与 lerna 搭配非常好</li>
+<li><a target="_blank" rel="noopener" href="https://create-react-app.dev/">create-react-app</a>: react 官方出品的 react 脚手架生成器，社区和活跃度都不是其它工具可比的</li>
+</ul>
+<h2 id="其他依赖库"><a href="#其他依赖库" class="headerlink" title="其他依赖库"></a>其他依赖库</h2><blockquote>
+<p>参考: <a href="/p/4b666902cd1e45779448a76a71d0e2e5">前端资源管理</a></p>
+</blockquote>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://rollupjs.org/">rollup</a>: 前端库打包工具</li>
+<li>electron-builder: electron 打包工具</li>
+<li>is-electron: 在渲染层判断是否为 electron 环境的微型库</li>
+<li>fs-extra: nodejs api 的 Promise 化封装</li>
+<li>react-use: react 中的通用 hooks 库</li>
+<li><a target="_blank" rel="noopener" href="https://www.npmjs.com/org/liuli-util">@liuli-util/*</a>: 吾辈个人的一系列通用工具库</li>
+<li>jest: 单元测试工具</li>
+<li>wallaby.js: 单元测试 IDE 集成</li>
+<li>gulp: 流式任务管理工具</li>
+<li>electron-store: 主进程和渲染层通用的 k-v 存储</li>
+<li>electron-reloader: electron 热更新工具</li>
+<li>electron-devtools-installer: electron 插件安装工具</li>
+<li>utility-types: typescript 通用类型库</li>
+</ul>
+<h2 id="选择动机"><a href="#选择动机" class="headerlink" title="选择动机"></a>选择动机</h2><ul>
+<li>electron: 想必来看到这篇文章的人都无需解释，基于 web 技术的跨平台足以解释一切。</li>
+<li>react: 吾辈无意争论框架优劣，但 react 确实是目前最流行的解决方案，所以吾辈选择了它。</li>
+<li>typescript: 由于吾辈有着 Java 后端的经验，所以对强类型情有独钟。</li>
+<li>lerna: 这个确实需要解释一下，electron 应用分为主进程和渲染层，一般示例中是将它们在一个项目中通过目录区分，但这种隔离性并不好，还会污染 <code>package.json</code>。这时候就到了 lerna 出场了，它是由 babel 的作者开发，专门用以解决前端没有多模块工程的问题。<blockquote>
+<p>PS1: 老实说，吾辈很想念 Java <a target="_blank" rel="noopener" href="https://maven.apache.org/">maven</a> 多模块的支持，可以非常简单的抽取模块出来。<br>PS2: 前端有名的 electron-react 示例项目 <a target="_blank" rel="noopener" href="https://github.com/electron-react-boilerplate/electron-react-boilerplate/">electron-react-boilerplate</a> 就是单模块的。</p>
+</blockquote>
+</li>
+<li>electron-builder: electron 官方其实更推荐 <a target="_blank" rel="noopener" href="https://www.electronforge.io/">Electron Forge</a>，但目前而言，electron-builder 更好。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/05/74b1ec3c598940c2afbd17cdd50e31cb/" data-id="ckmcqox3q004x0kuv7l2sbb9n" data-title="electron 开发经验之谈系列-技术栈简介及选择" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/electron/" rel="tag">electron</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-01f6410c002840e9ba7bfca65c9611ee" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/01/01f6410c002840e9ba7bfca65c9611ee/" class="article-date">
+  <time class="dt-published" datetime="2021-01-01T00:54:31.000Z" itemprop="datePublished">2021-01-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/01/01f6410c002840e9ba7bfca65c9611ee/">2020 复盘及 2021 计划</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="2020-复盘"><a href="#2020-复盘" class="headerlink" title="2020 复盘"></a>2020 复盘</h2><blockquote>
+<p><a href="/p/17b171a3184c479e97ba7df9bc118023">年初计划</a></p>
+<p>明年，吾辈最想要接触的是 Web 桌面开发，以及机器学习。</p>
+<ul>
+<li>[x] NodeJS 后端开发</li>
+<li>[x] Web 桌面开发 Electron</li>
+<li>[ ] 机器学习 TensorFlow</li>
+<li>[x] 继续维护 Blog</li>
+<li>[ ] 继续坚持读书</li>
+<li>[ ] 尝试网络小说写作</li>
+<li>[ ] 尝试 Youtube 视频创作</li>
+</ul>
+</blockquote>
+<p>实际上 Web 桌面开发由于工作的原因算是接触的非常多，但机器学习几乎没什么了解。</p>
+<p>那么今年到底做了什么呢？</p>
+<table>
+<thead>
+<tr>
+<th>时间</th>
+<th>公司</th>
+<th>个人</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1 月</td>
+<td>疫情发生</td>
+<td>过了最惨的年</td>
+</tr>
+<tr>
+<td>2 月</td>
+<td>远程办公</td>
+<td></td>
+</tr>
+<tr>
+<td>3 月</td>
+<td>业务开发</td>
+<td></td>
+</tr>
+<tr>
+<td>4 月</td>
+<td>开始招人</td>
+<td>替换技术栈 vue =&gt; ts+react</td>
+</tr>
+<tr>
+<td>5 月</td>
+<td>995 福报中</td>
+<td>接触 Electron</td>
+</tr>
+<tr>
+<td>6 月</td>
+<td>995 福报中</td>
+<td>开始使用 joplin 管理笔记</td>
+</tr>
+<tr>
+<td>7 月</td>
+<td>程序定制化修改</td>
+<td>开发 joplin-vscode-plugin</td>
+</tr>
+<tr>
+<td>8 月</td>
+<td>程序定制化修改</td>
+<td>开始了解 Monorepo 工程化</td>
+</tr>
+<tr>
+<td>9 月</td>
+<td>程序定制化修改</td>
+<td></td>
+</tr>
+<tr>
+<td>10 月</td>
+<td>程序定制化修改</td>
+<td>开发 joplin-charts</td>
+</tr>
+<tr>
+<td>11 月</td>
+<td>开始新的项目</td>
+<td>完善 joplin 周边工具链</td>
+</tr>
+<tr>
+<td>12 月</td>
+<td>开始另一个新的项目</td>
+<td>开发 joplin-blog</td>
+</tr>
+</tbody></table>
+<p>今年主要入的一个大坑是 joplin，虽说一开始仅仅是作为笔记工具使用，但中途因为遇到了一些问题所以参与了部分周边工具的开发，占用了不少的业余时间。然而，开源程序的魅力就在于此：当不能满足需求时，吾辈可以通过开发来改变这一切。</p>
+<p>开源项目</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/rxliuli/rx-util">rx-util</a>: 前端通用工具库，虽然今年没怎么更新，但也是因为逐渐变得完善的愿意</li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=rxliuli.joplin-vscode-plugin&ssr=false#overview">joplin-vscode-plugin</a>: joplin 的 vscode 插件，使用 vscode 接管自己的笔记管理，支持大多数 joplin 的功能（通过 web clipper service）</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/rxliuli/joplin-blog">joplin-blog</a>: 将 joplin 作为数据源导出 blog</li>
+<li><a target="_blank" rel="noopener" href="https://rxliuli.com/joplin-charts/#/">joplin-charts</a>: 展示 joplin 的一些统计图表数据</li>
+<li><a target="_blank" rel="noopener" href="https://www.npmjs.com/package/joplin-api">joplin-api</a>: joplin 的 api 封装，适用于 web/nodejs，也是以上成果的基础</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/DefinitelyTyped/DefinitelyTyped">DefinitelyTyped</a>: 参与了一个类型定义包的错误修复，熟悉了基本的贡献流程（其实也挺繁琐的）</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/rxliuli/userjs">user.js</a>: 一些自用的油猴脚本 – 仅维护常用的几个了</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/rxliuli/liuli-cli">liuli-cli</a>: 前端 npm 包的脚手架生成 cli 工具 – 不怎么维护了</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/rxliuli/vue-url-persist">vue-url-persist</a>: vue url 序列化参数的包 – 自从主要技术栈更换为 react 之后就不怎么维护了</li>
+</ul>
+<p>但显而易见，去年是吾辈工作的第三年，但成长速度确实不尽人意。至于原因，吾辈内里倒也十分清楚。</p>
+<ul>
+<li>客观原因：<ul>
+<li>当公司的 team 不能为自己的成长提供帮助时，也只能一个人走着自己的探索之路，但这时常会感到灰心丧气，甚至破罐破摔式的放弃挣扎。– 然后在一段时间时间后回想起来感到后悔，仿若贤者时间一般。</li>
+<li>疫情（是一个非常不好的开始）</li>
+</ul>
+</li>
+<li>主观原因<ul>
+<li>没找到一条明确的变得更好的途径，内心迷茫。上一次这样的时候吾辈从后端转职为了前端，但这一次，吾辈不清楚应该怎么做。</li>
+<li>懒散、无法坚持，这些缺点今年切实的体现在了吾辈身上，而这却又无法轻易摆脱。</li>
+<li>生活没有规律，睡得很晚，周末没有合理的安排时间出去活动。</li>
+</ul>
+</li>
+</ul>
+<h2 id="新的计划"><a href="#新的计划" class="headerlink" title="新的计划"></a>新的计划</h2><p>总体而言，核心目标仍然没有变化：<strong>活下去，活得更好</strong>。但执行层面确实需要发生一些变化。</p>
+<p>目标</p>
+<ul>
+<li>[ ] 制定并坚持合理的时间计划</li>
+<li>[ ] 切实地找到新的学习方法</li>
+<li>[ ] 看完之前购买的书籍</li>
+<li>[ ] 学习英语</li>
+</ul>
+<p>开源项目</p>
+<ul>
+<li>[ ] 编写 Electron 经验之谈系列博客 – 1 月</li>
+<li>[ ] 完善 joplin-blog cli，提高效率，优化 UX – 2 月上旬</li>
+<li>[ ] 重构 web logger 日志工具 – 2 月上旬</li>
+<li>[ ] 重构 rx-util 工具包，将之分解为独立的一系列模块，避免耦合 nodejs/dom 和庞大难以引入的问题 – 春节</li>
+</ul>
+<p>希望今年自己能变得更好，在一切糟糕到无法挽回之前，离开这里 – 世界那么大，吾辈也想出去看看。</p>
+<blockquote>
+<p>2020 是过去十年最坏的一年，但或许，是今后十年最好的一年。</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/01/01f6410c002840e9ba7bfca65c9611ee/" data-id="ckmcqox2100090kuv988v1bp7" data-title="2020 复盘及 2021 计划" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA/" rel="tag">个人</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BC%80%E6%BA%90/" rel="tag">开源</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-a8e38f7f626943ab85ac911bf79ace1e" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/12/31/a8e38f7f626943ab85ac911bf79ace1e/" class="article-date">
+  <time class="dt-published" datetime="2020-12-31T01:42:31.000Z" itemprop="datePublished">2020-12-31</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/12/31/a8e38f7f626943ab85ac911bf79ace1e/">漫谈 反乌托邦</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="1984"><a href="#1984" class="headerlink" title="1984"></a>1984</h2><p>最近看完了 <strong>1984</strong> 这本小说，在之后也补了一下电影</p>
+<p>Youtube 正版电影</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/S0WSCZx6R6M" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<p>一些设定令人惊奇</p>
+<ul>
+<li>真理部：负责新闻、娱乐、教育、艺术</li>
+<li>和平部：负责战争</li>
+<li>有爱不：负责维持法律和秩序</li>
+<li>富裕部：负责经济事务</li>
+</ul>
+<p>一些名言令人印象深刻</p>
+<ul>
+<li>过去被禁止，控制过去的人控制未来，控制现在的人控制过去。</li>
+<li>除了对集体的爱，没有其他的爱，与之竞争的都要被摧毁。</li>
+<li>无产阶级就像牲口一样，什么办法都没有。</li>
+<li>现代战争的本质，就是毁灭产品和人类的劳动，保持社会处于饥饿的边缘，一个分等级的社会只可能建立在贫穷和无知的基础上。</li>
+<li>栗树荫下，我出卖你，你出卖我。</li>
+</ul>
+<p>里面小孩举报父母，被洗脑而不自知，或许，亦是因为一张白纸更容易染上颜色吧。</p>
+<ul>
+<li>低效的前进，高效的内斗</li>
+</ul>
+<p>现实场景</p>
+<ul>
+<li>这本书可以很容易买到</li>
+<li>中文网络上没有国人影评/同人小说</li>
+<li>1984 在微博已经成为非法内容了</li>
+<li>举报父母已有现实案例（所谓的大义灭亲）</li>
+</ul>
+<h2 id="美丽新世界"><a href="#美丽新世界" class="headerlink" title="美丽新世界"></a>美丽新世界</h2><ul>
+<li>人工胚胎，设置命运：感觉是个恐怖的极权世界</li>
+<li>从小开始的 SEX 游戏与索麻，消费/享乐主义至上：或许是个天堂？</li>
+<li>野人区：旧时代的信仰、肮脏的生活与 <strong>美丽新世界</strong> 对比，让人真不知道哪个是天堂？</li>
+<li>野人疯了：发现自己苦苦追寻的事物、坚信的认知却一文不值时，疯掉了，<strong>天堂</strong> 对他而言也是地狱了</li>
+<li><code>9/10</code> 的人口供养着 <code>1/10</code> 的人口是 <strong>阿尔法</strong>，无论是水上还是水下都会感到快乐，不提高产量的最大原因是为了避免闲暇时间造成资源的浪费</li>
+</ul>
+<p>那种 <strong>美丽新世界</strong> 和 <strong>野人区</strong> 真的很难说哪个更好，活到 60 岁，但一生都能保持年轻，并且 <strong>每个人属于每个人</strong> 的理念确实很厉害。</p>
+<ul>
+<li>要求 <strong>不快乐</strong> 的权力</li>
+</ul>
+<h2 id="疫情"><a href="#疫情" class="headerlink" title="疫情"></a>疫情</h2><p>花了几年营造出来的中国梦，在一个春节就破碎的不成样子了。</p>
+<ul>
+<li>双重思想在现实中确实存在，而且很常见。<ul>
+<li><a target="_blank" rel="noopener" href="https://twitter.com/LiYing_2015/status/1227363930504196096">所以为歌颂伟大牺牲的时候，就防护服不足，以至于医护人员都不够用，为辟反动谣言的时候，就殡葬人员都必须有防护服。动动脑子想一想的结果就是如此的辩证</a></li>
+<li>“我们要自由。我们反对香港游行、台湾独立。”，说这两句话的是同一批人。<ul>
+<li>或许未曾意识到，香港、台湾他们也是为了自由，甚至于，或许只是跟风发泄一下情绪，并不明白自由是什么。。。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>没有说 <code>1 + 1 = 2</code> 的权利<ul>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%9D%8E%E6%96%87%E4%BA%AE">李文亮</a></li>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%AD%A6%E6%BC%A2%E9%80%A0%E8%AC%A0%E5%85%AB%E5%90%9B%E5%AD%90">武汉「造谣」八君子</a></li>
+</ul>
+</li>
+<li>未曾想过现实中真的有 <strong>新语</strong> 一说<ul>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/bS_8xCR2bxpwWKcoAeo4pw">为什么日本人显得比中国人更懂中国文化</a><ul>
+<li>“山川异域，风月同天。” 居然比不上 <strong>新语</strong> 的 “武汉加油”。</li>
+<li>新世纪笑话：<blockquote>
+<p>我举一个例子，比如你是给武汉捐助救灾物资的一位执行者，你在包装箱上写了八个字：山川异域，风月同天。领导看见了，会直接骂你：“你特么神经病吗？写这个干嘛？应该写武汉加油，还要加一个大感叹号。”<br>为什么不能用这八个字？因为这八个字不在那一套新话系统里面。这就超出了一位领导干部的思维边界。超出思维边界的事物，都是危险的、不可控的，是不可以使用的。<br>领导还要问你：你听明白了吗？能不能做到？<br>所以，你只能写个 “武汉加油”。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/12/31/a8e38f7f626943ab85ac911bf79ace1e/" data-id="ckmcqox4d00780kuvf9fr7rsr" data-title="漫谈 反乌托邦" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/electron/" rel="tag">electron</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grid/" rel="tag">grid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jetbrains/" rel="tag">jetbrains</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webstorm/" rel="tag">webstorm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/" rel="tag">windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA/" rel="tag">个人</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%AC%E5%8F%B8/" rel="tag">公司</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%A8%E6%8A%A5/" rel="tag">周报</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%A3%E5%91%8A/" rel="tag">宣告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" rel="tag">工程化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90/" rel="tag">开源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%82%E6%AD%A5/" rel="tag">异步</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" rel="tag">待更新</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%8F%E9%AA%8C/" rel="tag">经验</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6/" rel="tag">读书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/css/" style="font-size: 12.14px;">css</a> <a href="/tags/electron/" style="font-size: 15.71px;">electron</a> <a href="/tags/git/" style="font-size: 12.86px;">git</a> <a href="/tags/grid/" style="font-size: 10.71px;">grid</a> <a href="/tags/java/" style="font-size: 19.29px;">java</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/jetbrains/" style="font-size: 12.14px;">jetbrains</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 10.71px;">markdown</a> <a href="/tags/react/" style="font-size: 14.29px;">react</a> <a href="/tags/sql/" style="font-size: 14.29px;">sql</a> <a href="/tags/typescript/" style="font-size: 12.14px;">typescript</a> <a href="/tags/vscode/" style="font-size: 12.86px;">vscode</a> <a href="/tags/vue/" style="font-size: 16.43px;">vue</a> <a href="/tags/webstorm/" style="font-size: 10px;">webstorm</a> <a href="/tags/windows/" style="font-size: 17.14px;">windows</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 12.86px;">个人</a> <a href="/tags/%E5%85%AC%E5%8F%B8/" style="font-size: 10px;">公司</a> <a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 10px;">周报</a> <a href="/tags/%E5%AE%A3%E5%91%8A/" style="font-size: 10px;">宣告</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.57px;">工具</a> <a href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" style="font-size: 17.86px;">工程化</a> <a href="/tags/%E5%BC%80%E6%BA%90/" style="font-size: 10px;">开源</a> <a href="/tags/%E5%BC%82%E6%AD%A5/" style="font-size: 15px;">异步</a> <a href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" style="font-size: 10.71px;">待更新</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 18.57px;">杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BB%8F%E9%AA%8C/" style="font-size: 11.43px;">经验</a> <a href="/tags/%E8%AF%BB%E4%B9%A6/" style="font-size: 12.14px;">读书</a> <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 11.43px;">转载</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/14/8fb2d58463ae4191ac064a76e15bffbd/">2021 第十周</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/12/7e7131c07c984d928ba3fefa7a9cef06/">读书-[颓废与沉默：透视犬儒文化]</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/02/db74e6e5d2444bc3b6e185a7b338bbf6/">electron 开发经验之谈系列-在渲染、主进程间共享数据</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/27/06cb464179cf45c598208534705aae3c/">2020 吾辈在公司推动的前端技术演进</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/23/cd66150d2b86448590fcc9bb2419c0b2/">实践 lerna monorepo</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

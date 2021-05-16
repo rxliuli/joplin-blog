@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/11/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-5eecec943fa54ed4b595eebf77c268c9" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/02/02/5eecec943fa54ed4b595eebf77c268c9/" class="article-date">
+  <time class="dt-published" datetime="2020-02-02T02:15:38.000Z" itemprop="datePublished">2020-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/02/02/5eecec943fa54ed4b595eebf77c268c9/">图床「神器」PicGo v2.0 更新，插件系统终于来了</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>转自 <a target="_blank" rel="noopener" href="https://molunerfinn.com/picgo-v2.0-update">https://molunerfinn.com/picgo-v2.0-update</a>，作为一个经常使用 Markdown 写作的人而言，一个好的图床工具是很重要的，所以吾辈才会转载这篇文章呢！</p>
+</blockquote>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>距离上次更新 (v1.6.2) 已经过去了 5 个月，很抱歉 2.0 版本来得这么晚。本来想着在 18 年 12 月（PicGo 一周年的时候）发布 2.0 版本，但是无奈正值研究生开题期间，需要花费不少时间（不然毕不了业了 T T），所以这个大版本姗姗来迟。不过从这个版本开始，正式支持插件系统，发挥你们的无限想象，PicGo 也能成为一个极致的效率工具。</p>
+<p>除了发布 PicGo 2.0 <a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/PicGo/releases/">本体</a>，一同发布的还有 <a target="_blank" rel="noopener" href="https://picgo.github.io/PicGo-Core-Doc/">PicGo-Core</a>（PicGo 2.0 的底层，支持 CLI 和 API 调用），以及 VSCode 的 PicGo 插件 <a target="_blank" rel="noopener" href="https://github.com/Spades-S/vs-picgo">vs-picgo</a> 等。</p>
+<h3 id="插件系统"><a href="#插件系统" class="headerlink" title="插件系统"></a>插件系统</h3><p>PicGo 的底层核心其实是 <code>PicGo-Core</code>。这个核心主要就是一个流程系统。(它支持在 Node.js 环境下全局安装，可以通过命令行上传图片文件、也可以接入 Node.js 项目中调用 api 实现上传。)</p>
+<p><code>PicGo-Core</code> 的上传流程如下：<br><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190118212302.png" alt="PicGo-Core 上传流程"></p>
+<p><code>Input</code> 一般是文件路径，经过 <code>Transformer</code> 读取信息，传入 <code>Uploader</code> 进行上传，最后通过 <code>Output</code> 输出结果。而插件可以接入三个生命周期（<code>beforeTransform</code>、<code>beforeUpload</code>、<code>afterUpload</code>）以及两种部件（<code>Transformer</code> 和 <code>Uploader</code>）。</p>
+<p>换句话说，如果你书写了合适的 <code>Uploader</code>，那么可以上传到不同的图床。如果你书写了合适的 <code>Transformer</code>，你可以通过 URL 先行下载文件再通过 <code>Uploader</code> 上传等等。</p>
+<p>另外，如果你不想下载 PicGo 的 electron 版本，也可以通过 npm 安装 picgo 来实现命令行一键上传图片的快速体验。</p>
+<p>PicGo 除了 <code>PicGo-Core</code> 提供的核心功能之外，额外给 GUI 插件给予一些自主控制权。</p>
+<p>比如插件可以拥有自己的菜单项：<br><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190118212453.png" alt="菜单"></p>
+<p>因此 GUI 插件除了能够接管 <code>PicGo-Core</code> 给予的上传流程，还可以通过 PicGo 提供的 guiApi 等接口，在插件页面实现一些以前单纯通过 <code>上传区</code> 实现不了的功能：</p>
+<p>比如可以通过打开一个 <code>InputBox</code> 获取用户的输入：<br><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190118212549.png" alt="InputBox"></p>
+<p>可以通过打开一个路径来执行其他功能（而非只是上传文件）：<br><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190118212808.gif" alt="打开一个路径来执行其他功能"></p>
+<p>甚至还可以直接在插件面板通过调用 api 实现上传。</p>
+<p>另外插件可以监听相册里图片删除的事件：<br><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190118212628.png" alt="远端删除"></p>
+<p>这个功能就可以写一个插件来实现相册图片和远端存储里的同步删除了。</p>
+<p>通过如上介绍，我现在甚至就已经能想到插件系统能做出哪些有意思的插件了。</p>
+<p>比如：</p>
+<ol>
+<li> 结合 GitHub 刚刚开放的免费私人仓库，可以通过插件实现 PicGo 的相册以及配置文件同步。</li>
+<li> 结合 TinyPng 等工具实现上传前给图片瘦身。（不过可能挺影响上传速度的。）</li>
+<li> 结合一些 Canvas 工具，可以在上传图片前给图片加水印。</li>
+<li> 通过指定文件夹，将文件夹内部的 markdown 里的图片地址进行图床迁移。</li>
+<li> 等等。。</li>
+</ol>
+<p>希望这个插件系统能够给 PicGo 带来更强大的威力，也希望它能够成为你的极致的效率工具。</p>
+<p><strong>需要注意的是，想要使用 PicGo 2.0 的插件系统，需要先行安装 <a target="_blank" rel="noopener" href="https://nodejs.org/en/">Node.js</a> 环境，因为 PicGo 的插件安装依赖 <code>npm</code>。</strong></p>
+<h2 id="2-0-其他更新内容"><a href="#2-0-其他更新内容" class="headerlink" title="2.0 其他更新内容"></a>2.0 其他更新内容</h2><p>除了上面说的插件系统，PicGo 2.0 还更新了如下内容：</p>
+<ul>
+<li>底层重构了之后，某些图床上传不通过 <code>base64</code> 值的将会提升不少速度。比如 <code>SM.MS</code> 图床等。而原本就通过 <code>base64</code> 上传的图床速度不变。</li>
+<li>增加一些配置项，比如打开配置文件（包括了上传的图片列表）、mini 窗口置顶、代理设置等。<br><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190118212954.png" alt="更多配置项"></li>
+<li>在相册页可以选择复制的链接格式，不用再跑去上传页改了。<br><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190118213134.png" alt="相册允许复制链接格式"></li>
+<li>增加不同页面切换的淡入淡出动画。</li>
+<li>macOS 版本配色小幅更新。（Windows 版本配色更新 Fluent Design 效果预计在 2.1 版本上线）</li>
+<li>更新 electron 版本从 1.8-&gt;4.0，启动速度更快了，性能也更好了。</li>
+</ul>
+<h2 id="Bug-Fixed"><a href="#Bug-Fixed" class="headerlink" title="Bug Fixed"></a>Bug Fixed</h2><ul>
+<li>修复：macOS 多屏下打开详细窗口时位置错误的<a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/PicGo/issues/128">问题</a>。</li>
+<li>修复：多图片上传重命名一致的<a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/PicGo/issues/136">问题</a>。</li>
+<li>修复：拖拽图片到软件会自动在软件内部打开这张图片的 <a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/PicGo/issues/140">bug</a>。</li>
+<li>修复：重命名窗口只出现在屏幕中央而不是跟随主窗口的 <a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/PicGo/issues/145">bug</a>。</li>
+</ul>
+<h2 id="VSCode-的-PicGo-插件-vs-picgo"><a href="#VSCode-的-PicGo-插件-vs-picgo" class="headerlink" title="VSCode 的 PicGo 插件 vs-picgo"></a>VSCode 的 PicGo 插件 vs-picgo</h2><p>在 PicGo-Core 发布不久，就有人根据 PicGo-Core 的 API 编写了 VSCode 版的 PicGo 插件。使用起来也非常方便：</p>
+<ul>
+<li>截图上传<br><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190118213411.gif" alt="截图上传"></li>
+<li>文件浏览器选择文件上传<br><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190118213514.gif" alt="文件浏览器选择文件上传"></li>
+<li>输入文件路径上传<br><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190118213547.gif" alt="输入文件路径上传"></li>
+</ul>
+<p>配置项与 PicGo 的图床的配置项基本保持一致。在 VSCode 插件栏搜索 PicGo 即可下载安装与体验！</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>PicGo 第一个稳定版本是在少数派上发布的，详见 <a target="_blank" rel="noopener" href="https://sspai.com/post/42310">PicGo：基于 Electron 的图片上传工具</a>。支持 macOS、Windows、Linux 三平台，开源免费，界面美观，也得到了很多朋友的认可。如果你对它有什么意见或者建议，也欢迎在 <a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/PicGo/issues">issues</a> 里指出。如果你喜欢它，不妨给它点个 star。如果对你真的很有帮助，不妨请我喝杯咖啡（PicGo 的 GitHub <a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/PicGo">首页</a>有赞助的二维码）？</p>
+<blockquote>
+<p>下载地址：<a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/PicGo/releases">https://github.com/Molunerfinn/PicGo/releases</a><br>Windows 用户请下载<code>.exe</code>文件，macOS 用户请下载<code>.dmg</code>文件，Linux 用户请下载<code>.AppImage</code>文件。</p>
+</blockquote>
+<p>Happy uploading！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/02/02/5eecec943fa54ed4b595eebf77c268c9/" data-id="ckmcqox3i00480kuv5ila11ja" data-title="图床「神器」PicGo v2.0 更新，插件系统终于来了" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-5ff6459647c740c7aafb50bccd4a5153" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/02/02/5ff6459647c740c7aafb50bccd4a5153/" class="article-date">
+  <time class="dt-published" datetime="2020-02-02T02:15:38.000Z" itemprop="datePublished">2020-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/02/02/5ff6459647c740c7aafb50bccd4a5153/">基于 nodejs 的热更新 http 开发服务器</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>之前一直在使用 <a target="_blank" rel="noopener" href="https://www.npmjs.com/package/http-server">http-server</a> 作为本地快速启动静态 http 服务器的命令行工具，然而直到今天，吾辈实在难以忍受其在修改完 <code>HTML</code> 文件后，http-server 不会自动刷新浏览器重新渲染页面，而是需要手动刷新才行，真的是不厌其烦，所以吾辈开始找更好的工具。</p>
+<blockquote>
+<p>注：http-server 其实也已经热更新到内存中了，只不过不会触发浏览器刷新页面。</p>
+</blockquote>
+<h2 id="期望"><a href="#期望" class="headerlink" title="期望"></a>期望</h2><ul>
+<li>[x] 零配置使用</li>
+<li>[x] 修改文件保存后将自动触发浏览器刷新页面</li>
+<li>[x] 基于 nodejs 开发</li>
+<li>[ ] 允许特定的配置</li>
+</ul>
+<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p>前端页面热更新</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.npmjs.com/search?q=live-server">live-server</a>: 自带热更新并启动即打开浏览器的 http 开发服务器</li>
+<li><a target="_blank" rel="noopener" href="https://www.npmjs.com/package/anywhere">anywhere</a>: 与上面的 live-server 类似（由国人开发，已经一年没有更新了）</li>
+</ul>
+<p>nodejs 热更新</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.npmjs.com/package/nodemon">nodemon</a>: 文件修改后自动重启 nodejs 程序</li>
+<li><a target="_blank" rel="noopener" href="https://www.npmjs.com/package/supervisor">supervisor</a>: nodejs 程序运行管理器，包含热更新功能（两年没有更新了）</li>
+</ul>
+<p>VSCode 插件</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer">LiveServer</a>: VSCode 中的插件，可以将任何一个 HTML 当作 web 程序打开，并自带热更新</li>
+</ul>
+<h2 id="live-server"><a href="#live-server" class="headerlink" title="live-server"></a>live-server</h2><p><code>live-server</code> 是一个 npm 包，全局安装之后可以很方便的使用，所以吾辈选择了这个。主要特点如下：</p>
+<ul>
+<li>[x] 零配置</li>
+<li>[x] 热插拔</li>
+<li>[x] 自动打开浏览器</li>
+</ul>
+<p>下面来说一下如何使用</p>
+<ol>
+<li><p>使用 npm 全局安装</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i -g live-server</span><br></pre></td></tr></table></figure></li>
+<li><p>跳转到指定目录，然后使用 <code>live-server</code> 即可启动 http 服务器</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">live-server</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/02/02/5ff6459647c740c7aafb50bccd4a5153/" data-id="ckmcqox3j004b0kuv8t2j7mh0" data-title="基于 nodejs 的热更新 http 开发服务器" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-77f1a2a13e994ea3bb5de5c557bbd5e4" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/02/02/77f1a2a13e994ea3bb5de5c557bbd5e4/" class="article-date">
+  <time class="dt-published" datetime="2020-02-02T02:15:38.000Z" itemprop="datePublished">2020-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/02/02/77f1a2a13e994ea3bb5de5c557bbd5e4/">JetBrains 1024 程序员节优惠活动</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>一年一次的 JetBrains 优惠活动，这次是买一赠一！</p>
+<blockquote>
+<p>注: 活动截止 10/31</p>
+</blockquote>
+<p><img src="https://i.loli.net/2019/10/24/b5AgNHKUhFmZ3xz.png" alt="image.png"><br><img src="https://i.loli.net/2019/10/24/DVdJPEtZjwpQbiG.png" alt="image.png"></p>
+<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>该次活动老用户无法直接输入优惠码购买，必须提交请求后等待销售代表回复专属购买链接。（老用户没人权系列 QAQ）</p>
+<p><img src="https://i.loli.net/2019/10/24/gAKEG28p5erO4iM.png" alt="image.png"></p>
+<p>然后，果然手动化操作忙不过来了 23333<br><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20191026114627.png" alt="官方邮件"></p>
+<p>重要的是，这个优惠码貌似可以针对任意产品，包括全家桶那个 $249 的那个也能免费 0 折一年！官方也太实诚了吧 emmmmm<br><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20191026115028.png" alt="优惠码使用"></p>
+<h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.jetbrains.com/zh-cn/lp/programmers-day/?tdsourcetag=s_pcqq_aiomsg">1024 程序员节 IDE++ 快乐翻倍！</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/02/02/77f1a2a13e994ea3bb5de5c557bbd5e4/" data-id="ckmcqox3u00570kuvhgrudrcu" data-title="JetBrains 1024 程序员节优惠活动" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-7c3c361a330c43b48da9940c0bce70a2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/02/02/7c3c361a330c43b48da9940c0bce70a2/" class="article-date">
+  <time class="dt-published" datetime="2020-02-02T02:15:38.000Z" itemprop="datePublished">2020-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/02/02/7c3c361a330c43b48da9940c0bce70a2/">Windows 上强制粘贴</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>前面吾辈曾经写过一篇 <a target="_blank" rel="noopener" href="https://blog.rxliuli.com/p/58a7c146/">Chrome 强制复制粘贴</a> 的文章，然而那篇内容仅仅只是针对于 Chrome/Firefox 浏览器。对于 Windows 的客户端软件，例如 QQ、阿里旺旺之类，它们还是不允许粘贴密码。这点对于所有密码都是用密码管理器管理，随机生成的用户而言（吾辈），实在是太过讨厌了一点！</p>
+<h2 id="解决思路"><a href="#解决思路" class="headerlink" title="解决思路"></a>解决思路</h2><p>QQ 这种客户端是如何屏蔽粘贴功能的呢？很显然，QQ 不仅仅是禁用右键/快捷键那么简单，或许是添加键盘驱动了也说不定。但不管怎样，我们都可以从根本的地方下手 – <strong>模拟键盘输入，将剪切版的文字一个一个的输入进去！</strong></p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>虽然不像 Linux 那样任何操作都可以使用脚本去控制（实际上也可以，只不过 Windows 的 <code>cmd</code> 脚本实在不怎么样），然而基于 Windows 丰富的生态，还是有人做出了第三方的脚本语言 – <strong>Autohotkey</strong>。</p>
+<p>我们首先去 <a target="_blank" rel="noopener" href="https://www.autohotkey.com/">官网</a> 看一下，介绍只有简单的两句话。</p>
+<blockquote>
+<p>Powerful. Easy to learn.<br>The ultimate automation scripting language for Windows.</p>
+</blockquote>
+<p>翻译过来就是：</p>
+<blockquote>
+<p>强大，简单易学<br>Windows 上的自动化脚本语言</p>
+</blockquote>
+<p>我们可以写一个 Autohotkey 自动化的脚本，在检测到 QQ 运行并且按下 <strong>CS-V</strong> 时将剪切版的字符逐个输入进去。</p>
+<h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2><figure class="highlight ahk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#IfWinActive ahk_exe QQ.exe</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">;热键为 Ctrl+Shift+V</span></span><br><span class="line"><span class="title">    ^+v::</span></span><br><span class="line">    <span class="comment">;发送剪切版的内容到输入</span></span><br><span class="line">    SendInput &#123;Raw&#125;<span class="variable">%Clipboard%</span></span><br><span class="line">    <span class="keyword">Return</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#IfWinActive</span></span><br></pre></td></tr></table></figure>
+<p>当然，如果不喜欢安装 Autohotkey 的话也没关系，吾辈转换了一个 <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/rxliuli/blog_binary_file/master/QQForcedPaste.exe">.exe 可执行文件</a>，也可以直接下载使用啦</p>
+<h2 id="使用效果"><a href="#使用效果" class="headerlink" title="使用效果"></a>使用效果</h2><p><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190219214116.gif" alt="使用示例"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/02/02/7c3c361a330c43b48da9940c0bce70a2/" data-id="ckmcqox3w005e0kuvam7t632l" data-title="Windows 上强制粘贴" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/windows/" rel="tag">windows</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-839407c9c7e647aca2c0518e4da075a7" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/02/02/839407c9c7e647aca2c0518e4da075a7/" class="article-date">
+  <time class="dt-published" datetime="2020-02-02T02:15:38.000Z" itemprop="datePublished">2020-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/02/02/839407c9c7e647aca2c0518e4da075a7/">VSCode 集成 ESLint 和 Prettier</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="情景"><a href="#情景" class="headerlink" title="情景"></a>情景</h2><p>ESLint 是一个前端代码质量检测工具，然而配置非常非常非常的麻烦（前端的配置真的是超多呢），所以在吾辈的 VueJS 项目中直接使用了 <code>standard</code> 规则。然而问题在于有了代码规则，还需要自动的格式化，否则为了手动格式化是一件极其痛苦的事情。。。</p>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><p>VSCode 安装下面三个插件</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=octref.vetur">Vetur</a></li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint">ESLint</a></li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode">Prettier - Code formatter</a></li>
+</ul>
+<p>然后在 <code>User Settings</code>，添加以下配置</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 配置 ESlint 和 Prettier</span></span><br><span class="line">&quot;eslint.autoFixOnSave&quot;: true, // 每次保存的时候将代码按 eslint 格式进行修复</span><br><span class="line">&quot;prettier.eslintIntegration&quot;: true, // 让 prettier 使用 eslint 的代码格式进行校验</span><br><span class="line">&quot;prettier.semi&quot;: false, // 去掉代码结尾的分号</span><br><span class="line">&quot;prettier.singleQuote&quot;: true, // 使用单引号替代双引号</span><br><span class="line">&quot;javascript.format.insertSpaceBeforeFunctionParenthesis&quot;: true, // 让函数 (名) 和后面的括号之间加个空格</span><br><span class="line">&quot;vetur.format.defaultFormatter.html&quot;: &quot;js-beautify-html&quot;, // 格式化. vue 中 html</span><br><span class="line">&quot;vetur.format.defaultFormatter.js&quot;: &quot;vscode-typescript&quot;, // 让 vue 中的 js 按编辑器自带的 ts 格式进行格式化</span><br><span class="line">&quot;vetur.format.defaultFormatterOptions&quot;: &#123;</span><br><span class="line">  &quot;js-beautify-html&quot;: &#123;</span><br><span class="line">    &quot;wrap_attributes&quot;: &quot;force-aligned&quot; // 属性强制折行对齐</span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br><span class="line">&quot;eslint.validate&quot;: [</span><br><span class="line">  <span class="comment">// 开启对. vue 文件中错误的检查</span></span><br><span class="line">  &quot;javascript&quot;,</span><br><span class="line">  &quot;javascriptreact&quot;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">&quot;language&quot;</span>: <span class="string">&quot;html&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;autoFix&quot;</span>: <span class="literal">true</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">&quot;language&quot;</span>: <span class="string">&quot;vue&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;autoFix&quot;</span>: <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>好了，现在可以正常使用 VSCode 的格式化功能了，保存时也会进行格式化同时修复 ESLint 发现的错误。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/02/02/839407c9c7e647aca2c0518e4da075a7/" data-id="ckmcqox3z005o0kuvaq86cxdk" data-title="VSCode 集成 ESLint 和 Prettier" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-861b678411f24bf9ba710539bac7140a" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/02/02/861b678411f24bf9ba710539bac7140a/" class="article-date">
+  <time class="dt-published" datetime="2020-02-02T02:15:38.000Z" itemprop="datePublished">2020-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/02/02/861b678411f24bf9ba710539bac7140a/">Chrome 强制复制粘贴</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><blockquote>
+<p>如果你是一位开发者，可以看一下另一篇博客 <a target="_blank" rel="noopener" href="https://blog.rxliuli.com/p/4b2822b2/">使用 Greasemonkey 解除网页复制粘贴限制</a>。或许，你能找到更好的方式</p>
+</blockquote>
+<p>登录支付宝时突然发现密码框不能 C-V 粘贴，也无法使用右键了。提示说是为了安全，实际上不就是为了让人使用 App 扫码么。。。想尽办法为难 PC 用户，这次 Chrome 的强制复制插件也没能起到作用。然而不管其是如何实现禁用粘贴/禁用右键的，但其一定需要用到 JavaScript，有了这个思路，只要暂时禁用 JavaScript 就好了。</p>
+<h2 id="具体步骤"><a href="#具体步骤" class="headerlink" title="具体步骤"></a>具体步骤</h2><p>使用 F12 打开 Chrome 开发者工具，勾选 <strong>Setting -&gt; Preferences -&gt; Debugger -&gt; Disable JavaScript</strong>，临时禁用掉 JavaScript，然后在粘贴密码之后记得要取消勾选哦，因为支付宝的登录还要用到 JavaScript 呢</p>
+<ol>
+<li>打开 Chrome 开发者工具<br> <a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190117221230.png"><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190117221230.png" alt="打开 Chrome 开发者工具"></a></li>
+<li>临时禁用 JavaScript<br> <a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190117221505.png"><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20190117221505.png" alt="临时禁用 JavaScript"></a></li>
+</ol>
+<blockquote>
+<p>快速切换的方法暂且还没有找到 Chrome 插件呢，有什么好推荐的也可以告诉吾辈哦</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/02/02/861b678411f24bf9ba710539bac7140a/" data-id="ckmcqox40005w0kuvclm26z4r" data-title="Chrome 强制复制粘贴" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-8adbedea5b52412b9ed010ad71d6cfbf" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/02/02/8adbedea5b52412b9ed010ad71d6cfbf/" class="article-date">
+  <time class="dt-published" datetime="2020-02-02T02:15:38.000Z" itemprop="datePublished">2020-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/02/02/8adbedea5b52412b9ed010ad71d6cfbf/">VSCode 在 markdown 文档中存在表格时不能格式化文档</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>在使用 markdown 写文档时突然发现格式化功能失效了。这是个很麻烦的问题，吾辈经常要用 VSCode 写 markdown 文档，如果不能进行格式化真是个大麻烦了。</p>
+<h2 id="确认是否为插件问题"><a href="#确认是否为插件问题" class="headerlink" title="确认是否为插件问题"></a>确认是否为插件问题</h2><p>吾辈有关 Markdown 的插件列表</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=yzhang.markdown-all-in-one">Markdown All in One</a></li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint">markdownlint</a></li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=yzane.markdown-pdf">Markdown PDF</a></li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode">Prettier</a></li>
+</ul>
+<p>不能进行格式化吾辈的第一想法就是 <strong>Markdown All in One</strong> 插件是不是出问题了，毕竟吾辈写 Markdown 文档这么久了，也是第一次遇到这种问题呢<br>吾辈尝试禁用了 <strong>Markdown All in One</strong> 插件后，发现文档确实能够正常格式化了。<br>然而这并没能解决问题，因为在 VSCode 书写 markdown 文档的话，<strong>Markdown All in One</strong> 插件的功能是必不可少的（更好的语法高亮，自动完成，生成标题等）。</p>
+<p>实际上进行格式化的操作是由 <strong>Prettier</strong> 完成的，所以吾辈觉得应该是 <strong>Markdown All in One</strong> <strong>阻碍</strong> 了 <strong>Prettier</strong> 插件的格式化功能。</p>
+<p>然而吾辈也明白了一件事：<strong>Markdown All in One</strong> 和 <strong>Prettier</strong> 插件居然不兼容！</p>
+<h2 id="确认是否是普遍性问题"><a href="#确认是否是普遍性问题" class="headerlink" title="确认是否是普遍性问题"></a>确认是否是普遍性问题</h2><p>之后，吾辈想要确认这是否是一个普遍性的问题。测试了几个 markdown 文档后惊奇的发现有些能够正常格式化，有些就不行。<br>这就很奇怪了，吾辈在逐次删减部分 markdown 内容后终于发现了影响格式化的代码 – 表格。<br>这可真是太意外了，毕竟表格这种东西，感觉上不应该会影响到插件本身呀</p>
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>吾辈正要打算去 <strong>Markdown All in One</strong> 插件 <a target="_blank" rel="noopener" href="https://github.com/neilsustc/vscode-markdown/issues">GitHub Issues</a> 提出这个问题时，发现上面已经有人遇到了这个问题了。<a target="_blank" rel="noopener" href="https://github.com/neilsustc/vscode-markdown/issues/317">https://github.com/neilsustc/vscode-markdown/issues/317</a></p>
+<p>开发者回复说明了这样的内容</p>
+<blockquote>
+<p>Thanks for the detailed description. The problem is vscode implicitly only allows one “formatter” per language. Then this extension(‘s formatter) and that of Prettier cannot co-exist.<br>Related <a target="_blank" rel="noopener" href="https://github.com/Microsoft/vscode/issues/41882">Microsoft/vscode#41882</a>.<br>Is there an option of Prettier to format GFM table? If it can do this, you can disable this extension’s formatter with <code>markdown.extension.tableFormatter.enabled</code></p>
+</blockquote>
+<p>大意是在 VSCode 中每种语言的格式化程序默认只能有一种，所以 <strong>Markdown All in One</strong> 的表格格式化 和 <strong>Prettier</strong> 的格式化就产生了冲突。然后他给出了解决方案，禁用掉表格格式化。<br>配置如下</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="comment">// 禁用表格格式化功能</span></span><br><span class="line">  <span class="string">&quot;markdown.extension.tableFormatter.enabled&quot;</span>: <span class="literal">false</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后，添加这个配置之后需要重启 VSCode，不然可能不会生效哦</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/02/02/8adbedea5b52412b9ed010ad71d6cfbf/" data-id="ckmcqox4100600kuv53rwho5m" data-title="VSCode 在 markdown 文档中存在表格时不能格式化文档" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-95dd75f5600943b59bc0f7cb1b0189b3" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/02/02/95dd75f5600943b59bc0f7cb1b0189b3/" class="article-date">
+  <time class="dt-published" datetime="2020-02-02T02:15:38.000Z" itemprop="datePublished">2020-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/02/02/95dd75f5600943b59bc0f7cb1b0189b3/">自建 Jrebel 反向代理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>项目位置：<a target="_blank" rel="noopener" href="https://gitee.com/gsls200808/JrebelLicenseServerforJava">https://gitee.com/gsls200808/JrebelLicenseServerforJava</a></p>
+</blockquote>
+<p>不喜欢 Gitee 直接 <code>git clone https://gitee.com/gsls200808/JrebelLicenseServerforJava.git</code> 然后自己用 <code>maven</code> 编译一下就好！<br>或者吾辈也编译了一个 <a target="_blank" rel="noopener" href="https://github.com/rxliuli/rxliuli.github.io/blob/53bf7d98827eea647822d4c8cf1a04c6c006a8f0/_posts/IDEA/JrebelBrainsLicenseServerforJava/JrebelBrainsLicenseServerforJava-1.0-SNAPSHOT-jar-with-dependencies.jar">链接</a></p>
+<h2 id="普通启动（其中-p-指的是端口，服务器必须配置该端口可以访问）"><a href="#普通启动（其中-p-指的是端口，服务器必须配置该端口可以访问）" class="headerlink" title="普通启动（其中 -p 指的是端口，服务器必须配置该端口可以访问）"></a>普通启动（其中 -p 指的是端口，服务器必须配置该端口可以访问）</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar JrebelBrainsLicenseServerforJava-1.0-SNAPSHOT-jar-with-dependencies.jar -p 8181</span><br></pre></td></tr></table></figure>
+<h2 id="后台启动-jar（既便退出程序也不会结束）"><a href="#后台启动-jar（既便退出程序也不会结束）" class="headerlink" title="后台启动 jar（既便退出程序也不会结束）"></a>后台启动 jar（既便退出程序也不会结束）</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup java -jar JrebelBrainsLicenseServerforJava-1.0-SNAPSHOT-jar-with-dependencies.jar -p 8181 &gt; log.log &amp;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>&gt; log.log &amp;</code> 指的是将程序的控制台输出写入到某个文件中</p>
+</blockquote>
+<h2 id="查看程序"><a href="#查看程序" class="headerlink" title="查看程序"></a>查看程序</h2><ol>
+<li><p>使用 job 命令</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">jobs</span></span><br></pre></td></tr></table></figure>
+<p> 输出可能是下面这样子：<br> <code>[1]+ Running nohup java -jar JrebelBrainsLicenseServerforJava-1.0-SNAPSHOT-jar-with-dependencies.jar -p 8181 &gt; log.log &amp;</code></p>
+<p> 想要结束的话使用 <code>fg 任务 id</code> 将任务调回前台，然后 <code>Ctrl+C</code> 即可。<br> 这里使用</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">fg</span> 1</span><br><span class="line">Ctrl+C</span><br></pre></td></tr></table></figure></li>
+<li><p>使用 Linux 下的 <code>ps</code> 命令</p>
+<p> 使用以下命令列出所有含有 <strong>Jrebel</strong> 的进程</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -ef|grep Jrebel</span><br></pre></td></tr></table></figure>
+<p> 吾辈启动了好几次，所以有 3 条</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rxliuli   1877  1828  0 23:26 pts/0    00:00:00 java -jar JrebelBrainsLicenseServerforJava-1.0-SNAPSHOT-jar-with-dependencies.jar</span><br><span class="line">rxliuli   1942  1921  0 23:33 pts/1    00:00:00 java -jar JrebelBrainsLicenseServerforJava-1.0-SNAPSHOT-jar-with-dependencies.jar -p 8181</span><br><span class="line">rxliuli   1967  1921  0 23:37 pts/1    00:00:00 grep --color=auto Jrebel</span><br></pre></td></tr></table></figure>
+<p> 使用 <code>kill -9 进程 id</code> 杀死进程<br> 例如这里可以使用</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">kill</span> -9 1828</span><br></pre></td></tr></table></figure>
+<p> 然后再次使用 ps 查看进程就发现已经被杀死了</p>
+</li>
+</ol>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>激活服务器：<code>http://&#123;服务器 id&#125;:&#123;服务器端口, 这里是 8181&#125;/947122a0-7e9a-4bea-814d-876525d3767f</code><br>邮箱随意就好（至少格式要正确。。。）</p>
+<p>有可能 Jrebel 还会让你输入认证信息，吾辈输入了服务器的 username/password 貌似就没问题了呢</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/02/02/95dd75f5600943b59bc0f7cb1b0189b3/" data-id="ckmcqox44006a0kuva5jyhjoq" data-title="自建 Jrebel 反向代理" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jetbrains/" rel="tag">jetbrains</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-ac35129ae2d6448b9a747b7a6df8b855" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/02/02/ac35129ae2d6448b9a747b7a6df8b855/" class="article-date">
+  <time class="dt-published" datetime="2020-02-02T02:15:38.000Z" itemprop="datePublished">2020-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/02/02/ac35129ae2d6448b9a747b7a6df8b855/">Xmind 激活</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>转自 <a target="_blank" rel="noopener" href="https://github.com/mounui/Xmind">原链</a>，对文法部分进行了复核。本文仅供参考，如有能力请支持正版！</p>
+</blockquote>
+<p>Xmind 不激活也是可以使用的，那么，你可能会问为什么还要激活？这是因为未激活的 Xmind 少了很多实用的功能。好了，废话不多说了，下面讲如何激活 Xmind。</p>
+<h2 id="使用激活补丁"><a href="#使用激活补丁" class="headerlink" title="使用激活补丁"></a>使用激活补丁</h2><ol>
+<li><p> 下载 Xmind 激活补丁 <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/rxliuli/blog_binary_file/master/XMindCrack.jar">XMindCrack.jar</a></p>
+</li>
+<li><p>打开 Xmind 取消检查更新选项 (下面两步可以一起设置)</p>
+<blockquote>
+<p>-&gt; 编辑 -&gt; 首选项 -&gt; 常规 -&gt; 启动 -&gt; 启动时检查更新和消息：取消勾选 (最后确定)</p>
+</blockquote>
+<p> 取消发送用户数据选项</p>
+<blockquote>
+<p>-&gt; 编辑 -&gt; 首选项 -&gt; 常规 -&gt; 启动 -&gt;发送用户数据: 取消勾选 (最后确定)<br>最后关闭 Xmind</p>
+</blockquote>
+</li>
+<li><p> 将 XMindCrack.jar 复制到 Xmind 的安装目录下，默认安装路径为 C:\Program Files (x86)\XMind（如果你是自定义安装的请找到自己的安装目录）</p>
+</li>
+<li><p>在 Xmind 的安装目录下找到 XMind.ini 这个文件（部分人隐藏后缀名了，所以显示的是 xmind 这个名字，只要是在 xmind 图标后面的那个就是的）用记事本打开这个文件并在最后添加一行：</p>
+ <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-javaagent:./XMindCrack.jar</span><br><span class="line"><span class="comment">; 注意此处-javaagent后面的地址应为补丁文件 XMindCrack.jar 的地址，因为我们把该文件放到了Xmind 的安装目录下，Xmind.ini 和 XMindCrack.jar 在同一目录下，因此这里我们可以使用相对路径，如果这两个文件不在同一个目录下，注意填写正确的路径</span></span><br></pre></td></tr></table></figure></li>
+<li><p> 断开网络，或者使用防火墙阻止 XMind 联网，或者在 hosts 文件中添加一行<code>127.0.0.1 www.xmind.net</code>（建议采用断网或者增加 hosts 记录法）。其中 hosts 文件一般在：<em>C:\Windows\System32\drivers\etc</em> 目录下</p>
+</li>
+<li><p>再次启动 Xmind，进行软件激活 -&gt; 帮助 -&gt; 序列号 -&gt; 输入任意邮箱地址及以下序列号：</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">XAka34A2rVRYJ4XBIU35UZMUEEF64CMMIYZCK2FZZUQNODEKUHGJLFMSLIQMQUCUBXRENLK6NZL37JXP4PZXQFILMQ2RG5R7G4QNDO3PSOEUBOCDRYSSXZGRARV6MGA33TN2AMUBHEL4FXMWYTTJDEINJXUAV4BAYKBDCZQWVF3LWYXSDCXY546U3NBGOI3ZPAP2SO3CSQFNB7VVIY123456789012345</span><br></pre></td></tr></table></figure></li>
+<li><p> 所有步骤完成之后，即可重新联网。</p>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/02/02/ac35129ae2d6448b9a747b7a6df8b855/" data-id="ckmcqox4f007f0kuv79ec4n93" data-title="Xmind 激活" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/windows/" rel="tag">windows</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-b1d53b2d48c24af7904985f6c3764cdb" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/02/02/b1d53b2d48c24af7904985f6c3764cdb/" class="article-date">
+  <time class="dt-published" datetime="2020-02-02T02:15:38.000Z" itemprop="datePublished">2020-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/02/02/b1d53b2d48c24af7904985f6c3764cdb/">Notion 使用体验</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="http://notion.so/">官网</a></p>
+</blockquote>
+<p>Notion 是一个基于 Web 的跨平台笔记工具，在了解过印象笔记、OneNote、为知笔记和有道云笔记之后，吾辈选择了 Notion。</p>
+<p>之所以没有选择上面列出的几个，都有一些原因</p>
+<ul>
+<li>印象笔记<ul>
+<li>不直接支持 Markdown</li>
+<li>编辑器体验并不好</li>
+<li>不能以目录分割笔记</li>
+</ul>
+</li>
+<li>OneNote<ul>
+<li>完全不支持 Markdown</li>
+</ul>
+</li>
+<li>为知笔记<ul>
+<li>国产软件，肯定会上报数据</li>
+</ul>
+</li>
+<li>为知笔记<ul>
+<li>同上</li>
+</ul>
+</li>
+</ul>
+<p>吾辈的对笔记工具的要求也很简单</p>
+<ul>
+<li>[ ] 允许在线/本地编辑</li>
+<li>[ ] 本地编辑器体验必须要好</li>
+<li>[ ] 支持 Markdown 语法</li>
+<li>[ ] 搜索速度要快并且支持中文</li>
+</ul>
+<p>很遗憾，虽然吾辈选择了 Notion，并不代表它满足了所有需求，只是目前存在的选择中，最适合吾辈的罢了（搜索速度和中文支持真的很硬伤）。</p>
+<h2 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h2><ul>
+<li><code>C-B</code>：将选定文字加粗，或者结束加粗模式</li>
+<li><code>C-I</code>：将选定文字变成斜体，或者结束斜体模式</li>
+<li><code>C-E</code>：将选定区域为行内代码，或者结束行内代码模式</li>
+<li><code>S-鼠标滚轮</code>：水平滚动</li>
+<li><code>CS-L</code>：切换夜间模式</li>
+<li><code>C-V + Link</code>：选中文字粘贴链接，会直接将文字变成可点击链接</li>
+<li><code>CS-Up/Down</code>：将当前行上移/下移</li>
+<li><code>S-Enter</code>：不完成当前区块的情况下换行。类似于 QQ 的回车发送消息，<code>Shift-Enter</code> 换行一样。</li>
+<li><code>Tab</code>：缩进一个 Tab</li>
+<li><code>S-Tab</code>：反向缩进一个 Tab</li>
+<li><code>/</code>：可以搜索并使用命令</li>
+</ul>
+<h2 id="快捷-Block-片段"><a href="#快捷-Block-片段" class="headerlink" title="快捷 Block 片段"></a>快捷 Block 片段</h2><p>输入后按空格即可生成的特定 Block 的字符</p>
+<ul>
+<li><code>-</code>：无序列表</li>
+<li><code>Number</code>：有序列表</li>
+<li><code>[]</code>：待办事项列表</li>
+<li><code>&gt;</code>：可折叠层级列表（和 markdown 语义不同了）</li>
+<li><code>&quot;</code>：引用（这才是 markdown 中 <code>&gt;</code> 在 notion 中的关键字）</li>
+<li><code>``</code>：行内代码块<ul>
+<li>必须在输入第一个 <code>之后，输入代码，再输入第二个</code> 才有效</li>
+<li>生成行内代码片段后，必须紧跟一个空格，如果输入之后又删除掉，再次输入就会被当成行内代码，这时候使用 <code>C-E</code> 可将下一个字符指定为行内代码之外的文本。</li>
+</ul>
+</li>
+<li><code>```</code>：区域代码块<ul>
+<li>无法直接指定语言，必须在选择框内选择语言（鼠标）</li>
+</ul>
+</li>
+</ul>
+<h2 id="夜间模式"><a href="#夜间模式" class="headerlink" title="夜间模式"></a>夜间模式</h2><p>通过 <code>CS-L</code> 进行切换，也可以在 <code>Settings &amp; Members</code> 中找到 <code>Dark Mode</code> 这个切换。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/rxliuli/img-bed/20191201224609.png" alt="Notion 夜间模式"></p>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ul>
+<li><p>编辑真的很卡！</p>
+</li>
+<li><p>性能不好</p>
+<ul>
+<li>大文件</li>
+<li>包含图片</li>
+<li>导入 markdown</li>
+</ul>
+</li>
+<li><p>粘贴富文本链接存在问题</p>
+</li>
+<li><p>没有列编辑</p>
+</li>
+<li><p>没有 <strong>标签</strong> 的概念，导致分类只能依赖于目录，不能跨目录进行某种关联。例如 <strong>未完成</strong></p>
+</li>
+<li><p>就单纯的编辑体验上还说不上非常好，至少比起 VSCode 还有一段距离</p>
+</li>
+<li><p>无法深度导出 PDF（需要企业版），导致想要打印资料会很不方便</p>
+</li>
+<li><p>bug</p>
+<ul>
+<li><p>从编辑器之外点击编辑器，第一次并不会获取到焦点，需要点第二次才行（只出现在 Windows 自动分屏）</p>
+</li>
+<li><p>代码块中同时存在中文和英文时粘贴后只剩中文部分，英文代码不见了</p>
+</li>
+<li><p>从 VSCode 的 markdown 预览区复制的区域代码块最后总是会多出空行</p>
+</li>
+<li><p>代码高亮渲染问题，目前 <code>TypeScript/HTML</code> 是存在问题的</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 一个用于解构 Promise 中的泛型类</span></span><br><span class="line"><span class="keyword">type</span> PromiseDeconstruct&lt;T <span class="keyword">extends</span> <span class="built_in">Promise</span>&lt;<span class="built_in">any</span>&gt;&gt; = T <span class="keyword">extends</span> <span class="built_in">Promise</span>&lt;infer R&gt;</span><br><span class="line">  ? R</span><br><span class="line">  : <span class="built_in">never</span>;</span><br><span class="line"><span class="keyword">const</span> res = <span class="built_in">Promise</span>.resolve(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">const</span> i: PromiseDeconstruct&lt;<span class="keyword">typeof</span> res&gt; = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="感受"><a href="#感受" class="headerlink" title="感受"></a>感受</h2></li>
+</ul>
+</li>
+</ul>
+<p>笔记适合作为整理资料的方式，而作为写作工具的话体验却是还差了点。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/02/02/b1d53b2d48c24af7904985f6c3764cdb/" data-id="ckmcqox4h007n0kuvhge4cv9r" data-title="Notion 使用体验" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/10/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" href="/page/12/">Next &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/electron/" rel="tag">electron</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grid/" rel="tag">grid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jetbrains/" rel="tag">jetbrains</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webstorm/" rel="tag">webstorm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/" rel="tag">windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA/" rel="tag">个人</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%AC%E5%8F%B8/" rel="tag">公司</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%A8%E6%8A%A5/" rel="tag">周报</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%A3%E5%91%8A/" rel="tag">宣告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" rel="tag">工程化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90/" rel="tag">开源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%82%E6%AD%A5/" rel="tag">异步</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" rel="tag">待更新</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%8F%E9%AA%8C/" rel="tag">经验</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6/" rel="tag">读书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/css/" style="font-size: 12.14px;">css</a> <a href="/tags/electron/" style="font-size: 15.71px;">electron</a> <a href="/tags/git/" style="font-size: 12.86px;">git</a> <a href="/tags/grid/" style="font-size: 10.71px;">grid</a> <a href="/tags/java/" style="font-size: 19.29px;">java</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/jetbrains/" style="font-size: 12.14px;">jetbrains</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 10.71px;">markdown</a> <a href="/tags/react/" style="font-size: 14.29px;">react</a> <a href="/tags/sql/" style="font-size: 14.29px;">sql</a> <a href="/tags/typescript/" style="font-size: 12.14px;">typescript</a> <a href="/tags/vscode/" style="font-size: 12.86px;">vscode</a> <a href="/tags/vue/" style="font-size: 16.43px;">vue</a> <a href="/tags/webstorm/" style="font-size: 10px;">webstorm</a> <a href="/tags/windows/" style="font-size: 17.14px;">windows</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 12.86px;">个人</a> <a href="/tags/%E5%85%AC%E5%8F%B8/" style="font-size: 10px;">公司</a> <a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 10px;">周报</a> <a href="/tags/%E5%AE%A3%E5%91%8A/" style="font-size: 10px;">宣告</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.57px;">工具</a> <a href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" style="font-size: 17.86px;">工程化</a> <a href="/tags/%E5%BC%80%E6%BA%90/" style="font-size: 10px;">开源</a> <a href="/tags/%E5%BC%82%E6%AD%A5/" style="font-size: 15px;">异步</a> <a href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" style="font-size: 10.71px;">待更新</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 18.57px;">杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BB%8F%E9%AA%8C/" style="font-size: 11.43px;">经验</a> <a href="/tags/%E8%AF%BB%E4%B9%A6/" style="font-size: 12.14px;">读书</a> <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 11.43px;">转载</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/14/8fb2d58463ae4191ac064a76e15bffbd/">2021 第十周</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/12/7e7131c07c984d928ba3fefa7a9cef06/">读书-[颓废与沉默：透视犬儒文化]</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/02/db74e6e5d2444bc3b6e185a7b338bbf6/">electron 开发经验之谈系列-在渲染、主进程间共享数据</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/27/06cb464179cf45c598208534705aae3c/">2020 吾辈在公司推动的前端技术演进</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/23/cd66150d2b86448590fcc9bb2419c0b2/">实践 lerna monorepo</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>electron 开发经验之谈系列-渲染、主进程通信 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="场景由于 electron 应用分为主进程、渲染进程，所以它们之间需要通信。而 electron 本身实现了一个简单的 event emitter 通信模型，虽然能用，但并不足够好。  参考: https:&#x2F;&#x2F;www.electronjs.org&#x2F;docs&#x2F;api&#x2F;ipc-renderer  问题  基于字符串和约定进行通信本质上和当下前后端通信差不多，没有利用同构优势 使用起来没有任何限制，意味">
+<meta property="og:type" content="article">
+<meta property="og:title" content="electron 开发经验之谈系列-渲染、主进程通信">
+<meta property="og:url" content="http://example.com/2021/01/05/6e778ce220e042a0902e7a85976e7e47/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="场景由于 electron 应用分为主进程、渲染进程，所以它们之间需要通信。而 electron 本身实现了一个简单的 event emitter 通信模型，虽然能用，但并不足够好。  参考: https:&#x2F;&#x2F;www.electronjs.org&#x2F;docs&#x2F;api&#x2F;ipc-renderer  问题  基于字符串和约定进行通信本质上和当下前后端通信差不多，没有利用同构优势 使用起来没有任何限制，意味">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-01-05T00:46:26.000Z">
+<meta property="article:modified_time" content="2021-02-19T02:31:26.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="electron">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-6e778ce220e042a0902e7a85976e7e47" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/05/6e778ce220e042a0902e7a85976e7e47/" class="article-date">
+  <time class="dt-published" datetime="2021-01-05T00:46:26.000Z" itemprop="datePublished">2021-01-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      electron 开发经验之谈系列-渲染、主进程通信
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>由于 electron 应用分为主进程、渲染进程，所以它们之间需要通信。而 electron 本身实现了一个简单的 event emitter 通信模型，虽然能用，但并不足够好。</p>
+<blockquote>
+<p>参考: <a target="_blank" rel="noopener" href="https://www.electronjs.org/docs/api/ipc-renderer">https://www.electronjs.org/docs/api/ipc-renderer</a></p>
+</blockquote>
+<p>问题</p>
+<ul>
+<li>基于字符串和约定进行通信本质上和当下前后端通信差不多，没有利用同构优势</li>
+<li>使用起来没有任何限制，意味着很难维护（非强制性的约定基本上都很难生效）</li>
+</ul>
+<h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><p>那么一共 electron 进程通信有哪些情况呢？</p>
+<ul>
+<li>渲染进程 =&gt; 主进程</li>
+<li>主进程 =&gt; 渲染进程</li>
+<li>渲染进程 =&gt; 渲染进程</li>
+</ul>
+<p>而其中最常用的便是 <code>渲染进程 =&gt; 主进程</code></p>
+<blockquote>
+<p>其实吾辈也看过许多 electron 进程通信的 <a target="_blank" rel="noopener" href="https://www.npmjs.com/package/electron-rpc-api">封装库</a> 或者类似场景的 rpc 实现 <a target="_blank" rel="noopener" href="https://www.npmjs.com/package/comlink">comlink</a>，但最终还是决定使用接口 + 主进程实现 + 渲染层根据接口生成 Client 的方式实现。</p>
+</blockquote>
+<p>最终，吾辈选择了接口 + 实现类的基本模式</p>
+<p><a href="/images/5639a097671248d2a674f8524b050b81.drawio">设计图.drawio</a></p>
+<h2 id="实现渲染进程-gt-主进程"><a href="#实现渲染进程-gt-主进程" class="headerlink" title="实现渲染进程 =&gt; 主进程"></a>实现渲染进程 =&gt; 主进程</h2><p>首先在创建 <em>libs</em> 目录用以存放通用模块（非业务），然后创建三个模块</p>
+<ul>
+<li><code>electron_ipc_type</code>: 一些需要引入的类型</li>
+<li><code>electron_ipc_main</code>: 主进程封装</li>
+<li><code>electron_ipc_renderer</code>: 渲染层封装</li>
+</ul>
+<blockquote>
+<p>此处使用 rollup 进行打包</p>
+</blockquote>
+<p>大致实现</p>
+<p>electron_ipc_type: 通用的基本接口定义，必须包含一个 <code>namespace</code> 属性</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">interface</span> BaseDefine&lt;T <span class="keyword">extends</span> string&gt; &#123;</span><br><span class="line">  <span class="keyword">namespace</span>: T;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>electron_ipc_main: 封装主进程实现相关代码，主要保证类型安全</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> FilteredKeys&lt;T, U&gt; = &#123;</span><br><span class="line">  [P <span class="keyword">in</span> keyof T]: T[P] <span class="keyword">extends</span> U ? P : <span class="built_in">never</span>;</span><br><span class="line">&#125;[keyof T];</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 转换为一个主进程可以实现的接口</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">type</span> IpcMainDefine&lt;T&gt; = &#123;</span><br><span class="line">  [P <span class="keyword">in</span> FilteredKeys&lt;T, <span class="function">(<span class="params">...args: <span class="built_in">any</span>[]</span>) =&gt;</span> <span class="built_in">void</span>&gt;]: (</span><br><span class="line">    e: IpcMainInvokeEvent,</span><br><span class="line">    ...args: Parameters&lt;T[P]&gt;</span><br><span class="line">  ) =&gt; <span class="built_in">Promise</span>&lt;ReturnType&lt;T[P]&gt;&gt;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">IpcMainProvider</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">readonly</span> clazzMap = <span class="keyword">new</span> <span class="built_in">Map</span>&lt;<span class="built_in">string</span>, <span class="built_in">object</span>&gt;();</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 计算主进程监听的 key</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param <span class="variable">namespace</span></span></span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param <span class="variable">method</span></span></span></span><br><span class="line"><span class="comment">   * <span class="doctag">@private</span></span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> getKey&lt;T&gt;(<span class="keyword">namespace</span>: string, method: PropertyKey) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">namespace</span> + &quot;.&quot; + method.toString();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  register&lt;T extends BaseDefine&lt;string&gt;&gt;(</span><br><span class="line">    <span class="keyword">namespace</span>: T[&quot;<span class="keyword">namespace</span>&quot;],</span><br><span class="line">    api: IpcMainDefine&lt;T&gt;</span><br><span class="line">  ): IpcMainDefine&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> instance = ClassUtil.bindMethodThis(api);</span><br><span class="line">    <span class="keyword">const</span> methods = ClassUtil.scan(instance);</span><br><span class="line">    methods.forEach(<span class="function">(<span class="params">method</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> key = IpcMainProvider.getKey(<span class="keyword">namespace</span>, method);</span><br><span class="line">      ipcMain.handle(key, instance[method] as any);</span><br><span class="line">      console.log(&quot;Register ipcMain.handle: &quot;, key);</span><br><span class="line">    &#125;);</span><br><span class="line">    this.clazzMap.set(<span class="keyword">namespace</span>, instance);</span><br><span class="line">    return instance;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  unregister&lt;T extends BaseDefine&lt;string&gt;&gt;(</span><br><span class="line">    <span class="keyword">namespace</span>: T[&quot;<span class="keyword">namespace</span>&quot;],</span><br><span class="line">    api: IpcMainDefine&lt;T&gt;</span><br><span class="line">  ): void &#123;</span><br><span class="line">    <span class="keyword">const</span> methods = ClassUtil.scan(api);</span><br><span class="line">    methods.forEach(<span class="function">(<span class="params">method</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> key = IpcMainProvider.getKey(<span class="keyword">namespace</span>, method);</span><br><span class="line">      ipcMain.removeHandler(key);</span><br><span class="line">    &#125;);</span><br><span class="line">    this.clazzMap.delete(<span class="keyword">namespace</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>electron_ipc_renderer: 渲染进程</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">type</span> FilteredKeys&lt;T, U&gt; = &#123;</span><br><span class="line">  [P <span class="keyword">in</span> keyof T]: T[P] <span class="keyword">extends</span> U ? P : <span class="built_in">never</span>;</span><br><span class="line">&#125;[keyof T];</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 转换为一个渲染进程可以调用的 Proxy 对象</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">type</span> IpcRendererDefine&lt;T&gt; = &#123;</span><br><span class="line">  [P <span class="keyword">in</span> FilteredKeys&lt;T, <span class="function">(<span class="params">...args: <span class="built_in">any</span>[]</span>) =&gt;</span> <span class="built_in">void</span>&gt;]: (</span><br><span class="line">    ...args: Parameters&lt;T[P]&gt;</span><br><span class="line">  ) =&gt; <span class="built_in">Promise</span>&lt;ReturnType&lt;T[P]&gt;&gt;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">NotElectronEnvError</span> <span class="keyword">extends</span> <span class="title">Error</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">IpcRendererClient</span> </span>&#123;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 生成一个客户端实例</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param <span class="variable">namespace</span></span></span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">static</span> gen&lt;T <span class="keyword">extends</span> BaseDefine&lt;<span class="built_in">string</span>&gt;&gt;(</span><br><span class="line">    <span class="keyword">namespace</span>: T[&quot;<span class="keyword">namespace</span>&quot;]</span><br><span class="line">  ): IpcRendererDefine&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Proxy</span>(<span class="built_in">Object</span>.create(<span class="literal">null</span>), &#123;</span><br><span class="line">      get(target: <span class="built_in">any</span>, <span class="attr">api</span>: <span class="built_in">string</span>): <span class="built_in">any</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> key = <span class="keyword">namespace</span> + &quot;.&quot; + api;</span><br><span class="line">        return function (...args: any[]) &#123;</span><br><span class="line">          <span class="keyword">const</span> ipcRenderer = IpcRendererClient.getRenderer();</span><br><span class="line">          <span class="keyword">if</span> (!ipcRenderer) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NotElectronEnvError(<span class="string">&quot;当前你不在 electron 进程中&quot;</span>);</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">return</span> ipcRenderer.invoke(key, ...args);</span><br><span class="line">        &#125;;</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 获取 electron ipc renderer 实例</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">static</span> getRenderer(): IpcRenderer | <span class="literal">null</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (!isElectron()) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">window</span>.require(<span class="string">&quot;electron&quot;</span>).ipcRenderer <span class="keyword">as</span> IpcRenderer;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>使用</p>
+<p>在 apps 下创建一个模块 <code>shared_type</code>，里面包含一些渲染进程与主进程之间共享的类型，下面是一个简单的示例</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// HelloDefine.ts</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">interface</span> HelloDefine <span class="keyword">extends</span> BaseDefine&lt;&quot;HelloApi&quot;&gt; &#123;</span><br><span class="line">  hello(name: <span class="built_in">string</span>): <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在主进程中使用 class 实现它并注册</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main.ts</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HelloApi</span> </span>&#123;</span><br><span class="line">  <span class="keyword">async</span> <span class="function"><span class="title">hello</span>(<span class="params">e: IpcMainInvokeEvent, name: <span class="built_in">string</span></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`hello <span class="subst">$&#123;name&#125;</span>`</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> ipcMainProvider = <span class="keyword">new</span> IpcMainProvider();</span><br><span class="line"></span><br><span class="line">ipcMainProvider.register&lt;HelloDefine&gt;(<span class="string">&quot;HelloApi&quot;</span>, <span class="keyword">new</span> HelloApi());</span><br></pre></td></tr></table></figure>
+<p>在渲染进程中创建客户端对象并使用</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> helloApi = IpcRendererClient.gen&lt;HelloDefine&gt;(<span class="string">&quot;HelloApi&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> str = <span class="keyword">await</span> helloApi.hello(<span class="string">&quot;liuli&quot;</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="实现主进程-gt-渲染进程"><a href="#实现主进程-gt-渲染进程" class="headerlink" title="实现主进程 =&gt; 渲染进程"></a>实现主进程 =&gt; 渲染进程</h2><p>由于吾辈的 ui 层框架使用了 react，所以基于 class 的模式在此并不适用，需要使用某种变通的方式（吾辈仍然不愿意放弃将 class 作为命名空间的想法）。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> IpcRendererProviderDefine&lt;</span><br><span class="line">  T <span class="keyword">extends</span> BaseDefine&lt;<span class="built_in">string</span>&gt;,</span><br><span class="line">  P <span class="keyword">extends</span> FunctionKeys&lt;T&gt; = FunctionKeys&lt;T&gt;</span><br><span class="line">&gt; = [</span><br><span class="line">  <span class="keyword">type</span>: P,</span><br><span class="line">  callback: <span class="function">(<span class="params">e: <span class="built_in">any</span>, ...args: Parameters&lt;T[P]&gt;</span>) =&gt;</span> <span class="built_in">Promise</span>&lt;ReturnType&lt;T[P]&gt;&gt;</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> IpcRendererProviderHooksDefine&lt;</span><br><span class="line">  T <span class="keyword">extends</span> BaseDefine&lt;<span class="built_in">string</span>&gt;,</span><br><span class="line">  P <span class="keyword">extends</span> FunctionKeys&lt;T&gt; = FunctionKeys&lt;T&gt;</span><br><span class="line">&gt; = [</span><br><span class="line">  <span class="keyword">type</span>: P,</span><br><span class="line">  callback: <span class="function">(<span class="params">e: <span class="built_in">any</span>, ...args: Parameters&lt;T[P]&gt;</span>) =&gt;</span> <span class="built_in">Promise</span>&lt;ReturnType&lt;T[P]&gt;&gt;,</span><br><span class="line">  deps?: DependencyList</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 在渲染层管理提供者</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">IpcRendererProvider</span>&lt;<span class="title">T</span> <span class="keyword">extends</span> <span class="title">BaseDefine</span>&lt;<span class="title">any</span>&gt;&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> apiMap = <span class="keyword">new</span> <span class="built_in">Map</span>&lt;<span class="built_in">string</span>, <span class="function">(<span class="params">...args: <span class="built_in">any</span>[]</span>) =&gt;</span> <span class="built_in">any</span>&gt;();</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">constructor</span>(<span class="params"><span class="keyword">private</span> <span class="keyword">namespace</span>: T[<span class="string">&quot;namespace&quot;</span>]</span>)</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">register</span>(<span class="params">...[<span class="keyword">type</span>, callback]: IpcRendererProviderDefine&lt;T&gt;</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> ipcRenderer = IpcRendererClient.getRenderer();</span><br><span class="line">    <span class="keyword">if</span> (ipcRenderer === <span class="literal">null</span>) &#123;</span><br><span class="line">      <span class="built_in">console</span>.warn(<span class="string">&quot;不在 electron 环境，取消注册: &quot;</span>, <span class="keyword">type</span>);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> key = <span class="built_in">this</span>.namespace + <span class="string">&quot;.&quot;</span> + <span class="keyword">type</span>;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;IpcRendererProvider.register: &quot;</span>, key);</span><br><span class="line">    <span class="keyword">const</span> listener = <span class="keyword">async</span> (event: <span class="built_in">any</span>, <span class="attr">id</span>: <span class="built_in">string</span>, ...args: <span class="built_in">any</span>[]) =&gt; &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&quot;IpcRendererProvider.listener: &quot;</span>, event, id, args);</span><br><span class="line">        <span class="keyword">const</span> res = <span class="keyword">await</span> callback(event, ...(args <span class="keyword">as</span> <span class="built_in">any</span>));</span><br><span class="line">        <span class="keyword">await</span> ipcRenderer.send(id, <span class="literal">null</span>, res);</span><br><span class="line">      &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        <span class="keyword">await</span> ipcRenderer.send(id, e);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    ipcRenderer.on(key, listener);</span><br><span class="line">    <span class="built_in">this</span>.apiMap.set(key, listener);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">unregister</span>(<span class="params"><span class="keyword">type</span>: IpcRendererProviderDefine&lt;T&gt;[<span class="number">0</span>]</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> ipcRenderer = IpcRendererClient.getRenderer();</span><br><span class="line">    <span class="keyword">if</span> (ipcRenderer === <span class="literal">null</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> key = <span class="built_in">this</span>.namespace + <span class="string">&quot;.&quot;</span> + <span class="keyword">type</span>;</span><br><span class="line">    ipcRenderer.off(key, <span class="built_in">this</span>.apiMap.get(key)!);</span><br><span class="line">    <span class="built_in">this</span>.apiMap.delete(key);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * react 中的注册钩子，自动管理清理的操作</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param <span class="variable">type</span></span></span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param <span class="variable">callback</span></span></span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param <span class="variable">deps</span></span></span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  useIpcProvider(</span><br><span class="line">    ...[<span class="keyword">type</span>, callback, deps = []]: IpcRendererProviderHooksDefine&lt;T&gt;</span><br><span class="line">  ) &#123;</span><br><span class="line">    useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">this</span>.register(<span class="keyword">type</span>, callback);</span><br><span class="line">      <span class="keyword">return</span> <span class="function">() =&gt;</span> <span class="built_in">this</span>.unregister(<span class="keyword">type</span>);</span><br><span class="line">    &#125;, deps);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 转换为一个渲染进程可以调用的 Proxy 对象</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">type</span> IpcClientDefine&lt;T <span class="keyword">extends</span> <span class="built_in">object</span>&gt; = &#123;</span><br><span class="line">  [P <span class="keyword">in</span> FunctionKeys&lt;T&gt;]: (</span><br><span class="line">    ...args: Parameters&lt;T[P]&gt;</span><br><span class="line">  ) =&gt; <span class="built_in">Promise</span>&lt;ReturnType&lt;T[P]&gt;&gt;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 客户端</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">IpcMainClient</span> </span>&#123;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 生成一个客户端实例</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param <span class="variable">namespace</span></span></span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param <span class="variable">win</span></span></span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">static</span> gen&lt;T <span class="keyword">extends</span> BaseDefine&lt;<span class="built_in">string</span>&gt;&gt;(</span><br><span class="line">    <span class="keyword">namespace</span>: T[&quot;<span class="keyword">namespace</span>&quot;],</span><br><span class="line">    win: BrowserWindow</span><br><span class="line">  ): IpcClientDefine&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Proxy</span>(<span class="built_in">Object</span>.create(<span class="literal">null</span>), &#123;</span><br><span class="line">      get&lt;K <span class="keyword">extends</span> FunctionKeys&lt;T&gt;&gt;(target: <span class="built_in">any</span>, <span class="attr">api</span>: K): <span class="built_in">any</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> key = <span class="keyword">namespace</span> + &quot;.&quot; + api;</span><br><span class="line">        return function (...args: any[]) &#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>&lt;ReturnType&lt;T[K]&gt;&gt;(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">const</span> id = <span class="built_in">Date</span>.now() + <span class="string">&quot;-&quot;</span> + <span class="built_in">Math</span>.random();</span><br><span class="line">            ipcMain.once(id, <span class="function">(<span class="params">event, err, res</span>) =&gt;</span> &#123;</span><br><span class="line">              <span class="built_in">console</span>.log(<span class="string">&quot;callback: &quot;</span>, err, res);</span><br><span class="line">              <span class="keyword">if</span> (err) &#123;</span><br><span class="line">                reject(err);</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">              &#125;</span><br><span class="line">              resolve(res);</span><br><span class="line">            &#125;);</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">&quot;send: &quot;</span>, key, id, args);</span><br><span class="line">            win.webContents.send(key, id, ...(args <span class="keyword">as</span> <span class="built_in">any</span>));</span><br><span class="line">          &#125;);</span><br><span class="line">        &#125;;</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>使用</p>
+<p>在渲染进程使用 hooks 注册它</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> ipcRendererProvider = <span class="keyword">new</span> IpcRendererProvider&lt;HelloApiDefine&gt;(<span class="string">&quot;HelloApi&quot;</span>);</span><br><span class="line"></span><br><span class="line">ipcRendererProvider.useIpcProvider(<span class="string">&quot;hello&quot;</span>, <span class="keyword">async</span> (e, name) =&gt; &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`hello <span class="subst">$&#123;name&#125;</span>`</span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>在主进程生成客户端实例调用它</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> helloApi = IpcMainClient.gen&lt;HelloApiDefine&gt;(</span><br><span class="line">  <span class="string">&quot;HelloApi&quot;</span>,</span><br><span class="line">  <span class="keyword">new</span> BrowserWindow()</span><br><span class="line">);</span><br><span class="line"><span class="keyword">const</span> str = <span class="keyword">await</span> helloApi.hello(<span class="string">&quot;liuli&quot;</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="约定俗成"><a href="#约定俗成" class="headerlink" title="约定俗成"></a>约定俗成</h2><ul>
+<li>在 <code>shared_type</code> 模块中的接口定义总是 <code>*Define</code> 形式，且实现的 <code>BaseDefine&lt;T&gt;</code> 泛型参数是 <code>*Api</code> 形式</li>
+<li>在 <code>main</code> 模块中实现的 class 总是 <code>*Api</code> 形式</li>
+<li>在 <code>renderer</code> 模块中获取的 client 实例总是 <code>*Api</code> 小写驼峰形式</li>
+<li>实现 <code>BaseDefine&lt;T&gt;</code> 传入的命名空间参数不应该重复</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>electron 本身的进程通信 api 在逐渐发展，但目前仍然没有足够好用，所以吾辈不得不进行了封装。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/05/6e778ce220e042a0902e7a85976e7e47/" data-id="ckmcqox3o004p0kuvdmpubql5" data-title="electron 开发经验之谈系列-渲染、主进程通信" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/electron/" rel="tag">electron</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/01/05/0f342a17caae4f1e845a543770008e35/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          electron 开发经验之谈系列-自动更新
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/01/05/475d21afd2404d5ba1f71f600c44da09/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">electron 开发经验之谈系列-基本项目搭建</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/electron/" rel="tag">electron</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grid/" rel="tag">grid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jetbrains/" rel="tag">jetbrains</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webstorm/" rel="tag">webstorm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/" rel="tag">windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA/" rel="tag">个人</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%AC%E5%8F%B8/" rel="tag">公司</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%A8%E6%8A%A5/" rel="tag">周报</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%A3%E5%91%8A/" rel="tag">宣告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" rel="tag">工程化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90/" rel="tag">开源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%82%E6%AD%A5/" rel="tag">异步</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" rel="tag">待更新</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%8F%E9%AA%8C/" rel="tag">经验</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6/" rel="tag">读书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/css/" style="font-size: 12.14px;">css</a> <a href="/tags/electron/" style="font-size: 15.71px;">electron</a> <a href="/tags/git/" style="font-size: 12.86px;">git</a> <a href="/tags/grid/" style="font-size: 10.71px;">grid</a> <a href="/tags/java/" style="font-size: 19.29px;">java</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/jetbrains/" style="font-size: 12.14px;">jetbrains</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 10.71px;">markdown</a> <a href="/tags/react/" style="font-size: 14.29px;">react</a> <a href="/tags/sql/" style="font-size: 14.29px;">sql</a> <a href="/tags/typescript/" style="font-size: 12.14px;">typescript</a> <a href="/tags/vscode/" style="font-size: 12.86px;">vscode</a> <a href="/tags/vue/" style="font-size: 16.43px;">vue</a> <a href="/tags/webstorm/" style="font-size: 10px;">webstorm</a> <a href="/tags/windows/" style="font-size: 17.14px;">windows</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 12.86px;">个人</a> <a href="/tags/%E5%85%AC%E5%8F%B8/" style="font-size: 10px;">公司</a> <a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 10px;">周报</a> <a href="/tags/%E5%AE%A3%E5%91%8A/" style="font-size: 10px;">宣告</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.57px;">工具</a> <a href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" style="font-size: 17.86px;">工程化</a> <a href="/tags/%E5%BC%80%E6%BA%90/" style="font-size: 10px;">开源</a> <a href="/tags/%E5%BC%82%E6%AD%A5/" style="font-size: 15px;">异步</a> <a href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" style="font-size: 10.71px;">待更新</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 18.57px;">杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BB%8F%E9%AA%8C/" style="font-size: 11.43px;">经验</a> <a href="/tags/%E8%AF%BB%E4%B9%A6/" style="font-size: 12.14px;">读书</a> <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 11.43px;">转载</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/14/8fb2d58463ae4191ac064a76e15bffbd/">2021 第十周</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/12/7e7131c07c984d928ba3fefa7a9cef06/">读书-[颓废与沉默：透视犬儒文化]</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/02/db74e6e5d2444bc3b6e185a7b338bbf6/">electron 开发经验之谈系列-在渲染、主进程间共享数据</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/27/06cb464179cf45c598208534705aae3c/">2020 吾辈在公司推动的前端技术演进</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/23/cd66150d2b86448590fcc9bb2419c0b2/">实践 lerna monorepo</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

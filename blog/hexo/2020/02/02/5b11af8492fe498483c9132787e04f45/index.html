@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Vue 实现一个简单的瀑布流组件 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="场景在用 Vue 写前端的时候，需要实现无限滚动翻页的功能。因为用到的地方很多，于是便想着抽出一个通用组件。 实现 实现源码放到了 GitHub，Demo 演示 想直接看源码&#x2F;效果的人可以直接去看  思路  定义一个 vuejs 容器组件  抽离出公共的属性（加载一页数据的函数&#x2F;每个元素的模板）  在父容器中遍历每个元素并绑定到传入的模板上  监听滚动事件，如果不是最后一页就加载下一页  重新渲染">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue 实现一个简单的瀑布流组件">
+<meta property="og:url" content="http://example.com/2020/02/02/5b11af8492fe498483c9132787e04f45/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="场景在用 Vue 写前端的时候，需要实现无限滚动翻页的功能。因为用到的地方很多，于是便想着抽出一个通用组件。 实现 实现源码放到了 GitHub，Demo 演示 想直接看源码&#x2F;效果的人可以直接去看  思路  定义一个 vuejs 容器组件  抽离出公共的属性（加载一页数据的函数&#x2F;每个元素的模板）  在父容器中遍历每个元素并绑定到传入的模板上  监听滚动事件，如果不是最后一页就加载下一页  重新渲染">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-02-02T02:15:37.000Z">
+<meta property="article:modified_time" content="2020-12-30T00:21:59.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="vue">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-5b11af8492fe498483c9132787e04f45" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/02/02/5b11af8492fe498483c9132787e04f45/" class="article-date">
+  <time class="dt-published" datetime="2020-02-02T02:15:37.000Z" itemprop="datePublished">2020-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Vue 实现一个简单的瀑布流组件
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>在用 Vue 写前端的时候，需要实现无限滚动翻页的功能。因为用到的地方很多，于是便想着抽出一个通用组件。</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><blockquote>
+<p>实现源码放到了 <a target="_blank" rel="noopener" href="https://github.com/rxliuli/vue-waterfalls-flow">GitHub</a>，<a target="_blank" rel="noopener" href="https://vue-waterfalls-flow.rxliuli.com/">Demo 演示</a> 想直接看源码/效果的人可以直接去看</p>
+</blockquote>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><ol>
+<li> 定义一个 vuejs 容器组件</li>
+<li> 抽离出公共的属性（加载一页数据的函数/每个元素的模板）</li>
+<li> 在父容器中遍历每个元素并绑定到传入的模板上</li>
+<li> 监听滚动事件，如果不是最后一页就加载下一页</li>
+<li> 重新渲染集合元素</li>
+</ol>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><p>定义模板</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line">自定义瀑布流组件</span><br><span class="line">使用方法如下：</span><br><span class="line">&lt;rx-waterfalls-flow :load&#x3D;&quot;load&quot;&gt;</span><br><span class="line">    &lt;!-- 这里 slotProps 绑定的便是子组件的数据，通过 slotProps 可以访问到子组件绑定到模板上的数据，当然，更简单的方法是使用 ES6 的解构 --&gt;</span><br><span class="line">    &lt;template slot-scope&#x3D;&quot;&#123;item&#125;&quot;&gt;</span><br><span class="line">  &lt;!-- 在模板里面便可以使用集合中的元素 item 了 --&gt;</span><br><span class="line">  &lt;li :key&#x3D;&quot;item.id&quot;&gt;</span><br><span class="line">    &#123;&#123;item.text&#125;&#125;</span><br><span class="line">  &lt;&#x2F;li&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line">  &lt;&#x2F;rx-waterfalls-flow&gt;</span><br><span class="line"> *&#x2F;</span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id&#x3D;&quot;rx-waterfalls-flow-container&quot;&gt;</span><br><span class="line">    &lt;slot</span><br><span class="line">      v-for&#x3D;&quot;item in items&quot;</span><br><span class="line">      :item&#x3D;&quot;item&quot;</span><br><span class="line">    &#x2F;&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  props: &#123;</span><br><span class="line">    load: &#123;</span><br><span class="line">      type: Function,</span><br><span class="line">      default: function () &#123;</span><br><span class="line">        throw new Error(&#39;你需要为 RxWaterfallsFlow 组件定义分页加载的参数&#39;)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  data: () &#x3D;&gt; (&#123;</span><br><span class="line">    items: [],</span><br><span class="line">    page: &#123;</span><br><span class="line">      total: 0,</span><br><span class="line">      size: 10,</span><br><span class="line">      pages: 10,</span><br><span class="line">      current: 1,</span><br><span class="line">      records: []</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;),</span><br><span class="line">  methods: &#123;</span><br><span class="line">    async loadPage (current, size) &#123;</span><br><span class="line">      this.page &#x3D; await this.load(current, size)</span><br><span class="line">      this.items.push(...this.page.records)</span><br><span class="line">      this.page.records &#x3D; []</span><br><span class="line">    &#125;,</span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 初始化方法，加载第一页的数据，加载监听器</span><br><span class="line">     *&#x2F;</span><br><span class="line">    async init () &#123;</span><br><span class="line">      this.loadPage()</span><br><span class="line">      &#x2F;&#x2F; 绑定窗口滚动事件</span><br><span class="line">      &#x2F;&#x2F; 获得文档高度和滚动高度</span><br><span class="line">      &#x2F;&#x2F; 计算是否已经到底了</span><br><span class="line">      &#x2F;&#x2F; 到底的话就加载下一页的数据，否则忽略</span><br><span class="line">      const otherOnscrollFn &#x3D; document.onscroll ? document.onscroll : function () &#123; &#125;</span><br><span class="line">      document.onscroll &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">        otherOnscrollFn()</span><br><span class="line">        const scrollTop &#x3D; document.documentElement.scrollTop || document.body.scrollTop</span><br><span class="line">        const clientHeight &#x3D; document.documentElement.clientHeight</span><br><span class="line">        const scrollHeight &#x3D; document.documentElement.scrollHeight</span><br><span class="line">        &#x2F;&#x2F; console.log(&#96;已滚动的高度：$&#123;scrollTop&#125;, 滚动条高度：$&#123;scrollHeight&#125;, $&#123;clientHeight&#125;&#96;)</span><br><span class="line">        &#x2F;&#x2F; 向下滚动时判断判断是否正在向上滚动，是的话就清除定时器，停在当前位置</span><br><span class="line">        if (scrollHeight - scrollTop - clientHeight &lt;&#x3D; 0 &amp;&amp; this.page.current &lt; this.page.pages) &#123;</span><br><span class="line">          this.loadPage(this.page.current + 1, this.page.size)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  mounted () &#123;</span><br><span class="line">    this.init()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">&#x2F;* 容器宽度要占 100% *&#x2F;</span><br><span class="line">#rx-waterfalls-flow-container &#123;</span><br><span class="line">  width: 100%;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>使用起来就很简单了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;rx-waterfalls-flow :load&#x3D;&quot;load&quot;&gt;</span><br><span class="line">    &lt;!-- 这里 slotProps 绑定的便是子组件的数据，通过 slotProps 可以访问到子组件绑定到模板上的数据，当然，更简单的方法是使用 ES6 的解构 --&gt;</span><br><span class="line">    &lt;!-- 这里面的是你自定义每个元素显示的内容 --&gt;</span><br><span class="line">    &lt;template slot-scope&#x3D;&quot;&#123;item&#125;&quot;&gt;</span><br><span class="line">      &lt;!-- 在模板里面便可以使用集合中的元素 item 了 --&gt;</span><br><span class="line">      &lt;li</span><br><span class="line">        class&#x3D;&quot;item-style&quot;</span><br><span class="line">        :key&#x3D;&quot;item.id&quot;</span><br><span class="line">      &gt;</span><br><span class="line">        &#123;&#123;item.text&#125;&#125;</span><br><span class="line">      &lt;&#x2F;li&gt;</span><br><span class="line">    &lt;&#x2F;template&gt;</span><br><span class="line">  &lt;&#x2F;rx-waterfalls-flow&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">&#x2F;&#x2F; 引入瀑布流组件</span><br><span class="line">import RxWaterfallsFlow from &#39;@&#x2F;components&#x2F;common&#x2F;RxWaterfallsFlow&#39;</span><br><span class="line">import _ from &#39;lodash&#39;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  components: &#123;</span><br><span class="line">    RxWaterfallsFlow</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    &#x2F;&#x2F; 使用 Promise 封装 setTimeout，模拟 ajax 的异步造成的延迟</span><br><span class="line">    await: ms &#x3D;&gt; new Promise(resolve &#x3D;&gt; setTimeout(resolve, ms)),</span><br><span class="line">    load: (page &#x3D;&gt; &#123;</span><br><span class="line">      &#x2F;&#x2F; 该方法用于模拟 ajax 数据加载</span><br><span class="line">      return async function () &#123;</span><br><span class="line">        await this.await(1000)</span><br><span class="line">        console.log(&#96;加载了第 $&#123;page.current&#125; 页，共 $&#123;page.pages&#125; 页&#96;)</span><br><span class="line">        &#x2F;&#x2F; 使用 lodash 模拟数据</span><br><span class="line">        page.records &#x3D; _.range(</span><br><span class="line">          (page.current - 1) * page.size + 1,</span><br><span class="line">          (++page.current - 1) * page.size + 1</span><br><span class="line">        )</span><br><span class="line">          .map(i &#x3D;&gt; (&#123;</span><br><span class="line">            id: i,</span><br><span class="line">            text: &#96;第 $&#123;i&#125; 行内容&#96;</span><br><span class="line">          &#125;))</span><br><span class="line">        return page</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)(&#123;</span><br><span class="line">      current: 1,</span><br><span class="line">      size: 10,</span><br><span class="line">      pages: 100,</span><br><span class="line">      total: this.current * this.pages,</span><br><span class="line">      records: []</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style&gt;</span><br><span class="line">li &#123;</span><br><span class="line">  width: 500px;</span><br><span class="line">  height: 200px;</span><br><span class="line">  line-height: 200px;</span><br><span class="line">  background-color: aqua;</span><br><span class="line">  margin: 10px auto;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h3><p>目前这个简单的瀑布流公用组件还有着相当多的缺陷，却是要等到后面再进行改进了呢</p>
+<ul>
+<li>没有 DOM 回收机制，会造成 DOM 树越来越大，网页就会变得越来越卡（Twitter 就是这样）</li>
+<li>没有一键回到顶部的功能，毕竟翻了太久的话回到顶部很麻烦呢</li>
+<li>自定义属性还是不够，例如一页的数据的条数，最大页数什么的</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/02/02/5b11af8492fe498483c9132787e04f45/" data-id="ckmcqox3f003y0kuv2vhj9ezg" data-title="Vue 实现一个简单的瀑布流组件" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/02/02/54792a3f54a5427a810dcdc81a65be06/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          react 受控表单必须初始化
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/02/02/5e539807d8a64f1193dc38d64ae7fcd2/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">layui-layer load 弹窗自动关闭的问题</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/electron/" rel="tag">electron</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grid/" rel="tag">grid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jetbrains/" rel="tag">jetbrains</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webstorm/" rel="tag">webstorm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/" rel="tag">windows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA/" rel="tag">个人</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%AC%E5%8F%B8/" rel="tag">公司</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%A8%E6%8A%A5/" rel="tag">周报</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%A3%E5%91%8A/" rel="tag">宣告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" rel="tag">工程化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90/" rel="tag">开源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%82%E6%AD%A5/" rel="tag">异步</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" rel="tag">待更新</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%8F%E9%AA%8C/" rel="tag">经验</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6/" rel="tag">读书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag">转载</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/css/" style="font-size: 12.14px;">css</a> <a href="/tags/electron/" style="font-size: 15.71px;">electron</a> <a href="/tags/git/" style="font-size: 12.86px;">git</a> <a href="/tags/grid/" style="font-size: 10.71px;">grid</a> <a href="/tags/java/" style="font-size: 19.29px;">java</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/jetbrains/" style="font-size: 12.14px;">jetbrains</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 10.71px;">markdown</a> <a href="/tags/react/" style="font-size: 14.29px;">react</a> <a href="/tags/sql/" style="font-size: 14.29px;">sql</a> <a href="/tags/typescript/" style="font-size: 12.14px;">typescript</a> <a href="/tags/vscode/" style="font-size: 12.86px;">vscode</a> <a href="/tags/vue/" style="font-size: 16.43px;">vue</a> <a href="/tags/webstorm/" style="font-size: 10px;">webstorm</a> <a href="/tags/windows/" style="font-size: 17.14px;">windows</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 12.86px;">个人</a> <a href="/tags/%E5%85%AC%E5%8F%B8/" style="font-size: 10px;">公司</a> <a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 10px;">周报</a> <a href="/tags/%E5%AE%A3%E5%91%8A/" style="font-size: 10px;">宣告</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.57px;">工具</a> <a href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/" style="font-size: 17.86px;">工程化</a> <a href="/tags/%E5%BC%80%E6%BA%90/" style="font-size: 10px;">开源</a> <a href="/tags/%E5%BC%82%E6%AD%A5/" style="font-size: 15px;">异步</a> <a href="/tags/%E5%BE%85%E6%9B%B4%E6%96%B0/" style="font-size: 10.71px;">待更新</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 18.57px;">杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BB%8F%E9%AA%8C/" style="font-size: 11.43px;">经验</a> <a href="/tags/%E8%AF%BB%E4%B9%A6/" style="font-size: 12.14px;">读书</a> <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 11.43px;">转载</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/14/8fb2d58463ae4191ac064a76e15bffbd/">2021 第十周</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/12/7e7131c07c984d928ba3fefa7a9cef06/">读书-[颓废与沉默：透视犬儒文化]</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/02/db74e6e5d2444bc3b6e185a7b338bbf6/">electron 开发经验之谈系列-在渲染、主进程间共享数据</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/27/06cb464179cf45c598208534705aae3c/">2020 吾辈在公司推动的前端技术演进</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/23/cd66150d2b86448590fcc9bb2419c0b2/">实践 lerna monorepo</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
