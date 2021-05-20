@@ -1,3 +1,5 @@
+> Migrate to [joplin-utils](https://github.com/rxliuli/joplin-utils/)
+
 # joplin-blog
 
 ## Introduction
